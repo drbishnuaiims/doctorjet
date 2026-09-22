@@ -12,6 +12,11 @@
 <meta name="description"
       content="DoctorJet builds premium websites, Google visibility and digital experiences for doctors, consultants and healthcare practices.">
 
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
 <style>
 
 /* ============================================================
@@ -286,14 +291,12 @@ section{
 
     font-size:22px;
 
-    font-weight:850;
-
     letter-spacing:-.06em;
 
 }
 
 
-.logo-mark{
+.logo-image{
 
     width:32px;
 
@@ -301,24 +304,56 @@ section{
 
     border-radius:9px;
 
-    display:grid;
+    display:block;
 
-    place-items:center;
+    object-fit:contain;
 
-    background:
-
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--cyan)
-        );
-
-    color:#031017;
+    background:transparent;
 
     box-shadow:
         0 0 30px rgba(88,183,255,.25);
 
-    transform:rotate(-8deg);
+}
+
+
+.logo-wordmark{
+
+    color:#ffffff;
+
+    font-weight:750;
+
+    letter-spacing:-.055em;
+
+    line-height:1;
+
+}
+
+
+.logo-wordmark span{
+
+    font-weight:850;
+
+    background:
+
+        linear-gradient(
+
+            100deg,
+
+            #1677ff 0%,
+
+            #159dff 45%,
+
+            #27d9df 100%
+
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+    color:transparent;
 
 }
 
@@ -3151,11 +3186,15 @@ footer{
 
         <a href="#" class="logo">
 
-            <span class="logo-mark">
-                ↗
-            </span>
+            <img
+                class="logo-image"
+                src="/assets/doctorjet_logo.png"
+                alt="DoctorJet logo"
+            >
 
-            DOCTORJET
+            <span class="logo-wordmark">
+                DOCTOR<span>JET</span>
+            </span>
 
         </a>
 
@@ -4610,7 +4649,9 @@ footer{
             </p>
 
 
-            <a href="mailto:hello@doctorjet.in"
+            <a href="https://forms.gle/CHcUhQU9f5QagV9Q7"
+               target="_blank"
+               rel="noopener noreferrer"
                class="btn btn-primary">
 
                 Launch my practice
@@ -4705,10 +4746,6 @@ footer{
 
                     <a href="mailto:hello@doctorjet.in">
                         Email
-                    </a>
-
-                    <a href="#">
-                        Instagram
                     </a>
 
                     <a href="#">
