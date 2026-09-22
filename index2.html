@@ -305,6 +305,8 @@ section{
 
     place-items:center;
 
+    overflow:hidden;
+
     background:
 
         linear-gradient(
@@ -319,6 +321,32 @@ section{
         0 0 30px rgba(88,183,255,.25);
 
     transform:rotate(-8deg);
+
+}
+
+.logo-mark img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    display:block;
+
+    transform:rotate(8deg);
+
+}
+
+.logo strong{
+
+    font-weight:900;
+
+}
+
+.logo .brand-doctor{
+
+    font-weight:400;
 
 }
 
@@ -3152,10 +3180,13 @@ footer{
         <a href="#" class="logo">
 
             <span class="logo-mark">
-                ↗
+                <img
+                    src="https://doctorjet.in/assets/doctorjet_logo.png"
+                    alt="DoctorJet logo"
+                >
             </span>
 
-            DOCTORJET
+            <span class="brand-doctor">DOCTOR</span><strong>JET</strong>
 
         </a>
 
@@ -3781,7 +3812,7 @@ footer{
 
                     <div class="google-search">
 
-                        best cardiologist near me
+                        best psychiatrist near me
 
                     </div>
 
