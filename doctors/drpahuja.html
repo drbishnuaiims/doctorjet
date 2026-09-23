@@ -1,0 +1,2826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dr. Akshra Pahuja — Ophthalmology</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f3f0e9;
+    color:#111;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font-family:inherit;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+
+    --paper:#f3f0e9;
+    --ink:#111111;
+    --grey:#77746e;
+    --blue:#2457ff;
+    --blue2:#6887ff;
+    --lime:#dfff38;
+    --white:#ffffff;
+    --black:#080808;
+
+    --border:rgba(17,17,17,.15);
+
+    --max:1280px;
+
+}
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+.cursor{
+
+    position:fixed;
+
+    width:18px;
+    height:18px;
+
+    border:1px solid #111;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    transform:translate(-50%,-50%);
+
+    transition:
+        width .25s,
+        height .25s,
+        background .25s;
+
+}
+
+.cursor.active{
+
+    width:70px;
+    height:70px;
+
+    background:rgba(36,87,255,.10);
+
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.container{
+
+    width:min(
+        var(--max),
+        calc(100% - 50px)
+    );
+
+    margin:auto;
+
+}
+
+.mono{
+
+    font-family:"DM Mono",monospace;
+
+}
+
+.small-label{
+
+    font-family:"DM Mono",monospace;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.14em;
+
+    color:var(--grey);
+
+}
+
+section{
+
+    position:relative;
+
+    padding:140px 0;
+
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    z-index:1000;
+
+    padding:20px 0;
+
+    mix-blend-mode:multiply;
+
+}
+
+.nav-inner{
+
+    width:min(
+        1400px,
+        calc(100% - 40px)
+    );
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-weight:700;
+
+    font-size:14px;
+
+}
+
+.logo-mark{
+
+    width:36px;
+    height:36px;
+
+    border:1px solid #111;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:50%;
+
+    font-family:"DM Mono";
+
+    font-size:10px;
+
+}
+
+.nav-links{
+
+    display:flex;
+
+    gap:32px;
+
+    font-size:12px;
+
+}
+
+.nav-links a{
+
+    position:relative;
+
+}
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-5px;
+
+    width:0;
+
+    height:1px;
+
+    background:#111;
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover::after{
+
+    width:100%;
+
+}
+
+.nav-right{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
+}
+
+.book-btn{
+
+    padding:10px 17px;
+
+    border:1px solid #111;
+
+    border-radius:30px;
+
+    font-size:11px;
+
+    transition:.3s;
+
+}
+
+.book-btn:hover{
+
+    background:#111;
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    min-height:100vh;
+
+    padding-top:150px;
+
+    padding-bottom:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    overflow:hidden;
+
+}
+
+.hero-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.05fr
+        .95fr;
+
+    gap:70px;
+
+    align-items:center;
+
+}
+
+.hero-left{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-index{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.index-line{
+
+    width:55px;
+
+    height:1px;
+
+    background:#111;
+
+}
+
+.hero-title{
+
+    font-size:
+        clamp(
+            65px,
+            8.2vw,
+            125px
+        );
+
+    line-height:.82;
+
+    letter-spacing:-.075em;
+
+    font-weight:600;
+
+}
+
+.hero-title em{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-weight:500;
+
+}
+
+.hero-title .blue{
+
+    color:var(--blue);
+
+}
+
+.hero-sub{
+
+    margin-top:45px;
+
+    max-width:540px;
+
+    font-size:16px;
+
+    line-height:1.75;
+
+    color:#555;
+
+}
+
+.hero-meta{
+
+    margin-top:35px;
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+.pill{
+
+    border:1px solid var(--border);
+
+    padding:9px 13px;
+
+    border-radius:30px;
+
+    font-family:"DM Mono";
+
+    font-size:9px;
+
+}
+
+
+/* =========================================================
+   OPTICAL HERO ART
+========================================================= */
+
+.eye-stage{
+
+    height:620px;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.eye{
+
+    width:480px;
+
+    height:300px;
+
+    border-radius:
+        100% 0
+        100% 0;
+
+    transform:
+        rotate(45deg);
+
+    border:1px solid #111;
+
+    position:relative;
+
+    background:
+        radial-gradient(
+            circle at 55% 50%,
+            #ffffff 0 18%,
+            #dfe6ff 19% 35%,
+            transparent 36%
+        );
+
+}
+
+.eye::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:155px;
+
+    height:155px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 42% 35%,
+            #fff 0 4%,
+            #2457ff 5% 35%,
+            #101a50 36% 65%,
+            #050505 66%
+        );
+
+    top:72px;
+    left:163px;
+
+    transform:rotate(-45deg);
+
+    box-shadow:
+        0 0 70px rgba(36,87,255,.4);
+
+}
+
+.eye::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:570px;
+
+    height:570px;
+
+    border-radius:50%;
+
+    border:1px dashed
+        rgba(36,87,255,.35);
+
+    left:-45px;
+    top:-135px;
+
+    transform:rotate(-45deg);
+
+    animation:
+        spin 30s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+        transform:
+            rotate(315deg);
+    }
+
+}
+
+
+/* floating labels */
+
+.orbit-label{
+
+    position:absolute;
+
+    background:#111;
+
+    color:white;
+
+    padding:10px 13px;
+
+    font-family:"DM Mono";
+
+    font-size:9px;
+
+    letter-spacing:.04em;
+
+    z-index:5;
+
+}
+
+.label-one{
+
+    top:90px;
+    right:20px;
+
+}
+
+.label-two{
+
+    bottom:105px;
+    left:15px;
+
+    background:var(--blue);
+
+}
+
+.label-three{
+
+    top:300px;
+    right:-5px;
+
+    background:var(--lime);
+
+    color:#111;
+
+}
+
+
+/* crosshair */
+
+.crosshair{
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    border:1px solid
+        rgba(17,17,17,.35);
+
+    left:30px;
+    top:100px;
+
+}
+
+.crosshair::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+    height:1px;
+
+    background:#111;
+
+    top:50%;
+
+}
+
+.crosshair::after{
+
+    content:"";
+
+    position:absolute;
+
+    height:100%;
+    width:1px;
+
+    background:#111;
+
+    left:50%;
+
+}
+
+
+/* =========================================================
+   TICKER
+========================================================= */
+
+.ticker{
+
+    border-top:1px solid #111;
+
+    border-bottom:1px solid #111;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+}
+
+.ticker-track{
+
+    display:inline-flex;
+
+    gap:45px;
+
+    padding:16px 0;
+
+    animation:
+        marquee 25s linear infinite;
+
+}
+
+.ticker span{
+
+    font-family:"DM Mono";
+
+    font-size:10px;
+
+}
+
+.ticker .dot{
+
+    color:var(--blue);
+
+}
+
+@keyframes marquee{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-50%);
+    }
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+
+    background:#111;
+
+    color:white;
+
+}
+
+.intro-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        .7fr
+        1.3fr;
+
+    gap:100px;
+
+}
+
+.intro-title{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            42px,
+            5vw,
+            70px
+        );
+
+    line-height:1.05;
+
+}
+
+.intro-title em{
+
+    color:var(--lime);
+
+}
+
+.intro-text{
+
+    max-width:650px;
+
+    font-size:20px;
+
+    line-height:1.7;
+
+    color:#bbb;
+
+}
+
+.intro-text strong{
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   SPECIALTIES
+========================================================= */
+
+.specialties{
+
+    background:#f3f0e9;
+
+}
+
+.section-heading{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    gap:30px;
+
+    margin-bottom:70px;
+
+}
+
+.section-title{
+
+    font-size:
+        clamp(
+            45px,
+            6vw,
+            82px
+        );
+
+    letter-spacing:-.065em;
+
+    line-height:.9;
+
+}
+
+.section-note{
+
+    max-width:300px;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    color:#666;
+
+}
+
+.specialty-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    border-top:1px solid #111;
+
+}
+
+.specialty{
+
+    min-height:390px;
+
+    padding:30px;
+
+    border-right:1px solid #111;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.4s;
+
+}
+
+.specialty:last-child{
+
+    border-right:0;
+
+}
+
+.specialty:hover{
+
+    background:#fff;
+
+}
+
+.specialty-number{
+
+    font-family:"DM Mono";
+
+    font-size:10px;
+
+}
+
+.specialty h3{
+
+    margin-top:100px;
+
+    font-size:38px;
+
+    letter-spacing:-.05em;
+
+}
+
+.specialty p{
+
+    margin-top:20px;
+
+    color:#666;
+
+    max-width:300px;
+
+    line-height:1.6;
+
+    font-size:13px;
+
+}
+
+.specialty-circle{
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    border:1px solid #111;
+
+    right:-70px;
+    bottom:-70px;
+
+    transition:.5s;
+
+}
+
+.specialty:hover .specialty-circle{
+
+    transform:scale(1.5);
+
+    border-color:var(--blue);
+
+}
+
+
+/* =========================================================
+   ACADEMIC TIMELINE
+========================================================= */
+
+.timeline-section{
+
+    background:#dfe5ff;
+
+}
+
+.timeline{
+
+    border-top:1px solid #111;
+
+}
+
+.timeline-row{
+
+    display:grid;
+
+    grid-template-columns:
+        160px
+        1fr
+        1fr;
+
+    padding:35px 0;
+
+    border-bottom:1px solid #111;
+
+    transition:.3s;
+
+}
+
+.timeline-row:hover{
+
+    background:rgba(255,255,255,.4);
+
+}
+
+.timeline-year{
+
+    font-family:"DM Mono";
+
+    font-size:12px;
+
+}
+
+.timeline-title{
+
+    font-size:24px;
+
+    font-weight:600;
+
+}
+
+.timeline-detail{
+
+    color:#555;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   RESEARCH
+========================================================= */
+
+.research{
+
+    background:#2457ff;
+
+    color:white;
+
+    overflow:hidden;
+
+}
+
+.research::before{
+
+    content:"RESEARCH";
+
+    position:absolute;
+
+    font-family:"DM Mono";
+
+    font-size:20vw;
+
+    color:rgba(255,255,255,.05);
+
+    top:20%;
+
+    left:-5%;
+
+}
+
+.research-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:80px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.research-title{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            55px,
+            7vw,
+            100px
+        );
+
+    line-height:.9;
+
+}
+
+.research-title em{
+
+    color:var(--lime);
+
+}
+
+.research-intro{
+
+    margin-top:30px;
+
+    max-width:480px;
+
+    color:#d5ddff;
+
+    line-height:1.7;
+
+}
+
+.paper{
+
+    border-top:1px solid rgba(255,255,255,.4);
+
+    padding:25px 0;
+
+}
+
+.paper:last-child{
+
+    border-bottom:1px solid
+        rgba(255,255,255,.4);
+
+}
+
+.paper-meta{
+
+    font-family:"DM Mono";
+
+    font-size:9px;
+
+    color:#c8d3ff;
+
+}
+
+.paper h3{
+
+    font-size:22px;
+
+    margin-top:10px;
+
+    line-height:1.3;
+
+}
+
+.paper p{
+
+    color:#d4dcff;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    margin-top:10px;
+
+}
+
+
+/* =========================================================
+   CLINICAL APPROACH
+========================================================= */
+
+.approach{
+
+    background:#f3f0e9;
+
+}
+
+.approach-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:100px;
+
+}
+
+.big-number{
+
+    font-size:
+        clamp(
+            150px,
+            20vw,
+            300px
+        );
+
+    line-height:.7;
+
+    color:#ddd9d0;
+
+    font-weight:700;
+
+    letter-spacing:-.1em;
+
+}
+
+.approach-copy h3{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:45px;
+
+    line-height:1.05;
+
+}
+
+.approach-copy p{
+
+    margin-top:25px;
+
+    color:#666;
+
+    max-width:500px;
+
+    line-height:1.8;
+
+}
+
+.principles{
+
+    margin-top:45px;
+
+}
+
+.principle{
+
+    padding:17px 0;
+
+    border-top:1px solid #aaa;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-family:"DM Mono";
+
+    font-size:10px;
+
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.quote-section{
+
+    background:#111;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.quote{
+
+    max-width:1000px;
+
+    margin:auto;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            40px,
+            6vw,
+            78px
+        );
+
+    line-height:1.05;
+
+}
+
+.quote span{
+
+    color:var(--lime);
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta{
+
+    background:var(--lime);
+
+    color:#111;
+
+}
+
+.cta-inner{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    gap:60px;
+
+}
+
+.cta h2{
+
+    font-size:
+        clamp(
+            55px,
+            8vw,
+            110px
+        );
+
+    line-height:.85;
+
+    letter-spacing:-.07em;
+
+}
+
+.cta-copy{
+
+    max-width:360px;
+
+}
+
+.cta-copy p{
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+.cta-button{
+
+    display:inline-flex;
+
+    margin-top:25px;
+
+    padding:15px 25px;
+
+    border-radius:40px;
+
+    background:#111;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.cta-button:hover{
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    background:#111;
+
+    color:white;
+
+    padding:45px 0;
+
+}
+
+.footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.footer-left{
+
+    font-size:12px;
+
+}
+
+.footer-right{
+
+    display:flex;
+
+    gap:25px;
+
+    font-family:"DM Mono";
+
+    font-size:9px;
+
+    color:#aaa;
+
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+        translateY(35px);
+
+    transition:
+        opacity .9s ease,
+        transform .9s ease;
+
+}
+
+.reveal.show{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .hero-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .hero-title{
+
+        font-size:
+            clamp(
+                60px,
+                17vw,
+                100px
+            );
+
+    }
+
+    .eye-stage{
+
+        height:500px;
+
+    }
+
+    .eye{
+
+        width:330px;
+        height:210px;
+
+    }
+
+    .eye::before{
+
+        width:110px;
+        height:110px;
+
+        left:110px;
+        top:50px;
+
+    }
+
+    .eye::after{
+
+        width:400px;
+        height:400px;
+
+        left:-35px;
+        top:-95px;
+
+    }
+
+    .intro-grid,
+    .research-grid,
+    .approach-grid{
+
+        grid-template-columns:1fr;
+
+        gap:50px;
+
+    }
+
+    .specialty-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .specialty{
+
+        border-right:0;
+
+        border-bottom:1px solid #111;
+
+    }
+
+    .timeline-row{
+
+        grid-template-columns:
+            80px
+            1fr;
+
+        gap:15px;
+
+    }
+
+    .timeline-detail{
+
+        grid-column:2;
+
+    }
+
+    .cta-inner{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .container{
+
+        width:
+            calc(100% - 30px);
+
+    }
+
+    section{
+
+        padding:90px 0;
+
+    }
+
+    .hero{
+
+        padding-top:120px;
+
+    }
+
+    .hero-sub{
+
+        font-size:14px;
+
+    }
+
+    .eye-stage{
+
+        height:400px;
+
+    }
+
+    .eye{
+
+        width:270px;
+        height:170px;
+
+    }
+
+    .eye::before{
+
+        width:90px;
+        height:90px;
+
+        left:90px;
+        top:40px;
+
+    }
+
+    .eye::after{
+
+        width:330px;
+        height:330px;
+
+        left:-30px;
+        top:-80px;
+
+    }
+
+    .label-one{
+
+        right:0;
+
+    }
+
+    .label-two{
+
+        left:0;
+
+    }
+
+    .label-three{
+
+        right:0;
+
+        top:250px;
+
+    }
+
+    .section-heading{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .specialty{
+
+        min-height:320px;
+
+    }
+
+    .specialty h3{
+
+        margin-top:70px;
+
+    }
+
+    .footer{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        scroll-behavior:auto !important;
+
+        transition-duration:.01ms !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="cursor" id="cursor"></div>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav>
+
+<div class="nav-inner">
+
+<a href="#" class="logo">
+
+<div class="logo-mark">
+AP
+</div>
+
+<span>
+DR. AKSHRA PAHUJA
+</span>
+
+</a>
+
+
+<div class="nav-links">
+
+<a href="#about">
+ABOUT
+</a>
+
+<a href="#expertise">
+EXPERTISE
+</a>
+
+<a href="#research">
+RESEARCH
+</a>
+
+<a href="#journey">
+JOURNEY
+</a>
+
+</div>
+
+
+<div class="nav-right">
+
+<a
+href="#appointment"
+class="book-btn">
+
+CONSULT
+
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="hero-grid">
+
+
+<div class="hero-left reveal">
+
+
+<div class="hero-index">
+
+<div class="index-line"></div>
+
+<span class="small-label">
+01 / OPHTHALMOLOGY
+</span>
+
+</div>
+
+
+<h1 class="hero-title">
+
+SEE
+
+<br>
+
+<span class="blue">
+CLEAR
+</span>
+
+<br>
+
+<em>different.</em>
+
+</h1>
+
+
+<p class="hero-sub">
+
+Dr. Akshra Pahuja is an ophthalmologist trained at
+AIIMS New Delhi, with a clinical focus spanning
+cornea, cataract and refractive surgery.
+
+</p>
+
+
+<div class="hero-meta">
+
+<div class="pill">
+AIIMS NEW DELHI
+</div>
+
+<div class="pill">
+CORNEA
+</div>
+
+<div class="pill">
+CATARACT
+</div>
+
+<div class="pill">
+REFRACTIVE
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="eye-stage reveal">
+
+
+<div class="crosshair"></div>
+
+
+<div class="eye"></div>
+
+
+<div class="orbit-label label-one">
+
+CORNEA / 01
+
+</div>
+
+
+<div class="orbit-label label-two">
+
+OCT / OCT-A
+
+</div>
+
+
+<div class="orbit-label label-three">
+
+VISION
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TICKER
+===================================================== -->
+
+<div class="ticker">
+
+<div class="ticker-track">
+
+<span>
+CORNEA
+</span>
+
+<span class="dot">●</span>
+
+<span>
+CATARACT
+</span>
+
+<span class="dot">●</span>
+
+<span>
+REFRACTIVE SURGERY
+</span>
+
+<span class="dot">●</span>
+
+<span>
+OCT / OCT-A
+</span>
+
+<span class="dot">●</span>
+
+<span>
+NEURO-OPHTHALMIC IMAGING
+</span>
+
+<span class="dot">●</span>
+
+
+<span>
+CORNEA
+</span>
+
+<span class="dot">●</span>
+
+<span>
+CATARACT
+</span>
+
+<span class="dot">●</span>
+
+<span>
+REFRACTIVE SURGERY
+</span>
+
+<span class="dot">●</span>
+
+<span>
+OCT / OCT-A
+</span>
+
+<span class="dot">●</span>
+
+<span>
+NEURO-OPHTHALMIC IMAGING
+</span>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+class="intro"
+id="about">
+
+<div class="container">
+
+<div class="intro-grid">
+
+
+<div class="small-label">
+02 / THE DOCTOR
+</div>
+
+
+<div>
+
+<h2 class="intro-title reveal">
+
+An ophthalmologist
+with an <em>academic eye</em>
+for the details.
+
+</h2>
+
+
+<p class="intro-text reveal">
+
+Dr. Akshra Pahuja combines specialist ophthalmic
+training with an interest in advanced ocular imaging
+and contemporary anterior-segment practice.
+
+Her postgraduate training at the
+<strong>Dr. R.P. Centre for Ophthalmic Sciences,
+AIIMS New Delhi</strong> forms the academic foundation
+of her clinical practice.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EXPERTISE
+===================================================== -->
+
+<section
+class="specialties"
+id="expertise">
+
+<div class="container">
+
+
+<div class="section-heading reveal">
+
+<div>
+
+<div class="small-label">
+03 / CLINICAL PRACTICE
+</div>
+
+<h2 class="section-title">
+SPECIALIST<br>
+FOCUS
+</h2>
+
+</div>
+
+
+<p class="section-note">
+
+A focused portfolio rather than a generic
+“all eye problems” profile.
+
+</p>
+
+</div>
+
+
+
+<div class="specialty-grid">
+
+
+<div class="specialty reveal">
+
+<div class="specialty-number">
+01
+</div>
+
+<h3>
+Cornea
+</h3>
+
+<p>
+
+Evaluation and management of corneal and
+anterior-segment conditions with emphasis on
+accurate diagnosis and treatment planning.
+
+</p>
+
+<div class="specialty-circle"></div>
+
+</div>
+
+
+
+<div class="specialty reveal">
+
+<div class="specialty-number">
+02
+</div>
+
+<h3>
+Cataract
+</h3>
+
+<p>
+
+Cataract assessment, surgical planning and
+postoperative visual care tailored to the
+individual patient.
+
+</p>
+
+<div class="specialty-circle"></div>
+
+</div>
+
+
+
+<div class="specialty reveal">
+
+<div class="specialty-number">
+03
+</div>
+
+<h3>
+Refractive
+</h3>
+
+<p>
+
+Interest in contemporary refractive surgery
+and laser vision correction, including
+postoperative interface complications.
+
+</p>
+
+<div class="specialty-circle"></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     JOURNEY
+===================================================== -->
+
+<section
+class="timeline-section"
+id="journey">
+
+<div class="container">
+
+
+<div class="section-heading reveal">
+
+<div>
+
+<div class="small-label">
+04 / ACADEMIC JOURNEY
+</div>
+
+<h2 class="section-title">
+FROM<br>
+TRAINING<br>
+TO PRACTICE
+</h2>
+
+</div>
+
+</div>
+
+
+
+<div class="timeline">
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-year">
+2019
+</div>
+
+<div class="timeline-title">
+MBBS
+</div>
+
+<div class="timeline-detail">
+University of Delhi.
+Undergraduate medical education preceding
+specialist ophthalmic training.
+</div>
+
+</div>
+
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-year">
+2022
+</div>
+
+<div class="timeline-title">
+MS Ophthalmology
+</div>
+
+<div class="timeline-detail">
+All India Institute of Medical Sciences,
+New Delhi — Dr. R.P. Centre for Ophthalmic Sciences.
+</div>
+
+</div>
+
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-year">
+2023+
+</div>
+
+<div class="timeline-title">
+Academic Work
+</div>
+
+<div class="timeline-detail">
+Research involving papilledema, OCT and OCT-A,
+with presentations at ophthalmic academic forums.
+</div>
+
+</div>
+
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-year">
+2026
+</div>
+
+<div class="timeline-title">
+Refractive Surgery
+</div>
+
+<div class="timeline-detail">
+Academic presentation concerning flap relift for
+vision-compromising interface bleed after Femto-LASIK.
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RESEARCH
+===================================================== -->
+
+<section
+class="research"
+id="research">
+
+<div class="container">
+
+
+<div class="research-grid">
+
+
+<div class="reveal">
+
+<div class="small-label">
+05 / RESEARCH
+</div>
+
+<h2 class="research-title">
+
+THE EYE
+<br>
+
+UNDER
+<br>
+
+<em>OBSERVATION.</em>
+
+</h2>
+
+
+<p class="research-intro">
+
+Clinical ophthalmology increasingly depends on
+quantitative imaging. Her academic work has included
+OCT/OCT-A assessment of structural and vascular
+changes associated with papilledema.
+
+</p>
+
+</div>
+
+
+
+<div class="reveal">
+
+
+<div class="paper">
+
+<div class="paper-meta">
+JOURNAL OF NEURO-OPHTHALMOLOGY
+</div>
+
+<h3>
+
+Evaluation of Peripapillary and Macular
+Optical Coherence Tomography Angiography
+Characteristics in Different Stages of Papilledema
+
+</h3>
+
+<p>
+
+Study examining OCT and OCT-A characteristics
+across different stages of papilledema.
+
+</p>
+
+</div>
+
+
+
+<div class="paper">
+
+<div class="paper-meta">
+AIOC 2026 / REFRACTIVE SURGERY
+</div>
+
+<h3>
+
+Flap Relift for Vision-Compromising
+Interface Bleed After Femto-LASIK
+
+</h3>
+
+<p>
+
+Academic case presentation concerning a
+post-refractive-surgery interface complication.
+
+</p>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     APPROACH
+===================================================== -->
+
+<section class="approach">
+
+<div class="container">
+
+
+<div class="approach-grid">
+
+
+<div class="reveal">
+
+<div class="small-label">
+06 / APPROACH
+</div>
+
+<div class="big-number">
+03
+</div>
+
+</div>
+
+
+
+<div class="approach-copy reveal">
+
+<h3>
+
+Three things matter:
+diagnosis, precision,
+and communication.
+
+</h3>
+
+
+<p>
+
+Modern ophthalmology is not simply about performing
+a procedure. It begins with identifying the actual
+problem, understanding the patient's visual goals,
+and selecting an intervention whose benefits and
+limitations are clearly understood.
+
+</p>
+
+
+<div class="principles">
+
+<div class="principle">
+
+<span>
+01
+</span>
+
+<span>
+DIAGNOSE BEFORE INTERVENE
+</span>
+
+</div>
+
+
+<div class="principle">
+
+<span>
+02
+</span>
+
+<span>
+INDIVIDUALISE THE PLAN
+</span>
+
+</div>
+
+
+<div class="principle">
+
+<span>
+03
+</span>
+
+<span>
+EXPLAIN THE TRADE-OFFS
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUOTE
+===================================================== -->
+
+<section class="quote-section">
+
+<div class="container">
+
+<div class="quote reveal">
+
+The goal isn't simply to
+<strong>treat an eye.</strong>
+
+<br>
+
+It's to understand
+what that eye means
+to the <span>person.</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     APPOINTMENT
+===================================================== -->
+
+<section
+class="cta"
+id="appointment">
+
+<div class="container">
+
+<div class="cta-inner">
+
+
+<div class="reveal">
+
+<div class="small-label">
+07 / CONSULTATION
+</div>
+
+<h2>
+
+LET'S<br>
+TALK<br>
+VISION.
+
+</h2>
+
+</div>
+
+
+
+<div class="cta-copy reveal">
+
+<p>
+
+For consultation regarding cornea,
+cataract, refractive surgery or other
+ophthalmic concerns.
+
+</p>
+
+
+<a
+href="https://wa.me/919999999999"
+class="cta-button"
+target="_blank">
+
+REQUEST APPOINTMENT →
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer">
+
+<div class="footer-left">
+
+© <span id="year"></span>
+Dr. Akshra Pahuja
+
+</div>
+
+
+<div class="footer-right">
+
+<span>
+OPHTHALMOLOGY
+</span>
+
+<span>
+AIIMS NEW DELHI
+</span>
+
+<span>
+CORNEA · CATARACT · REFRACTIVE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById("year")
+.textContent =
+new Date().getFullYear();
+
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealObserver =
+new IntersectionObserver(
+
+entries => {
+
+entries.forEach(entry => {
+
+if(entry.isIntersecting){
+
+entry.target
+.classList
+.add("show");
+
+revealObserver
+.unobserve(entry.target);
+
+}
+
+});
+
+},
+
+{
+threshold:.12
+}
+
+);
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(el =>
+revealObserver.observe(el)
+);
+
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+const cursor =
+document.getElementById("cursor");
+
+
+let mouseX = 0;
+let mouseY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+
+document.addEventListener(
+"mousemove",
+e => {
+
+mouseX = e.clientX;
+mouseY = e.clientY;
+
+}
+);
+
+
+function animateCursor(){
+
+currentX +=
+(mouseX-currentX)*.15;
+
+currentY +=
+(mouseY-currentY)*.15;
+
+
+cursor.style.left =
+currentX+"px";
+
+cursor.style.top =
+currentY+"px";
+
+
+requestAnimationFrame(
+animateCursor
+);
+
+}
+
+
+animateCursor();
+
+
+
+document
+.querySelectorAll(
+"a,button,.specialty,.paper"
+)
+.forEach(el => {
+
+el.addEventListener(
+"mouseenter",
+() => {
+
+cursor.classList
+.add("active");
+
+}
+);
+
+el.addEventListener(
+"mouseleave",
+() => {
+
+cursor.classList
+.remove("active");
+
+}
+);
+
+});
+
+
+
+/* =========================================================
+   HERO EYE PARALLAX
+========================================================= */
+
+const eyeStage =
+document.querySelector(".eye-stage");
+
+const eye =
+document.querySelector(".eye");
+
+
+if(
+window.innerWidth > 900
+){
+
+eyeStage.addEventListener(
+"mousemove",
+e => {
+
+const rect =
+eyeStage
+.getBoundingClientRect();
+
+
+const x =
+(e.clientX-rect.left) /
+rect.width-.5;
+
+const y =
+(e.clientY-rect.top) /
+rect.height-.5;
+
+
+eye.style.transform =
+`
+rotate(45deg)
+translate(
+${x*18}px,
+${y*18}px
+)
+`;
+
+}
+);
+
+
+eyeStage.addEventListener(
+"mouseleave",
+() => {
+
+eye.style.transform =
+"rotate(45deg)";
+
+}
+);
+
+}
+
+
+
+/* =========================================================
+   MAGNETIC CTA
+========================================================= */
+
+const ctaButton =
+document.querySelector(".cta-button");
+
+
+if(
+ctaButton &&
+window.innerWidth > 900
+){
+
+ctaButton.addEventListener(
+"mousemove",
+e => {
+
+const rect =
+ctaButton
+.getBoundingClientRect();
+
+const x =
+e.clientX -
+rect.left -
+rect.width/2;
+
+const y =
+e.clientY -
+rect.top -
+rect.height/2;
+
+
+ctaButton.style.transform =
+`
+translate(
+${x*.15}px,
+${y*.15}px
+)
+`;
+
+}
+);
+
+
+ctaButton.addEventListener(
+"mouseleave",
+() => {
+
+ctaButton.style.transform =
+"";
+
+}
+);
+
+}
+
+
+
+/* =========================================================
+   NAV BACKGROUND AFTER SCROLL
+========================================================= */
+
+const nav =
+document.querySelector("nav");
+
+
+window.addEventListener(
+"scroll",
+() => {
+
+if(
+window.scrollY > 80
+){
+
+nav.style.background =
+"rgba(243,240,233,.85)";
+
+nav.style.backdropFilter =
+"blur(15px)";
+
+}else{
+
+nav.style.background =
+"transparent";
+
+nav.style.backdropFilter =
+"none";
+
+}
+
+}
+);
+
+</script>
+
+</body>
+</html>
