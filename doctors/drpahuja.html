@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dr. Akshra Pahuja | Ophthalmology</title>
+<title>Dr. Akshra Pahuja | Cornea, Cataract & Refractive Surgeon</title>
 
 <meta name="description"
-      content="Dr. Akshra Pahuja — Ophthalmology. A premium professional profile focused on precision, clinical care and visual health.">
+content="Dr. Akshra Pahuja — Consultant Specialist in Cornea, Cataract & Refractive Surgery at Acura Vision, Meerut. Advanced training from Dr. Rajendra Prasad Centre for Ophthalmic Sciences, AIIMS New Delhi.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@400;500;600&display=swap" rel="stylesheet">
+
 
 <style>
 
-:root{
-    --black:#0c0d0e;
-    --black-soft:#141617;
-    --graphite:#1d2021;
-    --charcoal:#282b2d;
+/* =========================================================
+   ROOT
+========================================================= */
 
-    --ivory:#f5f3ee;
-    --paper:#ebe8e1;
+:root{
+
+    --black:#090a0a;
+    --black-2:#111313;
+    --graphite:#1b1e1f;
+    --charcoal:#25292a;
+
+    --ivory:#f4f2ec;
+    --cream:#ebe8df;
+
     --white:#ffffff;
 
-    --gold:#b79a62;
-    --gold-light:#d2bd8c;
+    --gold:#b99b63;
+    --gold-light:#d6c28f;
 
-    --grey:#969897;
-    --grey-light:#c7c7c2;
-    --line:rgba(20,22,23,.14);
+    --muted:#898d8a;
+    --muted-dark:#666b69;
+
+    --line:rgba(20,22,22,.13);
 
     --serif:"Playfair Display",serif;
     --sans:"Manrope",sans-serif;
     --body:"DM Sans",sans-serif;
 
-    --max:1280px;
+    --max:1320px;
 }
 
 
-/* =========================
+/* =========================================================
    RESET
-========================= */
+========================================================= */
 
 *{
     margin:0;
@@ -64,8 +73,8 @@ body{
 }
 
 img{
-    max-width:100%;
     display:block;
+    max-width:100%;
 }
 
 a{
@@ -83,54 +92,49 @@ button{
 }
 
 
-/* =========================
+/* =========================================================
    GLOBAL
-========================= */
+========================================================= */
 
 .container{
-    width:min(calc(100% - 64px),var(--max));
+    width:min(calc(100% - 70px),var(--max));
     margin:auto;
 }
 
 .section{
-    padding:140px 0;
+    padding:145px 0;
 }
 
 .eyebrow{
     font-family:var(--sans);
-    font-size:11px;
-    letter-spacing:3px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:3.5px;
     text-transform:uppercase;
     color:var(--gold);
-    font-weight:700;
+}
+
+.display{
+    font-family:var(--sans);
+    font-weight:600;
+    letter-spacing:-.06em;
 }
 
 .serif{
     font-family:var(--serif);
 }
 
-.display{
-    font-family:var(--sans);
-    font-weight:600;
-    letter-spacing:-.055em;
-}
-
-.gold{
-    color:var(--gold);
-}
-
 .rule{
     height:1px;
     background:var(--line);
-    width:100%;
 }
 
 .reveal{
     opacity:0;
     transform:translateY(35px);
     transition:
-        opacity .9s ease,
-        transform .9s cubic-bezier(.2,.8,.2,1);
+        opacity 1s ease,
+        transform 1s cubic-bezier(.2,.8,.2,1);
 }
 
 .reveal.visible{
@@ -139,40 +143,45 @@ button{
 }
 
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
-.site-header{
+.header{
+
     position:fixed;
     top:0;
     left:0;
+
     width:100%;
-    height:82px;
+    height:84px;
+
     z-index:1000;
 
-    background:rgba(245,243,238,.94);
-    backdrop-filter:blur(14px);
+    background:rgba(244,242,236,.94);
+    backdrop-filter:blur(16px);
 
-    border-bottom:1px solid rgba(20,22,23,.08);
+    border-bottom:1px solid rgba(0,0,0,.08);
 
-    transition:
-        height .3s ease,
-        background .3s ease,
-        box-shadow .3s ease;
+    transition:.35s ease;
 }
 
-.site-header.scrolled{
+.header.scrolled{
     height:68px;
-    box-shadow:0 8px 30px rgba(0,0,0,.05);
+    box-shadow:0 8px 35px rgba(0,0,0,.06);
 }
 
 .nav{
+
     height:100%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
 }
+
+
+/* BRAND */
 
 .brand{
     display:flex;
@@ -181,61 +190,85 @@ button{
 }
 
 .brand-mark{
-    width:38px;
-    height:38px;
+
+    width:39px;
+    height:39px;
+
     border:1px solid var(--black);
+
     display:flex;
     align-items:center;
     justify-content:center;
 
     font-family:var(--serif);
-    font-size:18px;
     font-style:italic;
+    font-size:19px;
 }
 
-.brand-text{
-    display:flex;
-    flex-direction:column;
+.brand-info{
     line-height:1.15;
 }
 
 .brand-name{
+
     font-family:var(--sans);
-    font-size:13px;
     font-weight:800;
-    letter-spacing:.02em;
+
+    font-size:12px;
+    letter-spacing:.3px;
 }
 
-.brand-sub{
-    font-size:9px;
-    text-transform:uppercase;
+.brand-specialty{
+
+    margin-top:3px;
+
+    font-size:8px;
     letter-spacing:2px;
+
     color:#777;
+
+    text-transform:uppercase;
 }
+
+
+/* NAV */
 
 .nav-links{
+
     display:flex;
     align-items:center;
-    gap:34px;
+
+    gap:32px;
 }
 
 .nav-links a{
+
     font-family:var(--sans);
-    font-size:11px;
+
+    font-size:10px;
     font-weight:700;
-    letter-spacing:1.2px;
+
+    letter-spacing:1.3px;
+
     text-transform:uppercase;
+
     position:relative;
 }
 
-.nav-links a::after{
+.nav-links a:not(.nav-book)::after{
+
     content:"";
+
     position:absolute;
-    left:0;
+
     bottom:-7px;
+    left:0;
+
     width:0;
     height:1px;
+
     background:var(--gold);
+
     transition:.3s ease;
 }
 
@@ -243,766 +276,1422 @@ button{
     width:100%;
 }
 
-.nav-cta{
-    padding:11px 20px;
+.nav-book{
+
+    padding:11px 19px;
+
     border:1px solid var(--black);
+
     transition:.3s ease;
 }
 
-.nav-cta:hover{
+.nav-book:hover{
+
     background:var(--black);
     color:var(--ivory);
 }
 
-.menu-button{
+
+/* MOBILE MENU */
+
+.menu{
+
     display:none;
+
+    border:0;
     background:none;
-    border:none;
-    width:35px;
+
     cursor:pointer;
+
+    width:34px;
 }
 
-.menu-button span{
+.menu span{
+
     display:block;
+
     height:1px;
+
     background:var(--black);
+
     margin:6px 0;
 }
 
 
-/* =========================
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
+
     min-height:100vh;
-    padding-top:82px;
-    position:relative;
+
+    padding-top:84px;
 
     display:flex;
     align-items:center;
 
+    position:relative;
+
     background:
+
         radial-gradient(
-            circle at 80% 20%,
-            rgba(183,154,98,.08),
-            transparent 30%
+            circle at 80% 30%,
+            rgba(185,155,99,.09),
+            transparent 31%
         ),
+
         var(--ivory);
+
+    overflow:hidden;
+}
+
+.hero::before{
+
+    content:"OPHTHALMOLOGY";
+
+    position:absolute;
+
+    right:-90px;
+    top:250px;
+
+    font-family:var(--sans);
+
+    font-size:130px;
+    font-weight:800;
+
+    letter-spacing:-8px;
+
+    color:rgba(0,0,0,.025);
+
+    transform:rotate(90deg);
+
+    pointer-events:none;
 }
 
 .hero-grid{
+
     display:grid;
+
     grid-template-columns:
         minmax(0,1fr)
-        minmax(420px, .82fr);
+        minmax(480px,.9fr);
 
-    gap:90px;
+    gap:95px;
+
     align-items:center;
 }
+
+
+/* HERO TEXT */
 
 .hero-copy{
     position:relative;
-    z-index:2;
 }
 
-.hero-number{
+.hero-index{
+
     position:absolute;
-    left:-44px;
-    top:0;
+
+    left:-43px;
+    top:4px;
 
     writing-mode:vertical-rl;
 
-    font-family:var(--sans);
-    font-size:9px;
-    letter-spacing:4px;
-    color:#999;
+    font-size:8px;
+    letter-spacing:3px;
 
-    text-transform:uppercase;
+    color:#999;
 }
 
 .hero-title{
-    margin-top:26px;
+
+    margin-top:25px;
+
     font-family:var(--sans);
+
+    font-size:clamp(58px,7vw,110px);
+
+    line-height:.88;
+
+    letter-spacing:-.075em;
+
     font-weight:600;
-    font-size:clamp(58px,7vw,112px);
-    line-height:.92;
-    letter-spacing:-.065em;
 }
 
-.hero-title span{
+.hero-title .first{
     display:block;
 }
 
-.hero-title .italic{
+.hero-title .second{
+    display:block;
+}
+
+.hero-title .surname{
+
+    display:block;
+
     font-family:var(--serif);
-    font-style:italic;
+
     font-weight:400;
+
+    font-style:italic;
+
     letter-spacing:-.045em;
+
+    color:#444746;
 }
 
-.hero-intro{
-    max-width:550px;
-    margin-top:42px;
+.hero-position{
 
-    font-size:17px;
-    color:#555a59;
-    line-height:1.85;
-}
+    margin-top:40px;
 
-.hero-meta{
-    display:flex;
-    gap:40px;
-    margin-top:46px;
-}
+    max-width:620px;
 
-.meta-item{
-    border-left:1px solid var(--gold);
-    padding-left:15px;
-}
-
-.meta-label{
-    font-size:9px;
-    text-transform:uppercase;
-    letter-spacing:2px;
-    color:#858585;
-}
-
-.meta-value{
-    margin-top:3px;
     font-family:var(--sans);
-    font-size:13px;
+
+    font-size:18px;
+
+    line-height:1.55;
+
+    font-weight:500;
+
+    color:#343837;
+}
+
+.hero-position strong{
+    color:var(--black);
+}
+
+.hero-summary{
+
+    max-width:590px;
+
+    margin-top:20px;
+
+    color:#666a68;
+
+    font-size:14px;
+
+    line-height:1.9;
+}
+
+
+/* HERO DETAILS */
+
+.hero-details{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:28px;
+
+    margin-top:40px;
+}
+
+.detail{
+
+    padding-left:15px;
+
+    border-left:1px solid var(--gold);
+}
+
+.detail-label{
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    color:#888;
+}
+
+.detail-value{
+
+    margin-top:3px;
+
+    font-family:var(--sans);
+
+    font-size:12px;
+
     font-weight:700;
 }
 
-.hero-actions{
+
+/* HERO BUTTONS */
+
+.hero-buttons{
+
     display:flex;
-    gap:14px;
-    margin-top:48px;
+
+    gap:12px;
+
+    margin-top:43px;
 }
 
-.button{
+.btn{
+
+    min-height:50px;
+
     display:inline-flex;
+
     align-items:center;
     justify-content:center;
 
-    min-height:50px;
     padding:0 25px;
 
-    border:1px solid var(--black);
-
     font-family:var(--sans);
-    font-size:10px;
+
+    font-size:9px;
     font-weight:800;
+
     letter-spacing:1.5px;
+
     text-transform:uppercase;
+
+    border:1px solid var(--black);
 
     transition:.35s ease;
 }
 
-.button.primary{
+.btn-dark{
+
     background:var(--black);
+
     color:var(--ivory);
 }
 
-.button.primary:hover{
+.btn-dark:hover{
+
     background:var(--gold);
+
     border-color:var(--gold);
+
     color:var(--black);
 }
 
-.button.secondary:hover{
+.btn-outline:hover{
+
     background:var(--black);
+
     color:var(--ivory);
 }
 
 
-/* HERO IMAGE */
+/* HERO PHOTO */
 
-.hero-visual{
+.hero-photo-wrap{
+
     position:relative;
-    min-height:680px;
+
+    height:690px;
 }
 
-.portrait-frame{
-    position:absolute;
-    right:25px;
-    top:50%;
-    transform:translateY(-50%);
+.photo-frame{
 
-    width:min(100%,510px);
+    position:absolute;
+
+    width:min(100%,525px);
+
     height:650px;
+
+    right:20px;
+    top:50%;
+
+    transform:translateY(-50%);
 
     overflow:hidden;
 
-    background:#d8d5ce;
+    background:#d4d1c9;
 
-    border:1px solid rgba(0,0,0,.15);
+    border:1px solid rgba(0,0,0,.16);
 }
 
-.portrait-frame::before{
+.photo-frame::before{
+
     content:"";
+
     position:absolute;
-    inset:18px;
+
+    inset:17px;
+
     border:1px solid rgba(255,255,255,.45);
-    z-index:2;
+
+    z-index:3;
+
     pointer-events:none;
 }
 
-.portrait{
+.photo-frame::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:35%;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.23),
+            transparent
+        );
+
+    pointer-events:none;
+}
+
+.doctor-image{
+
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     object-position:center top;
 
     filter:
-        grayscale(18%)
-        contrast(1.02)
-        brightness(.96);
+        grayscale(10%)
+        contrast(1.04)
+        brightness(.97);
 
-    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+    transition:transform 1.2s ease;
 }
 
-.portrait-frame:hover .portrait{
+.photo-frame:hover .doctor-image{
     transform:scale(1.025);
 }
 
+.photo-border{
 
-/* offset frame */
-
-.portrait-offset{
     position:absolute;
+
     width:100%;
     height:100%;
 
     border:1px solid var(--gold);
 
-    right:0;
     top:0;
+    left:0;
 
     transform:translate(22px,22px);
 
     pointer-events:none;
+
+    z-index:1;
 }
 
 
-/* Eye line drawing */
+/* PHOTO LABEL */
 
-.eye-art{
+.photo-caption{
+
     position:absolute;
-    width:300px;
-    height:180px;
 
-    right:-85px;
-    bottom:35px;
+    left:30px;
+    bottom:28px;
 
     z-index:5;
 
-    opacity:.72;
+    color:white;
+}
+
+.photo-caption-small{
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    opacity:.8;
+}
+
+.photo-caption-name{
+
+    margin-top:4px;
+
+    font-family:var(--serif);
+
+    font-size:25px;
+
+    font-style:italic;
+}
+
+
+/* EYE ART */
+
+.eye-art{
+
+    position:absolute;
+
+    width:310px;
+
+    right:-95px;
+
+    bottom:35px;
+
+    z-index:6;
+
+    opacity:.7;
 }
 
 .eye-art path,
 .eye-art ellipse,
 .eye-art circle{
+
     fill:none;
+
     stroke:var(--gold);
+
     stroke-width:1;
 }
 
-.eye-art .iris{
+.eye-art .black-line{
     stroke:var(--black);
 }
 
-.hero-side-label{
-    position:absolute;
-    right:-4px;
-    top:50%;
 
-    transform:
-        translateY(-50%)
-        rotate(90deg);
+/* =========================================================
+   CREDENTIAL STRIP
+========================================================= */
 
-    transform-origin:center;
+.credentials{
 
-    font-size:9px;
-    letter-spacing:4px;
-    text-transform:uppercase;
-    color:#888;
-}
-
-
-/* =========================
-   INTRO STATEMENT
-========================= */
-
-.statement{
     background:var(--black);
+
     color:var(--ivory);
-    padding:120px 0;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.statement-grid{
+.credentials-grid{
+
     display:grid;
-    grid-template-columns:200px 1fr;
-    gap:80px;
+
+    grid-template-columns:
+        repeat(4,1fr);
 }
 
-.statement-title{
+.credential{
+
+    padding:35px 30px;
+
+    border-right:1px solid rgba(255,255,255,.1);
+}
+
+.credential:first-child{
+    padding-left:0;
+}
+
+.credential:last-child{
+    border-right:0;
+}
+
+.credential-number{
+
     font-family:var(--serif);
-    font-size:clamp(38px,5vw,70px);
-    line-height:1.08;
-    max-width:930px;
-    letter-spacing:-.035em;
-}
 
-.statement-title em{
+    font-size:28px;
+
     color:var(--gold-light);
 }
 
-.statement-note{
-    margin-top:40px;
-    max-width:670px;
+.credential-title{
 
-    font-size:14px;
-    line-height:1.9;
+    margin-top:4px;
 
-    color:#aaa;
+    font-family:var(--sans);
+
+    font-size:11px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+}
+
+.credential-text{
+
+    margin-top:4px;
+
+    color:#8e9390;
+
+    font-size:11px;
 }
 
 
-/* =========================
-   ABOUT
-========================= */
+/* =========================================================
+   INTRODUCTION
+========================================================= */
 
-.about{
+.introduction{
+
+    padding:145px 0;
+
     background:var(--ivory);
 }
 
-.about-grid{
+.introduction-grid{
+
     display:grid;
-    grid-template-columns:.65fr 1.35fr;
-    gap:100px;
+
+    grid-template-columns:
+        210px
+        1fr;
+
+    gap:90px;
 }
 
-.section-heading{
-    font-family:var(--sans);
-    font-size:clamp(38px,4.5vw,68px);
-    line-height:.98;
-    letter-spacing:-.055em;
-    margin-top:20px;
-}
+.introduction-quote{
 
-.about-content{
-    padding-top:65px;
-}
-
-.about-lead{
     font-family:var(--serif);
-    font-size:31px;
-    line-height:1.35;
-    margin-bottom:40px;
+
+    font-size:clamp(40px,5vw,72px);
+
+    line-height:1.05;
+
+    letter-spacing:-.04em;
+
+    max-width:950px;
 }
 
-.about-content p{
-    max-width:760px;
-    color:#606463;
+.introduction-quote em{
+
+    color:#777b79;
+}
+
+.introduction-text{
+
+    margin-top:40px;
+
+    max-width:720px;
+
+    color:#666a68;
+
     font-size:15px;
+
     line-height:1.95;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile{
+
+    background:#e6e3db;
+}
+
+.profile-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        .65fr
+        1.35fr;
+
+    gap:110px;
+}
+
+.section-title{
+
+    margin-top:20px;
+
+    font-family:var(--sans);
+
+    font-size:clamp(42px,5vw,72px);
+
+    line-height:.93;
+
+    letter-spacing:-.065em;
+}
+
+.profile-content{
+
+    padding-top:55px;
+}
+
+.profile-lead{
+
+    font-family:var(--serif);
+
+    font-size:31px;
+
+    line-height:1.35;
+
+    max-width:760px;
+
+    margin-bottom:35px;
+}
+
+.profile-content p{
+
+    max-width:780px;
+
+    color:#5f6461;
+
+    font-size:14px;
+
+    line-height:1.95;
+
     margin-bottom:22px;
 }
 
-.about-signature{
-    margin-top:48px;
+.signature{
+
+    margin-top:45px;
+
     display:flex;
+
     align-items:center;
-    gap:20px;
+
+    gap:18px;
 }
 
 .signature-line{
+
     width:75px;
+
     height:1px;
+
     background:var(--gold);
 }
 
-.signature{
+.signature-name{
+
     font-family:var(--serif);
+
     font-style:italic;
-    font-size:23px;
+
+    font-size:24px;
 }
 
 
-/* =========================
-   EXPERTISE
-========================= */
+/* =========================================================
+   SPECIALISATION
+========================================================= */
 
-.expertise{
-    background:#e7e4dc;
+.specialisation{
+
+    background:var(--ivory);
 }
 
-.expertise-header{
+.specialisation-header{
+
     display:flex;
+
     align-items:flex-end;
+
     justify-content:space-between;
-    gap:40px;
+
+    gap:50px;
 
     margin-bottom:70px;
 }
 
-.expertise-header p{
-    max-width:430px;
-    color:#646766;
-    font-size:14px;
+.specialisation-header p{
+
+    max-width:450px;
+
+    color:#666b69;
+
+    font-size:13px;
+
+    line-height:1.8;
 }
 
-.expertise-list{
-    border-top:1px solid rgba(0,0,0,.2);
+.specialisation-list{
+
+    border-top:1px solid var(--line);
 }
 
-.expertise-item{
+.specialisation-item{
+
     display:grid;
-    grid-template-columns:100px 1fr 1.4fr 60px;
+
+    grid-template-columns:90px 1.1fr 1.4fr 60px;
+
     gap:30px;
 
     align-items:center;
 
-    padding:32px 0;
+    padding:33px 0;
 
-    border-bottom:1px solid rgba(0,0,0,.18);
+    border-bottom:1px solid var(--line);
 
-    transition:
-        padding .35s ease,
-        background .35s ease;
+    transition:.35s ease;
 }
 
-.expertise-item:hover{
-    padding-left:15px;
-    padding-right:15px;
-    background:rgba(255,255,255,.35);
+.specialisation-item:hover{
+
+    background:rgba(0,0,0,.025);
+
+    padding-left:18px;
+    padding-right:18px;
 }
 
-.expertise-number{
+.special-number{
+
     font-family:var(--serif);
-    font-size:24px;
+
+    font-size:25px;
+
     color:var(--gold);
 }
 
-.expertise-name{
+.special-name{
+
     font-family:var(--sans);
-    font-size:18px;
+
+    font-size:17px;
+
     font-weight:700;
+
+    letter-spacing:-.02em;
 }
 
-.expertise-description{
-    color:#646766;
-    font-size:13px;
-    line-height:1.7;
+.special-description{
+
+    color:#686d6a;
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.expertise-arrow{
-    font-size:20px;
-    text-align:right;
+.special-arrow{
+
     color:var(--gold);
+
+    text-align:right;
+
+    font-size:18px;
 }
 
 
-/* =========================
-   EYE FEATURE
-========================= */
+/* =========================================================
+   SURGERY NUMBERS
+========================================================= */
 
-.eye-section{
-    position:relative;
+.surgery{
+
     background:var(--black);
+
     color:var(--ivory);
+
+    position:relative;
+
     overflow:hidden;
 }
 
-.eye-section-grid{
+.surgery::before{
+
+    content:"10,000+";
+
+    position:absolute;
+
+    right:-60px;
+
+    bottom:-100px;
+
+    font-family:var(--sans);
+
+    font-size:220px;
+
+    font-weight:800;
+
+    letter-spacing:-15px;
+
+    color:rgba(255,255,255,.025);
+
+    pointer-events:none;
+}
+
+.surgery-grid{
+
     display:grid;
+
     grid-template-columns:1fr 1fr;
-    min-height:650px;
+
+    gap:100px;
+
     align-items:center;
 }
 
-.eye-copy{
-    position:relative;
-    z-index:2;
-}
+.surgery-number{
 
-.eye-copy h2{
-    margin-top:20px;
     font-family:var(--sans);
-    font-size:clamp(46px,6vw,88px);
-    line-height:.92;
-    letter-spacing:-.065em;
-}
 
-.eye-copy h2 span{
-    font-family:var(--serif);
-    font-style:italic;
-    font-weight:400;
+    font-size:clamp(80px,10vw,155px);
+
+    line-height:.8;
+
+    letter-spacing:-.08em;
+
     color:var(--gold-light);
 }
 
-.eye-copy p{
-    max-width:520px;
-    margin-top:38px;
-    color:#a9aaa7;
-    font-size:15px;
+.surgery-label{
+
+    margin-top:25px;
+
+    font-family:var(--sans);
+
+    font-size:13px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+}
+
+.surgery-description{
+
+    margin-top:20px;
+
+    color:#8e9390;
+
+    font-size:14px;
+
+    line-height:1.9;
+
+    max-width:550px;
+}
+
+.surgery-right{
+
+    border-left:1px solid rgba(255,255,255,.13);
+
+    padding-left:70px;
+}
+
+.surgery-right h3{
+
+    font-family:var(--serif);
+
+    font-size:45px;
+
+    font-weight:400;
+
+    line-height:1.15;
+}
+
+.surgery-right p{
+
+    margin-top:25px;
+
+    color:#8e9390;
+
+    font-size:14px;
+
     line-height:1.9;
 }
 
-.eye-diagram{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+/* =========================================================
+   PROCEDURES
+========================================================= */
+
+.procedures{
+
+    background:#dedbd3;
 }
 
-.big-eye{
-    width:min(100%,620px);
-    overflow:visible;
-}
+.procedures-grid{
 
-.big-eye path,
-.big-eye ellipse,
-.big-eye circle,
-.big-eye line{
-    fill:none;
-    stroke:var(--gold);
-    stroke-width:1;
-}
-
-.big-eye .dark-line{
-    stroke:#555b5a;
-}
-
-.big-eye .fine{
-    stroke:#777b78;
-    stroke-width:.7;
-}
-
-
-/* =========================
-   ACADEMIC
-========================= */
-
-.academic{
-    background:var(--ivory);
-}
-
-.academic-grid{
     display:grid;
-    grid-template-columns:.65fr 1.35fr;
+
+    grid-template-columns:.7fr 1.3fr;
+
     gap:100px;
 }
 
-.academic-content{
-    padding-top:10px;
+.procedure-list{
+
+    border-top:1px solid rgba(0,0,0,.18);
+}
+
+.procedure{
+
+    display:grid;
+
+    grid-template-columns:55px 1fr;
+
+    gap:25px;
+
+    padding:25px 0;
+
+    border-bottom:1px solid rgba(0,0,0,.18);
+}
+
+.procedure-number{
+
+    color:var(--gold);
+
+    font-family:var(--serif);
+
+    font-size:22px;
+}
+
+.procedure-title{
+
+    font-family:var(--sans);
+
+    font-size:15px;
+
+    font-weight:700;
+}
+
+.procedure-text{
+
+    margin-top:5px;
+
+    color:#676c69;
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   EDUCATION
+========================================================= */
+
+.education{
+
+    background:var(--ivory);
+}
+
+.education-grid{
+
+    display:grid;
+
+    grid-template-columns:.7fr 1.3fr;
+
+    gap:100px;
 }
 
 .timeline{
+
     border-top:1px solid var(--line);
 }
 
-.timeline-item{
+.timeline-row{
+
     display:grid;
-    grid-template-columns:150px 1fr;
+
+    grid-template-columns:170px 1fr;
+
     gap:35px;
 
-    padding:30px 0;
+    padding:32px 0;
 
     border-bottom:1px solid var(--line);
 }
 
-.timeline-year{
-    font-family:var(--sans);
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:2px;
+.timeline-label{
+
     color:var(--gold);
+
+    font-family:var(--sans);
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
 }
 
 .timeline-title{
+
     font-family:var(--sans);
+
     font-size:17px;
+
     font-weight:700;
 }
 
-.timeline-detail{
-    margin-top:7px;
+.timeline-sub{
+
+    margin-top:6px;
+
+    color:#6b706d;
+
     font-size:13px;
-    color:#6d706e;
+
+    line-height:1.7;
 }
 
 
-/* =========================
-   PHILOSOPHY
-========================= */
+/* =========================================================
+   ACADEMIC
+========================================================= */
 
-.philosophy{
-    background:#dedbd3;
+.academic{
+
+    background:#e6e3db;
 }
 
-.philosophy-inner{
+.academic-layout{
+
     display:grid;
-    grid-template-columns:1fr 2fr;
-    gap:90px;
-}
 
-.philosophy-quote{
-    font-family:var(--serif);
-    font-size:clamp(38px,5vw,65px);
-    line-height:1.12;
-    letter-spacing:-.035em;
-}
-
-.philosophy-copy{
-    padding-top:15px;
-}
-
-.philosophy-copy p{
-    max-width:700px;
-    font-size:16px;
-    color:#555958;
-    line-height:1.95;
-    margin-bottom:25px;
-}
-
-.philosophy-points{
-    margin-top:45px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:25px;
-}
-
-.point{
-    padding-top:18px;
-    border-top:1px solid rgba(0,0,0,.25);
-}
-
-.point strong{
-    display:block;
-    font-family:var(--sans);
-    font-size:13px;
-    margin-bottom:7px;
-}
-
-.point span{
-    font-size:12px;
-    color:#6b6e6d;
-}
-
-
-/* =========================
-   CONSULTATION
-========================= */
-
-.consultation{
-    background:var(--black);
-    color:var(--ivory);
-}
-
-.consultation-grid{
-    display:grid;
     grid-template-columns:1fr 1fr;
+
     gap:100px;
+
     align-items:center;
 }
 
-.consultation h2{
-    font-family:var(--sans);
-    font-size:clamp(48px,6vw,85px);
-    line-height:.92;
-    letter-spacing:-.06em;
+.academic-quote{
+
+    font-family:var(--serif);
+
+    font-size:clamp(40px,5vw,68px);
+
+    line-height:1.08;
+
+    letter-spacing:-.04em;
 }
 
-.consultation h2 em{
+.academic-quote em{
+
+    color:#777;
+
+}
+
+.academic-copy p{
+
+    color:#606562;
+
+    font-size:14px;
+
+    line-height:1.95;
+
+    margin-bottom:22px;
+}
+
+.academic-tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:30px;
+}
+
+.tag{
+
+    padding:8px 12px;
+
+    border:1px solid rgba(0,0,0,.18);
+
+    font-size:9px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================================================
+   APPROACH
+========================================================= */
+
+.approach{
+
+    background:var(--black);
+
+    color:var(--ivory);
+}
+
+.approach-header{
+
+    max-width:850px;
+
+    margin-bottom:70px;
+}
+
+.approach-title{
+
+    margin-top:20px;
+
+    font-family:var(--sans);
+
+    font-size:clamp(48px,6vw,88px);
+
+    line-height:.92;
+
+    letter-spacing:-.065em;
+}
+
+.approach-title span{
+
     font-family:var(--serif);
+
+    font-style:italic;
+
     font-weight:400;
+
     color:var(--gold-light);
 }
 
-.consultation-copy{
-    color:#a5a7a4;
-    font-size:15px;
-    line-height:1.9;
+.approach-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    border-top:1px solid rgba(255,255,255,.13);
 }
 
-.consultation-copy p{
+.approach-item{
+
+    padding:35px 35px 10px 0;
+
+    margin-right:35px;
+
+    border-right:1px solid rgba(255,255,255,.13);
+}
+
+.approach-item:last-child{
+
+    border-right:0;
+}
+
+.approach-number{
+
+    font-family:var(--serif);
+
+    font-size:28px;
+
+    color:var(--gold-light);
+}
+
+.approach-name{
+
+    margin-top:18px;
+
+    font-family:var(--sans);
+
+    font-size:16px;
+
+    font-weight:700;
+}
+
+.approach-text{
+
+    margin-top:10px;
+
+    color:#8c918e;
+
+    font-size:12px;
+
+    line-height:1.8;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta{
+
+    background:var(--ivory);
+
+    padding:145px 0;
+}
+
+.cta-grid{
+
+    display:grid;
+
+    grid-template-columns:1.1fr .9fr;
+
+    gap:100px;
+
+    align-items:center;
+}
+
+.cta-title{
+
+    font-family:var(--sans);
+
+    font-size:clamp(50px,6vw,90px);
+
+    line-height:.9;
+
+    letter-spacing:-.07em;
+}
+
+.cta-title span{
+
+    display:block;
+
+    font-family:var(--serif);
+
+    font-weight:400;
+
+    font-style:italic;
+
+    color:#777;
+}
+
+.cta-content{
+
+    padding-left:60px;
+
+    border-left:1px solid var(--gold);
+}
+
+.cta-content p{
+
+    color:#626764;
+
+    font-size:14px;
+
+    line-height:1.9;
+
     margin-bottom:30px;
 }
 
-.consultation-button{
-    display:inline-flex;
-    padding:15px 25px;
+.cta-button{
 
-    background:var(--gold);
-    color:var(--black);
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:16px 27px;
+
+    background:var(--black);
+
+    color:var(--ivory);
 
     font-family:var(--sans);
-    font-size:10px;
+
+    font-size:9px;
+
     font-weight:800;
+
     letter-spacing:1.5px;
+
     text-transform:uppercase;
 
     transition:.3s ease;
 }
 
-.consultation-button:hover{
-    background:var(--ivory);
+.cta-button:hover{
+
+    background:var(--gold);
+
+    color:var(--black);
 }
 
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
-footer{
-    background:#080909;
-    color:#999;
-    padding:60px 0 30px;
+.footer{
+
+    background:#070808;
+
+    color:#888;
+
+    padding:70px 0 30px;
 }
 
-.footer-top{
+.footer-grid{
+
     display:grid;
+
     grid-template-columns:2fr 1fr 1fr;
-    gap:60px;
+
+    gap:70px;
 
     padding-bottom:60px;
 
-    border-bottom:1px solid rgba(255,255,255,.1);
+    border-bottom:1px solid rgba(255,255,255,.09);
 }
 
-.footer-brand{
-    color:var(--ivory);
-}
+.footer-name{
 
-.footer-brand h3{
     font-family:var(--serif);
+
+    color:var(--ivory);
+
     font-size:30px;
-    font-weight:400;
 }
 
-.footer-brand p{
-    margin-top:12px;
-    max-width:400px;
+.footer-specialty{
+
+    margin-top:8px;
+
+    font-family:var(--sans);
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    color:var(--gold-light);
+}
+
+.footer-description{
+
+    max-width:430px;
+
+    margin-top:18px;
+
     font-size:12px;
+
     line-height:1.8;
-    color:#777;
+
+    color:#686d6a;
 }
 
 .footer-column h4{
+
     color:var(--gold-light);
+
     font-family:var(--sans);
-    font-size:10px;
+
+    font-size:9px;
+
     letter-spacing:2px;
+
     text-transform:uppercase;
+
     margin-bottom:20px;
 }
 
 .footer-column a{
+
     display:block;
-    font-size:12px;
+
+    font-size:11px;
+
     margin-bottom:10px;
+
     transition:.2s ease;
 }
 
@@ -1011,39 +1700,48 @@ footer{
 }
 
 .footer-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
 
     padding-top:25px;
 
-    font-size:10px;
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    font-size:9px;
+
     letter-spacing:.5px;
 }
 
 
-/* =========================
-   BACK TO TOP
-========================= */
+/* =========================================================
+   FLOATING TOP BUTTON
+========================================================= */
 
-.top-button{
+.top{
+
     position:fixed;
+
     right:25px;
     bottom:25px;
 
-    width:45px;
-    height:45px;
-
-    border:1px solid rgba(0,0,0,.25);
-    background:rgba(245,243,238,.92);
+    width:44px;
+    height:44px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
+
+    border:1px solid rgba(0,0,0,.2);
+
+    background:rgba(244,242,236,.94);
 
     cursor:pointer;
 
     opacity:0;
+
     pointer-events:none;
 
     transition:.3s ease;
@@ -1051,37 +1749,48 @@ footer{
     z-index:900;
 }
 
-.top-button.show{
+.top.show{
+
     opacity:1;
+
     pointer-events:auto;
 }
 
-.top-button:hover{
+.top:hover{
+
     background:var(--black);
+
     color:var(--ivory);
 }
 
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
-@media(max-width:1050px){
+@media(max-width:1100px){
 
     .hero-grid{
+
         grid-template-columns:1fr;
-        gap:50px;
+
+        gap:60px;
     }
 
-    .hero-visual{
-        min-height:620px;
+    .hero-photo-wrap{
+
+        height:630px;
     }
 
-    .portrait-frame{
+    .photo-frame{
+
         position:relative;
+
         top:auto;
         right:auto;
+
         transform:none;
+
         margin:auto;
     }
 
@@ -1089,65 +1798,99 @@ footer{
         display:none;
     }
 
-    .about-grid,
-    .academic-grid,
-    .philosophy-inner{
+    .profile-grid,
+    .education-grid,
+    .procedures-grid{
+
         grid-template-columns:1fr;
-        gap:40px;
-    }
 
-    .about-content{
-        padding-top:0;
-    }
-
-    .academic-grid{
         gap:60px;
     }
 
-    .eye-section-grid{
+    .profile-content{
+        padding-top:0;
+    }
+
+    .surgery-grid{
+
         grid-template-columns:1fr;
+
+        gap:60px;
+    }
+
+    .surgery-right{
+
+        padding-left:0;
+
+        border-left:0;
+
+        padding-top:50px;
+
+        border-top:1px solid rgba(255,255,255,.13);
+    }
+
+    .cta-grid{
+
+        grid-template-columns:1fr;
+
         gap:50px;
     }
 
-    .consultation-grid{
-        grid-template-columns:1fr;
-        gap:50px;
+    .cta-content{
+
+        padding-left:0;
+
+        padding-top:30px;
+
+        border-left:0;
+
+        border-top:1px solid var(--gold);
     }
 
-    .statement-grid{
-        grid-template-columns:1fr;
-        gap:30px;
-    }
 }
 
 
-@media(max-width:760px){
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:800px){
 
     .container{
-        width:min(calc(100% - 36px),var(--max));
+
+        width:min(calc(100% - 38px),var(--max));
     }
 
     .section{
-        padding:90px 0;
+
+        padding:95px 0;
     }
 
-    .site-header{
+    .header{
+
         height:72px;
     }
 
     .nav-links{
+
+        display:none;
+
         position:absolute;
-        top:72px;
+
         left:0;
+        top:72px;
+
         width:100%;
+
+        padding:25px 30px;
 
         background:var(--ivory);
 
-        display:none;
         flex-direction:column;
+
         align-items:flex-start;
 
-        padding:25px 30px;
+        gap:0;
 
         border-bottom:1px solid var(--line);
     }
@@ -1157,147 +1900,225 @@ footer{
     }
 
     .nav-links a{
+
         width:100%;
-        padding:8px 0;
+
+        padding:9px 0;
     }
 
-    .nav-cta{
-        border:none;
-        padding:8px 0;
+    .nav-book{
+
+        border:0;
+
+        padding:9px 0;
     }
 
-    .menu-button{
+    .menu{
         display:block;
     }
 
     .hero{
-        padding-top:120px;
+
+        padding-top:115px;
+
         min-height:auto;
+
         padding-bottom:80px;
     }
 
-    .hero-number{
+    .hero-index{
         display:none;
     }
 
     .hero-title{
-        font-size:clamp(52px,16vw,82px);
+
+        font-size:clamp(55px,15vw,90px);
     }
 
-    .hero-intro{
-        font-size:15px;
-        margin-top:30px;
+    .hero-position{
+
+        font-size:16px;
     }
 
-    .hero-meta{
+    .hero-buttons{
+
         flex-direction:column;
-        gap:18px;
     }
 
-    .hero-actions{
-        flex-direction:column;
-        align-items:stretch;
-    }
+    .btn{
 
-    .button{
         width:100%;
     }
 
-    .hero-visual{
-        min-height:500px;
+    .hero-photo-wrap{
+
+        height:520px;
     }
 
-    .portrait-frame{
-        width:calc(100% - 20px);
+    .photo-frame{
+
+        width:calc(100% - 15px);
+
         height:500px;
     }
 
-    .portrait-offset{
+    .photo-border{
+
         transform:translate(12px,12px);
     }
 
-    .eye-art{
-        width:220px;
-        right:-70px;
+    .credentials-grid{
+
+        grid-template-columns:1fr 1fr;
     }
 
-    .statement{
-        padding:90px 0;
+    .credential{
+
+        border-bottom:1px solid rgba(255,255,255,.1);
     }
 
-    .statement-title{
-        font-size:40px;
+    .credential:nth-child(2){
+
+        border-right:0;
     }
 
-    .expertise-header{
-        display:block;
-    }
+    .introduction-grid{
 
-    .expertise-header p{
-        margin-top:25px;
-    }
-
-    .expertise-item{
-        grid-template-columns:45px 1fr 25px;
-        gap:15px;
-    }
-
-    .expertise-description{
-        grid-column:2 / 4;
-        margin-top:-8px;
-    }
-
-    .timeline-item{
         grid-template-columns:1fr;
-        gap:10px;
-    }
 
-    .philosophy-points{
-        grid-template-columns:1fr;
-    }
-
-    .footer-top{
-        grid-template-columns:1fr;
         gap:35px;
     }
 
-    .footer-bottom{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
+    .specialisation-header{
+
+        display:block;
     }
+
+    .specialisation-header p{
+
+        margin-top:25px;
+    }
+
+    .specialisation-item{
+
+        grid-template-columns:50px 1fr 25px;
+
+        gap:15px;
+    }
+
+    .special-description{
+
+        grid-column:2 / 4;
+
+        margin-top:-6px;
+    }
+
+    .academic-layout{
+
+        grid-template-columns:1fr;
+
+        gap:50px;
+    }
+
+    .approach-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .approach-item{
+
+        margin-right:0;
+
+        padding-right:0;
+
+        padding-bottom:30px;
+
+        border-right:0;
+
+        border-bottom:1px solid rgba(255,255,255,.13);
+    }
+
+    .approach-item:last-child{
+
+        border-bottom:0;
+    }
+
+    .footer-grid{
+
+        grid-template-columns:1fr;
+
+        gap:40px;
+    }
+
 }
 
 
-/* =========================
-   IMAGE FALLBACK
-========================= */
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-.portrait-frame.image-missing{
-    background:
-        linear-gradient(
-            135deg,
-            #d8d4ca,
-            #a8aaa5
-        );
+@media(max-width:520px){
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    .hero-details{
+
+        flex-direction:column;
+
+        gap:17px;
+    }
+
+    .hero-photo-wrap{
+
+        height:450px;
+    }
+
+    .photo-frame{
+
+        height:430px;
+    }
+
+    .eye-art{
+
+        width:210px;
+
+        right:-75px;
+
+        bottom:20px;
+    }
+
+    .credentials-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .credential{
+
+        border-right:0;
+
+        padding-left:0;
+
+        padding-right:0;
+    }
+
+    .timeline-row{
+
+        grid-template-columns:1fr;
+
+        gap:9px;
+    }
+
+    .footer-bottom{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
 }
 
-.portrait-frame.image-missing::after{
-    content:"DR. AKSHRA PAHUJA";
-    color:rgba(0,0,0,.45);
-    font-family:var(--sans);
-    font-size:11px;
-    letter-spacing:4px;
-}
 
-
-/* =========================
-   ACCESSIBILITY
-========================= */
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
 @media(prefers-reduced-motion:reduce){
 
@@ -1313,7 +2134,9 @@ footer{
     }
 
     .reveal{
+
         opacity:1;
+
         transform:none;
     }
 }
@@ -1325,1065 +2148,1443 @@ footer{
 <body>
 
 
-<!-- =========================================
+<!-- =======================================================
      HEADER
-========================================= -->
+======================================================= -->
 
-<header class="site-header" id="siteHeader">
+<header class="header" id="header">
 
-    <div class="container nav">
-
-        <a href="#home" class="brand">
-
-            <div class="brand-mark">
-                A
-            </div>
-
-            <div class="brand-text">
-                <div class="brand-name">
-                    Dr. Akshra Pahuja
-                </div>
-
-                <div class="brand-sub">
-                    Ophthalmology
-                </div>
-            </div>
-
-        </a>
+<div class="container nav">
 
 
-        <nav class="nav-links" id="navLinks">
+<a href="#home" class="brand">
 
-            <a href="#about">About</a>
+<div class="brand-mark">
+A
+</div>
 
-            <a href="#expertise">Expertise</a>
+<div class="brand-info">
 
-            <a href="#academic">Academic</a>
+<div class="brand-name">
+Dr. Akshra Pahuja
+</div>
 
-            <a href="#philosophy">Approach</a>
+<div class="brand-specialty">
+Cornea · Cataract · Refractive Surgery
+</div>
 
-            <a href="#contact" class="nav-cta">
-                Consultation
-            </a>
+</div>
 
-        </nav>
+</a>
 
 
-        <button
-            class="menu-button"
-            id="menuButton"
-            aria-label="Open navigation">
+<nav class="nav-links" id="navLinks">
 
-            <span></span>
-            <span></span>
-            <span></span>
+<a href="#profile">
+Profile
+</a>
 
-        </button>
+<a href="#specialisation">
+Specialisation
+</a>
 
-    </div>
+<a href="#education">
+Education
+</a>
+
+<a href="#academic">
+Academic
+</a>
+
+<a href="#contact" class="nav-book">
+Book Appointment
+</a>
+
+</nav>
+
+
+<button
+class="menu"
+id="menuButton"
+aria-label="Open navigation">
+
+<span></span>
+<span></span>
+<span></span>
+
+</button>
+
+</div>
 
 </header>
 
 
 
-<!-- =========================================
+<!-- =======================================================
      HERO
-========================================= -->
-
-<main>
+======================================================= -->
 
 <section class="hero" id="home">
 
-    <div class="container hero-grid">
+<div class="container hero-grid">
 
 
-        <div class="hero-copy reveal">
+<div class="hero-copy reveal">
 
-            <div class="hero-number">
-                Ophthalmology · 01
-            </div>
-
-            <div class="eyebrow">
-                Ophthalmology
-            </div>
+<div class="hero-index">
+Specialist Ophthalmology · 01
+</div>
 
 
-            <h1 class="hero-title">
-
-                <span>
-                    Dr.
-                </span>
-
-                <span>
-                    Akshra
-                </span>
-
-                <span class="italic">
-                    Pahuja.
-                </span>
-
-            </h1>
+<div class="eyebrow">
+Consultant Ophthalmologist
+</div>
 
 
-            <p class="hero-intro">
-                A contemporary approach to ophthalmic care,
-                combining clinical precision, careful evaluation
-                and a patient-centred understanding of vision and
-                ocular health.
-            </p>
+<h1 class="hero-title">
+
+<span class="first">
+Dr.
+</span>
+
+<span class="second">
+Akshra
+</span>
+
+<span class="surname">
+Pahuja
+</span>
+
+</h1>
 
 
-            <div class="hero-meta">
+<div class="hero-position">
 
-                <div class="meta-item">
+Consultant — Specialist
+<strong>
+Cornea, Cataract & Refractive Surgeon
+</strong>
 
-                    <div class="meta-label">
-                        Specialty
-                    </div>
-
-                    <div class="meta-value">
-                        Ophthalmology
-                    </div>
-
-                </div>
+</div>
 
 
-                <div class="meta-item">
+<p class="hero-summary">
 
-                    <div class="meta-label">
-                        Institution
-                    </div>
+Advanced ophthalmic care with specialised training in
+cornea, cataract and refractive surgery, combining
+microsurgical precision, modern technology and
+patient-centred clinical care.
 
-                    <div class="meta-value">
-                        AIIMS New Delhi
-                    </div>
-
-                </div>
-
-            </div>
+</p>
 
 
-            <div class="hero-actions">
-
-                <a
-                    href="#contact"
-                    class="button primary">
-
-                    Request Consultation
-
-                </a>
+<div class="hero-details">
 
 
-                <a
-                    href="#about"
-                    class="button secondary">
+<div class="detail">
 
-                    Explore Profile
+<div class="detail-label">
+Advanced Training
+</div>
 
-                </a>
+<div class="detail-value">
+AIIMS New Delhi
+</div>
 
-            </div>
-
-        </div>
-
-
-
-        <div class="hero-visual reveal">
-
-            <div class="portrait-frame">
-
-                <!--
-                    Replace this image with the doctor's actual photograph.
-
-                    File:
-                    images/akshra-pahuja.jpg
-                -->
-
-                <img
-                    src="images/akshra-pahuja.jpg"
-                    alt="Dr. Akshra Pahuja"
-                    class="portrait"
-                    id="doctorPortrait">
-
-                <div class="portrait-offset"></div>
-
-            </div>
+</div>
 
 
-            <!-- Ophthalmology line art -->
+<div class="detail">
 
-            <svg
-                class="eye-art"
-                viewBox="0 0 300 180"
-                aria-hidden="true">
+<div class="detail-label">
+Current Practice
+</div>
 
-                <path
-                    d="M20 90
-                       C70 25 225 25 280 90
-                       C225 155 70 155 20 90Z"/>
+<div class="detail-value">
+Acura Vision · Meerut
+</div>
 
-                <ellipse
-                    cx="150"
-                    cy="90"
-                    rx="45"
-                    ry="62"/>
-
-                <circle
-                    cx="150"
-                    cy="90"
-                    r="20"
-                    class="iris"/>
-
-                <circle
-                    cx="150"
-                    cy="90"
-                    r="7"
-                    class="iris"/>
-
-                <path
-                    d="M150 28 L150 152"
-                    opacity=".35"/>
-
-            </svg>
+</div>
 
 
-            <div class="hero-side-label">
-                Precision · Vision · Care
-            </div>
+<div class="detail">
 
-        </div>
+<div class="detail-label">
+Experience
+</div>
 
-    </div>
+<div class="detail-value">
+7+ Years
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="hero-buttons">
+
+<a
+href="#contact"
+class="btn btn-dark">
+
+Book Consultation
+
+</a>
+
+
+<a
+href="#profile"
+class="btn btn-outline">
+
+View Profile
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- HERO PHOTO -->
+
+<div class="hero-photo-wrap reveal">
+
+<div class="photo-frame">
+
+
+<img
+src="images/akshra-pahuja.jpg"
+alt="Dr. Akshra Pahuja, Ophthalmologist"
+class="doctor-image"
+id="doctorImage">
+
+
+<div class="photo-border"></div>
+
+
+<div class="photo-caption">
+
+<div class="photo-caption-small">
+Cornea · Cataract · Refractive Surgery
+</div>
+
+<div class="photo-caption-name">
+Dr. Akshra Pahuja
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ophthalmic line art -->
+
+<svg
+class="eye-art"
+viewBox="0 0 300 180"
+aria-hidden="true">
+
+<path
+d="M20 90
+C70 25 225 25 280 90
+C225 155 70 155 20 90Z"/>
+
+<ellipse
+cx="150"
+cy="90"
+rx="45"
+ry="62"/>
+
+<circle
+cx="150"
+cy="90"
+r="20"/>
+
+<circle
+cx="150"
+cy="90"
+r="7"
+class="black-line"/>
+
+<path
+d="M150 28 L150 152"
+opacity=".3"/>
+
+</svg>
+
+</div>
+
+</div>
 
 </section>
 
 
 
-<!-- =========================================
-     STATEMENT
-========================================= -->
+<!-- =======================================================
+     CREDENTIAL STRIP
+======================================================= -->
 
-<section class="statement">
+<section class="credentials">
 
-    <div class="container statement-grid">
-
-        <div class="eyebrow reveal">
-            Clinical Philosophy
-        </div>
-
-        <div class="reveal">
-
-            <h2 class="statement-title">
-
-                Vision is more than
-                <em>what we see.</em>
-
-                It shapes how we
-                experience the world.
-
-            </h2>
+<div class="container credentials-grid">
 
 
-            <p class="statement-note">
+<div class="credential reveal">
 
-                Ophthalmic care demands both technical precision
-                and an understanding of the individual behind
-                every examination. The objective is not simply
-                to measure vision, but to understand the visual
-                health of each patient in context.
+<div class="credential-number">
+MD
+</div>
 
-            </p>
+<div class="credential-title">
+Ophthalmology
+</div>
 
-        </div>
+<div class="credential-text">
+AIIMS, New Delhi
+</div>
 
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     ABOUT
-========================================= -->
-
-<section class="section about" id="about">
-
-    <div class="container about-grid">
+</div>
 
 
-        <div class="reveal">
+<div class="credential reveal">
 
-            <div class="eyebrow">
-                01 · Profile
-            </div>
+<div class="credential-number">
+FAICO
+</div>
 
-            <h2 class="section-heading">
-                A precise<br>
-                clinical eye.
-            </h2>
+<div class="credential-title">
+Refractive Surgery
+</div>
 
-        </div>
+<div class="credential-text">
+Advanced professional qualification
+</div>
 
-
-        <div class="about-content reveal">
-
-            <div class="about-lead">
-
-                Thoughtful diagnosis.
-                Evidence-informed care.
-                Clear communication.
-
-            </div>
+</div>
 
 
-            <p>
-                Dr. Akshra Pahuja is an ophthalmologist with an
-                interest in comprehensive evaluation and management
-                of ocular health.
-            </p>
+<div class="credential reveal">
+
+<div class="credential-number">
+10K+
+</div>
+
+<div class="credential-title">
+Cataract Surgeries
+</div>
+
+<div class="credential-text">
+Including advanced cataract procedures
+</div>
+
+</div>
 
 
-            <p>
-                The practice philosophy centres on systematic
-                clinical assessment, appropriate investigations,
-                evidence-based treatment and ensuring that patients
-                understand their condition and available options.
-            </p>
+<div class="credential reveal">
+
+<div class="credential-number">
+500+
+</div>
+
+<div class="credential-title">
+Paediatric Cataracts
+</div>
+
+<div class="credential-text">
+Including infant cataract surgery
+</div>
+
+</div>
 
 
-            <p>
-                Every consultation begins with listening carefully,
-                examining systematically and translating complex
-                clinical information into a clear plan.
-            </p>
-
-
-            <div class="about-signature">
-
-                <div class="signature-line"></div>
-
-                <div class="signature">
-                    Akshra Pahuja
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================================
-     EXPERTISE
-========================================= -->
+<!-- =======================================================
+     INTRODUCTION
+======================================================= -->
 
-<section class="section expertise" id="expertise">
+<section class="introduction">
 
-    <div class="container">
-
-
-        <div class="expertise-header reveal">
-
-            <div>
-
-                <div class="eyebrow">
-                    02 · Clinical Focus
-                </div>
-
-                <h2 class="section-heading">
-                    Areas of<br>
-                    expertise.
-                </h2>
-
-            </div>
+<div class="container introduction-grid">
 
 
-            <p>
-                A structured approach to common and complex
-                ophthalmic presentations, with emphasis on
-                accurate assessment and appropriate referral
-                when required.
-            </p>
-
-        </div>
+<div class="eyebrow reveal">
+01 · Clinical Identity
+</div>
 
 
-        <div class="expertise-list">
+<div class="reveal">
+
+<h2 class="introduction-quote">
+
+Advanced eye care,
+grounded in
+<em>precision.</em>
+
+</h2>
 
 
-            <div class="expertise-item reveal">
+<p class="introduction-text">
 
-                <div class="expertise-number">
-                    01
-                </div>
+Dr. Akshra Pahuja is a Cornea, Cataract and Refractive
+Surgeon with advanced training from the Dr. Rajendra Prasad
+Centre for Ophthalmic Sciences, AIIMS, New Delhi.
 
-                <div class="expertise-name">
-                    Comprehensive Eye Examination
-                </div>
+Her clinical practice encompasses advanced cataract
+surgery, refractive procedures, corneal transplantation,
+keratoconus management and complex anterior segment
+surgery.
 
-                <div class="expertise-description">
-                    Detailed assessment of visual function,
-                    ocular structures and relevant clinical
-                    risk factors.
-                </div>
+</p>
 
-                <div class="expertise-arrow">
-                    →
-                </div>
+</div>
 
-            </div>
-
-
-            <div class="expertise-item reveal">
-
-                <div class="expertise-number">
-                    02
-                </div>
-
-                <div class="expertise-name">
-                    Cataract Evaluation
-                </div>
-
-                <div class="expertise-description">
-                    Clinical assessment of lens changes,
-                    visual symptoms and suitability for
-                    further management.
-                </div>
-
-                <div class="expertise-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="expertise-item reveal">
-
-                <div class="expertise-number">
-                    03
-                </div>
-
-                <div class="expertise-name">
-                    Glaucoma Assessment
-                </div>
-
-                <div class="expertise-description">
-                    Evaluation of intraocular pressure,
-                    optic nerve health and other relevant
-                    clinical parameters.
-                </div>
-
-                <div class="expertise-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="expertise-item reveal">
-
-                <div class="expertise-number">
-                    04
-                </div>
-
-                <div class="expertise-name">
-                    Retinal & Macular Care
-                </div>
-
-                <div class="expertise-description">
-                    Assessment of retinal symptoms and
-                    identification of cases requiring
-                    specialised investigation or referral.
-                </div>
-
-                <div class="expertise-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="expertise-item reveal">
-
-                <div class="expertise-number">
-                    05
-                </div>
-
-                <div class="expertise-name">
-                    Ocular Surface & Dry Eye
-                </div>
-
-                <div class="expertise-description">
-                    Evaluation of ocular discomfort, dryness,
-                    irritation and disorders affecting the
-                    ocular surface.
-                </div>
-
-                <div class="expertise-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="expertise-item reveal">
-
-                <div class="expertise-number">
-                    06
-                </div>
-
-                <div class="expertise-name">
-                    General Ophthalmology
-                </div>
-
-                <div class="expertise-description">
-                    Evaluation and management of a broad range
-                    of routine ophthalmic complaints and
-                    visual concerns.
-                </div>
-
-                <div class="expertise-arrow">
-                    →
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================================
-     EYE VISUAL
-========================================= -->
+<!-- =======================================================
+     PROFILE
+======================================================= -->
 
-<section class="section eye-section">
+<section class="section profile" id="profile">
 
-    <div class="container eye-section-grid">
-
-
-        <div class="eye-copy reveal">
-
-            <div class="eyebrow">
-                The Visual System
-            </div>
+<div class="container profile-grid">
 
 
-            <h2>
-                Precision<br>
-                meets <span>vision.</span>
-            </h2>
+<div class="reveal">
+
+<div class="eyebrow">
+02 · Profile
+</div>
+
+<h2 class="section-title">
+
+A surgeon<br>
+focused on<br>
+<em>vision.</em>
+
+</h2>
+
+</div>
 
 
-            <p>
-                The eye is an extraordinarily precise optical and
-                neurological system. Good ophthalmic care begins
-                with understanding how its individual structures
-                work together — and how subtle changes can affect
-                everyday visual experience.
-            </p>
-
-        </div>
+<div class="profile-content reveal">
 
 
-        <div class="eye-diagram reveal">
+<div class="profile-lead">
 
-            <svg
-                class="big-eye"
-                viewBox="0 0 700 500"
-                aria-hidden="true">
+Advanced surgical expertise,
+combined with a compassionate
+patient-centred approach.
 
-                <!-- outer eye -->
-
-                <path
-                    d="M55 250
-                       C180 70 520 70 645 250
-                       C520 430 180 430 55 250Z"/>
+</div>
 
 
-                <!-- iris -->
+<p>
 
-                <ellipse
-                    cx="350"
-                    cy="250"
-                    rx="95"
-                    ry="120"/>
+Dr. Akshra Pahuja is a highly skilled Cornea, Cataract,
+and Refractive Surgeon with advanced training from the
+prestigious Dr. Rajendra Prasad Centre for Ophthalmic
+Sciences, AIIMS, New Delhi.
 
-
-                <!-- pupil -->
-
-                <circle
-                    cx="350"
-                    cy="250"
-                    r="45"/>
+</p>
 
 
-                <!-- lens -->
+<p>
 
-                <path
-                    d="M350 130
-                       C305 170 305 330 350 370"/>
+She completed her MBBS from University College of Medical
+Sciences, Delhi, followed by MD in Ophthalmology at AIIMS,
+New Delhi, and subsequently served as an Ex-Senior Resident
+in the Department of Cornea, Cataract and Refractive
+Services at AIIMS.
 
-                <path
-                    d="M350 130
-                       C395 170 395 330 350 370"/>
-
-
-                <!-- optic nerve -->
-
-                <path
-                    d="M615 230
-                       C655 225 675 215 695 190"/>
-
-                <path
-                    d="M615 270
-                       C655 275 675 285 695 310"/>
+</p>
 
 
-                <!-- fine anatomical lines -->
+<p>
 
-                <line
-                    x1="350"
-                    y1="20"
-                    x2="350"
-                    y2="130"
-                    class="fine"/>
+Her professional qualifications include FAICO in Refractive
+Surgery and the internationally recognised Certificate of
+the Royal College of Ophthalmologists, UK.
 
-                <line
-                    x1="350"
-                    y1="370"
-                    x2="350"
-                    y2="480"
-                    class="fine"/>
+</p>
 
 
-                <line
-                    x1="130"
-                    y1="130"
-                    x2="250"
-                    y2="190"
-                    class="dark-line"/>
+<p>
 
-                <line
-                    x1="130"
-                    y1="370"
-                    x2="250"
-                    y2="310"
-                    class="dark-line"/>
+With over seven years of experience, her clinical work
+includes advanced cataract surgery, Femto-Cataract,
+laser vision correction, corneal transplantation,
+keratoconus management including CAIRS, and complex
+anterior segment procedures.
+
+</p>
 
 
-                <circle
-                    cx="350"
-                    cy="250"
-                    r="165"
-                    class="fine"
-                    opacity=".45"/>
+<div class="signature">
 
-            </svg>
+<div class="signature-line"></div>
 
-        </div>
+<div class="signature-name">
+Akshra Pahuja
+</div>
 
-    </div>
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
 
-<!-- =========================================
+<!-- =======================================================
+     SPECIALISATION
+======================================================= -->
+
+<section class="section specialisation" id="specialisation">
+
+<div class="container">
+
+
+<div class="specialisation-header reveal">
+
+<div>
+
+<div class="eyebrow">
+03 · Surgical Expertise
+</div>
+
+<h2 class="section-title">
+Specialised<br>
+practice.
+</h2>
+
+</div>
+
+
+<p>
+
+A focused surgical practice spanning cataract,
+refractive, corneal and anterior segment
+ophthalmology.
+
+</p>
+
+</div>
+
+
+
+<div class="specialisation-list">
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+01
+</div>
+
+<div class="special-name">
+Advanced Cataract Surgery
+</div>
+
+<div class="special-description">
+
+Extensive experience in advanced cataract surgery,
+including Femto-Cataract procedures and complex
+cataract cases.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+02
+</div>
+
+<div class="special-name">
+Laser Vision Correction
+</div>
+
+<div class="special-description">
+
+Refractive procedures including Femto-LASIK,
+SMILE/CLEAR, PRK and phakic IOL implantation.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+03
+</div>
+
+<div class="special-name">
+Corneal Surgery
+</div>
+
+<div class="special-description">
+
+Advanced corneal procedures including penetrating
+and lamellar keratoplasty.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+04
+</div>
+
+<div class="special-name">
+Keratoconus
+</div>
+
+<div class="special-description">
+
+Management of keratoconus, including advanced
+approaches such as CAIRS where clinically appropriate.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+05
+</div>
+
+<div class="special-name">
+Paediatric Cataract
+</div>
+
+<div class="special-description">
+
+Extensive experience in paediatric cataract surgery,
+including more than 500 procedures and surgery in
+very young infants.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+<div class="specialisation-item reveal">
+
+<div class="special-number">
+06
+</div>
+
+<div class="special-name">
+Complex Anterior Segment
+</div>
+
+<div class="special-description">
+
+Assessment and surgical management of challenging
+anterior segment and cataract presentations.
+
+</div>
+
+<div class="special-arrow">
+→
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SURGERY NUMBERS
+======================================================= -->
+
+<section class="section surgery">
+
+<div class="container surgery-grid">
+
+
+<div class="reveal">
+
+<div class="eyebrow">
+Surgical Experience
+</div>
+
+<div class="surgery-number">
+10K+
+</div>
+
+<div class="surgery-label">
+Cataract surgeries
+</div>
+
+<p class="surgery-description">
+
+More than 10,000 cataract surgeries, including
+advanced and complex cataract procedures.
+
+</p>
+
+</div>
+
+
+<div class="surgery-right reveal">
+
+<h3>
+
+Experience that
+translates into
+surgical precision.
+
+</h3>
+
+<p>
+
+Dr. Akshra's surgical experience spans routine,
+advanced and complex cataract cases, refractive
+procedures, corneal surgery and paediatric cataract
+surgery.
+
+</p>
+
+<p>
+
+Her experience includes more than 500 paediatric
+cataract procedures, including surgery in infants
+as young as three months.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =======================================================
+     PROCEDURES
+======================================================= -->
+
+<section class="section procedures">
+
+<div class="container procedures-grid">
+
+
+<div class="reveal">
+
+<div class="eyebrow">
+04 · Procedures
+</div>
+
+<h2 class="section-title">
+Modern<br>
+ophthalmic<br>
+surgery.
+</h2>
+
+</div>
+
+
+<div class="procedure-list">
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+01
+</div>
+
+<div>
+
+<div class="procedure-title">
+Femto-Cataract Surgery
+</div>
+
+<div class="procedure-text">
+Laser-assisted cataract surgery as clinically indicated.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+02
+</div>
+
+<div>
+
+<div class="procedure-title">
+Femto-LASIK
+</div>
+
+<div class="procedure-text">
+Laser vision correction for appropriately selected patients.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+03
+</div>
+
+<div>
+
+<div class="procedure-title">
+SMILE / CLEAR
+</div>
+
+<div class="procedure-text">
+Lenticule extraction procedures for selected refractive errors.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+04
+</div>
+
+<div>
+
+<div class="procedure-title">
+PRK
+</div>
+
+<div class="procedure-text">
+Surface-based laser refractive surgery in appropriate candidates.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+05
+</div>
+
+<div>
+
+<div class="procedure-title">
+Phakic IOL
+</div>
+
+<div class="procedure-text">
+Implantable lens-based refractive correction for selected patients.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="procedure reveal">
+
+<div class="procedure-number">
+06
+</div>
+
+<div>
+
+<div class="procedure-title">
+Corneal Transplantation
+</div>
+
+<div class="procedure-text">
+Penetrating and lamellar keratoplasty procedures.
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =======================================================
+     EDUCATION
+======================================================= -->
+
+<section class="section education" id="education">
+
+<div class="container education-grid">
+
+
+<div class="reveal">
+
+<div class="eyebrow">
+05 · Education
+</div>
+
+<h2 class="section-title">
+Training at<br>
+India's leading<br>
+eye centre.
+</h2>
+
+</div>
+
+
+<div class="timeline">
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-label">
+Postgraduate
+</div>
+
+<div>
+
+<div class="timeline-title">
+MD, Ophthalmology
+</div>
+
+<div class="timeline-sub">
+Dr. Rajendra Prasad Centre for Ophthalmic Sciences,
+AIIMS, New Delhi.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-label">
+Undergraduate
+</div>
+
+<div>
+
+<div class="timeline-title">
+MBBS
+</div>
+
+<div class="timeline-sub">
+University College of Medical Sciences, Delhi.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-label">
+Advanced Training
+</div>
+
+<div>
+
+<div class="timeline-title">
+Ex-Senior Resident
+</div>
+
+<div class="timeline-sub">
+Department of Cornea, Cataract and Refractive Services,
+AIIMS, New Delhi.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-label">
+Professional
+</div>
+
+<div>
+
+<div class="timeline-title">
+FAICO — Refractive Surgery
+</div>
+
+<div class="timeline-sub">
+Professional qualification in refractive surgery.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-row reveal">
+
+<div class="timeline-label">
+International
+</div>
+
+<div>
+
+<div class="timeline-title">
+Certificate of the Royal College of Ophthalmologists
+</div>
+
+<div class="timeline-sub">
+United Kingdom.
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =======================================================
      ACADEMIC
-========================================= -->
+======================================================= -->
 
 <section class="section academic" id="academic">
 
-    <div class="container academic-grid">
+<div class="container academic-layout">
 
 
-        <div class="reveal">
+<div class="academic-quote reveal">
 
-            <div class="eyebrow">
-                03 · Academic
-            </div>
+Clinical practice,
+academic curiosity
+and a commitment to
+<em>continuous learning.</em>
 
-            <h2 class="section-heading">
-                Education &<br>
-                professional<br>
-                journey.
-            </h2>
-
-        </div>
+</div>
 
 
-        <div class="academic-content reveal">
+<div class="academic-copy reveal">
 
-            <div class="timeline">
-
-
-                <!--
-                    EDIT THESE ENTRIES WITH VERIFIED CV DETAILS.
-                -->
+<div class="eyebrow">
+06 · Academic Profile
+</div>
 
 
-                <div class="timeline-item">
+<p>
 
-                    <div class="timeline-year">
-                        EDUCATION
-                    </div>
+Committed to excellence in both clinical practice and
+academics, Dr. Akshra has presented her work at
+prestigious international ophthalmology conferences.
 
-                    <div>
-
-                        <div class="timeline-title">
-                            Postgraduate Training in Ophthalmology
-                        </div>
-
-                        <div class="timeline-detail">
-                            Add verified degree, institution and year
-                            from the doctor's CV.
-                        </div>
-
-                    </div>
-
-                </div>
+</p>
 
 
-                <div class="timeline-item">
+<p>
 
-                    <div class="timeline-year">
-                        MEDICAL EDUCATION
-                    </div>
+Her academic activities include presentations at the
+Asia-Pacific Academy of Ophthalmology (APAO) and the
+European Society of Cataract & Refractive Surgeons
+(ESCRS), as well as participation as invited faculty
+at scientific meetings.
 
-                    <div>
-
-                        <div class="timeline-title">
-                            Undergraduate Medical Education
-                        </div>
-
-                        <div class="timeline-detail">
-                            Add verified MBBS institution and year.
-                        </div>
-
-                    </div>
-
-                </div>
+</p>
 
 
-                <div class="timeline-item">
+<p>
 
-                    <div class="timeline-year">
-                        EXPERIENCE
-                    </div>
+She has also contributed research to reputed
+peer-reviewed journals, reflecting an ongoing
+engagement with evidence-based ophthalmic practice.
 
-                    <div>
-
-                        <div class="timeline-title">
-                            Clinical Ophthalmology
-                        </div>
-
-                        <div class="timeline-detail">
-                            Add verified appointments, hospitals
-                            and areas of clinical responsibility.
-                        </div>
-
-                    </div>
-
-                </div>
+</p>
 
 
-                <div class="timeline-item">
+<div class="academic-tags">
 
-                    <div class="timeline-year">
-                        ACADEMIC
-                    </div>
+<span class="tag">
+APAO
+</span>
 
-                    <div>
+<span class="tag">
+ESCRS
+</span>
 
-                        <div class="timeline-title">
-                            Academic & Professional Activities
-                        </div>
+<span class="tag">
+Research
+</span>
 
-                        <div class="timeline-detail">
-                            Add verified conferences, publications,
-                            presentations or professional memberships.
-                        </div>
+<span class="tag">
+Invited Faculty
+</span>
 
-                    </div>
+<span class="tag">
+Peer-Reviewed Publications
+</span>
 
-                </div>
+</div>
 
+</div>
 
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================================
-     PHILOSOPHY
-========================================= -->
+<!-- =======================================================
+     APPROACH
+======================================================= -->
 
-<section class="section philosophy" id="philosophy">
+<section class="section approach">
 
-    <div class="container philosophy-inner">
-
-
-        <div class="reveal">
-
-            <div class="eyebrow">
-                04 · Approach
-            </div>
-
-            <div class="philosophy-quote">
-                Medicine should be
-                <em>precise</em>,
-                but it should also
-                feel human.
-            </div>
-
-        </div>
+<div class="container">
 
 
-        <div class="philosophy-copy reveal">
+<div class="approach-header reveal">
 
-            <p>
-                A meaningful consultation is not only about
-                identifying a diagnosis. It is about giving
-                patients a clear understanding of what is
-                happening, what needs attention and what can
-                reasonably be expected from treatment.
-            </p>
+<div class="eyebrow">
+07 · Patient Care
+</div>
 
+<h2 class="approach-title">
 
-            <p>
-                The emphasis is on careful examination,
-                transparent communication and decisions
-                grounded in appropriate clinical evidence.
-            </p>
+Technology matters.
+<br>
 
+But so does
+<span>trust.</span>
 
-            <div class="philosophy-points">
+</h2>
+
+</div>
 
 
-                <div class="point">
-
-                    <strong>
-                        01 · Listen
-                    </strong>
-
-                    <span>
-                        Understand the patient's visual concerns
-                        and clinical context.
-                    </span>
-
-                </div>
+<div class="approach-grid">
 
 
-                <div class="point">
+<div class="approach-item reveal">
 
-                    <strong>
-                        02 · Examine
-                    </strong>
+<div class="approach-number">
+01
+</div>
 
-                    <span>
-                        Approach the ocular examination
-                        systematically.
-                    </span>
+<div class="approach-name">
+Listen
+</div>
 
-                </div>
+<div class="approach-text">
+
+Understanding the patient's symptoms,
+expectations and concerns before
+recommending treatment.
+
+</div>
+
+</div>
 
 
-                <div class="point">
+<div class="approach-item reveal">
 
-                    <strong>
-                        03 · Explain
-                    </strong>
+<div class="approach-number">
+02
+</div>
 
-                    <span>
-                        Translate clinical findings into a
-                        comprehensible plan.
-                    </span>
+<div class="approach-name">
+Assess
+</div>
 
-                </div>
+<div class="approach-text">
 
-            </div>
+Detailed clinical evaluation supported
+by appropriate investigations and
+modern ophthalmic technology.
 
-        </div>
+</div>
 
-    </div>
+</div>
+
+
+<div class="approach-item reveal">
+
+<div class="approach-number">
+03
+</div>
+
+<div class="approach-name">
+Personalise
+</div>
+
+<div class="approach-text">
+
+Treatment decisions tailored to the
+patient's ocular health, lifestyle,
+visual requirements and expectations.
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =======================================================
+     CTA
+======================================================= -->
+
+<section class="cta" id="contact">
+
+<div class="container cta-grid">
+
+
+<div class="reveal">
+
+<div class="eyebrow">
+Consultation
+</div>
+
+<h2 class="cta-title">
+
+Clear vision.
+
+<span>
+Clear decisions.
+</span>
+
+</h2>
+
+</div>
+
+
+<div class="cta-content reveal">
+
+<p>
+
+To schedule a consultation with Dr. Akshra Pahuja
+at Acura Vision / Roop Netralaya, Meerut, contact
+the clinic directly.
+
+</p>
+
+
+<p>
+
+<strong>
+Roop Netralaya Building
+</strong><br>
+
+Opposite NAS College,<br>
+Eastern Kutchery Road,<br>
+Meerut – 250001
+
+</p>
+
+
+<a
+href="tel:+918588870093"
+class="cta-button">
+
+Call +91 8588870093
+
+</a>
+
+</div>
+
+</div>
 
 </section>
 
 
 
-<!-- =========================================
-     CONSULTATION
-========================================= -->
-
-<section class="section consultation" id="contact">
-
-    <div class="container consultation-grid">
-
-
-        <div class="reveal">
-
-            <div class="eyebrow">
-                Consultation
-            </div>
-
-            <h2>
-                Your vision<br>
-                deserves <em>clarity.</em>
-            </h2>
-
-        </div>
-
-
-        <div class="consultation-copy reveal">
-
-            <p>
-                For appointments, consultation availability and
-                further information, please use the contact
-                details or booking mechanism provided by the
-                clinic.
-            </p>
-
-
-            <!-- Replace # with actual booking URL -->
-
-            <a
-                href="#"
-                class="consultation-button"
-                onclick="return false;">
-
-                Request an Appointment
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-
-<!-- =========================================
+<!-- =======================================================
      FOOTER
-========================================= -->
+======================================================= -->
 
-<footer>
+<footer class="footer">
 
-    <div class="container">
-
-        <div class="footer-top">
+<div class="container">
 
 
-            <div class="footer-brand">
-
-                <h3>
-                    Dr. Akshra Pahuja
-                </h3>
-
-                <p>
-                    Ophthalmology · Professional Profile
-                </p>
-
-                <p>
-                    A refined digital profile for clinical,
-                    academic and professional information.
-                </p>
-
-            </div>
+<div class="footer-grid">
 
 
-            <div class="footer-column">
+<div>
 
-                <h4>
-                    Navigation
-                </h4>
+<div class="footer-name">
+Dr. Akshra Pahuja
+</div>
 
-                <a href="#about">
-                    About
-                </a>
+<div class="footer-specialty">
+Cornea · Cataract · Refractive Surgery
+</div>
 
-                <a href="#expertise">
-                    Expertise
-                </a>
+<p class="footer-description">
 
-                <a href="#academic">
-                    Academic
-                </a>
+Consultant Specialist in Cornea, Cataract &
+Refractive Surgery at Acura Vision (Roop Netralaya),
+Meerut.
 
-                <a href="#philosophy">
-                    Approach
-                </a>
+</p>
 
-            </div>
+</div>
 
 
-            <div class="footer-column">
+<div class="footer-column">
 
-                <h4>
-                    Contact
-                </h4>
+<h4>
+Profile
+</h4>
 
-                <a href="#contact">
-                    Consultation
-                </a>
+<a href="#profile">
+About Dr. Pahuja
+</a>
 
-                <a href="#">
-                    Location
-                </a>
+<a href="#specialisation">
+Specialisations
+</a>
 
-                <a href="#">
-                    Professional Profile
-                </a>
+<a href="#education">
+Education
+</a>
 
-            </div>
+<a href="#academic">
+Academic Profile
+</a>
+
+</div>
 
 
-        </div>
+<div class="footer-column">
+
+<h4>
+Contact
+</h4>
+
+<a href="tel:+918588870093">
++91 8588870093
+</a>
+
+<a href="mailto:info.acuravision@gmail.com">
+info.acuravision@gmail.com
+</a>
+
+<a
+href="https://www.acuravision.com/book-your-visit"
+target="_blank">
+
+Book Appointment
+</a>
+
+</div>
 
 
-        <div class="footer-bottom">
+</div>
 
-            <span>
-                © <span id="year"></span>
-                Dr. Akshra Pahuja
-            </span>
 
-            <span>
-                Ophthalmology
-            </span>
+<div class="footer-bottom">
 
-        </div>
+<div>
+© <span id="year"></span>
+Dr. Akshra Pahuja
+</div>
 
-    </div>
+<div>
+Acura Vision · Roop Netralaya · Meerut
+</div>
+
+</div>
+
+</div>
 
 </footer>
 
 
 
-<!-- =========================================
+<!-- =======================================================
      BACK TO TOP
-========================================= -->
+======================================================= -->
 
 <button
-    class="top-button"
-    id="topButton"
-    aria-label="Back to top">
+class="top"
+id="topButton"
+aria-label="Back to top">
 
-    ↑
+↑
 
 </button>
 
@@ -2391,44 +3592,50 @@ footer{
 
 <script>
 
-/* =========================================
-   HEADER SCROLL EFFECT
-========================================= */
+/* =========================================================
+   HEADER
+========================================================= */
 
-const header = document.getElementById("siteHeader");
+const header =
+document.getElementById("header");
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
 
     if(window.scrollY > 40){
+
         header.classList.add("scrolled");
+
     }else{
+
         header.classList.remove("scrolled");
+
     }
 
 });
 
 
-/* =========================================
+/* =========================================================
    MOBILE MENU
-========================================= */
+========================================================= */
 
 const menuButton =
-    document.getElementById("menuButton");
+document.getElementById("menuButton");
 
 const navLinks =
-    document.getElementById("navLinks");
+document.getElementById("navLinks");
 
-
-menuButton.addEventListener("click", () => {
+menuButton.addEventListener("click",()=>{
 
     navLinks.classList.toggle("open");
 
 });
 
 
-document.querySelectorAll(".nav-links a").forEach(link => {
+document
+.querySelectorAll(".nav-links a")
+.forEach(link=>{
 
-    link.addEventListener("click", () => {
+    link.addEventListener("click",()=>{
 
         navLinks.classList.remove("open");
 
@@ -2437,61 +3644,57 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 });
 
 
-/* =========================================
+/* =========================================================
    SCROLL REVEAL
-========================================= */
+========================================================= */
 
 const revealElements =
-    document.querySelectorAll(".reveal");
+document.querySelectorAll(".reveal");
+
+const observer =
+new IntersectionObserver(
+
+    entries=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                entry.target.classList.add("visible");
+
+                observer.unobserve(entry.target);
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.1,
+        rootMargin:"0px 0px -40px 0px"
+    }
+
+);
 
 
-const revealObserver =
-    new IntersectionObserver(
+revealElements.forEach(element=>{
 
-        entries => {
-
-            entries.forEach(entry => {
-
-                if(entry.isIntersecting){
-
-                    entry.target.classList.add("visible");
-
-                    revealObserver.unobserve(
-                        entry.target
-                    );
-
-                }
-
-            });
-
-        },
-
-        {
-            threshold:.12,
-            rootMargin:"0px 0px -50px 0px"
-        }
-
-    );
-
-
-revealElements.forEach(element => {
-
-    revealObserver.observe(element);
+    observer.observe(element);
 
 });
 
 
-/* =========================================
+/* =========================================================
    BACK TO TOP
-========================================= */
+========================================================= */
 
 const topButton =
-    document.getElementById("topButton");
+document.getElementById("topButton");
 
+window.addEventListener("scroll",()=>{
 
-window.addEventListener("scroll", () => {
-
-    if(window.scrollY > 600){
+    if(window.scrollY > 650){
 
         topButton.classList.add("show");
 
@@ -2504,73 +3707,82 @@ window.addEventListener("scroll", () => {
 });
 
 
-topButton.addEventListener("click", () => {
+topButton.addEventListener("click",()=>{
 
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 });
 
 
-/* =========================================
+/* =========================================================
    IMAGE FALLBACK
-========================================= */
+========================================================= */
 
-const portrait =
-    document.getElementById("doctorPortrait");
+const doctorImage =
+document.getElementById("doctorImage");
 
+doctorImage.addEventListener("error",()=>{
 
-portrait.addEventListener("error", () => {
+    doctorImage.style.display="none";
 
-    portrait.style.display = "none";
-
-    portrait.parentElement.classList.add(
-        "image-missing"
-    );
+    doctorImage.parentElement.style.background=
+        "linear-gradient(135deg,#d8d5cd,#a9aaa6)";
 
 });
 
 
-/* =========================================
-   CURRENT YEAR
-========================================= */
+/* =========================================================
+   YEAR
+========================================================= */
 
 document.getElementById("year").textContent =
-    new Date().getFullYear();
+new Date().getFullYear();
 
 
-/* =========================================
-   SMOOTH ANCHOR OFFSET
-========================================= */
+/* =========================================================
+   SMOOTH NAVIGATION
+========================================================= */
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document
+.querySelectorAll('a[href^="#"]')
+.forEach(anchor=>{
 
-    anchor.addEventListener("click", function(e){
+    anchor.addEventListener("click",function(e){
+
+        const id =
+        this.getAttribute("href");
+
+        if(id === "#") return;
 
         const target =
-            document.querySelector(
-                this.getAttribute("href")
-            );
+        document.querySelector(id);
 
         if(!target) return;
 
         e.preventDefault();
 
         const headerHeight =
-            document.getElementById(
-                "siteHeader"
-            ).offsetHeight;
+        header.offsetHeight;
 
         const position =
-            target.getBoundingClientRect().top +
-            window.scrollY -
-            headerHeight;
+        target.getBoundingClientRect().top
+        +
+        window.scrollY
+        -
+        headerHeight;
 
         window.scrollTo({
+
             top:position,
+
             behavior:"smooth"
+
         });
 
     });
