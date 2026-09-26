@@ -1,146 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-Dr. Arti Verma (PT) | Women's Health Physiotherapist | Jhansi
-</title>
-
 <meta
-name="description"
-content="Dr. Arti Verma (PT), BPT, Certified Women's Health Physiotherapy Practitioner in Jhansi. Women's health physiotherapy, pelvic floor rehabilitation, pregnancy and postnatal rehabilitation, fertility rehabilitation and sexual health physiotherapy. Home, on-call and online consultation available."
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
 >
 
 <meta
-name="keywords"
-content="Dr Arti Verma physiotherapist, women's health physiotherapy Jhansi, pelvic floor physiotherapy Jhansi, pregnancy physiotherapy, postnatal physiotherapy, fertility rehabilitation, sexual health physiotherapy"
+    name="description"
+    content="Dr. Arti Verma (PT) — BPT, Certified Women's Health Physiotherapy Practitioner in Jhansi. Women's health, pelvic floor, pregnancy, postnatal, fertility and sexual health physiotherapy."
 >
 
-<meta name="author" content="Dr. Arti Verma (PT)">
+<meta
+    name="keywords"
+    content="Dr Arti Verma physiotherapist, physiotherapist Jhansi, women's health physiotherapy Jhansi, pelvic floor physiotherapy, pregnancy physiotherapy, postnatal physiotherapy, fertility physiotherapy, sexual health physiotherapy"
+>
 
+<meta name="author" content="DoctorJet.in">
+
+<title>Dr. Arti Verma (PT) | Physiotherapist in Jhansi</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+    rel="stylesheet"
+>
 
 <style>
 
 /* =========================================================
-   GLOBAL DESIGN SYSTEM
+   ROOT
 ========================================================= */
 
 :root{
-
     --primary:#8b4f6f;
-
     --primary-dark:#63354f;
+    --primary-light:#b87999;
 
     --accent:#c78ca8;
 
     --soft:#faf1f6;
-
     --soft-2:#fff8fb;
 
     --background:#fafafa;
-
     --surface:#ffffff;
 
     --text:#25242a;
-
     --muted:#747078;
 
     --border:#ebe5e9;
 
     --green:#31826b;
+    --green-soft:#edf8f4;
 
     --shadow:
         0 12px 35px rgba(61,35,49,.08);
 
+    --shadow-hover:
+        0 20px 45px rgba(61,35,49,.13);
+
     --radius:18px;
+    --radius-sm:12px;
+
+    --max-width:1180px;
 }
 
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
-
-    box-sizing:border-box;
-
     margin:0;
-
     padding:0;
-
+    box-sizing:border-box;
 }
-
 
 html{
-
     scroll-behavior:smooth;
-
+    scroll-padding-top:90px;
 }
-
 
 body{
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
-
+    font-family:"DM Sans",sans-serif;
     background:var(--background);
-
     color:var(--text);
-
-    line-height:1.6;
-
+    line-height:1.65;
+    overflow-x:hidden;
 }
-
 
 button,
 input,
-textarea,
-select{
-
+select,
+textarea{
     font:inherit;
-
 }
-
 
 button{
-
     cursor:pointer;
-
 }
-
 
 a{
-
-    text-decoration:none;
-
     color:inherit;
-
+    text-decoration:none;
 }
 
+img{
+    max-width:100%;
+    display:block;
+}
+
+.container{
+    width:min(
+        calc(100% - 40px),
+        var(--max-width)
+    );
+    margin:auto;
+}
 
 /* =========================================================
    DOCTORJET TOP BAR
 ========================================================= */
 
 .doctorjet-bar{
-
     position:relative;
-
     width:100%;
-
     height:46px;
-
     max-height:46px;
 
     background:#111111;
-
     color:#ffffff;
 
     overflow:hidden;
@@ -148,32 +139,55 @@ a{
     opacity:1;
 
     transition:
-        max-height .4s ease,
+        max-height .45s ease,
         opacity .3s ease;
+
+    z-index:1100;
 }
 
-
 .doctorjet-bar.collapsed{
-
     max-height:0;
-
     opacity:0;
 }
 
+.doctorjet-bar-inner{
+    height:46px;
 
-/* 5 SECOND TIMER */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.doctorjet-attribution{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+
+    height:100%;
+}
+
+.powered-text{
+    font-size:12px;
+    color:rgba(255,255,255,.72);
+    letter-spacing:.2px;
+}
+
+.doctorjet-logo{
+    width:92px;
+    height:auto;
+    max-height:30px;
+    object-fit:contain;
+}
 
 .doctorjet-timer{
-
     position:absolute;
 
     left:0;
-
     bottom:0;
 
-    height:2px;
-
     width:100%;
+    height:2px;
 
     background:
         linear-gradient(
@@ -185,1593 +199,1906 @@ a{
     transform-origin:left center;
 
     animation:
-        doctorjetCountdown 5s linear forwards;
+        doctorjetCountdown
+        10s
+        linear
+        forwards;
 }
-
 
 @keyframes doctorjetCountdown{
 
     from{
-
         transform:scaleX(1);
-
     }
 
     to{
-
         transform:scaleX(0);
-
     }
 
 }
 
+/* REOPEN TAB */
 
-.doctorjet-bar-inner{
+.doctorjet-reopen{
+    position:fixed;
 
-    max-width:1180px;
+    top:0;
+    left:50%;
 
-    height:46px;
+    transform:
+        translateX(-50%)
+        translateY(-100%);
 
-    margin:auto;
-
-    padding:0 22px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    position:relative;
-}
-
-
-/* Powered by + logo */
-
-.doctorjet-attribution{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:9px;
-
-    line-height:1;
-}
-
-
-.powered-text{
-
-    color:#bdbdbd;
-
-    font-size:10px;
-
-    font-weight:500;
-
-    letter-spacing:.2px;
-}
-
-
-.doctorjet-attribution a{
-
-    display:flex;
-
-    align-items:center;
-
-    height:28px;
-
-    transition:
-        opacity .2s ease,
-        transform .2s ease;
-}
-
-
-.doctorjet-attribution a:hover{
-
-    opacity:.85;
-
-    transform:scale(1.03);
-}
-
-
-.doctorjet-logo{
-
-    display:block;
-
-    width:auto;
-
-    height:25px;
-
-    max-width:135px;
-
-    object-fit:contain;
-}
-
-
-/* CLOSE */
-
-.doctorjet-close{
-
-    position:absolute;
-
-    right:22px;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:26px;
-
-    height:26px;
+    width:54px;
+    height:22px;
 
     border:none;
 
-    border-radius:7px;
+    border-radius:
+        0
+        0
+        10px
+        10px;
 
-    background:rgba(255,255,255,.08);
-
-    color:#ffffff;
-
-    font-size:18px;
-
-    line-height:1;
+    background:#111111;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
     cursor:pointer;
 
+    z-index:1200;
+
+    opacity:0;
+    pointer-events:none;
+
     transition:
-        background .2s ease,
-        transform .2s ease;
+        transform .45s ease,
+        opacity .3s ease;
 }
 
-
-.doctorjet-close:hover{
-
-    background:rgba(255,255,255,.17);
+.doctorjet-reopen.visible{
 
     transform:
-        translateY(-50%)
-        scale(1.05);
+        translateX(-50%)
+        translateY(0);
+
+    opacity:1;
+    pointer-events:auto;
 }
 
+.chevron{
+    width:8px;
+    height:8px;
+
+    border-right:2px solid #ffffff;
+    border-bottom:2px solid #ffffff;
+
+    transform:rotate(45deg);
+
+    margin-top:-4px;
+
+    transition:.25s;
+}
+
+.doctorjet-reopen:hover .chevron{
+    transform:
+        rotate(45deg)
+        translateY(2px);
+}
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
 .navbar{
-
     position:sticky;
-
     top:0;
 
-    z-index:1000;
+    z-index:900;
 
     height:72px;
 
     background:
-        rgba(255,255,255,.94);
+        rgba(255,255,255,.92);
 
     backdrop-filter:blur(18px);
-
     -webkit-backdrop-filter:blur(18px);
 
-    border-bottom:1px solid var(--border);
+    border-bottom:
+        1px solid
+        rgba(235,229,233,.8);
 }
-
 
 .nav-inner{
-
-    max-width:1180px;
-
     height:100%;
 
-    margin:auto;
-
-    padding:0 22px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
+
+    gap:25px;
 }
 
-
-/* BRAND */
-
-.logo{
-
+.nav-brand{
     display:flex;
-
     align-items:center;
+    gap:12px;
 
-    gap:10px;
-
-    font-size:18px;
-
-    font-weight:700;
+    min-width:0;
 }
 
+.nav-avatar{
+    width:43px;
+    height:43px;
 
-.logo-image{
-
-    width:40px;
-
-    height:40px;
-
-    border-radius:12px;
+    border-radius:50%;
 
     object-fit:cover;
 
-    border:2px solid #ffffff;
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,.10);
+    border:
+        2px solid
+        rgba(139,79,111,.18);
 }
 
-
-/* LINKS */
-
-.nav-links{
-
+.nav-name{
     display:flex;
+    flex-direction:column;
 
-    gap:27px;
-
-    color:#67636a;
-
-    font-size:13px;
-
-    font-weight:600;
+    line-height:1.2;
 }
 
-
-.nav-links a{
-
-    transition:.2s;
-
-}
-
-
-.nav-links a:hover{
-
-    color:var(--primary);
-
-}
-
-
-/* NAV BUTTON */
-
-.nav-button{
-
-    border:none;
-
-    background:var(--primary);
-
-    color:#ffffff;
-
-    padding:10px 17px;
-
-    border-radius:11px;
-
-    font-size:13px;
-
+.nav-name strong{
+    font-size:14px;
     font-weight:700;
 
-    transition:.2s;
+    white-space:nowrap;
 }
 
+.nav-name span{
+    font-size:11px;
+    color:var(--muted);
 
-.nav-button:hover{
+    white-space:nowrap;
+}
 
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.nav-links a{
+    font-size:13px;
+    font-weight:600;
+
+    color:#5f5a60;
+
+    transition:
+        color .2s ease;
+}
+
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+.nav-appointment{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:
+        11px
+        18px;
+
+    border:none;
+    border-radius:10px;
+
+    background:var(--primary);
+    color:#ffffff;
+
+    font-size:13px;
+    font-weight:700;
+
+    box-shadow:
+        0 7px 18px
+        rgba(139,79,111,.18);
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.nav-appointment:hover{
     background:var(--primary-dark);
-
     transform:translateY(-1px);
-
 }
 
+.mobile-menu{
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    background:#ffffff;
+}
 
 /* =========================================================
    HERO
 ========================================================= */
 
 .hero{
+    position:relative;
+
+    padding:
+        55px
+        0
+        48px;
 
     background:
-
         radial-gradient(
-            circle at 85% 10%,
+            circle at 10% 10%,
             rgba(199,140,168,.18),
             transparent 30%
         ),
-
         linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #fff8fb 100%
+            135deg,
+            #fffafd,
+            #fafafa
         );
 
-    border-bottom:1px solid var(--border);
+    border-bottom:
+        1px solid
+        var(--border);
 }
 
-
-.hero-inner{
-
-    max-width:1180px;
-
-    margin:auto;
-
-    padding:58px 22px 55px;
-
+.hero-grid{
     display:grid;
 
     grid-template-columns:
         minmax(0,1fr)
-        330px;
+        380px;
 
     gap:55px;
 
     align-items:center;
 }
 
-
-/* PROFILE */
-
-.profile{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:28px;
-}
-
-
-/* PROFILE IMAGE */
-
-.profile-photo{
-
-    width:160px;
-
-    height:160px;
-
-    flex-shrink:0;
-
-    border-radius:32px;
-
-    object-fit:cover;
-
-    background:#f5e5ed;
-
-    border:6px solid #ffffff;
-
-    box-shadow:var(--shadow);
-
-    display:block;
-}
-
-
-/* PROFILE INFO */
-
-.profile-info h1{
-
-    font-size:35px;
-
-    line-height:1.15;
-
-    letter-spacing:-1px;
-
-    margin-bottom:8px;
-}
-
-
 .verified{
-
     display:inline-flex;
+    align-items:center;
+    gap:7px;
 
-    margin-left:6px;
+    padding:
+        6px
+        11px;
+
+    background:
+        rgba(49,130,107,.09);
 
     color:var(--green);
 
-    font-size:13px;
+    border-radius:30px;
 
+    font-size:11px;
     font-weight:700;
 
-    vertical-align:middle;
+    margin-bottom:17px;
 }
 
+.verified-check{
+    width:17px;
+    height:17px;
 
-.degree{
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--green);
+    color:#ffffff;
+
+    font-size:10px;
+}
+
+.hero h1{
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            38px,
+            5vw,
+            58px
+        );
+
+    line-height:1.08;
+
+    letter-spacing:-1.2px;
+
+    margin-bottom:12px;
+
+    color:#29242a;
+}
+
+.hero-subtitle{
+    font-size:17px;
 
     color:var(--primary);
 
-    font-size:16px;
-
     font-weight:700;
-
-    margin-bottom:4px;
-}
-
-
-.qualification{
-
-    color:var(--muted);
-
-    font-size:13px;
 
     margin-bottom:7px;
 }
 
+.hero-qualification{
+    color:var(--muted);
 
-.location{
+    font-size:14px;
 
-    color:#777279;
-
-    font-size:13px;
+    margin-bottom:20px;
 }
 
-
-/* TAGS */
-
-.tags{
-
+.hero-location{
     display:flex;
+    align-items:center;
 
+    gap:7px;
+
+    color:#625d63;
+
+    font-size:14px;
+
+    margin-bottom:25px;
+}
+
+.location-icon{
+    color:var(--primary);
+    font-size:17px;
+}
+
+.hero-tags{
+    display:flex;
     flex-wrap:wrap;
+    gap:9px;
 
-    gap:8px;
-
-    margin-top:18px;
+    margin-bottom:30px;
 }
 
-
-.tag{
-
-    display:inline-block;
-
-    background:var(--soft);
-
-    color:var(--primary-dark);
-
-    padding:7px 11px;
-
-    border-radius:999px;
-
-    font-size:11px;
-
-    font-weight:700;
-}
-
-
-/* =========================================================
-   BOOKING CARD
-========================================================= */
-
-.booking-card{
+.hero-tag{
+    padding:
+        7px
+        12px;
 
     background:#ffffff;
 
-    border:1px solid var(--border);
+    border:
+        1px solid
+        var(--border);
 
-    border-radius:20px;
+    border-radius:30px;
+
+    font-size:11px;
+    font-weight:600;
+
+    color:#625b61;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    min-height:48px;
+
+    padding:
+        0
+        20px;
+
+    border-radius:11px;
+
+    border:none;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:#ffffff;
+
+    box-shadow:
+        0 10px 24px
+        rgba(139,79,111,.2);
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:#ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    color:#514c51;
+}
+
+.btn-secondary:hover{
+    border-color:var(--accent);
+
+    transform:translateY(-2px);
+}
+
+/* HERO PROFILE */
+
+.hero-profile-card{
+    position:relative;
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:28px;
+
+    padding:20px;
+
+    box-shadow:var(--shadow);
+}
+
+.profile-image-wrap{
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:21px;
+
+    aspect-ratio:4 / 4.7;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7e8f0,
+            #fdf8fa
+        );
+}
+
+.profile-image{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.profile-badge{
+    position:absolute;
+
+    left:17px;
+    bottom:17px;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter:blur(10px);
+
+    padding:
+        9px
+        12px;
+
+    border-radius:10px;
+
+    font-size:11px;
+    font-weight:700;
+
+    box-shadow:
+        0 8px 22px
+        rgba(0,0,0,.08);
+}
+
+.profile-badge-dot{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#3a9b78;
+}
+
+/* =========================================================
+   QUICK STATS
+========================================================= */
+
+.quick-stats{
+    padding:25px 0;
+
+    background:#ffffff;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+.stats-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:0;
+}
+
+.stat{
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    min-height:70px;
+
+    padding:10px 20px;
+
+    border-right:
+        1px solid
+        var(--border);
+}
+
+.stat:last-child{
+    border-right:none;
+}
+
+.stat strong{
+    font-size:14px;
+    font-weight:700;
+
+    color:#39343a;
+}
+
+.stat span{
+    font-size:11px;
+
+    color:var(--muted);
+
+    margin-top:3px;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+    padding:82px 0;
+}
+
+.section-soft{
+    background:var(--soft-2);
+}
+
+.section-header{
+    max-width:700px;
+
+    margin-bottom:38px;
+}
+
+.eyebrow{
+    display:inline-block;
+
+    color:var(--primary);
+
+    font-size:11px;
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.6px;
+
+    margin-bottom:9px;
+}
+
+.section-title{
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            30px,
+            4vw,
+            42px
+        );
+
+    line-height:1.2;
+
+    letter-spacing:-.5px;
+
+    margin-bottom:11px;
+}
+
+.section-description{
+    color:var(--muted);
+
+    font-size:14px;
+
+    max-width:650px;
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-grid{
+    display:grid;
+
+    grid-template-columns:
+        1.4fr
+        .6fr;
+
+    gap:45px;
+
+    align-items:start;
+}
+
+.about-content{
+    color:#575158;
+
+    font-size:15px;
+
+    line-height:1.85;
+}
+
+.about-content p{
+    margin-bottom:17px;
+}
+
+.read-more{
+    display:none;
+
+    border:none;
+
+    background:none;
+
+    color:var(--primary);
+
+    font-size:13px;
+    font-weight:700;
+
+    padding:0;
+}
+
+/* INFO CARD */
+
+.info-card{
+    background:#ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius);
 
     padding:25px;
 
     box-shadow:var(--shadow);
 }
 
-
-.booking-card h3{
-
-    font-size:18px;
-
-    margin-bottom:5px;
-}
-
-
-.booking-card p{
-
-    color:var(--muted);
-
-    font-size:13px;
-
-    margin-bottom:18px;
-}
-
-
-.primary-btn{
-
-    width:100%;
-
-    border:none;
-
-    background:var(--primary);
-
-    color:#ffffff;
-
-    padding:13px;
-
-    border-radius:12px;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    transition:.2s;
-}
-
-
-.primary-btn:hover{
-
-    background:var(--primary-dark);
-
-    transform:translateY(-1px);
-}
-
-
-.outline-btn{
-
-    width:100%;
-
-    margin-top:9px;
-
-    background:#ffffff;
-
-    color:var(--primary);
-
-    border:1px solid var(--border);
-
-    padding:12px;
-
-    border-radius:12px;
-
-    font-size:13px;
-
-    font-weight:700;
-}
-
-
-.booking-note{
-
-    margin-top:13px;
-
-    text-align:center;
-
-    color:#8b858a !important;
-
-    font-size:11px !important;
-}
-
-
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats{
-
-    max-width:1180px;
-
-    margin:auto;
-
-    padding:0 22px;
-}
-
-
-.stats-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    background:#ffffff;
-
-    border:1px solid var(--border);
-
-    border-radius:18px;
-
-    overflow:hidden;
-}
-
-
-.stat{
-
-    text-align:center;
-
-    padding:20px 12px;
-
-    border-right:1px solid var(--border);
-}
-
-
-.stat:last-child{
-
-    border-right:none;
-}
-
-
-.stat strong{
-
-    display:block;
-
-    color:var(--primary);
-
-    font-size:17px;
-}
-
-
-.stat span{
-
-    display:block;
-
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.container{
-
-    max-width:1180px;
-
-    margin:32px auto;
-
-    padding:0 22px;
-}
-
-
-.layout{
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        325px;
-
-    gap:24px;
-}
-
-
-.card{
-
-    background:#ffffff;
-
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    padding:27px;
-
-    margin-bottom:20px;
-}
-
-
-.card h2{
-
-    font-size:21px;
-
-    margin-bottom:17px;
-
-    letter-spacing:-.3px;
-}
-
-
-.card h3{
-
+.info-card h3{
     font-size:15px;
 
-    margin-bottom:5px;
+    margin-bottom:17px;
 }
 
+.info-item{
+    display:flex;
 
-.card p{
+    align-items:flex-start;
 
-    color:#5f5d63;
+    gap:12px;
+
+    padding:
+        13px
+        0;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+.info-item:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+}
+
+.info-icon{
+    width:34px;
+    height:34px;
+
+    flex:0 0 34px;
+
+    border-radius:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--soft);
+
+    color:var(--primary);
 
     font-size:14px;
 }
 
+.info-item strong{
+    display:block;
 
-/* =========================================================
-   ABOUT
-========================================================= */
-
-.about-text{
-
-    max-height:125px;
-
-    overflow:hidden;
-
-    transition:max-height .4s ease;
+    font-size:12px;
 }
 
+.info-item span{
+    display:block;
 
-.about-text.expanded{
+    font-size:11px;
 
-    max-height:1000px;
+    color:var(--muted);
+
+    margin-top:2px;
 }
-
-
-.read-more{
-
-    border:none;
-
-    background:none;
-
-    color:var(--primary);
-
-    font-weight:700;
-
-    margin-top:10px;
-}
-
 
 /* =========================================================
    EXPERTISE
 ========================================================= */
 
 .expertise-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:12px;
-}
-
-
-.expertise{
-
-    padding:17px;
-
-    background:var(--soft-2);
-
-    border:1px solid #f0e5eb;
-
-    border-radius:14px;
-}
-
-
-.expertise-icon{
-
-    width:36px;
-
-    height:36px;
-
-    border-radius:10px;
-
-    background:var(--soft);
-
-    color:var(--primary);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    margin-bottom:10px;
-
-    font-size:16px;
-}
-
-
-.expertise strong{
-
-    display:block;
-
-    font-size:14px;
-
-    margin-bottom:4px;
-}
-
-
-.expertise span{
-
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-
-/* =========================================================
-   SERVICES
-========================================================= */
-
-.service{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:15px;
-
-    padding:17px 0;
-
-    border-bottom:1px solid var(--border);
-}
-
-
-.service:last-child{
-
-    border-bottom:none;
-}
-
-
-.service strong{
-
-    display:block;
-
-    font-size:14px;
-}
-
-
-.service span{
-
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-
-.service-price{
-
-    white-space:nowrap;
-
-    color:var(--primary);
-
-    font-size:13px;
-
-    font-weight:800;
-}
-
-
-/* =========================================================
-   CONSULTATION
-========================================================= */
-
-.consultation-grid{
-
     display:grid;
 
     grid-template-columns:
         repeat(3,1fr);
 
-    gap:12px;
+    gap:18px;
 }
 
+.expertise-card{
+    position:relative;
 
-.consultation{
+    background:#ffffff;
 
-    padding:18px;
+    border:
+        1px solid
+        var(--border);
 
-    text-align:center;
+    border-radius:
+        var(--radius);
 
-    border:1px solid var(--border);
+    padding:26px;
 
-    border-radius:14px;
+    min-height:205px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
 }
 
+.expertise-card:hover{
+    transform:translateY(-5px);
 
-.consultation-icon{
+    box-shadow:var(--shadow-hover);
 
-    font-size:22px;
+    border-color:
+        rgba(139,79,111,.25);
+}
+
+.expertise-number{
+    position:absolute;
+
+    top:20px;
+    right:22px;
+
+    font-size:11px;
+    font-weight:800;
+
+    color:#cfc3ca;
+}
+
+.expertise-icon{
+    width:46px;
+    height:46px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    background:var(--soft);
+
+    color:var(--primary);
+
+    font-size:19px;
+
+    margin-bottom:19px;
+}
+
+.expertise-card h3{
+    font-size:15px;
 
     margin-bottom:8px;
 }
 
+.expertise-card p{
+    font-size:12px;
 
-.consultation strong{
+    color:var(--muted);
 
-    display:block;
+    line-height:1.7;
+}
 
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.services-layout{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        360px;
+
+    gap:35px;
+}
+
+.services-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.service-row{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:
+        18px
+        20px;
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:14px;
+}
+
+.service-left{
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+}
+
+.service-icon{
+    width:40px;
+    height:40px;
+
+    flex:0 0 40px;
+
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--soft);
+
+    color:var(--primary);
+}
+
+.service-row h3{
     font-size:13px;
 }
 
-
-.consultation span{
-
+.service-row p{
     color:var(--muted);
 
     font-size:11px;
 }
 
-
-/* =========================================================
-   TIMELINE
-========================================================= */
-
-.timeline{
-
-    border-left:2px solid #eadde4;
-
-    padding-left:23px;
-}
-
-
-.timeline-item{
-
-    position:relative;
-
-    margin-bottom:23px;
-}
-
-
-.timeline-item:last-child{
-
-    margin-bottom:0;
-}
-
-
-.timeline-item::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:9px;
-
-    height:9px;
-
-    background:var(--primary);
-
-    border-radius:50%;
-
-    left:-29px;
-
-    top:7px;
-
-    border:3px solid #ffffff;
-}
-
-
-.timeline-date{
-
+.service-action{
     color:var(--primary);
 
     font-size:11px;
+    font-weight:700;
 
-    font-weight:800;
-
-    margin-bottom:3px;
+    white-space:nowrap;
 }
-
 
 /* =========================================================
-   SIDEBAR
+   CONSULTATION
 ========================================================= */
 
-.side-card{
+.consult-grid{
+    display:grid;
 
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:18px;
+}
+
+.consult-card{
     background:#ffffff;
 
-    border:1px solid var(--border);
+    border:
+        1px solid
+        var(--border);
 
-    border-radius:var(--radius);
+    border-radius:
+        var(--radius);
 
-    padding:23px;
+    padding:28px;
 
-    margin-bottom:20px;
+    box-shadow:
+        0 5px 18px
+        rgba(50,30,40,.035);
+
+    transition:
+        transform .2s ease;
 }
 
-
-.side-card h3{
-
-    font-size:16px;
-
-    margin-bottom:15px;
+.consult-card:hover{
+    transform:translateY(-4px);
 }
 
+.consult-icon{
+    width:50px;
+    height:50px;
 
-.info-row{
-
-    display:flex;
-
-    gap:11px;
-
-    padding:11px 0;
-
-    border-bottom:1px solid #f0edef;
-}
-
-
-.info-row:last-child{
-
-    border-bottom:none;
-}
-
-
-.info-icon{
-
-    width:34px;
-
-    height:34px;
-
-    flex-shrink:0;
-
-    border-radius:10px;
+    border-radius:14px;
 
     background:var(--soft);
 
     color:var(--primary);
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
+
+    font-size:21px;
+
+    margin-bottom:18px;
 }
 
+.consult-card h3{
+    font-size:16px;
 
-.info-row strong{
+    margin-bottom:8px;
+}
 
-    display:block;
-
+.consult-card p{
     font-size:12px;
-}
-
-
-.info-row span{
-
-    display:block;
 
     color:var(--muted);
 
-    font-size:11px;
+    line-height:1.7;
+
+    margin-bottom:18px;
 }
 
+.consult-link{
+    color:var(--primary);
+
+    font-size:12px;
+    font-weight:700;
+}
+
+/* =========================================================
+   QUALIFICATIONS
+========================================================= */
+
+.timeline{
+    max-width:800px;
+
+    position:relative;
+}
+
+.timeline::before{
+    content:"";
+
+    position:absolute;
+
+    left:8px;
+    top:5px;
+    bottom:5px;
+
+    width:1px;
+
+    background:
+        #dfd5db;
+}
+
+.timeline-item{
+    position:relative;
+
+    padding-left:40px;
+
+    padding-bottom:30px;
+}
+
+.timeline-item:last-child{
+    padding-bottom:0;
+}
+
+.timeline-dot{
+    position:absolute;
+
+    left:0;
+    top:5px;
+
+    width:17px;
+    height:17px;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    border:
+        4px solid
+        var(--primary);
+}
+
+.timeline-item h3{
+    font-size:15px;
+
+    margin-bottom:5px;
+}
+
+.timeline-item p{
+    font-size:12px;
+
+    color:var(--muted);
+}
 
 /* =========================================================
    FAQ
 ========================================================= */
 
-.faq{
-
-    border-bottom:1px solid var(--border);
+.faq-wrapper{
+    max-width:850px;
 }
 
+.faq-item{
+    background:#ffffff;
 
-.faq button{
+    border:
+        1px solid
+        var(--border);
 
+    border-radius:14px;
+
+    margin-bottom:10px;
+
+    overflow:hidden;
+}
+
+.faq-question{
     width:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:
+        18px
+        20px;
 
     border:none;
 
-    background:none;
-
-    padding:17px 0;
-
-    display:flex;
-
-    justify-content:space-between;
+    background:#ffffff;
 
     text-align:left;
 
     font-size:13px;
-
     font-weight:700;
 
-    color:var(--text);
+    color:#363138;
 }
 
+.faq-plus{
+    position:relative;
+
+    width:20px;
+    height:20px;
+
+    flex:0 0 20px;
+}
+
+.faq-plus::before,
+.faq-plus::after{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:11px;
+    height:1.5px;
+
+    background:var(--primary);
+
+    transform:
+        translate(-50%,-50%);
+}
+
+.faq-plus::after{
+    transform:
+        translate(-50%,-50%)
+        rotate(90deg);
+
+    transition:.2s;
+}
+
+.faq-item.active .faq-plus::after{
+    transform:
+        translate(-50%,-50%)
+        rotate(0);
+}
 
 .faq-answer{
+    display:grid;
 
-    max-height:0;
+    grid-template-rows:0fr;
 
+    transition:
+        grid-template-rows .3s ease;
+}
+
+.faq-answer-inner{
     overflow:hidden;
 
-    transition:.3s;
-}
-
-
-.faq-answer p{
-
-    padding-bottom:17px;
+    padding:
+        0
+        20px;
 
     font-size:12px;
+
+    color:var(--muted);
+
+    line-height:1.7;
 }
 
-
-.faq.open .faq-answer{
-
-    max-height:200px;
+.faq-item.active .faq-answer{
+    grid-template-rows:1fr;
 }
 
+.faq-item.active .faq-answer-inner{
+    padding-bottom:18px;
+}
 
-.faq-icon{
+/* =========================================================
+   BOOKING CTA
+========================================================= */
+
+.booking-section{
+    padding:70px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #63354f,
+            #8b4f6f
+        );
+
+    color:#ffffff;
+}
+
+.booking-content{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:35px;
+}
+
+.booking-section .eyebrow{
+    color:#e9cbd9;
+}
+
+.booking-section h2{
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            29px,
+            4vw,
+            40px
+        );
+
+    line-height:1.2;
+
+    margin-bottom:9px;
+}
+
+.booking-section p{
+    max-width:650px;
+
+    color:
+        rgba(255,255,255,.76);
+
+    font-size:13px;
+}
+
+.booking-section .btn-primary{
+    background:#ffffff;
 
     color:var(--primary);
 
-    font-size:18px;
+    box-shadow:none;
 
-    transition:.25s;
+    white-space:nowrap;
 }
 
-
-.faq.open .faq-icon{
-
-    transform:rotate(45deg);
+.booking-section .btn-primary:hover{
+    background:#faf4f7;
 }
-
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-footer{
+.footer{
+    background:#1d1a1d;
 
-    margin-top:50px;
+    color:#ffffff;
 
-    background:#30232b;
+    padding:
+        45px
+        0
+        30px;
+}
 
+.footer-grid{
+    display:grid;
+
+    grid-template-columns:
+        1.5fr
+        1fr
+        1fr;
+
+    gap:40px;
+
+    padding-bottom:35px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.footer-brand{
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:22px;
+
+    margin-bottom:9px;
+}
+
+.footer p{
+    color:
+        rgba(255,255,255,.58);
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+.footer h4{
+    font-size:12px;
+
+    margin-bottom:13px;
+}
+
+.footer-links{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+}
+
+.footer-links a{
+    font-size:11px;
+
+    color:
+        rgba(255,255,255,.58);
+
+    transition:.2s;
+}
+
+.footer-links a:hover{
     color:#ffffff;
 }
 
-
-.footer-inner{
-
-    max-width:1180px;
-
-    margin:auto;
-
-    padding:38px 22px;
-
+.footer-bottom{
     display:flex;
 
     justify-content:space-between;
 
-    gap:30px;
-}
-
-
-.footer-name{
-
-    font-size:17px;
-
-    font-weight:700;
-}
-
-
-.footer-description{
-
-    color:#c9bdc4;
-
-    font-size:11px;
-
-    margin-top:5px;
-}
-
-
-.footer-links{
-
-    display:flex;
-
     gap:20px;
 
-    color:#d9cfd4;
+    padding-top:22px;
 
-    font-size:12px;
+    color:
+        rgba(255,255,255,.42);
+
+    font-size:10px;
 }
-
 
 /* =========================================================
    BOOKING MODAL
 ========================================================= */
 
 .modal-overlay{
-
     position:fixed;
 
     inset:0;
 
-    background:rgba(35,20,28,.55);
+    background:
+        rgba(24,17,22,.65);
 
-    backdrop-filter:blur(7px);
+    backdrop-filter:blur(6px);
 
-    -webkit-backdrop-filter:blur(7px);
+    z-index:2000;
 
-    display:none;
+    display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     padding:20px;
 
-    z-index:2000;
-}
+    opacity:0;
+    visibility:hidden;
 
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+}
 
 .modal-overlay.active{
-
-    display:flex;
+    opacity:1;
+    visibility:visible;
 }
 
+.booking-modal{
+    width:
+        min(
+            100%,
+            560px
+        );
 
-.modal{
+    max-height:
+        calc(100vh - 40px);
 
-    width:100%;
-
-    max-width:470px;
+    overflow-y:auto;
 
     background:#ffffff;
 
     border-radius:22px;
 
-    padding:27px;
-
     box-shadow:
-        0 30px 80px rgba(0,0,0,.25);
+        0 30px 80px
+        rgba(0,0,0,.25);
+
+    transform:
+        translateY(20px)
+        scale(.98);
+
+    transition:
+        transform .25s ease;
 }
 
+.modal-overlay.active .booking-modal{
+    transform:
+        translateY(0)
+        scale(1);
+}
 
 .modal-header{
-
     display:flex;
 
     align-items:center;
-
     justify-content:space-between;
 
-    margin-bottom:20px;
-}
+    gap:20px;
 
+    padding:
+        22px
+        24px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
 
 .modal-header h2{
+    font-family:
+        "Playfair Display",
+        serif;
 
-    font-size:20px;
+    font-size:25px;
 }
 
-
-.close-btn{
-
-    width:34px;
-
-    height:34px;
-
-    border:none;
-
-    background:#f2eff1;
-
-    border-radius:10px;
-
-    font-size:20px;
-}
-
-
-.form-group{
-
-    margin-bottom:14px;
-}
-
-
-.form-group label{
-
-    display:block;
+.modal-header p{
+    color:var(--muted);
 
     font-size:11px;
 
-    font-weight:800;
-
-    margin-bottom:5px;
+    margin-top:2px;
 }
 
+.close-modal{
+    width:38px;
+    height:38px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    background:#ffffff;
+
+    font-size:21px;
+
+    color:#6c666c;
+}
+
+.booking-form{
+    padding:24px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+
+    font-size:11px;
+    font-weight:700;
+
+    margin-bottom:7px;
+}
 
 .form-group input,
 .form-group select,
 .form-group textarea{
-
     width:100%;
 
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    padding:11px;
-
-    outline:none;
+    border:
+        1px solid
+        var(--border);
 
     background:#ffffff;
 
-    font-size:13px;
-}
+    border-radius:10px;
 
+    padding:
+        12px
+        13px;
+
+    outline:none;
+
+    font-size:12px;
+
+    color:var(--text);
+
+    transition:
+        border-color .2s,
+        box-shadow .2s;
+}
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus{
-
     border-color:var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139,79,111,.08);
 }
 
+.form-group textarea{
+    resize:vertical;
+
+    min-height:90px;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:14px;
+}
+
+.form-note{
+    font-size:10px;
+
+    color:var(--muted);
+
+    margin-bottom:17px;
+}
+
+.submit-booking{
+    width:100%;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:11px;
+
+    background:var(--primary);
+
+    color:#ffffff;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.submit-booking:hover{
+    background:var(--primary-dark);
+}
 
 /* =========================================================
    MOBILE CTA
 ========================================================= */
 
-.mobile-cta{
-
+.mobile-book{
     display:none;
-}
 
+    position:fixed;
+
+    left:15px;
+    right:15px;
+    bottom:15px;
+
+    z-index:1500;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:var(--primary);
+
+    color:#ffffff;
+
+    font-weight:700;
+
+    font-size:13px;
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,.2);
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:900px){
+@media(max-width:1000px){
+
+    .hero-grid{
+        grid-template-columns:
+            1fr
+            320px;
+
+        gap:30px;
+    }
 
     .nav-links{
-
-        display:none;
+        gap:15px;
     }
 
-
-    .hero-inner{
-
-        grid-template-columns:1fr;
-    }
-
-
-    .layout{
-
-        grid-template-columns:1fr;
-    }
-
-
-    .stats-grid{
-
+    .expertise-grid{
         grid-template-columns:
             repeat(2,1fr);
     }
 
-
-    .stat:nth-child(2){
-
-        border-right:none;
-    }
-
-
-    .stat:nth-child(-n+2){
-
-        border-bottom:1px solid var(--border);
-    }
-
 }
 
-
-@media(max-width:600px){
-
-    .doctorjet-bar{
-
-        height:42px;
-
-        max-height:42px;
-    }
-
-
-    .doctorjet-bar-inner{
-
-        height:42px;
-
-        padding:
-            0 45px 0 15px;
-    }
-
-
-    .powered-text{
-
-        font-size:9px;
-    }
-
-
-    .doctorjet-logo{
-
-        height:22px;
-
-        max-width:120px;
-    }
-
-
-    .doctorjet-close{
-
-        right:13px;
-
-        width:24px;
-
-        height:24px;
-    }
-
+@media(max-width:800px){
 
     .navbar{
-
-        height:62px;
+        height:64px;
     }
 
-
-    .nav-button{
-
+    .nav-links{
         display:none;
     }
 
-
-    .nav-inner{
-
-        padding:0 16px;
+    .nav-appointment{
+        display:none;
     }
 
-
-    .logo{
-
-        font-size:16px;
+    .mobile-menu{
+        display:block;
     }
 
-
-    .logo-image{
-
-        width:36px;
-
-        height:36px;
+    .hero{
+        padding:
+            40px
+            0;
     }
 
-
-    .hero-inner{
-
-        padding:35px 17px;
+    .hero-grid{
+        grid-template-columns:1fr;
     }
 
+    .hero-profile-card{
+        max-width:430px;
+        width:100%;
 
-    .profile{
+        margin:auto;
 
-        gap:16px;
+        order:-1;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .about-grid,
+    .services-layout{
+        grid-template-columns:1fr;
+    }
+
+    .consult-grid{
+        grid-template-columns:1fr;
+    }
+
+    .booking-content{
+        flex-direction:column;
 
         align-items:flex-start;
     }
 
-
-    .profile-photo{
-
-        width:92px;
-
-        height:92px;
-
-        border-radius:22px;
-
-        border-width:4px;
+    .footer-grid{
+        grid-template-columns:
+            1fr
+            1fr;
     }
 
+}
 
-    .profile-info h1{
+@media(max-width:600px){
 
-        font-size:24px;
+    .container{
+        width:
+            min(
+                calc(100% - 28px),
+                var(--max-width)
+            );
     }
 
+    .doctorjet-bar{
+        height:42px;
+        max-height:42px;
+    }
 
-    .degree{
+    .doctorjet-bar-inner{
+        height:42px;
+    }
 
+    .doctorjet-logo{
+        width:86px;
+    }
+
+    .navbar{
+        height:62px;
+    }
+
+    .nav-avatar{
+        width:38px;
+        height:38px;
+    }
+
+    .hero{
+        padding:
+            30px
+            0
+            35px;
+    }
+
+    .hero-profile-card{
+        padding:12px;
+
+        border-radius:20px;
+    }
+
+    .profile-image-wrap{
+        border-radius:15px;
+    }
+
+    .hero h1{
+        font-size:36px;
+    }
+
+    .hero-subtitle{
+        font-size:15px;
+    }
+
+    .hero-qualification{
         font-size:13px;
     }
 
-
-    .qualification,
-    .location{
-
-        font-size:11px;
-    }
-
-
-    .container{
-
-        padding:0 15px;
-
-        margin-top:20px;
-    }
-
-
-    .stats{
-
-        padding:0 15px;
-    }
-
-
-    .card{
-
-        padding:21px;
-    }
-
-
-    .expertise-grid{
-
-        grid-template-columns:1fr;
-    }
-
-
-    .consultation-grid{
-
-        grid-template-columns:1fr;
-    }
-
-
-    .footer-inner{
-
+    .hero-actions{
         flex-direction:column;
     }
 
-
-    .mobile-cta{
-
-        display:block;
-
-        position:fixed;
-
-        left:0;
-
-        right:0;
-
-        bottom:0;
-
-        background:#ffffff;
-
-        padding:10px 15px;
-
-        border-top:1px solid var(--border);
-
-        z-index:999;
-    }
-
-
-    .mobile-cta button{
-
+    .hero-actions .btn{
         width:100%;
-
-        border:none;
-
-        padding:13px;
-
-        border-radius:12px;
-
-        background:var(--primary);
-
-        color:#ffffff;
-
-        font-weight:800;
     }
 
+    .stats-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
 
-    footer{
+    .stat{
+        border-bottom:
+            1px solid
+            var(--border);
+    }
 
-        padding-bottom:65px;
+    .stat:nth-child(2){
+        border-right:none;
+    }
+
+    .stat:nth-child(3),
+    .stat:nth-child(4){
+        border-bottom:none;
+    }
+
+    .section{
+        padding:
+            60px
+            0;
+    }
+
+    .section-title{
+        font-size:31px;
+    }
+
+    .expertise-grid{
+        grid-template-columns:1fr;
+    }
+
+    .expertise-card{
+        min-height:auto;
+    }
+
+    .service-row{
+        align-items:flex-start;
+    }
+
+    .service-action{
+        display:none;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .mobile-book{
+        display:block;
+    }
+
+    body{
+        padding-bottom:80px;
+    }
+
+}
+
+@media(min-width:601px){
+
+    .mobile-book{
+        display:none !important;
+    }
+
+}
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto !important;
+        transition:none !important;
+        animation:none !important;
     }
 
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
-<!-- =========================================================
-     DOCTORJET POWERED-BY BAR
-========================================================= -->
+<!-- ======================================================
+     DOCTORJET ATTRIBUTION
+====================================================== -->
 
 <div
     class="doctorjet-bar"
@@ -1783,17 +2110,13 @@ footer{
         id="doctorjetTimer"
     ></div>
 
-
     <div class="doctorjet-bar-inner">
 
-
         <div class="doctorjet-attribution">
-
 
             <span class="powered-text">
                 Powered by
             </span>
-
 
             <a
                 href="https://doctorjet.in"
@@ -1803,1690 +2126,1890 @@ footer{
             >
 
                 <img
-                    src="images/powered-by-doctorjet.png"
+                    src="../assets/doctorjet_logo.png"
                     alt="DoctorJet.in"
                     class="doctorjet-logo"
                 >
 
             </a>
 
-
         </div>
-
-
-        <button
-            class="doctorjet-close"
-            id="doctorjetClose"
-            aria-label="Close"
-            title="Close"
-        >
-
-            ×
-
-        </button>
-
 
     </div>
 
 </div>
 
 
-
-<!-- =========================================================
-     NAVIGATION
-========================================================= -->
-
-<header class="navbar">
-
-<nav class="nav-inner">
-
-
-<a href="#" class="logo">
-
-
-<img
-    class="logo-image"
-
-    src="https://scontent.cdninstagram.com/v/t51.82787-19/796324089_18229139860328176_2767295135921975976_n.jpg"
-
-    alt="Dr. Arti Verma (PT)"
->
-
-
-<span>
-Dr. Arti Verma
-</span>
-
-
-</a>
-
-
-
-<div class="nav-links">
-
-
-<a href="#about">
-About
-</a>
-
-
-<a href="#expertise">
-Expertise
-</a>
-
-
-<a href="#services">
-Services
-</a>
-
-
-<a href="#consultation">
-Consultation
-</a>
-
-
-<a href="#faq">
-FAQs
-</a>
-
-
-</div>
-
-
-
 <button
-    class="nav-button"
-    onclick="openBooking()"
+    class="doctorjet-reopen"
+    id="doctorjetReopen"
+    aria-label="Show DoctorJet attribution"
+    title="Powered by DoctorJet.in"
 >
 
-Book Appointment
+    <span class="chevron"></span>
 
 </button>
 
 
-</nav>
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="container nav-inner">
+
+        <a
+            href="#top"
+            class="nav-brand"
+        >
+
+            <img
+                class="nav-avatar"
+                src="https://scontent.cdninstagram.com/v/t51.82787-19/796324089_18229139860328176_2767295135921975976_n.jpg"
+                alt="Dr. Arti Verma"
+            >
+
+            <div class="nav-name">
+
+                <strong>
+                    Dr. Arti Verma
+                </strong>
+
+                <span>
+                    Physiotherapist · Jhansi
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#expertise">
+                Expertise
+            </a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#consultation">
+                Consultation
+            </a>
+
+            <a href="#faq">
+                FAQs
+            </a>
+
+        </nav>
+
+
+        <button
+            class="nav-appointment"
+            onclick="openBooking()"
+        >
+            Book Appointment
+        </button>
+
+
+        <button
+            class="mobile-menu"
+            onclick="document.getElementById('mobileNav').classList.toggle('active')"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+
+    <!-- MOBILE NAV -->
+
+    <div
+        id="mobileNav"
+        style="
+            display:none;
+            background:#fff;
+            border-bottom:1px solid #ebe5e9;
+        "
+    >
+
+        <div
+            class="container"
+            style="
+                padding:15px 0;
+                display:flex;
+                flex-direction:column;
+                gap:13px;
+            "
+        >
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#expertise">
+                Expertise
+            </a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#consultation">
+                Consultation
+            </a>
+
+            <a href="#faq">
+                FAQs
+            </a>
+
+            <button
+                class="btn btn-primary"
+                onclick="openBooking()"
+            >
+                Book Appointment
+            </button>
+
+        </div>
+
+    </div>
 
 </header>
 
 
-
-<!-- =========================================================
+<!-- ======================================================
      HERO
-========================================================= -->
+====================================================== -->
+
+<main id="top">
 
 <section class="hero">
 
+    <div class="container hero-grid">
 
-<div class="hero-inner">
 
+        <div class="hero-content">
 
-<div class="profile">
+            <div class="verified">
 
+                <span class="verified-check">
+                    ✓
+                </span>
 
-<img
-    class="profile-photo"
+                Verified Professional
 
-    src="https://scontent.cdninstagram.com/v/t51.82787-19/796324089_18229139860328176_2767295135921975976_n.jpg"
+            </div>
 
-    alt="Dr. Arti Verma (PT), Women's Health Physiotherapist"
 
-    loading="eager"
->
+            <h1>
+                Dr. Arti Verma
+            </h1>
 
 
-<div class="profile-info">
+            <div class="hero-subtitle">
+                Physiotherapist · Women's Health Specialist
+            </div>
 
 
-<h1>
+            <div class="hero-qualification">
 
-Dr. Arti Verma (PT)
+                BPT · Certified Women's Health
+                Physiotherapy Practitioner
 
-<span class="verified">
-✓ Verified
-</span>
+            </div>
 
-</h1>
 
+            <div class="hero-location">
 
-<div class="degree">
+                <span class="location-icon">
+                    ●
+                </span>
 
-BPT
+                Jhansi, Uttar Pradesh
 
-</div>
+            </div>
 
 
-<div class="qualification">
+            <div class="hero-tags">
 
-Certified Women's Health Physiotherapy Practitioner
+                <span class="hero-tag">
+                    Women's Health
+                </span>
 
-</div>
+                <span class="hero-tag">
+                    Pelvic Floor
+                </span>
 
+                <span class="hero-tag">
+                    Pregnancy & Postnatal
+                </span>
 
-<div class="location">
+                <span class="hero-tag">
+                    Fertility Rehabilitation
+                </span>
 
-📍 Jhansi, Uttar Pradesh
+                <span class="hero-tag">
+                    Sexual Health
+                </span>
 
-</div>
+            </div>
 
 
-<div class="tags">
+            <div class="hero-actions">
 
+                <button
+                    class="btn btn-primary"
+                    onclick="openBooking()"
+                >
+                    Book Appointment
+                    <span>→</span>
+                </button>
 
-<span class="tag">
-Women's Health Physiotherapy
-</span>
 
+                <a
+                    href="#consultation"
+                    class="btn btn-secondary"
+                >
+                    View Consultation Options
+                </a>
 
-<span class="tag">
-Pelvic Floor Rehabilitation
-</span>
+            </div>
 
+        </div>
 
-<span class="tag">
-Pregnancy & Postnatal
-</span>
 
+        <!-- PROFILE CARD -->
 
-<span class="tag">
-Fertility Rehabilitation
-</span>
+        <div class="hero-profile-card">
 
+            <div class="profile-image-wrap">
 
-<span class="tag">
-Sexual Health Physiotherapy
-</span>
+                <img
+                    class="profile-image"
+                    src="https://scontent.cdninstagram.com/v/t51.82787-19/796324089_18229139860328176_2767295135921975976_n.jpg"
+                    alt="Dr. Arti Verma Physiotherapist"
+                >
 
 
-</div>
+                <div class="profile-badge">
 
+                    <span class="profile-badge-dot"></span>
 
-</div>
+                    Accepting Consultations
 
+                </div>
 
-</div>
+            </div>
 
+        </div>
 
-
-<div class="booking-card">
-
-
-<h3>
-Consult Dr. Arti Verma
-</h3>
-
-
-<p>
-
-Specialized physiotherapy care focused on
-women's health, pelvic health and rehabilitation.
-
-</p>
-
-
-<button
-    class="primary-btn"
-    onclick="openBooking()"
->
-
-Book Appointment
-
-</button>
-
-
-<button
-    class="outline-btn"
-    onclick="scrollToSection('consultation')"
->
-
-View Consultation Options
-
-</button>
-
-
-<p class="booking-note">
-
-Home · On-call · Online Consultation
-
-</p>
-
-
-</div>
-
-
-</div>
+    </div>
 
 </section>
 
 
-
-<!-- =========================================================
+<!-- ======================================================
      QUICK STATS
-========================================================= -->
+====================================================== -->
 
-<section class="stats">
+<section class="quick-stats">
 
+    <div class="container stats-grid">
 
-<div class="stats-grid">
+        <div class="stat">
 
+            <strong>
+                Women's Health
+            </strong>
 
-<div class="stat">
+            <span>
+                Primary Focus
+            </span>
 
-<strong>
-Women's Health
-</strong>
-
-<span>
-Focused Practice
-</span>
-
-</div>
+        </div>
 
 
-<div class="stat">
+        <div class="stat">
 
-<strong>
-Pelvic Floor
-</strong>
+            <strong>
+                Pelvic Floor
+            </strong>
 
-<span>
-Specialized Rehabilitation
-</span>
+            <span>
+                Rehabilitation
+            </span>
 
-</div>
-
-
-<div class="stat">
-
-<strong>
-Jhansi
-</strong>
-
-<span>
-Home & On-call
-</span>
-
-</div>
+        </div>
 
 
-<div class="stat">
+        <div class="stat">
 
-<strong>
-Online
-</strong>
+            <strong>
+                Jhansi
+            </strong>
 
-<span>
-Consultation Available
-</span>
+            <span>
+                Practice Location
+            </span>
 
-</div>
+        </div>
 
 
-</div>
+        <div class="stat">
+
+            <strong>
+                Online
+            </strong>
+
+            <span>
+                Consultation Available
+            </span>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-
-<!-- =========================================================
-     MAIN CONTENT
-========================================================= -->
-
-<main class="container">
-
-
-<div class="layout">
-
-
-<!-- =====================================================
-     LEFT COLUMN
-===================================================== -->
-
-<div>
-
-
-<!-- =====================================================
+<!-- ======================================================
      ABOUT
-===================================================== -->
+====================================================== -->
 
 <section
-    class="card"
+    class="section"
     id="about"
 >
 
+    <div class="container">
 
-<h2>
-About Dr. Arti Verma
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                About
+            </span>
 
-<div
-    class="about-text"
-    id="aboutText"
->
+            <h2 class="section-title">
+                Physiotherapy focused on women's health
+            </h2>
 
+            <p class="section-description">
 
-<p>
+                Individualised physiotherapy care focused on
+                women's health, pelvic rehabilitation,
+                pregnancy, postnatal recovery and related
+                functional concerns.
 
-Dr. Arti Verma (PT), BPT, is a Certified Women's Health
-Physiotherapy Practitioner providing specialized physiotherapy
-services focused on women's health and rehabilitation.
+            </p>
 
-</p>
-
-
-<br>
-
-
-<p>
-
-Her areas of expertise include women's health physiotherapy,
-pelvic floor rehabilitation, pregnancy and postnatal
-rehabilitation, fertility rehabilitation and sexual health
-physiotherapy.
-
-</p>
+        </div>
 
 
-<br>
+        <div class="about-grid">
 
 
-<p>
+            <div class="about-content">
 
-Her approach focuses on individualized assessment,
-patient education, therapeutic exercise and functional
-rehabilitation tailored to the patient's needs and goals.
+                <p>
+                    Dr. Arti Verma (PT) is a physiotherapist
+                    with a focused practice in women's health
+                    physiotherapy and rehabilitation.
+                </p>
 
-</p>
+                <p>
+                    Her clinical areas include pelvic floor
+                    rehabilitation, pregnancy and postnatal
+                    physiotherapy, fertility rehabilitation
+                    and sexual health physiotherapy.
+                </p>
+
+                <p>
+                    Physiotherapy programmes are tailored
+                    according to the individual's symptoms,
+                    functional goals, stage of recovery and
+                    clinical requirements.
+                </p>
+
+                <p>
+                    Consultations are available through home
+                    and on-call physiotherapy services in
+                    Jhansi, along with online consultation
+                    where appropriate.
+                </p>
+
+            </div>
 
 
-<br>
+            <aside class="info-card">
+
+                <h3>
+                    Practice Information
+                </h3>
 
 
-<p>
+                <div class="info-item">
 
-Home and on-call physiotherapy services are available
-in Jhansi. Online consultation is also available for
-appropriate concerns, exercise guidance and follow-up.
+                    <div class="info-icon">
+                        ♀
+                    </div>
 
-</p>
+                    <div>
+
+                        <strong>
+                            Primary Focus
+                        </strong>
+
+                        <span>
+                            Women's Health Physiotherapy
+                        </span>
+
+                    </div>
+
+                </div>
 
 
-</div>
+                <div class="info-item">
+
+                    <div class="info-icon">
+                        ♧
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Practice Area
+                        </strong>
+
+                        <span>
+                            Jhansi, Uttar Pradesh
+                        </span>
+
+                    </div>
+
+                </div>
 
 
-<button
-    class="read-more"
-    id="readMore"
->
+                <div class="info-item">
 
-Read More
+                    <div class="info-icon">
+                        ⌂
+                    </div>
 
-</button>
+                    <div>
 
+                        <strong>
+                            Home Visits
+                        </strong>
+
+                        <span>
+                            Available in Jhansi
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+                        ◉
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Online Consultation
+                        </strong>
+
+                        <span>
+                            Available
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- ======================================================
      EXPERTISE
-===================================================== -->
+====================================================== -->
 
 <section
-    class="card"
+    class="section section-soft"
     id="expertise"
 >
 
+    <div class="container">
 
-<h2>
-Areas of Expertise
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                Areas of Expertise
+            </span>
 
-<div class="expertise-grid">
+            <h2 class="section-title">
+                Specialised physiotherapy care
+            </h2>
 
+            <p class="section-description">
 
-<div class="expertise">
+                Focused rehabilitation services across
+                women's health and functional physiotherapy.
 
+            </p>
 
-<div class="expertise-icon">
-♀
-</div>
+        </div>
 
 
-<strong>
-Women's Health Physiotherapy
-</strong>
+        <div class="expertise-grid">
 
 
-<span>
+            <article class="expertise-card">
 
-Specialized physiotherapy focused on women's
-health and functional wellbeing.
+                <span class="expertise-number">
+                    01
+                </span>
 
-</span>
+                <div class="expertise-icon">
+                    ♀
+                </div>
 
+                <h3>
+                    Women's Health Physiotherapy
+                </h3>
 
-</div>
+                <p>
+                    Physiotherapy assessment and
+                    rehabilitation for women's health
+                    related functional concerns.
+                </p>
 
+            </article>
 
 
-<div class="expertise">
+            <article class="expertise-card">
 
+                <span class="expertise-number">
+                    02
+                </span>
 
-<div class="expertise-icon">
-◉
-</div>
+                <div class="expertise-icon">
+                    ◌
+                </div>
 
+                <h3>
+                    Pelvic Floor Rehabilitation
+                </h3>
 
-<strong>
-Pelvic Floor Rehabilitation
-</strong>
+                <p>
+                    Individualised pelvic floor rehabilitation
+                    programmes focused on strength, control
+                    and functional recovery.
+                </p>
 
+            </article>
 
-<span>
 
-Pelvic floor assessment, exercise,
-strengthening and functional rehabilitation.
+            <article class="expertise-card">
 
-</span>
+                <span class="expertise-number">
+                    03
+                </span>
 
+                <div class="expertise-icon">
+                    ♡
+                </div>
 
-</div>
+                <h3>
+                    Pregnancy & Postnatal Rehabilitation
+                </h3>
 
+                <p>
+                    Physiotherapy support during pregnancy
+                    and rehabilitation following childbirth.
+                </p>
 
+            </article>
 
-<div class="expertise">
 
+            <article class="expertise-card">
 
-<div class="expertise-icon">
-♡
-</div>
+                <span class="expertise-number">
+                    04
+                </span>
 
+                <div class="expertise-icon">
+                    ✦
+                </div>
 
-<strong>
-Pregnancy & Postnatal Rehabilitation
-</strong>
+                <h3>
+                    Fertility Rehabilitation
+                </h3>
 
+                <p>
+                    Physiotherapy-based rehabilitation
+                    addressing relevant musculoskeletal
+                    and functional factors.
+                </p>
 
-<span>
+            </article>
 
-Physiotherapy support during pregnancy
-and recovery after childbirth.
 
-</span>
+            <article class="expertise-card">
 
+                <span class="expertise-number">
+                    05
+                </span>
 
-</div>
+                <div class="expertise-icon">
+                    ♡
+                </div>
 
+                <h3>
+                    Sexual Health Physiotherapy
+                </h3>
 
+                <p>
+                    Confidential physiotherapy assessment
+                    and rehabilitation for appropriate
+                    pelvic and sexual health concerns.
+                </p>
 
-<div class="expertise">
+            </article>
 
 
-<div class="expertise-icon">
-✦
-</div>
+            <article class="expertise-card">
 
+                <span class="expertise-number">
+                    06
+                </span>
 
-<strong>
-Fertility Rehabilitation
-</strong>
+                <div class="expertise-icon">
+                    ◎
+                </div>
 
+                <h3>
+                    Functional Rehabilitation
+                </h3>
 
-<span>
+                <p>
+                    Structured rehabilitation designed around
+                    individual mobility, strength and
+                    functional goals.
+                </p>
 
-Pelvic health and movement-focused
-physiotherapy support.
+            </article>
 
-</span>
+        </div>
 
-
-</div>
-
-
-
-<div class="expertise">
-
-
-<div class="expertise-icon">
-♥
-</div>
-
-
-<strong>
-Sexual Health Physiotherapy
-</strong>
-
-
-<span>
-
-Pelvic health physiotherapy for
-sexual-health related concerns.
-
-</span>
-
-
-</div>
-
-
-
-<div class="expertise">
-
-
-<div class="expertise-icon">
-↗
-</div>
-
-
-<strong>
-Functional Rehabilitation
-</strong>
-
-
-<span>
-
-Individualized movement and
-exercise-based rehabilitation.
-
-</span>
-
-
-</div>
-
-
-</div>
-
+    </div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- ======================================================
      SERVICES
-===================================================== -->
+====================================================== -->
 
 <section
-    class="card"
+    class="section"
     id="services"
 >
 
+    <div class="container">
 
-<h2>
-Services
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                Services
+            </span>
 
+            <h2 class="section-title">
+                Consultation and physiotherapy services
+            </h2>
 
-<div class="service">
+            <p class="section-description">
 
+                Flexible options depending on your location,
+                needs and clinical requirements.
 
-<div>
+            </p>
 
+        </div>
 
-<strong>
-Women's Health Physiotherapy Assessment
-</strong>
 
+        <div class="services-layout">
 
-<span>
-Assessment and individualized treatment planning
-</span>
 
+            <div class="services-list">
 
-</div>
 
+                <div class="service-row">
 
-<div class="service-price">
-Consult
-</div>
+                    <div class="service-left">
 
+                        <div class="service-icon">
+                            ♀
+                        </div>
 
-</div>
+                        <div>
 
+                            <h3>
+                                Women's Health Physiotherapy
+                            </h3>
 
+                            <p>
+                                Individualised physiotherapy
+                                assessment and rehabilitation.
+                            </p>
 
-<div class="service">
+                        </div>
 
+                    </div>
 
-<div>
+                    <span class="service-action">
+                        Enquire →
+                    </span>
 
+                </div>
 
-<strong>
-Pelvic Floor Rehabilitation
-</strong>
 
+                <div class="service-row">
 
-<span>
-Pelvic floor strengthening, relaxation and functional training
-</span>
+                    <div class="service-left">
 
+                        <div class="service-icon">
+                            ◌
+                        </div>
 
-</div>
+                        <div>
 
+                            <h3>
+                                Pelvic Floor Rehabilitation
+                            </h3>
 
-<div class="service-price">
-Consult
-</div>
+                            <p>
+                                Pelvic floor assessment and
+                                rehabilitation programmes.
+                            </p>
 
+                        </div>
 
-</div>
+                    </div>
 
+                    <span class="service-action">
+                        Enquire →
+                    </span>
 
+                </div>
 
-<div class="service">
 
+                <div class="service-row">
 
-<div>
+                    <div class="service-left">
 
+                        <div class="service-icon">
+                            ♡
+                        </div>
 
-<strong>
-Pregnancy Physiotherapy
-</strong>
+                        <div>
 
+                            <h3>
+                                Pregnancy & Postnatal Physiotherapy
+                            </h3>
 
-<span>
-Mobility, exercise, posture and physical preparation
-</span>
+                            <p>
+                                Rehabilitation before and
+                                after childbirth.
+                            </p>
 
+                        </div>
 
-</div>
+                    </div>
 
+                    <span class="service-action">
+                        Enquire →
+                    </span>
 
-<div class="service-price">
-Consult
-</div>
+                </div>
 
 
-</div>
+                <div class="service-row">
 
+                    <div class="service-left">
 
+                        <div class="service-icon">
+                            ✦
+                        </div>
 
-<div class="service">
+                        <div>
 
+                            <h3>
+                                Fertility Rehabilitation
+                            </h3>
 
-<div>
+                            <p>
+                                Physiotherapy support for
+                                appropriate fertility-related
+                                rehabilitation needs.
+                            </p>
 
+                        </div>
 
-<strong>
-Postnatal Rehabilitation
-</strong>
+                    </div>
 
+                    <span class="service-action">
+                        Enquire →
+                    </span>
 
-<span>
-Progressive rehabilitation following childbirth
-</span>
+                </div>
 
 
-</div>
+                <div class="service-row">
 
+                    <div class="service-left">
 
-<div class="service-price">
-Consult
-</div>
+                        <div class="service-icon">
+                            ◎
+                        </div>
 
+                        <div>
 
-</div>
+                            <h3>
+                                Sexual Health Physiotherapy
+                            </h3>
 
+                            <p>
+                                Confidential assessment and
+                                rehabilitation.
+                            </p>
 
+                        </div>
 
-<div class="service">
+                    </div>
 
+                    <span class="service-action">
+                        Enquire →
+                    </span>
 
-<div>
+                </div>
 
+            </div>
 
-<strong>
-Fertility Rehabilitation
-</strong>
 
+            <aside class="info-card">
 
-<span>
-Pelvic health and movement-focused physiotherapy
-</span>
+                <h3>
+                    Service Locations
+                </h3>
 
 
-</div>
+                <div class="info-item">
 
+                    <div class="info-icon">
+                        ⌂
+                    </div>
 
-<div class="service-price">
-Consult
-</div>
+                    <div>
 
+                        <strong>
+                            Home Physiotherapy
+                        </strong>
 
-</div>
+                        <span>
+                            Jhansi
+                        </span>
 
+                    </div>
 
+                </div>
 
-<div class="service">
 
+                <div class="info-item">
 
-<div>
+                    <div class="info-icon">
+                        ◉
+                    </div>
 
+                    <div>
 
-<strong>
-Sexual Health Physiotherapy
-</strong>
+                        <strong>
+                            On-Call Physiotherapy
+                        </strong>
 
+                        <span>
+                            Subject to availability
+                        </span>
 
-<span>
-Pelvic health assessment and rehabilitation
-</span>
+                    </div>
 
+                </div>
 
-</div>
 
+                <div class="info-item">
 
-<div class="service-price">
-Consult
-</div>
+                    <div class="info-icon">
+                        ↗
+                    </div>
 
+                    <div>
 
-</div>
+                        <strong>
+                            Online Consultation
+                        </strong>
 
+                        <span>
+                            Available
+                        </span>
 
+                    </div>
 
-<div class="service">
+                </div>
 
+            </aside>
 
-<div>
+        </div>
 
-
-<strong>
-Home Physiotherapy — Jhansi
-</strong>
-
-
-<span>
-Personalized physiotherapy at home
-</span>
-
-
-</div>
-
-
-<div class="service-price">
-On Request
-</div>
-
-
-</div>
-
+    </div>
 
 </section>
 
 
-
-<!-- =====================================================
-     CONSULTATION OPTIONS
-===================================================== -->
+<!-- ======================================================
+     CONSULTATION
+====================================================== -->
 
 <section
-    class="card"
+    class="section section-soft"
     id="consultation"
 >
 
+    <div class="container">
 
-<h2>
-Consultation Options
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                Consultation Options
+            </span>
 
-<div class="consultation-grid">
+            <h2 class="section-title">
+                Choose how you would like to consult
+            </h2>
 
+            <p class="section-description">
 
-<div class="consultation">
+                Select the consultation format that best
+                suits your requirements.
 
+            </p>
 
-<div class="consultation-icon">
-🏠
-</div>
-
-
-<strong>
-Home Physiotherapy
-</strong>
-
-
-<span>
-Available in Jhansi
-</span>
+        </div>
 
 
-</div>
+        <div class="consult-grid">
 
 
+            <article class="consult-card">
 
-<div class="consultation">
+                <div class="consult-icon">
+                    ⌂
+                </div>
 
+                <h3>
+                    Home Physiotherapy
+                </h3>
 
-<div class="consultation-icon">
-📞
-</div>
+                <p>
+                    Physiotherapy services at your home in
+                    Jhansi, subject to location and
+                    appointment availability.
+                </p>
 
+                <a
+                    href="#"
+                    class="consult-link"
+                    onclick="openBooking();return false;"
+                >
+                    Request Home Visit →
+                </a>
 
-<strong>
-On-Call Physiotherapy
-</strong>
-
-
-<span>
-Appointment based
-</span>
-
-
-</div>
-
-
-
-<div class="consultation">
-
-
-<div class="consultation-icon">
-💻
-</div>
+            </article>
 
 
-<strong>
-Online Consultation
-</strong>
+            <article class="consult-card">
+
+                <div class="consult-icon">
+                    ◉
+                </div>
+
+                <h3>
+                    On-Call Physiotherapy
+                </h3>
+
+                <p>
+                    Arrange a physiotherapy consultation
+                    according to availability and clinical
+                    requirements.
+                </p>
+
+                <a
+                    href="#"
+                    class="consult-link"
+                    onclick="openBooking();return false;"
+                >
+                    Request Consultation →
+                </a>
+
+            </article>
 
 
-<span>
-Available
-</span>
+            <article class="consult-card">
 
+                <div class="consult-icon">
+                    ↗
+                </div>
 
-</div>
+                <h3>
+                    Online Consultation
+                </h3>
 
+                <p>
+                    Online consultation for concerns that
+                    can appropriately be assessed and
+                    managed remotely.
+                </p>
 
-</div>
+                <a
+                    href="#"
+                    class="consult-link"
+                    onclick="openBooking();return false;"
+                >
+                    Book Online →
+                </a>
 
+            </article>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- ======================================================
      QUALIFICATIONS
-===================================================== -->
+====================================================== -->
 
-<section class="card">
+<section class="section">
 
+    <div class="container">
 
-<h2>
-Qualifications & Professional Profile
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                Qualifications
+            </span>
 
-<div class="timeline">
+            <h2 class="section-title">
+                Education & professional training
+            </h2>
 
-
-<div class="timeline-item">
-
-
-<div class="timeline-date">
-PROFESSIONAL QUALIFICATION
-</div>
+        </div>
 
 
-<h3>
-Bachelor of Physiotherapy — BPT
-</h3>
+        <div class="timeline">
 
 
-<p>
-Professional qualification in physiotherapy.
-</p>
+            <div class="timeline-item">
+
+                <span class="timeline-dot"></span>
+
+                <h3>
+                    Bachelor of Physiotherapy (BPT)
+                </h3>
+
+                <p>
+                    Professional undergraduate qualification
+                    in physiotherapy.
+                </p>
+
+            </div>
 
 
-</div>
+            <div class="timeline-item">
+
+                <span class="timeline-dot"></span>
+
+                <h3>
+                    Certified Women's Health Physiotherapy Practitioner
+                </h3>
+
+                <p>
+                    Focused professional training in
+                    women's health physiotherapy.
+                </p>
+
+            </div>
 
 
+            <div class="timeline-item">
 
-<div class="timeline-item">
+                <span class="timeline-dot"></span>
 
+                <h3>
+                    Focused Clinical Practice
+                </h3>
 
-<div class="timeline-date">
-CERTIFICATION
-</div>
+                <p>
+                    Women's health, pelvic floor,
+                    pregnancy, postnatal, fertility and
+                    sexual health physiotherapy.
+                </p>
 
+            </div>
 
-<h3>
-Certified Women's Health Physiotherapy Practitioner
-</h3>
+        </div>
 
-
-<p>
-Focused professional training in women's health
-physiotherapy and rehabilitation.
-</p>
-
-
-</div>
-
-
-</div>
-
+    </div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- ======================================================
      FAQ
-===================================================== -->
+====================================================== -->
 
 <section
-    class="card"
+    class="section section-soft"
     id="faq"
 >
 
+    <div class="container">
 
-<h2>
-Frequently Asked Questions
-</h2>
+        <div class="section-header">
 
+            <span class="eyebrow">
+                FAQs
+            </span>
 
+            <h2 class="section-title">
+                Frequently asked questions
+            </h2>
 
-<div class="faq">
+        </div>
 
 
-<button>
+        <div class="faq-wrapper">
 
-Do you provide home physiotherapy in Jhansi?
 
-<span class="faq-icon">
-+
-</span>
+            <div class="faq-item">
 
-</button>
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
+                    <span>
+                        What areas does Dr. Arti Verma specialise in?
+                    </span>
 
-<div class="faq-answer">
+                    <span class="faq-plus"></span>
 
+                </button>
 
-<p>
+                <div class="faq-answer">
 
-Yes. Home and on-call physiotherapy services are
-available in Jhansi, subject to location and
-appointment availability.
+                    <div class="faq-answer-inner">
 
-</p>
+                        Her areas of practice include women's
+                        health physiotherapy, pelvic floor
+                        rehabilitation, pregnancy and
+                        postnatal rehabilitation, fertility
+                        rehabilitation and sexual health
+                        physiotherapy.
 
+                    </div>
 
-</div>
+                </div>
 
+            </div>
 
-</div>
 
+            <div class="faq-item">
 
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
-<div class="faq">
+                    <span>
+                        Are home physiotherapy visits available?
+                    </span>
 
+                    <span class="faq-plus"></span>
 
-<button>
+                </button>
 
-Is online consultation available?
+                <div class="faq-answer">
 
-<span class="faq-icon">
-+
-</span>
+                    <div class="faq-answer-inner">
 
-</button>
+                        Home physiotherapy services are
+                        available in Jhansi, subject to
+                        location and appointment availability.
 
+                    </div>
 
-<div class="faq-answer">
+                </div>
 
+            </div>
 
-<p>
 
-Yes. Online consultation is available for appropriate
-concerns, exercise guidance and follow-up.
+            <div class="faq-item">
 
-</p>
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
+                    <span>
+                        Is online consultation available?
+                    </span>
 
-</div>
+                    <span class="faq-plus"></span>
 
+                </button>
 
-</div>
+                <div class="faq-answer">
 
+                    <div class="faq-answer-inner">
 
+                        Yes. Online consultation is available
+                        for concerns that can appropriately be
+                        assessed and managed remotely.
 
-<div class="faq">
+                    </div>
 
+                </div>
 
-<button>
+            </div>
 
-What does pelvic floor physiotherapy involve?
 
-<span class="faq-icon">
-+
-</span>
+            <div class="faq-item">
 
-</button>
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
+                    <span>
+                        Can I discuss a sensitive women's health concern?
+                    </span>
 
-<div class="faq-answer">
+                    <span class="faq-plus"></span>
 
+                </button>
 
-<p>
+                <div class="faq-answer">
 
-Pelvic floor physiotherapy may include assessment,
-therapeutic exercise, relaxation techniques, movement
-training and individualized rehabilitation depending
-on the patient's needs.
+                    <div class="faq-answer-inner">
 
-</p>
+                        Yes. Women's health and sexual health
+                        concerns can be discussed confidentially
+                        during a consultation.
 
+                    </div>
 
-</div>
+                </div>
 
+            </div>
 
-</div>
 
+            <div class="faq-item">
 
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
-<div class="faq">
+                    <span>
+                        How do I book an appointment?
+                    </span>
 
+                    <span class="faq-plus"></span>
 
-<button>
+                </button>
 
-Can I consult during pregnancy?
+                <div class="faq-answer">
 
-<span class="faq-icon">
-+
-</span>
+                    <div class="faq-answer-inner">
 
-</button>
+                        Click the Book Appointment button,
+                        enter your basic details and preferred
+                        consultation type, and submit the
+                        request through WhatsApp.
 
+                    </div>
 
-<div class="faq-answer">
+                </div>
 
+            </div>
 
-<p>
+        </div>
 
-Pregnancy physiotherapy may help support mobility,
-strength, posture and physical comfort when clinically
-appropriate.
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="faq">
-
-
-<button>
-
-Do I need a doctor's referral?
-
-<span class="faq-icon">
-+
-</span>
-
-</button>
-
-
-<div class="faq-answer">
-
-
-<p>
-
-A referral is not always required. Coordination with
-the treating obstetrician, gynaecologist or physician
-may be appropriate for certain medical conditions.
-
-</p>
-
-
-</div>
-
-
-</div>
-
+    </div>
 
 </section>
 
 
-</div>
+<!-- ======================================================
+     FINAL CTA
+====================================================== -->
 
+<section class="booking-section">
 
+    <div class="container booking-content">
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+        <div>
 
-<aside>
+            <span class="eyebrow">
+                Consultation
+            </span>
 
+            <h2>
+                Ready to start your rehabilitation?
+            </h2>
 
-<div class="side-card">
+            <p>
+                Book a consultation with Dr. Arti Verma
+                and discuss your physiotherapy needs.
+            </p>
 
+        </div>
 
-<h3>
-Practice Information
-</h3>
 
+        <button
+            class="btn btn-primary"
+            onclick="openBooking()"
+        >
+            Book Appointment
+            <span>→</span>
+        </button>
 
+    </div>
 
-<div class="info-row">
-
-
-<div class="info-icon">
-📍
-</div>
-
-
-<div>
-
-
-<strong>
-Location
-</strong>
-
-
-<span>
-Jhansi, Uttar Pradesh
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="info-row">
-
-
-<div class="info-icon">
-🏠
-</div>
-
-
-<div>
-
-
-<strong>
-Home Physiotherapy
-</strong>
-
-
-<span>
-Available in Jhansi
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="info-row">
-
-
-<div class="info-icon">
-📞
-</div>
-
-
-<div>
-
-
-<strong>
-On-Call Services
-</strong>
-
-
-<span>
-Appointment based
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="info-row">
-
-
-<div class="info-icon">
-💻
-</div>
-
-
-<div>
-
-
-<strong>
-Online Consultation
-</strong>
-
-
-<span>
-Available
-</span>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="side-card">
-
-
-<h3>
-Specialized Care
-</h3>
-
-
-<div class="tags">
-
-
-<span class="tag">
-Women's Health
-</span>
-
-
-<span class="tag">
-Pelvic Floor
-</span>
-
-
-<span class="tag">
-Pregnancy
-</span>
-
-
-<span class="tag">
-Postnatal
-</span>
-
-
-<span class="tag">
-Fertility
-</span>
-
-
-<span class="tag">
-Sexual Health
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="side-card">
-
-
-<h3>
-Book a Consultation
-</h3>
-
-
-<p style="margin-bottom:15px">
-
-Connect with Dr. Arti Verma for personalized
-women's health physiotherapy.
-
-</p>
-
-
-<button
-    class="primary-btn"
-    onclick="openBooking()"
->
-
-Request Appointment
-
-</button>
-
-
-</div>
-
-
-</aside>
-
-
-</div>
+</section>
 
 </main>
 
 
-
-<!-- =========================================================
+<!-- ======================================================
      FOOTER
-========================================================= -->
+====================================================== -->
 
-<footer>
+<footer class="footer">
 
+    <div class="container">
 
-<div class="footer-inner">
-
-
-<div>
+        <div class="footer-grid">
 
 
-<div class="footer-name">
+            <div>
 
-Dr. Arti Verma (PT)
+                <div class="footer-brand">
+                    Dr. Arti Verma
+                </div>
 
-</div>
+                <p>
+                    BPT · Certified Women's Health
+                    Physiotherapy Practitioner.
+                </p>
 
+                <p style="margin-top:10px;">
+                    Women's health physiotherapy,
+                    pelvic rehabilitation and
+                    related physiotherapy services
+                    in Jhansi.
+                </p>
 
-<div class="footer-description">
-
-BPT · Certified Women's Health Physiotherapy Practitioner
-
-</div>
-
-
-</div>
-
-
-
-<div class="footer-links">
-
-
-<a href="#about">
-About
-</a>
+            </div>
 
 
-<a href="#expertise">
-Expertise
-</a>
+            <div>
+
+                <h4>
+                    Navigation
+                </h4>
+
+                <div class="footer-links">
+
+                    <a href="#about">
+                        About
+                    </a>
+
+                    <a href="#expertise">
+                        Expertise
+                    </a>
+
+                    <a href="#services">
+                        Services
+                    </a>
+
+                    <a href="#consultation">
+                        Consultation
+                    </a>
+
+                    <a href="#faq">
+                        FAQs
+                    </a>
+
+                </div>
+
+            </div>
 
 
-<a href="#services">
-Services
-</a>
+            <div>
+
+                <h4>
+                    Consultation
+                </h4>
+
+                <div class="footer-links">
+
+                    <a
+                        href="#"
+                        onclick="openBooking();return false;"
+                    >
+                        Book Appointment
+                    </a>
+
+                    <a href="#consultation">
+                        Home Physiotherapy
+                    </a>
+
+                    <a href="#consultation">
+                        On-Call Physiotherapy
+                    </a>
+
+                    <a href="#consultation">
+                        Online Consultation
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
-<a href="#faq">
-FAQs
-</a>
+        <div class="footer-bottom">
 
+            <span>
+                © <span id="year"></span>
+                Dr. Arti Verma. All rights reserved.
+            </span>
 
-</div>
+            <span>
+                Powered by DoctorJet.in
+            </span>
 
+        </div>
 
-</div>
+    </div>
 
 </footer>
 
 
+<!-- ======================================================
+     MOBILE BOOKING BUTTON
+====================================================== -->
 
-<!-- =========================================================
-     MOBILE BOOKING CTA
-========================================================= -->
-
-<div class="mobile-cta">
-
-
-<button onclick="openBooking()">
-
-Book Appointment
-
+<button
+    class="mobile-book"
+    onclick="openBooking()"
+>
+    Book Appointment
 </button>
 
 
-</div>
-
-
-
-<!-- =========================================================
+<!-- ======================================================
      BOOKING MODAL
-========================================================= -->
+====================================================== -->
 
 <div
     class="modal-overlay"
     id="bookingModal"
+    aria-hidden="true"
 >
 
-
-<div class="modal">
-
-
-<div class="modal-header">
-
-
-<h2>
-Book Appointment
-</h2>
+    <div
+        class="booking-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bookingTitle"
+    >
 
 
-<button
-    class="close-btn"
-    onclick="closeBooking()"
->
+        <div class="modal-header">
 
-×
+            <div>
 
-</button>
+                <h2 id="bookingTitle">
+                    Book Appointment
+                </h2>
 
+                <p>
+                    Dr. Arti Verma (PT)
+                </p>
+
+            </div>
+
+
+            <button
+                class="close-modal"
+                onclick="closeBooking()"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            class="booking-form"
+            id="bookingForm"
+        >
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="patientName">
+                        Your Name
+                    </label>
+
+                    <input
+                        id="patientName"
+                        name="name"
+                        type="text"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="patientPhone">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        id="patientPhone"
+                        name="phone"
+                        type="tel"
+                        inputmode="tel"
+                        placeholder="10-digit mobile number"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="consultationType">
+                    Consultation Type
+                </label>
+
+                <select
+                    id="consultationType"
+                    name="type"
+                    required
+                >
+
+                    <option value="">
+                        Select consultation type
+                    </option>
+
+                    <option value="Home Physiotherapy">
+                        Home Physiotherapy
+                    </option>
+
+                    <option value="On-Call Physiotherapy">
+                        On-Call Physiotherapy
+                    </option>
+
+                    <option value="Online Consultation">
+                        Online Consultation
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="preferredDate">
+                        Preferred Date
+                    </label>
+
+                    <input
+                        id="preferredDate"
+                        name="date"
+                        type="date"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="preferredTime">
+                        Preferred Time
+                    </label>
+
+                    <select
+                        id="preferredTime"
+                        name="time"
+                    >
+
+                        <option value="">
+                            Select time
+                        </option>
+
+                        <option>
+                            Morning
+                        </option>
+
+                        <option>
+                            Afternoon
+                        </option>
+
+                        <option>
+                            Evening
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="concern">
+                    Briefly describe your concern
+                </label>
+
+                <textarea
+                    id="concern"
+                    name="concern"
+                    placeholder="You may briefly mention your symptoms or reason for consultation."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-note">
+
+                Your information will be used only to
+                process your consultation request.
+
+            </div>
+
+
+            <button
+                class="submit-booking"
+                type="submit"
+            >
+                Continue via WhatsApp
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
 
-
-<form id="bookingForm">
-
-
-<div class="form-group">
-
-
-<label>
-YOUR NAME
-</label>
-
-
-<input
-    type="text"
-    id="patientName"
-    placeholder="Enter your name"
-    required
->
-
-
-</div>
-
-
-
-<div class="form-group">
-
-
-<label>
-MOBILE NUMBER
-</label>
-
-
-<input
-    type="tel"
-    id="patientPhone"
-    placeholder="10-digit mobile number"
-    pattern="[0-9]{10}"
-    required
->
-
-
-</div>
-
-
-
-<div class="form-group">
-
-
-<label>
-CONSULTATION TYPE
-</label>
-
-
-<select id="consultationType">
-
-
-<option>
-Home Physiotherapy
-</option>
-
-
-<option>
-On-Call Physiotherapy
-</option>
-
-
-<option>
-Online Consultation
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-<div class="form-group">
-
-
-<label>
-PREFERRED DATE
-</label>
-
-
-<input
-    type="date"
-    id="appointmentDate"
-    required
->
-
-
-</div>
-
-
-
-<div class="form-group">
-
-
-<label>
-YOUR CONCERN
-</label>
-
-
-<textarea
-    id="patientMessage"
-    rows="3"
-    placeholder="Briefly describe your concern"
-></textarea>
-
-
-</div>
-
-
-
-<button
-    type="submit"
-    class="primary-btn"
->
-
-Request Appointment
-
-</button>
-
-
-</form>
-
-
-</div>
-
-</div>
-
-
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
 
 <script>
 
 /* =========================================================
-   DOCTORJET TOP BAR
+   CONFIGURATION
 ========================================================= */
 
-const doctorjetBar =
-    document.getElementById(
-        "doctorjetBar"
-    );
+/*
+    REPLACE THIS NUMBER WITH DR. ARTI VERMA'S
+    ACTUAL WHATSAPP NUMBER.
 
-const doctorjetClose =
-    document.getElementById(
-        "doctorjetClose"
-    );
+    Format:
+    Country code + number
+    Example:
+    919876543210
+*/
 
-const doctorjetTimer =
-    document.getElementById(
-        "doctorjetTimer"
-    );
+const whatsappNumber = "919999999999";
 
 
 /* =========================================================
-   COLLAPSE FUNCTION
+   DOCTORJET ATTRIBUTION BAR
 ========================================================= */
 
-function collapseDoctorJetBar(){
+const doctorjetBar =
+    document.getElementById("doctorjetBar");
+
+const doctorjetReopen =
+    document.getElementById("doctorjetReopen");
+
+let doctorjetTimer;
+
+
+function collapseDoctorJet(){
 
     doctorjetBar.classList.add(
         "collapsed"
     );
 
+    doctorjetReopen.classList.add(
+        "visible"
+    );
+
 }
 
 
+function reopenDoctorJet(){
+
+    doctorjetBar.classList.remove(
+        "collapsed"
+    );
+
+    doctorjetReopen.classList.remove(
+        "visible"
+    );
+
+    restartDoctorJetTimer();
+
+}
+
+
+function restartDoctorJetTimer(){
+
+    clearTimeout(
+        doctorjetTimer
+    );
+
+    const timer =
+        doctorjetBar.querySelector(
+            ".doctorjet-timer"
+        );
+
+    timer.style.animation =
+        "none";
+
+    void timer.offsetWidth;
+
+    timer.style.animation =
+        "doctorjetCountdown 10s linear forwards";
+
+    doctorjetTimer =
+        setTimeout(
+            collapseDoctorJet,
+            10000
+        );
+
+}
+
+
+doctorjetReopen.addEventListener(
+    "click",
+    reopenDoctorJet
+);
+
+
+/*
+    Start the 10-second countdown
+*/
+
+restartDoctorJetTimer();
+
+
 /* =========================================================
-   MANUAL CLOSE
+   MOBILE NAV
 ========================================================= */
 
-doctorjetClose.addEventListener(
+const mobileMenu =
+    document.querySelector(".mobile-menu");
+
+const mobileNav =
+    document.getElementById("mobileNav");
+
+
+mobileMenu.addEventListener(
     "click",
     function(){
 
-        collapseDoctorJetBar();
+        mobileNav.style.display =
+            mobileNav.style.display === "block"
+                ? "none"
+                : "block";
 
     }
 );
 
 
-/* =========================================================
-   AUTO COLLAPSE AFTER 10 SECONDS
-========================================================= */
+/*
+    Close mobile navigation after
+    clicking a navigation link.
+*/
 
-setTimeout(
-    function(){
+document.querySelectorAll(
+    "#mobileNav a"
+).forEach(
+    function(link){
 
-        collapseDoctorJetBar();
+        link.addEventListener(
+            "click",
+            function(){
 
-    },
-    10000
+                mobileNav.style.display =
+                    "none";
+
+            }
+        );
+
+    }
 );
 
 
@@ -3494,7 +4017,7 @@ setTimeout(
    BOOKING MODAL
 ========================================================= */
 
-const modal =
+const bookingModal =
     document.getElementById(
         "bookingModal"
     );
@@ -3502,8 +4025,13 @@ const modal =
 
 function openBooking(){
 
-    modal.classList.add(
+    bookingModal.classList.add(
         "active"
+    );
+
+    bookingModal.setAttribute(
+        "aria-hidden",
+        "false"
     );
 
     document.body.style.overflow =
@@ -3514,8 +4042,13 @@ function openBooking(){
 
 function closeBooking(){
 
-    modal.classList.remove(
+    bookingModal.classList.remove(
         "active"
+    );
+
+    bookingModal.setAttribute(
+        "aria-hidden",
+        "true"
     );
 
     document.body.style.overflow =
@@ -3524,12 +4057,37 @@ function closeBooking(){
 }
 
 
-modal.addEventListener(
+/*
+    Close when clicking outside
+*/
+
+bookingModal.addEventListener(
     "click",
-    function(e){
+    function(event){
 
         if(
-            e.target === modal
+            event.target ===
+            bookingModal
+        ){
+
+            closeBooking();
+
+        }
+
+    }
+);
+
+
+/*
+    Escape key
+*/
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
         ){
 
             closeBooking();
@@ -3541,164 +4099,169 @@ modal.addEventListener(
 
 
 /* =========================================================
-   WHATSAPP NUMBER
+   DATE LIMIT
 ========================================================= */
 
-/*
-    IMPORTANT:
+const dateInput =
+    document.getElementById(
+        "preferredDate"
+    );
 
-    Replace this with Dr. Arti Verma's
-    actual WhatsApp number.
 
-    Example:
+const today =
+    new Date()
+        .toISOString()
+        .split("T")[0];
 
-    919876543210
 
-    Do NOT include:
-    +
-    spaces
-    brackets
-*/
-
-const whatsappNumber =
-    "919999999999";
+dateInput.min = today;
 
 
 /* =========================================================
-   WHATSAPP APPOINTMENT
+   BOOKING FORM
 ========================================================= */
 
-document
-    .getElementById(
+const bookingForm =
+    document.getElementById(
         "bookingForm"
-    )
-    .addEventListener(
-        "submit",
-        function(e){
-
-            e.preventDefault();
+    );
 
 
-            const name =
-                document
-                .getElementById(
-                    "patientName"
-                )
-                .value;
+bookingForm.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
 
 
-            const phone =
-                document
-                .getElementById(
-                    "patientPhone"
-                )
-                .value;
+        const name =
+            document.getElementById(
+                "patientName"
+            ).value.trim();
 
 
-            const type =
-                document
-                .getElementById(
-                    "consultationType"
-                )
-                .value;
+        const phone =
+            document.getElementById(
+                "patientPhone"
+            ).value.trim();
 
 
-            const date =
-                document
-                .getElementById(
-                    "appointmentDate"
-                )
-                .value;
+        const type =
+            document.getElementById(
+                "consultationType"
+            ).value;
 
 
-            const message =
-                document
-                .getElementById(
-                    "patientMessage"
-                )
-                .value;
+        const date =
+            document.getElementById(
+                "preferredDate"
+            ).value;
 
 
-            const whatsappMessage =
+        const time =
+            document.getElementById(
+                "preferredTime"
+            ).value;
 
+
+        const concern =
+            document.getElementById(
+                "concern"
+            ).value.trim();
+
+
+        /*
+            Basic mobile validation
+        */
+
+        if(
+            !/^[0-9]{10}$/.test(
+                phone
+            )
+        ){
+
+            alert(
+                "Please enter a valid 10-digit mobile number."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Format date for WhatsApp
+        */
+
+        let formattedDate =
+            "Not specified";
+
+
+        if(date){
+
+            const parts =
+                date.split("-");
+
+            formattedDate =
+                `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+        }
+
+
+        /*
+            Create WhatsApp message
+        */
+
+        const message =
 `Hello Dr. Arti Verma,
 
 I would like to book a physiotherapy consultation.
 
 Name: ${name}
-
 Mobile: ${phone}
-
 Consultation Type: ${type}
-
-Preferred Date: ${date}
+Preferred Date: ${formattedDate}
+Preferred Time: ${time || "Not specified"}
 
 Concern:
-${message}
+${concern || "Not specified"}
 
-Thank you.`;
-
-
-            const whatsappURL =
-
-                "https://wa.me/" +
-                whatsappNumber +
-                "?text=" +
-                encodeURIComponent(
-                    whatsappMessage
-                );
+I found your profile through DoctorJet.in.`;
 
 
-            window.open(
-                whatsappURL,
-                "_blank"
+        /*
+            Encode message
+        */
+
+        const encodedMessage =
+            encodeURIComponent(
+                message
             );
 
-        }
-    );
+
+        /*
+            WhatsApp URL
+        */
+
+        const whatsappURL =
+            `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
 
-/* =========================================================
-   READ MORE
-========================================================= */
+        /*
+            Open WhatsApp
+        */
 
-const aboutText =
-    document.getElementById(
-        "aboutText"
-    );
-
-const readMore =
-    document.getElementById(
-        "readMore"
-    );
-
-
-readMore.addEventListener(
-    "click",
-    function(){
-
-        aboutText.classList.toggle(
-            "expanded"
+        window.open(
+            whatsappURL,
+            "_blank"
         );
 
 
-        if(
-            aboutText.classList.contains(
-                "expanded"
-            )
-        ){
+        /*
+            Close modal
+        */
 
-            readMore.textContent =
-                "Show Less";
-
-        }
-
-        else{
-
-            readMore.textContent =
-                "Read More";
-
-        }
+        closeBooking();
 
     }
 );
@@ -3708,97 +4271,180 @@ readMore.addEventListener(
    FAQ ACCORDION
 ========================================================= */
 
-document
-    .querySelectorAll(
-        ".faq button"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    const faq =
-                        this.parentElement;
+const faqItems =
+    document.querySelectorAll(
+        ".faq-item"
+    );
 
 
-                    faq.classList.toggle(
-                        "open"
+faqItems.forEach(
+    function(item){
+
+        const button =
+            item.querySelector(
+                ".faq-question"
+            );
+
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                const isActive =
+                    item.classList.contains(
+                        "active"
+                    );
+
+
+                /*
+                    Close all FAQs
+                */
+
+                faqItems.forEach(
+                    function(other){
+
+                        other.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                /*
+                    Open clicked FAQ
+                */
+
+                if(!isActive){
+
+                    item.classList.add(
+                        "active"
                     );
 
                 }
-            );
 
-        }
-    );
-
-
-/* =========================================================
-   SMOOTH SCROLL
-========================================================= */
-
-function scrollToSection(id){
-
-    const element =
-        document.getElementById(id);
-
-
-    if(element){
-
-        element.scrollIntoView({
-
-            behavior:"smooth"
-
-        });
-
-    }
-
-}
-
-
-/* =========================================================
-   APPOINTMENT DATE
-========================================================= */
-
-const dateInput =
-    document.getElementById(
-        "appointmentDate"
-    );
-
-
-const today =
-    new Date()
-    .toISOString()
-    .split("T")[0];
-
-
-dateInput.min =
-    today;
-
-
-/* =========================================================
-   ESCAPE KEY
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(e){
-
-        if(
-            e.key === "Escape"
-        ){
-
-            closeBooking();
-
-        }
+            }
+        );
 
     }
 );
 
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+    "year"
+).textContent =
+    new Date().getFullYear();
+
+
+/* =========================================================
+   PROFILE IMAGE FALLBACK
+========================================================= */
+
+const profileImages =
+    document.querySelectorAll(
+        ".profile-image, .nav-avatar"
+    );
+
+
+profileImages.forEach(
+    function(image){
+
+        image.addEventListener(
+            "error",
+            function(){
+
+                /*
+                    If Instagram CDN image expires,
+                    show a neutral fallback instead
+                    of a broken-image icon.
+                */
+
+                image.style.display =
+                    "none";
+
+                if(
+                    image.classList.contains(
+                        "profile-image"
+                    )
+                ){
+
+                    const parent =
+                        image.parentElement;
+
+                    parent.style.background =
+                        "linear-gradient(135deg,#f7e8f0,#fdf8fa)";
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SMOOTH INTERNAL LINKS
+========================================================= */
+
+document.querySelectorAll(
+    'a[href^="#"]'
+).forEach(
+    function(link){
+
+        link.addEventListener(
+            "click",
+            function(event){
+
+                const targetID =
+                    link.getAttribute(
+                        "href"
+                    );
+
+
+                if(
+                    !targetID ||
+                    targetID === "#"
+                ){
+
+                    return;
+
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetID
+                    );
+
+
+                if(target){
+
+                    event.preventDefault();
+
+                    target.scrollIntoView({
+                        behavior:"smooth",
+                        block:"start"
+                    });
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   END
+========================================================= */
+
 </script>
 
-
 </body>
-
 </html>
