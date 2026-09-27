@@ -30,7 +30,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
 .sticky-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 14px;z-index:30}.sticky-inner{max-width:1050px;margin:auto;display:flex;justify-content:flex-end;gap:10px}
 .notice{background:#fff8e8;border:1px solid #efd5a1;color:#815b24;border-radius:13px;padding:10px 13px;font-size:12px;margin-bottom:10px}
 .status{font-size:12px;color:var(--muted);margin-top:8px}.status.ok{color:#16794a}.status.err{color:var(--danger)}
-.logo-preview{width:70px;height:70px;object-fit:contain;border:1px solid var(--border);border-radius:12px;background:#fff}
+.logo-preview{width:70px;height:70px;object-fit:contain;border:1px solid var(--border);border-radius:12px;background:#fff}.image-settings{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.upload-box{border:1px dashed #b9cbd4;border-radius:16px;padding:14px;background:#f8fcfe}.upload-row{display:flex;align-items:center;gap:14px}.upload-preview{width:150px;height:70px;border:1px solid var(--border);border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}.upload-preview img{max-width:100%;max-height:100%;object-fit:contain}.upload-placeholder{font-size:11px;color:var(--muted);text-align:center;padding:8px}.upload-meta{font-size:11px;color:var(--muted);margin-top:7px}.file-input{font-size:12px;background:#fff;padding:9px;border-radius:10px}.remove-image{margin-top:8px}
 @media(max-width:780px){.grid,.form-grid,.form-grid.three,.med-grid,.patient-meta{grid-template-columns:1fr}.full{grid-column:auto}.med-grid .wide{grid-column:auto}.container{margin-top:10px}.card{border-radius:18px;padding:16px}header{padding:12px}.sticky-inner{justify-content:stretch}.sticky-inner button{flex:1}}
 </style>
 </head>
@@ -57,6 +57,35 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
       <div><label>Contact</label><input id="clinicContact" placeholder="Phone / email / website"></div>
     </div>
     <div class="actions" style="margin-top:12px"><button class="btn btn-light" onclick="saveDoctorSettings()">Save Doctor/Clinic Details</button><button class="btn btn-light" onclick="loadDoctorSettings()">Load Saved Details</button></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">✍</span> Doctor Signature & Stamp</h2>
+    <div class="image-settings">
+      <div class="upload-box">
+        <label>Doctor Signature</label>
+        <div class="upload-row">
+          <div class="upload-preview" id="signaturePreview"><div class="upload-placeholder">No signature uploaded</div></div>
+          <div style="flex:1">
+            <input class="file-input" id="signatureFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="handleImageUpload('signature',this)">
+            <div class="upload-meta">PNG/JPG/WebP. Saved locally on this device and inserted into the PDF.</div>
+            <button type="button" class="btn btn-danger btn-small remove-image" onclick="removeSavedImage('signature')">Remove Signature</button>
+          </div>
+        </div>
+      </div>
+      <div class="upload-box">
+        <label>Doctor Stamp</label>
+        <div class="upload-row">
+          <div class="upload-preview" id="stampPreview"><div class="upload-placeholder">No stamp uploaded</div></div>
+          <div style="flex:1">
+            <input class="file-input" id="stampFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="handleImageUpload('stamp',this)">
+            <div class="upload-meta">Prefer a transparent PNG. Saved locally on this device and inserted into the PDF.</div>
+            <button type="button" class="btn btn-danger btn-small remove-image" onclick="removeSavedImage('stamp')">Remove Stamp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:12px">Signature and stamp are stored in this browser's local storage. They are not uploaded to Google Sheets.</div>
   </section>
 
   <section class="card">
@@ -212,6 +241,74 @@ function setFollowup(value,btn){
   $("followupText").value=value==="Custom"?"":value;
   if(value==="Custom") $("followupText").focus();
 }
+const IMAGE_STORAGE_KEYS = {signature:"rxDoctorSignature", stamp:"rxDoctorStamp"};
+
+function handleImageUpload(type,input){
+  const file=input.files && input.files[0];
+  if(!file) return;
+  if(!file.type.startsWith("image/")){ alert("Please select an image file."); input.value=""; return; }
+  if(file.size > 2.5 * 1024 * 1024){
+    alert("Please use an image smaller than 2.5 MB.");
+    input.value="";
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      localStorage.setItem(IMAGE_STORAGE_KEYS[type], reader.result);
+      renderSavedImage(type, reader.result);
+      alert(type === "signature" ? "Doctor signature saved locally on this device." : "Doctor stamp saved locally on this device.");
+    }catch(e){
+      console.error(e);
+      alert("The image could not be saved. Your browser may have reached its local storage limit. Try a smaller image.");
+    }
+  };
+  reader.readAsDataURL(file);
+}
+function renderSavedImage(type,dataUrl){
+  const preview=$(type+"Preview");
+  if(!preview) return;
+  if(dataUrl){
+    preview.innerHTML=`<img src="${dataUrl}" alt="${type}">`;
+  }else{
+    preview.innerHTML=`<div class="upload-placeholder">No ${type} uploaded</div>`;
+  }
+}
+function loadSavedImages(){
+  renderSavedImage("signature",localStorage.getItem(IMAGE_STORAGE_KEYS.signature)||"");
+  renderSavedImage("stamp",localStorage.getItem(IMAGE_STORAGE_KEYS.stamp)||"");
+}
+function removeSavedImage(type){
+  localStorage.removeItem(IMAGE_STORAGE_KEYS[type]);
+  const input=$(type+"File");
+  if(input) input.value="";
+  renderSavedImage(type,"");
+}
+function getSavedImage(type){
+  return localStorage.getItem(IMAGE_STORAGE_KEYS[type]) || "";
+}
+function imageDimensions(dataUrl){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve({width:img.naturalWidth||img.width,height:img.naturalHeight||img.height});
+    img.onerror=reject;
+    img.src=dataUrl;
+  });
+}
+async function addImageContain(doc,dataUrl,x,y,maxW,maxH){
+  if(!dataUrl) return 0;
+  try{
+    const dim=await imageDimensions(dataUrl);
+    const scale=Math.min(maxW/dim.width,maxH/dim.height);
+    const w=Math.max(1,dim.width*scale), h=Math.max(1,dim.height*scale);
+    doc.addImage(dataUrl,"AUTO",x+(maxW-w)/2,y+(maxH-h)/2,w,h);
+    return h;
+  }catch(e){
+    console.warn("Could not add image to PDF",e);
+    return 0;
+  }
+}
+
 function collectData(){
   const meds=[...document.querySelectorAll(".medicine")].map(card=>({
     name:card.querySelector(".med-name").value.trim(),
@@ -250,7 +347,7 @@ function makeRxId(){
 function formatDate(iso){
   return new Date(iso).toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"});
 }
-function generatePrescription(dataOverride=null){
+async function generatePrescription(dataOverride=null){
   const d=dataOverride||collectData();
   if(!validate(d)) return;
   const rxId=makeRxId();
@@ -315,10 +412,30 @@ function generatePrescription(dataOverride=null){
   doc.setFont("helvetica","normal");doc.setFontSize(9);doc.text(d.followup,W-70,y+12);
   y+=31;
 
-  if(y>260){doc.addPage();y=18}
-  doc.setDrawColor(205,215,220);doc.line(W-75,y,W-M,y);
-  doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(80,90,95);doc.text("Doctor's Signature",W-M,y+5,{align:"right"});
-  doc.setFontSize(7);doc.text("This is a digitally generated prescription.",M,285);
+  if(y>247){doc.addPage();y=18}
+
+  // Signature + stamp block
+  const signature=getSavedImage("signature");
+  const stamp=getSavedImage("stamp");
+  const blockY=y;
+  const sigX=W-102, sigW=45, stampX=W-51, stampW=35, imageH=18;
+  if(signature || stamp){
+    if(signature) await addImageContain(doc,signature,sigX,blockY,sigW,imageH);
+    if(stamp) await addImageContain(doc,stamp,stampX,blockY,stampW,imageH);
+    doc.setDrawColor(205,215,220);
+    if(signature) doc.line(sigX,blockY+20,sigX+sigW,blockY+20);
+    if(stamp) doc.line(stampX,blockY+20,stampX+stampW,blockY+20);
+    doc.setFont("helvetica","normal");doc.setFontSize(7);doc.setTextColor(80,90,95);
+    if(signature) doc.text("Doctor's Signature",sigX+sigW/2,blockY+25,{align:"center"});
+    if(stamp) doc.text("Doctor's Stamp",stampX+stampW/2,blockY+25,{align:"center"});
+    y=blockY+31;
+  }else{
+    doc.setDrawColor(205,215,220);doc.line(W-75,y,W-M,y);
+    doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(80,90,95);doc.text("Doctor's Signature",W-M,y+5,{align:"right"});
+    y+=12;
+  }
+  doc.setFontSize(7);doc.setTextColor(100,105,108);
+  doc.text("This is a digitally generated prescription.",M,285);
   doc.text(rxId,W-M,285,{align:"right"});
   doc.save(`${d.patient.name.replace(/[^a-z0-9]+/gi,"_")}_${rxId}.pdf`);
   return rxId;
@@ -326,7 +443,7 @@ function generatePrescription(dataOverride=null){
 async function generateAndLog(){
   const d=collectData();
   if(!validate(d)) return;
-  const rxId=generatePrescription(d);
+  const rxId=await generatePrescription(d);
   if(!rxId) return;
   await logPrescription({...d,rxId});
 }
@@ -411,6 +528,7 @@ function clearForm(){
 }
 document.addEventListener("DOMContentLoaded",()=>{
   loadDoctorSettings();
+  loadSavedImages();
   addMedicine();
   rebuildDatalist();
   if(CONFIG.GOOGLE_SCRIPT_URL && !CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) loadMedicines();
