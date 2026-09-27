@@ -742,16 +742,6 @@
   <main>
     <div class="container">
 
-      <section>
-        <div class="section-heading">
-          <h2>Doctors available for consultation</h2>
-          <p>Select a doctor to view availability and request an appointment.</p>
-        </div>
-
-        <div class="doctor-list" id="doctorList"></div>
-      </section>
-
-
       <section class="info-card pharmacy-details-card">
         <div class="pharmacy-info-list">
 
@@ -793,6 +783,16 @@
           <div class="qr-url" id="qrUrlLabel"></div>
         </div>
       </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Doctors available for consultation</h2>
+          <p>Select a doctor to view availability and request an appointment.</p>
+        </div>
+
+        <div class="doctor-list" id="doctorList"></div>
+      </section>
+
 
     </div>
   </main>
@@ -1261,10 +1261,14 @@
 
     /*
       ==========================================================
-      PHARMACY PAGE QR CODE
-      Generates a QR code for the current pharmacy page URL.
-      The page URL can be overridden with pharmacyConfig.pageUrl.
+      LOCAL QR CODE GENERATOR
       ==========================================================
+      No CDN, API, external image service or backend is used.
+
+      This compact generator creates a QR code locally in SVG
+      using a QR Code Model 2 implementation. It supports
+      byte-mode data and automatically selects a suitable
+      version/mask for normal pharmacy URLs.
     */
 
     function initializePharmacyQr(){
@@ -1276,37 +1280,941 @@
         return;
       }
 
-      /*
-        If pageUrl is configured, use it.
-        Otherwise use the actual browser URL.
-
-        For deployment, you can optionally add:
-        pageUrl: "https://doctorjet.in/pharmacy/your-pharmacy/"
-        to pharmacyConfig.
-      */
-
       const pageUrl =
         pharmacyConfig.pageUrl ||
         window.location.href.split("#")[0];
-
-      /*
-        QRServer creates the QR image dynamically from the URL.
-        The actual pharmacy page URL remains encoded in the QR.
-      */
-
-      qrImage.src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=116x116&margin=4&data=" +
-        encodeURIComponent(pageUrl);
-
-      qrImage.onerror = () => {
-        qrImage.alt = "QR code could not be loaded";
-        qrImage.style.opacity = "0.35";
-      };
 
       if(qrLabel){
         qrLabel.textContent = pageUrl;
         qrLabel.title = pageUrl;
       }
+
+      try{
+
+        const svg =
+          generateLocalQrSvg(pageUrl, 116);
+
+        const blob =
+          new Blob([svg], {type:"image/svg+xml"});
+
+        const objectUrl =
+          URL.createObjectURL(blob);
+
+        qrImage.src = objectUrl;
+
+        qrImage.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+        };
+
+      }catch(error){
+
+        /*
+          Keep the UI usable if a very long URL exceeds the
+          built-in QR capacity.
+        */
+        qrImage.alt =
+          "QR code unavailable for this URL";
+
+        qrImage.style.opacity = "0.35";
+
+        /* Keep the page functional even if QR generation fails. */
+
+      }
+
+    }
+
+
+    /*
+      QR GENERATOR
+      Byte mode, QR Model 2, error correction level L.
+      Supports versions 1–10, which is more than enough for
+      normal DoctorJet pharmacy URLs.
+    */
+
+    const QR_LOCAL = {
+
+      ECC_L: 1,
+
+      /* Number of data codewords for QR versions 1–10,
+         error correction level L. */
+      dataCodewordsL: [
+        19,34,55,80,108,136,156,194,232,274
+      ],
+
+      /* Total codewords for versions 1–10. */
+      totalCodewords: [
+        26,44,70,100,134,172,196,242,292,346
+      ],
+
+      /* Alignment pattern centers for versions 2–10. */
+      alignmentCenters: [
+        [],
+        [6,18],
+        [6,22],
+        [6,26],
+        [6,30],
+        [6,34],
+        [6,22,38],
+        [6,24,42],
+        [6,26,46],
+        [6,28,50]
+      ],
+
+      /* Format information for mask patterns.
+         Generated at runtime rather than stored as a table. */
+      generatorPoly: 0x537,
+
+      /* Reed-Solomon generator polynomials, generated as needed. */
+      exp: new Array(512),
+      log: new Array(256)
+
+    };
+
+
+    (function initGalois(){
+
+      let x = 1;
+
+      for(let i=0;i<255;i++){
+
+        QR_LOCAL.exp[i] = x;
+        QR_LOCAL.log[x] = i;
+
+        x <<= 1;
+
+        if(x & 0x100){
+          x ^= 0x11d;
+        }
+
+      }
+
+      for(let i=255;i<512;i++){
+        QR_LOCAL.exp[i] =
+          QR_LOCAL.exp[i-255];
+      }
+
+    })();
+
+
+    function qrGfMultiply(a,b){
+
+      if(a===0 || b===0){
+        return 0;
+      }
+
+      return QR_LOCAL.exp[
+        QR_LOCAL.log[a] +
+        QR_LOCAL.log[b]
+      ];
+
+    }
+
+
+    function qrGeneratorPolynomial(degree){
+
+      let poly = [1];
+
+      for(let i=0;i<degree;i++){
+
+        const next =
+          new Array(poly.length+1).fill(0);
+
+        const root =
+          QR_LOCAL.exp[i];
+
+        for(let j=0;j<poly.length;j++){
+
+          next[j] ^=
+            poly[j];
+
+          next[j+1] ^=
+            qrGfMultiply(poly[j],root);
+
+        }
+
+        poly = next;
+
+      }
+
+      return poly;
+
+    }
+
+
+    const QR_GENERATORS = {};
+
+    function qrEcc(data, eccCount){
+
+      if(!QR_GENERATORS[eccCount]){
+        QR_GENERATORS[eccCount] =
+          qrGeneratorPolynomial(eccCount);
+      }
+
+      const generator =
+        QR_GENERATORS[eccCount];
+
+      const result =
+        new Array(eccCount).fill(0);
+
+      for(const value of data){
+
+        const factor =
+          value ^ result[0];
+
+        result.shift();
+        result.push(0);
+
+        if(factor){
+
+          for(let i=0;i<eccCount;i++){
+
+            result[i] ^=
+              qrGfMultiply(
+                generator[i+1],
+                factor
+              );
+
+          }
+
+        }
+
+      }
+
+      return result;
+
+    }
+
+
+    function qrBitsAppend(bits,value,count){
+
+      for(let i=count-1;i>=0;i--){
+        bits.push(
+          (value >>> i) & 1
+        );
+      }
+
+    }
+
+
+    function qrUtf8Bytes(text){
+
+      return Array.from(
+        new TextEncoder().encode(text)
+      );
+
+    }
+
+
+    function qrMakeCodewords(text,version){
+
+      const bytes =
+        qrUtf8Bytes(text);
+
+      const capacity =
+        QR_LOCAL.dataCodewordsL[version-1];
+
+      /*
+        Byte mode:
+        0100 + character count + data
+      */
+      const countBits =
+        version < 10 ? 8 : 16;
+
+      const bits = [];
+
+      qrBitsAppend(bits,4,4);
+      qrBitsAppend(bits,bytes.length,countBits);
+
+      bytes.forEach(byte =>
+        qrBitsAppend(bits,byte,8)
+      );
+
+      if(bits.length > capacity*8){
+        throw new Error(
+          "QR data is too long"
+        );
+      }
+
+      const terminator =
+        Math.min(
+          4,
+          capacity*8-bits.length
+        );
+
+      qrBitsAppend(bits,0,terminator);
+
+      while(bits.length % 8){
+        bits.push(0);
+      }
+
+      const data = [];
+
+      for(let i=0;i<bits.length;i+=8){
+
+        let value=0;
+
+        for(let j=0;j<8;j++){
+          value =
+            (value<<1) |
+            bits[i+j];
+        }
+
+        data.push(value);
+
+      }
+
+      let pad = 0;
+
+      while(data.length < capacity){
+
+        data.push(
+          pad++ % 2 === 0
+            ? 0xec
+            : 0x11
+        );
+
+      }
+
+      const eccCount =
+        QR_LOCAL.totalCodewords[version-1] -
+        capacity;
+
+      return data.concat(
+        qrEcc(data,eccCount)
+      );
+
+    }
+
+
+    function qrMask(mask,r,c){
+
+      switch(mask){
+
+        case 0:
+          return (r+c)%2===0;
+
+        case 1:
+          return r%2===0;
+
+        case 2:
+          return c%3===0;
+
+        case 3:
+          return (r+c)%3===0;
+
+        case 4:
+          return (Math.floor(r/2)+Math.floor(c/3))%2===0;
+
+        case 5:
+          return ((r*c)%2)+((r*c)%3)===0;
+
+        case 6:
+          return (((r*c)%2)+((r*c)%3))%2===0;
+
+        case 7:
+          return (((r*c)%3)+((r+c)%2))%2===0;
+
+        default:
+          return false;
+
+      }
+
+    }
+
+
+    function qrFormatBits(mask){
+
+      /*
+        Error correction L = binary 01.
+        Format data = ECC(01) + mask.
+      */
+      let data =
+        (QR_LOCAL.ECC_L << 3) |
+        mask;
+
+      let value =
+        data << 10;
+
+      for(let i=14;i>=10;i--){
+
+        if(
+          ((value >>> i) & 1) !== 0
+        ){
+          value ^=
+            QR_LOCAL.generatorPoly <<
+            (i-10);
+        }
+
+      }
+
+      return ((data << 10) | value) ^ 0x5412;
+
+    }
+
+
+    function qrPenalty(matrix){
+
+      const n = matrix.length;
+      let score = 0;
+
+      /* Adjacent modules. */
+      for(let r=0;r<n;r++){
+
+        let runColor =
+          matrix[r][0];
+
+        let run=1;
+
+        for(let c=1;c<n;c++){
+
+          if(matrix[r][c]===runColor){
+
+            run++;
+
+          }else{
+
+            if(run>=5){
+              score += 3 + run-5;
+            }
+
+            runColor =
+              matrix[r][c];
+
+            run=1;
+
+          }
+
+        }
+
+        if(run>=5){
+          score += 3 + run-5;
+        }
+
+      }
+
+
+      for(let c=0;c<n;c++){
+
+        let runColor =
+          matrix[0][c];
+
+        let run=1;
+
+        for(let r=1;r<n;r++){
+
+          if(matrix[r][c]===runColor){
+
+            run++;
+
+          }else{
+
+            if(run>=5){
+              score += 3 + run-5;
+            }
+
+            runColor =
+              matrix[r][c];
+
+            run=1;
+
+          }
+
+        }
+
+        if(run>=5){
+          score += 3 + run-5;
+        }
+
+      }
+
+
+      /* 2x2 blocks. */
+      for(let r=0;r<n-1;r++){
+
+        for(let c=0;c<n-1;c++){
+
+          const v =
+            matrix[r][c];
+
+          if(
+            matrix[r+1][c]===v &&
+            matrix[r][c+1]===v &&
+            matrix[r+1][c+1]===v
+          ){
+            score += 3;
+          }
+
+        }
+
+      }
+
+
+      /* Finder-like patterns. */
+      const pattern =
+        [1,0,1,1,1,0,1];
+
+      function lineScore(line){
+
+        let extra=0;
+
+        for(let i=0;i<=line.length-7;i++){
+
+          let match=true;
+
+          for(let j=0;j<7;j++){
+
+            if(line[i+j]!==pattern[j]){
+              match=false;
+              break;
+            }
+
+          }
+
+          if(match){
+            extra += 40;
+          }
+
+        }
+
+        return extra;
+
+      }
+
+      for(let r=0;r<n;r++){
+        score += lineScore(matrix[r]);
+      }
+
+      for(let c=0;c<n;c++){
+
+        const line =
+          matrix.map(row=>row[c]);
+
+        score += lineScore(line);
+
+      }
+
+
+      /* Balance. */
+      let dark=0;
+
+      for(let r=0;r<n;r++){
+        for(let c=0;c<n;c++){
+          if(matrix[r][c]) dark++;
+        }
+      }
+
+      const percent =
+        dark*100/(n*n);
+
+      score +=
+        Math.floor(
+          Math.abs(percent-50)/5
+        )*10;
+
+      return score;
+
+    }
+
+
+    function qrCreateMatrix(text,version,mask){
+
+      const size =
+        version*4+17;
+
+      const matrix =
+        Array.from(
+          {length:size},
+          () => new Array(size).fill(null)
+        );
+
+      const reserved =
+        Array.from(
+          {length:size},
+          () => new Array(size).fill(false)
+        );
+
+
+      function setFunction(r,c,value){
+
+        if(
+          r<0 || r>=size ||
+          c<0 || c>=size
+        ){
+          return;
+        }
+
+        matrix[r][c] =
+          !!value;
+
+        reserved[r][c] = true;
+
+      }
+
+
+      function finder(row,col){
+
+        for(let dr=-1;dr<=7;dr++){
+
+          for(let dc=-1;dc<=7;dc++){
+
+            if(
+              row+dr<0 ||
+              row+dr>=size ||
+              col+dc<0 ||
+              col+dc>=size
+            ){
+              continue;
+            }
+
+            const inside =
+              dr>=0 && dr<=6 &&
+              dc>=0 && dc<=6;
+
+            const dark =
+              inside &&
+              (
+                dr===0 ||
+                dr===6 ||
+                dc===0 ||
+                dc===6 ||
+                (
+                  dr>=2 && dr<=4 &&
+                  dc>=2 && dc<=4
+                )
+              );
+
+            setFunction(
+              row+dr,
+              col+dc,
+              dark
+            );
+
+          }
+
+        }
+
+      }
+
+
+      finder(0,0);
+      finder(size-7,0);
+      finder(0,size-7);
+
+
+      /* Timing patterns. */
+      for(let i=8;i<size-8;i++){
+
+        if(!reserved[6][i]){
+          setFunction(
+            6,i,i%2===0
+          );
+        }
+
+        if(!reserved[i][6]){
+          setFunction(
+            i,6,i%2===0
+          );
+        }
+
+      }
+
+
+      /* Alignment patterns. */
+      if(version>=2){
+
+        const centers =
+          QR_LOCAL.alignmentCenters[
+            version-1
+          ];
+
+        for(const row of centers){
+
+          for(const col of centers){
+
+            if(
+              reserved[row][col]
+            ){
+              continue;
+            }
+
+            for(let dr=-2;dr<=2;dr++){
+
+              for(let dc=-2;dc<=2;dc++){
+
+                const dist =
+                  Math.max(
+                    Math.abs(dr),
+                    Math.abs(dc)
+                  );
+
+                setFunction(
+                  row+dr,
+                  col+dc,
+                  dist!==1
+                );
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+
+      /* Dark module. */
+      setFunction(
+        size-8,
+        8,
+        true
+      );
+
+
+      /* Reserve format areas. */
+      for(let i=0;i<9;i++){
+
+        if(!reserved[8][i]){
+          reserved[8][i]=true;
+        }
+
+        if(!reserved[i][8]){
+          reserved[i][8]=true;
+        }
+
+      }
+
+      for(let i=0;i<8;i++){
+
+        reserved[8][size-1-i]=true;
+        reserved[size-1-i][8]=true;
+
+      }
+
+      reserved[8][size-8]=true;
+
+
+      /* Data bits. */
+      const codewords =
+        qrMakeCodewords(text,version);
+
+      const dataBits=[];
+
+      codewords.forEach(byte =>
+        qrBitsAppend(dataBits,byte,8)
+      );
+
+      let bitIndex=0;
+      let upward=true;
+
+      for(
+        let col=size-1;
+        col>0;
+        col-=2
+      ){
+
+        if(col===6){
+          col--;
+        }
+
+        for(let rowIndex=0;rowIndex<size;rowIndex++){
+
+          const row =
+            upward
+              ? size-1-rowIndex
+              : rowIndex;
+
+          for(let j=0;j<2;j++){
+
+            const c =
+              col-j;
+
+            if(
+              reserved[row][c]
+            ){
+              continue;
+            }
+
+            let bit =
+              bitIndex<dataBits.length
+                ? dataBits[bitIndex++]
+                : 0;
+
+            if(
+              qrMask(mask,row,c)
+            ){
+              bit ^= 1;
+            }
+
+            matrix[row][c] =
+              !!bit;
+
+          }
+
+        }
+
+        upward=!upward;
+
+      }
+
+
+      /* Format information. */
+      const format =
+        qrFormatBits(mask);
+
+      for(let i=0;i<15;i++){
+
+        const bit =
+          ((format>>>i)&1)!==0;
+
+        let r,c;
+
+        if(i<6){
+          r=i;
+          c=8;
+        }else if(i<8){
+          r=i+1;
+          c=8;
+        }else{
+          r=size-15+i;
+          c=8;
+        }
+
+        matrix[r][c]=bit;
+
+        r=8;
+
+        if(i<8){
+          c=size-i-1;
+        }else if(i<9){
+          c=15-i;
+        }else{
+          c=15-i-1;
+        }
+
+        matrix[r][c]=bit;
+
+      }
+
+      matrix[size-8][8]=true;
+
+      return matrix;
+
+    }
+
+
+    function generateLocalQrMatrix(text){
+
+      const bytes =
+        qrUtf8Bytes(text);
+
+      let version=1;
+
+      for(
+        version=1;
+        version<=10;
+        version++
+      ){
+
+        if(
+          bytes.length <=
+          QR_LOCAL.dataCodewordsL[
+            version-1
+          ]-2
+        ){
+          break;
+        }
+
+      }
+
+      if(version>10){
+        throw new Error(
+          "The pharmacy page URL is too long for the local QR generator."
+        );
+      }
+
+      let best=null;
+
+      for(let mask=0;mask<8;mask++){
+
+        const matrix =
+          qrCreateMatrix(
+            text,
+            version,
+            mask
+          );
+
+        const score =
+          qrPenalty(matrix);
+
+        if(
+          !best ||
+          score<best.score
+        ){
+
+          best={
+            matrix,
+            score
+          };
+
+        }
+
+      }
+
+      return best.matrix;
+
+    }
+
+
+    function generateLocalQrSvg(text,size=116){
+
+      const matrix =
+        generateLocalQrMatrix(text);
+
+      const count =
+        matrix.length;
+
+      const quiet=4;
+
+      const total =
+        count+quiet*2;
+
+      const module =
+        size/total;
+
+      let paths="";
+
+      for(let r=0;r<count;r++){
+
+        for(let c=0;c<count;c++){
+
+          if(matrix[r][c]){
+
+            paths +=
+              `<rect x="${((c+quiet)*module).toFixed(3)}" ` +
+              `y="${((r+quiet)*module).toFixed(3)}" ` +
+              `width="${module.toFixed(3)}" ` +
+              `height="${module.toFixed(3)}"/>`;
+
+          }
+
+        }
+
+      }
+
+      return `
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="${size}"
+             height="${size}"
+             viewBox="0 0 ${size} ${size}"
+             shape-rendering="crispEdges"
+             role="img"
+             aria-label="QR code for ${escapeHtml(text)}">
+          <rect width="100%" height="100%" fill="#ffffff"/>
+          <g fill="#111111">${paths}</g>
+        </svg>
+      `;
 
     }
 
