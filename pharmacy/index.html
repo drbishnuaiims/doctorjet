@@ -338,6 +338,64 @@
       margin-top:1px;
     }
 
+    .pharmacy-details-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .pharmacy-info-list{
+      flex:1;
+      min-width:0;
+    }
+
+    .page-qr{
+      width:150px;
+      flex:0 0 150px;
+      text-align:center;
+      border-left:1px solid var(--border);
+      padding-left:22px;
+    }
+
+    .qr-label{
+      color:#667085;
+      font-size:9px;
+      line-height:1.35;
+      font-weight:700;
+      margin-bottom:7px;
+    }
+
+    .qr-frame{
+      width:122px;
+      height:122px;
+      padding:3px;
+      margin:0 auto;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+    }
+
+    .qr-frame img{
+      width:116px;
+      height:116px;
+      display:block;
+    }
+
+    .qr-url{
+      margin-top:6px;
+      color:#98a2b3;
+      font-size:8px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:140px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
     /* FOOTER */
     footer{
       background:#142029;
@@ -607,6 +665,18 @@
     }
 
     @media(max-width:520px){
+      .pharmacy-details-card{
+        display:block;
+      }
+
+      .page-qr{
+        width:100%;
+        padding:16px 0 0;
+        margin-top:14px;
+        border-left:0;
+        border-top:1px solid var(--border);
+      }
+
       .doctor-card{
         aspect-ratio:1 / 1;
       }
@@ -682,29 +752,45 @@
       </section>
 
 
-      <section class="info-card">
-        <div class="info-row">
-          <div class="info-icon">◷</div>
-          <div>
-            <strong>Pharmacy Hours</strong>
-            <small id="openingHours">8:00 AM – 10:00 PM</small>
+      <section class="info-card pharmacy-details-card">
+        <div class="pharmacy-info-list">
+
+          <div class="info-row">
+            <div class="info-icon">◷</div>
+            <div>
+              <strong>Pharmacy Hours</strong>
+              <small id="openingHours">8:00 AM – 10:00 PM</small>
+            </div>
           </div>
+
+          <div class="info-row">
+            <div class="info-icon">☎</div>
+            <div>
+              <strong>Contact</strong>
+              <small id="phoneNumber">+91 98765 43210</small>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">+</div>
+            <div>
+              <strong>Consultation</strong>
+              <small>Doctor consultation by appointment. Availability varies by doctor.</small>
+            </div>
+          </div>
+
         </div>
 
-        <div class="info-row">
-          <div class="info-icon">☎</div>
-          <div>
-            <strong>Contact</strong>
-            <small id="phoneNumber">+91 98765 43210</small>
+        <div class="page-qr">
+          <div class="qr-label">Scan to open pharmacy page</div>
+          <div class="qr-frame">
+            <img id="pharmacyQr"
+                 src=""
+                 alt="QR code for this pharmacy page"
+                 width="116"
+                 height="116">
           </div>
-        </div>
-
-        <div class="info-row">
-          <div class="info-icon">+</div>
-          <div>
-            <strong>Consultation</strong>
-            <small>Doctor consultation by appointment. Availability varies by doctor.</small>
-          </div>
+          <div class="qr-url" id="qrUrlLabel"></div>
         </div>
       </section>
 
@@ -933,6 +1019,10 @@
 
       mapsUrl: "https://maps.google.com/?q=Bhubaneswar+Odisha",
 
+      // Optional: set the permanent public URL for this pharmacy.
+      // If omitted, the current browser URL is used automatically.
+      pageUrl: "",
+
       openingHours: "8:00 AM – 10:00 PM"
     };
 
@@ -1115,6 +1205,8 @@
 
       populatePharmacy();
 
+      initializePharmacyQr();
+
       renderDoctors();
 
       setMinimumDate();
@@ -1162,6 +1254,58 @@
 
       if(logo){
         logo.src = pharmacyConfig.logo;
+      }
+
+    }
+
+
+    /*
+      ==========================================================
+      PHARMACY PAGE QR CODE
+      Generates a QR code for the current pharmacy page URL.
+      The page URL can be overridden with pharmacyConfig.pageUrl.
+      ==========================================================
+    */
+
+    function initializePharmacyQr(){
+
+      const qrImage = $("#pharmacyQr");
+      const qrLabel = $("#qrUrlLabel");
+
+      if(!qrImage){
+        return;
+      }
+
+      /*
+        If pageUrl is configured, use it.
+        Otherwise use the actual browser URL.
+
+        For deployment, you can optionally add:
+        pageUrl: "https://doctorjet.in/pharmacy/your-pharmacy/"
+        to pharmacyConfig.
+      */
+
+      const pageUrl =
+        pharmacyConfig.pageUrl ||
+        window.location.href.split("#")[0];
+
+      /*
+        QRServer creates the QR image dynamically from the URL.
+        The actual pharmacy page URL remains encoded in the QR.
+      */
+
+      qrImage.src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=116x116&margin=4&data=" +
+        encodeURIComponent(pageUrl);
+
+      qrImage.onerror = () => {
+        qrImage.alt = "QR code could not be loaded";
+        qrImage.style.opacity = "0.35";
+      };
+
+      if(qrLabel){
+        qrLabel.textContent = pageUrl;
+        qrLabel.title = pageUrl;
       }
 
     }
