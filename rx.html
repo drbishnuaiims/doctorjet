@@ -20,13 +20,13 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
 .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.form-grid.three{grid-template-columns:repeat(3,1fr)}
 .btn{border:0;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer}.btn-primary{background:var(--primary);color:#fff}.btn-light{background:#e8f6fb;color:#087da8}.btn-danger{background:#fff0f0;color:var(--danger)}.btn-small{font-size:12px;padding:9px 12px}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
-.patient-meta{display:grid;grid-template-columns:1.5fr .6fr .8fr;gap:12px}
+.patient-meta{display:grid;grid-template-columns:1.5fr .6fr .8fr 1fr;gap:12px}
 .medicine{border:1px solid var(--border);border-radius:20px;padding:17px;margin-top:14px;background:#fff}
 .med-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.med-title{font-weight:800}
 .med-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1fr;gap:12px}.med-grid .wide{grid-column:span 2}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.chip{border:0;background:#dff2fa;color:#087da8;border-radius:20px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer}.chip:hover{background:#c8eaf7}
 .req{color:#d52b2b}.hint{font-size:11px;color:var(--muted);margin-top:5px}
-.followup-buttons{display:flex;gap:8px;flex-wrap:wrap}.followup-buttons button.active{background:var(--primary);color:#fff}
+.followup-buttons{display:flex;gap:8px;flex-wrap:wrap}.followup-buttons button.active{background:var(--primary);color:#fff}.advice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:11px 0 13px}.advice-chip{border:1px solid #c8e5ef;background:#f2fbfe;color:#087da8;border-radius:14px;padding:10px 11px;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:.15s}.advice-chip:hover{background:#dff3fa;border-color:#9ed2e3;transform:translateY(-1px)}.advice-chip:active{transform:translateY(0)}.advice-chip .advice-name{display:block}.advice-chip .advice-preview{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;line-height:1.35}@media(max-width:780px){.advice-grid{grid-template-columns:1fr 1fr}}
 .sticky-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 14px;z-index:30}.sticky-inner{max-width:1050px;margin:auto;display:flex;justify-content:flex-end;gap:10px}
 .notice{background:#fff8e8;border:1px solid #efd5a1;color:#815b24;border-radius:13px;padding:10px 13px;font-size:12px;margin-bottom:10px}
 .status{font-size:12px;color:var(--muted);margin-top:8px}.status.ok{color:#16794a}.status.err{color:var(--danger)}
@@ -94,6 +94,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
       <div><label>Patient Name <span class="req">*</span></label><input id="patientName" placeholder="Patient name"></div>
       <div><label>Age</label><input id="patientAge" type="number" min="0" placeholder="Age"></div>
       <div><label>Gender</label><select id="patientGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+      <div><label>Patient Phone</label><input id="patientPhone" type="tel" inputmode="tel" placeholder="10-digit mobile number"></div>
+    </div>
+    <div class="form-grid" style="margin-top:14px">
+      <div><label>Consultation Mode</label><select id="consultationMode"><option value="In-person">In-person</option><option value="Video Consultation">Video Consultation</option></select></div>
+      <div><label>Consultation Time</label><input id="consultationTime" type="datetime-local"></div>
     </div>
     <div style="margin-top:14px"><label>Chief Complaint</label><input id="complaint" placeholder="e.g. Fever, cough and cold"></div>
   </section>
@@ -115,7 +120,12 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
 
   <section class="card">
     <h2 class="section-title"><span class="icon">☑</span> General Advice / Instructions <span class="req">*</span></h2>
+    <div class="hint" style="margin-bottom:8px">Tap a common advice below to add it to the prescription. You can edit or delete the text afterwards.</div>
+    <div class="advice-grid" id="commonAdviceGrid"></div>
     <textarea id="generalAdvice" placeholder="e.g. Rest and physiotherapy&#10;Investigations: CBC, LFT, X-ray LS spine AP/L"></textarea>
+    <div class="actions" style="margin-top:9px">
+      <button type="button" class="btn btn-light btn-small" onclick="clearGeneralAdvice()">Clear Advice</button>
+    </div>
   </section>
 
   <section class="card">
@@ -128,6 +138,12 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
       <button class="btn btn-light" data-follow="Custom" onclick="setFollowup('Custom',this)">Custom</button>
     </div>
     <input id="followupText" style="margin-top:10px" placeholder="e.g. Follow up after 7 days">
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">ⓘ</span> Prescription Disclaimer</h2>
+    <textarea id="prescriptionDisclaimer">This prescription is generated electronically based on the information available during the consultation and is intended only for the named patient. Medicines should be taken only as directed by the prescribing doctor. This prescription does not replace emergency medical evaluation. Seek immediate in-person medical care for any emergency or rapidly worsening symptoms.</textarea>
+    <div class="hint">This disclaimer will appear at the bottom of the generated PDF. You may edit it if required.</div>
   </section>
 </main>
 
@@ -234,6 +250,50 @@ function applyMedicineAutocomplete(card){
     if(exact.instructions) card.querySelector(".med-instructions").value=exact.instructions;
   });
 }
+const COMMON_ADVICE = [
+  {name:"Fever / Viral Illness",text:"Adequate oral fluids, adequate rest, monitor temperature, and return for persistent or worsening fever."},
+  {name:"Common Cold / URTI",text:"Warm fluids, adequate rest, saline nasal care, avoid smoke and other respiratory irritants, and return if breathlessness develops."},
+  {name:"Cough",text:"Maintain hydration, avoid smoking and respiratory irritants, and seek review if breathlessness, chest pain, or blood in sputum occurs."},
+  {name:"Acute Diarrhea",text:"Take adequate ORS and fluids, continue a light regular diet as tolerated, maintain hand hygiene, and return for dehydration or blood in stool."},
+  {name:"Vomiting",text:"Take small frequent sips of ORS or clear fluids, resume light food as tolerated, and return if persistent vomiting or dehydration occurs."},
+  {name:"Low Back Pain",text:"Relative rest only; remain active as tolerated, avoid heavy lifting, maintain good posture, and continue physiotherapy/exercises as advised."},
+  {name:"Neck Pain",text:"Maintain ergonomic posture, avoid prolonged neck flexion, use local heat if helpful, and continue prescribed physiotherapy/exercises."},
+  {name:"Headache / Migraine",text:"Maintain regular sleep and meals, adequate hydration, limit identified triggers, and keep a headache diary if symptoms are recurrent."},
+  {name:"Gastritis / GERD",text:"Take small regular meals, avoid late-night meals and known trigger foods, reduce caffeine and tobacco/alcohol exposure, and avoid lying down soon after meals."},
+  {name:"UTI Symptoms",text:"Maintain adequate hydration, do not delay urination, complete prescribed treatment, and return promptly for fever, flank pain, or worsening symptoms."},
+  {name:"Allergic Rhinitis",text:"Avoid known allergens and smoke, use saline nasal care as advised, and maintain regular medication use during symptomatic periods."},
+  {name:"Hypertension",text:"Take medicines regularly, monitor blood pressure as advised, restrict excess dietary salt, maintain physical activity, and avoid tobacco."},
+  {name:"Diabetes",text:"Take medicines regularly, monitor glucose as advised, follow a balanced diet, maintain physical activity, and inspect feet regularly."},
+  {name:"Anxiety / Stress",text:"Maintain regular sleep and meals, reduce excess caffeine, practise slow breathing/relaxation exercises, and return if symptoms persist or worsen."},
+  {name:"Musculoskeletal Pain",text:"Relative rest, avoid activities that aggravate pain, use local measures as advised, maintain mobility, and continue prescribed physiotherapy."}
+];
+
+function renderCommonAdvice(){
+  const grid=$("commonAdviceGrid");
+  if(!grid) return;
+  grid.innerHTML=COMMON_ADVICE.map((a,i)=>`<button type="button" class="advice-chip" title="Add advice" onclick="addCommonAdvice(${i})"><span class="advice-name">+ ${esc(a.name)}</span><span class="advice-preview">${esc(a.text)}</span></button>`).join("");
+}
+
+function addCommonAdvice(index){
+  const advice=COMMON_ADVICE[index];
+  if(!advice) return;
+  const textarea=$("generalAdvice");
+  const existing=textarea.value.trim();
+  const lines=existing ? existing.split(/\n+/).map(x=>x.trim()).filter(Boolean) : [];
+  if(lines.includes(advice.text)){
+    textarea.focus();
+    return;
+  }
+  textarea.value=existing ? existing+"\n"+advice.text : advice.text;
+  textarea.dispatchEvent(new Event("input",{bubbles:true}));
+  textarea.focus();
+}
+
+function clearGeneralAdvice(){
+  $("generalAdvice").value="";
+  $("generalAdvice").focus();
+}
+
 function setFollowup(value,btn){
   selectedFollowup=value;
   document.querySelectorAll(".followup-buttons button").forEach(b=>b.classList.remove("active"));
@@ -309,6 +369,13 @@ async function addImageContain(doc,dataUrl,x,y,maxW,maxH){
   }
 }
 
+function toLocalDateTimeValue(date){
+  const pad=n=>String(n).padStart(2,"0");
+  return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+function formatDateTime(iso){
+  return new Date(iso).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"}) + " IST";
+}
 function collectData(){
   const meds=[...document.querySelectorAll(".medicine")].map(card=>({
     name:card.querySelector(".med-name").value.trim(),
@@ -317,14 +384,18 @@ function collectData(){
     duration:card.querySelector(".med-duration").value.trim(),
     instructions:card.querySelector(".med-instructions").value.trim()
   }));
+  const consultationValue=$("consultationTime").value;
+  const consultationTime=consultationValue ? new Date(consultationValue).toISOString() : new Date().toISOString();
   return {
     prescriptionDate:new Date().toISOString(),
-    clinic:{name:$("clinicName").value.trim(),doctor:$("doctorName").value.trim(),qualification:$("qualification").value.trim(),regNo:$("regNo").value.trim(),address:$("clinicAddress").value.trim(),contact:$("clinicContact").value.trim()},
-    patient:{name:$("patientName").value.trim(),age:$("patientAge").value.trim(),gender:$("patientGender").value,complaint:$("complaint").value.trim()},
-    diagnosis:$("diagnosis").value.trim(),
+    consultationTime,
+    clinic:{name:$('clinicName').value.trim(),doctor:$('doctorName').value.trim(),qualification:$('qualification').value.trim(),regNo:$('regNo').value.trim(),address:$('clinicAddress').value.trim(),contact:$('clinicContact').value.trim()},
+    patient:{name:$('patientName').value.trim(),age:$('patientAge').value.trim(),gender:$('patientGender').value,phone:$('patientPhone').value.trim(),consultationMode:$('consultationMode').value,complaint:$('complaint').value.trim()},
+    diagnosis:$('diagnosis').value.trim(),
     medicines:meds,
-    generalAdvice:$("generalAdvice").value.trim(),
-    followup:$("followupText").value.trim()
+    generalAdvice:$('generalAdvice').value.trim(),
+    followup:$('followupText').value.trim(),
+    disclaimer:$('prescriptionDisclaimer').value.trim()
   };
 }
 function validate(d){
@@ -367,19 +438,25 @@ async function generatePrescription(dataOverride=null){
   if(d.clinic.address) doc.text(d.clinic.address,M+8,y+26);
   if(d.clinic.contact) doc.text(d.clinic.contact,W-M,y+8,{align:"right"});
   doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120,60,70); doc.text("Rx",W-M,y+18,{align:"right"});
-  doc.setFont("helvetica","normal"); doc.setTextColor(50,50,50); doc.text(formatDate(d.prescriptionDate),W-M,y+24,{align:"right"});
+  doc.setFont("helvetica","normal"); doc.setTextColor(50,50,50);
+  doc.text(formatDate(d.prescriptionDate),W-M,y+23,{align:"right"});
+  doc.setFontSize(7); doc.setTextColor(90,100,105);
+  doc.text(`Issued: ${formatDateTime(d.prescriptionDate)}`,W-M,y+28,{align:"right"});
   y+=34; doc.setDrawColor(210,220,225); doc.line(M,y,W-M,y); y+=7;
 
   // Patient box
-  doc.setFillColor(246,249,251); doc.roundedRect(M,y,W-2*M,24,3,3,"F");
+  doc.setFillColor(246,249,251); doc.roundedRect(M,y,W-2*M,31,3,3,"F");
   doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.setTextColor(95,105,110);
   doc.text("PATIENT DETAILS",M+5,y+6);
   doc.setFontSize(10); doc.setTextColor(30,45,55);
   doc.text(`Name: ${d.patient.name}`,M+5,y+13);
   doc.text(`Age: ${d.patient.age||"-"}`,M+75,y+13);
   doc.text(`Gender: ${d.patient.gender||"-"}`,M+105,y+13);
-  doc.setFontSize(8); doc.setTextColor(90,100,105); doc.text(`Prescription ID: ${rxId}`,M+5,y+20);
-  y+=31;
+  doc.text(`Phone: ${d.patient.phone||"-"}`,M+5,y+20);
+  doc.text(`Mode: ${d.patient.consultationMode||"-"}`,M+75,y+20);
+  doc.setFontSize(8); doc.setTextColor(90,100,105); doc.text(`Prescription ID: ${rxId}`,M+5,y+27);
+  doc.text(`Consultation: ${formatDateTime(d.consultationTime)}`,W-M,y+27,{align:"right"});
+  y+=38;
 
   if(d.patient.complaint){
     doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(120,60,70);doc.text("CHIEF COMPLAINT",M,y);
@@ -412,7 +489,7 @@ async function generatePrescription(dataOverride=null){
   doc.setFont("helvetica","normal");doc.setFontSize(9);doc.text(d.followup,W-70,y+12);
   y+=31;
 
-  if(y>247){doc.addPage();y=18}
+  if(y>225){doc.addPage();y=18}
 
   // Signature + stamp block
   const signature=getSavedImage("signature");
@@ -434,9 +511,18 @@ async function generatePrescription(dataOverride=null){
     doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(80,90,95);doc.text("Doctor's Signature",W-M,y+5,{align:"right"});
     y+=12;
   }
+  // Disclaimer
+  const disclaimer=d.disclaimer || "This prescription is generated electronically based on the information available during the consultation and is intended only for the named patient. Medicines should be taken only as directed by the prescribing doctor. This prescription does not replace emergency medical evaluation. Seek immediate in-person medical care for any emergency or rapidly worsening symptoms.";
+  const disclaimerY=263;
+  doc.setFillColor(248,249,250); doc.setDrawColor(225,230,233); doc.roundedRect(M,disclaimerY,W-2*M,18,2,2,"FD");
+  doc.setFont("helvetica","bold"); doc.setFontSize(6.5); doc.setTextColor(90,95,100); doc.text("DISCLAIMER",M+3,disclaimerY+5);
+  doc.setFont("helvetica","normal"); doc.setFontSize(6.2); doc.setTextColor(90,95,100);
+  const disclaimerLines=doc.splitTextToSize(disclaimer,W-2*M-35);
+  doc.text(disclaimerLines.slice(0,3),M+27,disclaimerY+5);
+
   doc.setFontSize(7);doc.setTextColor(100,105,108);
-  doc.text("This is a digitally generated prescription.",M,285);
-  doc.text(rxId,W-M,285,{align:"right"});
+  doc.text(`Digitally generated prescription | Issued: ${formatDateTime(d.prescriptionDate)}`,M,286);
+  doc.text(rxId,W-M,286,{align:"right"});
   doc.save(`${d.patient.name.replace(/[^a-z0-9]+/gi,"_")}_${rxId}.pdf`);
   return rxId;
 }
@@ -456,12 +542,16 @@ async function logPrescription(d){
     action:"savePrescription",
     rxId:d.rxId,
     timestamp:new Date().toISOString(),
+    consultationTime:d.consultationTime,
+    consultationMode:d.patient.consultationMode,
+    patientPhone:d.patient.phone,
     clinic:JSON.stringify(d.clinic),
     patient:JSON.stringify(d.patient),
     diagnosis:d.diagnosis,
     medicines:JSON.stringify(d.medicines),
     generalAdvice:d.generalAdvice,
-    followup:d.followup
+    followup:d.followup,
+    disclaimer:d.disclaimer
   };
   try{
     // URLSearchParams keeps this a "simple" POST and avoids a browser CORS preflight.
@@ -521,16 +611,22 @@ function loadDoctorSettings(){
 }
 function clearForm(){
   if(!confirm("Clear the current prescription?")) return;
-  ["patientName","patientAge","complaint","diagnosis","generalAdvice","followupText"].forEach(id=>$(id).value="");
-  $("patientGender").value="";$("medicineList").innerHTML="";medicineCounter=0;selectedFollowup="";
+  ["patientName","patientAge","patientPhone","complaint","diagnosis","generalAdvice","followupText"].forEach(id=>$(id).value="");
+  $("patientGender").value="";
+  $("consultationMode").value="In-person";
+  $("prescriptionDisclaimer").value="This prescription is generated electronically based on the information available during the consultation and is intended only for the named patient. Medicines should be taken only as directed by the prescribing doctor. This prescription does not replace emergency medical evaluation. Seek immediate in-person medical care for any emergency or rapidly worsening symptoms.";
+  $("consultationTime").value=toLocalDateTimeValue(new Date());$("medicineList").innerHTML="";medicineCounter=0;selectedFollowup="";
   document.querySelectorAll(".followup-buttons button").forEach(b=>b.classList.remove("active"));
   addMedicine();
 }
 document.addEventListener("DOMContentLoaded",()=>{
   loadDoctorSettings();
   loadSavedImages();
+  renderCommonAdvice();
   addMedicine();
   rebuildDatalist();
+  const consultationTime=$("consultationTime");
+  if(consultationTime) consultationTime.value=toLocalDateTimeValue(new Date());
   if(CONFIG.GOOGLE_SCRIPT_URL && !CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) loadMedicines();
 });
 </script>
