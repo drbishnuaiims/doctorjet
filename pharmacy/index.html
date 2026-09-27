@@ -240,8 +240,8 @@
 
     .doctor-details{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:7px;
+      grid-template-columns:minmax(0,1.35fr) minmax(90px,.65fr);
+      gap:8px;
       margin-top:10px;
     }
 
@@ -249,6 +249,7 @@
       background:#f8fafb;
       border-radius:10px;
       padding:9px 10px;
+      min-width:0;
     }
 
     .detail-label{
@@ -258,13 +259,40 @@
       text-transform:uppercase;
       letter-spacing:.05em;
       font-weight:700;
-      margin-bottom:2px;
+      margin-bottom:3px;
     }
 
     .detail-value{
       font-size:11px;
-      font-weight:700;
+      font-weight:800;
       color:#344054;
+      line-height:1.35;
+    }
+
+    .next-available{
+      color:var(--primary);
+    }
+
+    .schedule-summary{
+      display:block;
+      color:#667085;
+      font-size:9px;
+      font-weight:600;
+      line-height:1.35;
+      margin-top:3px;
+    }
+
+    .fee-value{
+      font-size:14px;
+      font-weight:800;
+      color:#172033;
+    }
+
+    .fee-note{
+      display:block;
+      color:#98a2b3;
+      font-size:9px;
+      margin-top:2px;
     }
 
     .doctor-footer{
@@ -281,11 +309,116 @@
       color:#16803c;
       font-size:10px;
       font-weight:700;
+      white-space:nowrap;
     }
 
     .book-btn{
       padding:10px 15px;
       min-height:40px;
+      white-space:nowrap;
+    }
+
+    /* PAYMENT SCREENSHOT */
+    .payment-upload{
+      background:#f8fafb;
+      border:1px dashed #cbd5e1;
+      border-radius:12px;
+      padding:12px;
+    }
+
+    .payment-upload-label{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      cursor:pointer;
+      margin:0;
+    }
+
+    .payment-upload-icon{
+      width:34px;
+      height:34px;
+      border-radius:9px;
+      background:var(--primary-soft);
+      color:var(--primary);
+      display:grid;
+      place-items:center;
+      flex:none;
+      font-size:15px;
+      font-weight:800;
+    }
+
+    .payment-upload-copy strong{
+      display:block;
+      font-size:11px;
+      color:#344054;
+      margin-bottom:2px;
+    }
+
+    .payment-upload-copy small{
+      display:block;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.45;
+    }
+
+    .payment-upload input[type="file"]{
+      display:none;
+    }
+
+    .payment-preview{
+      display:none;
+      align-items:center;
+      gap:9px;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid #e5e7eb;
+    }
+
+    .payment-preview.show{
+      display:flex;
+    }
+
+    .payment-preview img{
+      width:48px;
+      height:48px;
+      object-fit:cover;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background:#fff;
+    }
+
+    .payment-preview-text{
+      min-width:0;
+      flex:1;
+    }
+
+    .payment-preview-text strong{
+      display:block;
+      font-size:10px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .payment-preview-text small{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .remove-payment{
+      border:0;
+      background:transparent;
+      color:var(--danger);
+      font-size:10px;
+      font-weight:700;
+      padding:5px;
+    }
+
+    .payment-note{
+      margin:7px 0 0;
+      color:#667085;
+      font-size:9px;
+      line-height:1.45;
     }
 
     /* INFO */
@@ -787,7 +920,7 @@
       <section>
         <div class="section-heading">
           <h2>Doctors available for consultation</h2>
-          <p>Select a doctor to view availability and request an appointment.</p>
+          <p>View the next available time, consultation fee and request an appointment.</p>
         </div>
 
         <div class="doctor-list" id="doctorList"></div>
@@ -944,6 +1077,39 @@
 
 
             <div class="field full">
+              <div class="payment-upload">
+                <label class="payment-upload-label" for="paymentScreenshot">
+                  <span class="payment-upload-icon">₹</span>
+                  <span class="payment-upload-copy">
+                    <strong>Payment Screenshot</strong>
+                    <small>Optional. Upload a screenshot of your payment for faster booking confirmation.</small>
+                  </span>
+                </label>
+
+                <input id="paymentScreenshot"
+                       type="file"
+                       accept="image/jpeg,image/png,image/webp">
+
+                <div class="payment-preview" id="paymentPreview">
+                  <img id="paymentPreviewImage" src="" alt="Payment screenshot preview">
+                  <div class="payment-preview-text">
+                    <strong id="paymentFileName">Payment screenshot selected</strong>
+                    <small id="paymentFileSize"></small>
+                  </div>
+                  <button class="remove-payment"
+                          id="removePaymentScreenshot"
+                          type="button">Remove</button>
+                </div>
+
+                <p class="payment-note">
+                  After WhatsApp opens, the screenshot cannot be attached automatically by a normal webpage.
+                  This page will try to copy it to your clipboard so you can paste it into the WhatsApp chat.
+                </p>
+              </div>
+            </div>
+
+
+            <div class="field full">
               <label class="consent">
                 <input id="consent" type="checkbox">
                 <span>
@@ -974,6 +1140,7 @@
         <p>
           Your consultation details have been prepared in WhatsApp.
           Please send the message to the pharmacy to complete your request.
+          If you selected a payment screenshot, paste it into the WhatsApp chat before sending.
         </p>
 
         <div id="confirmationSummary"></div>
@@ -1199,6 +1366,8 @@
 
     let selectedDoctor = null;
     let whatsappUrl = "";
+    let paymentScreenshotFile = null;
+    let paymentScreenshotObjectUrl = "";
 
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -2238,7 +2407,10 @@
         card.className = "doctor-card";
 
         const scheduleText =
-          formatSchedule(doctor.schedule);
+          formatScheduleCompact(doctor.schedule);
+
+        const nextAvailable =
+          getNextAvailable(doctor.schedule);
 
         card.innerHTML = `
 
@@ -2280,10 +2452,14 @@
             <div class="detail">
 
               <span class="detail-label">
-                Consultation
+                Next available
               </span>
 
-              <span class="detail-value">
+              <span class="detail-value next-available">
+                ${escapeHtml(nextAvailable)}
+              </span>
+
+              <span class="schedule-summary">
                 ${escapeHtml(scheduleText)}
               </span>
 
@@ -2293,11 +2469,15 @@
             <div class="detail">
 
               <span class="detail-label">
-                Fee
+                Consultation fee
               </span>
 
-              <span class="detail-value">
+              <span class="fee-value">
                 ${escapeHtml(doctor.fee)}
+              </span>
+
+              <span class="fee-note">
+                Per consultation
               </span>
 
             </div>
@@ -2336,6 +2516,123 @@
         return `${item.day.slice(0,3)} ${formatTime(item.start)}–${formatTime(item.end)}`;
 
       }).join(" · ");
+
+    }
+
+
+    function formatScheduleCompact(schedule){
+
+      if(!schedule || !schedule.length){
+        return "Schedule unavailable";
+      }
+
+      const groups = [];
+
+      schedule.forEach(item => {
+
+        const timeRange =
+          `${formatTime(item.start)}–${formatTime(item.end)}`;
+
+        const existing =
+          groups.find(group => group.time === timeRange);
+
+        if(existing){
+          existing.days.push(item.day.slice(0,3));
+        }else{
+          groups.push({
+            time:timeRange,
+            days:[item.day.slice(0,3)]
+          });
+        }
+
+      });
+
+      return groups.map(group => {
+
+        return `${group.days.join(" / ")} · ${group.time}`;
+
+      }).join("  •  ");
+
+    }
+
+
+    function getNextAvailable(schedule){
+
+      if(!schedule || !schedule.length){
+        return "By appointment";
+      }
+
+      const dayNames = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ];
+
+      const now = new Date();
+      const todayIndex = now.getDay();
+      const currentMinutes =
+        now.getHours()*60 + now.getMinutes();
+
+      const candidates = [];
+
+      for(let offset=0; offset<7; offset++){
+
+        const dayIndex =
+          (todayIndex + offset) % 7;
+
+        schedule
+          .filter(item => item.day === dayNames[dayIndex])
+          .forEach(item => {
+
+            const startMinutes =
+              toMinutes(item.start);
+
+            if(offset === 0 && startMinutes <= currentMinutes){
+              return;
+            }
+
+            candidates.push({
+              offset,
+              start:item.start,
+              end:item.end
+            });
+
+          });
+
+      }
+
+      if(!candidates.length){
+        return "By appointment";
+      }
+
+      const next = candidates[0];
+
+      let dayLabel;
+
+      if(next.offset === 0){
+        dayLabel = "Today";
+      }else if(next.offset === 1){
+        dayLabel = "Tomorrow";
+      }else{
+        const date =
+          new Date(now);
+
+        date.setDate(
+          now.getDate() + next.offset
+        );
+
+        dayLabel =
+          date.toLocaleDateString(
+            "en-IN",
+            {weekday:"short"}
+          );
+      }
+
+      return `${dayLabel} · ${formatTime(next.start)}–${formatTime(next.end)}`;
 
     }
 
@@ -2406,6 +2703,18 @@
       $("#appointmentDate").addEventListener(
         "change",
         generateTimeSlots
+      );
+
+
+      $("#paymentScreenshot").addEventListener(
+        "change",
+        handlePaymentScreenshot
+      );
+
+
+      $("#removePaymentScreenshot").addEventListener(
+        "click",
+        removePaymentScreenshot
       );
 
 
@@ -2481,12 +2790,17 @@
             ${escapeHtml(selectedDoctor.qualification)}
           </span>
 
+          <span style="display:block;margin-top:2px;color:var(--primary);font-weight:800">
+            Consultation fee: ${escapeHtml(selectedDoctor.fee)}
+          </span>
+
         </div>
 
       `;
 
 
       $("#bookingForm").reset();
+      removePaymentScreenshot();
 
       clearErrors();
 
@@ -2511,6 +2825,7 @@
       document.body.style.overflow = "";
 
       $("#bookingForm").reset();
+      removePaymentScreenshot();
 
       clearErrors();
 
@@ -2693,13 +3008,142 @@
     }
 
 
+    function handlePaymentScreenshot(event){
+
+      const file = event.target.files && event.target.files[0];
+
+      if(!file){
+        removePaymentScreenshot();
+        return;
+      }
+
+      if(!file.type.startsWith("image/")){
+        alert("Please select a JPG, PNG or WEBP image.");
+        removePaymentScreenshot();
+        return;
+      }
+
+      if(file.size > 5 * 1024 * 1024){
+        alert("Payment screenshot must be 5 MB or smaller.");
+        removePaymentScreenshot();
+        return;
+      }
+
+      paymentScreenshotFile = file;
+
+      if(paymentScreenshotObjectUrl){
+        URL.revokeObjectURL(paymentScreenshotObjectUrl);
+      }
+
+      paymentScreenshotObjectUrl = URL.createObjectURL(file);
+
+      $("#paymentPreviewImage").src = paymentScreenshotObjectUrl;
+      $("#paymentFileName").textContent = file.name;
+      $("#paymentFileSize").textContent = formatFileSize(file.size);
+      $("#paymentPreview").classList.add("show");
+
+    }
+
+
+    function removePaymentScreenshot(){
+
+      paymentScreenshotFile = null;
+
+      if(paymentScreenshotObjectUrl){
+        URL.revokeObjectURL(paymentScreenshotObjectUrl);
+        paymentScreenshotObjectUrl = "";
+      }
+
+      const input = $("#paymentScreenshot");
+      const preview = $("#paymentPreview");
+      const image = $("#paymentPreviewImage");
+
+      if(input){
+        input.value = "";
+      }
+
+      if(image){
+        image.removeAttribute("src");
+      }
+
+      if(preview){
+        preview.classList.remove("show");
+      }
+
+    }
+
+
+    function formatFileSize(bytes){
+
+      if(bytes < 1024){
+        return `${bytes} B`;
+      }
+
+      if(bytes < 1024 * 1024){
+        return `${(bytes / 1024).toFixed(1)} KB`;
+      }
+
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+    }
+
+
+    async function copyPaymentScreenshotToClipboard(){
+
+      if(!paymentScreenshotFile){
+        return false;
+      }
+
+      if(!window.isSecureContext || !navigator.clipboard || !window.ClipboardItem){
+        return false;
+      }
+
+      try{
+
+        let blob = paymentScreenshotFile;
+
+        // Clipboard image support is most reliable with PNG.
+        if(blob.type !== "image/png"){
+
+          const bitmap = await createImageBitmap(blob);
+          const canvas = document.createElement("canvas");
+          canvas.width = bitmap.width;
+          canvas.height = bitmap.height;
+
+          const context = canvas.getContext("2d");
+          context.drawImage(bitmap,0,0);
+          bitmap.close();
+
+          blob = await new Promise(resolve =>
+            canvas.toBlob(resolve,"image/png")
+          );
+
+          if(!blob){
+            return false;
+          }
+
+        }
+
+        await navigator.clipboard.write([
+          new ClipboardItem({"image/png":blob})
+        ]);
+
+        return true;
+
+      }catch(error){
+        return false;
+      }
+
+    }
+
+
     /*
       ==========================================================
       SUBMIT
       ==========================================================
     */
 
-    function submitBooking(event){
+    async function submitBooking(event){
 
       event.preventDefault();
 
@@ -2866,6 +3310,11 @@ Thank you.`;
           message
         );
 
+      // A normal wa.me URL cannot programmatically attach a local file.
+      // If the site is HTTPS and the browser permits clipboard access,
+      // copy the screenshot so the user can paste it directly into WhatsApp.
+      const screenshotCopied =
+        await copyPaymentScreenshotToClipboard();
 
       const popup =
         window.open(
@@ -2899,6 +3348,16 @@ Thank you.`;
               <small>${escapeHtml(formatTime(time))}</small>
             </div>
           </div>
+
+          ${paymentScreenshotFile ? `
+            <div class="info-row">
+              <div class="info-icon">₹</div>
+              <div>
+                <strong>Payment screenshot selected</strong>
+                <small>${screenshotCopied ? "Copied to clipboard — paste it into the WhatsApp chat." : "Please attach the selected screenshot manually in WhatsApp."}</small>
+              </div>
+            </div>
+          ` : ""}
 
         </div>
 
