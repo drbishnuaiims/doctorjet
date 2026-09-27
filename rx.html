@@ -26,7 +26,13 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
 .med-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1fr;gap:12px}.med-grid .wide{grid-column:span 2}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.chip{border:0;background:#dff2fa;color:#087da8;border-radius:20px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer}.chip:hover{background:#c8eaf7}
 .req{color:#d52b2b}.hint{font-size:11px;color:var(--muted);margin-top:5px}
-.followup-buttons{display:flex;gap:8px;flex-wrap:wrap}.followup-buttons button.active{background:var(--primary);color:#fff}.advice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:11px 0 13px}.advice-chip{border:1px solid #c8e5ef;background:#f2fbfe;color:#087da8;border-radius:14px;padding:10px 11px;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:.15s}.advice-chip:hover{background:#dff3fa;border-color:#9ed2e3;transform:translateY(-1px)}.advice-chip:active{transform:translateY(0)}.advice-chip .advice-name{display:block}.advice-chip .advice-preview{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;line-height:1.35}@media(max-width:780px){.advice-grid{grid-template-columns:1fr 1fr}}
+.followup-buttons{display:flex;gap:8px;flex-wrap:wrap}.followup-buttons button.active{background:var(--primary);color:#fff}.advice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:11px 0 13px}.advice-chip{border:1px solid #c8e5ef;background:#f2fbfe;color:#087da8;border-radius:14px;padding:10px 11px;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:.15s}.advice-chip:hover{background:#dff3fa;border-color:#9ed2e3;transform:translateY(-1px)}.advice-chip:active{transform:translateY(0)}.advice-chip .advice-name{display:block}.advice-chip .advice-preview{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;line-height:1.35}
+.template-warning{margin:12px 0 10px;padding:11px 13px;border:1px solid #ead7a5;background:#fff9e9;color:#765a24;border-radius:13px;font-size:12px;line-height:1.5}
+.template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:10px 0 12px}
+.template-chip{border:1px solid #c8e5ef;background:#f2fbfe;color:#087da8;border-radius:14px;padding:11px 12px;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:.15s}
+.template-chip:hover{background:#dff3fa;border-color:#9ed2e3;transform:translateY(-1px)}
+.template-chip .template-name{display:block}.template-chip .template-preview{display:block;font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;line-height:1.35}
+@media(max-width:780px){.advice-grid,.template-grid{grid-template-columns:1fr 1fr}}
 .sticky-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 14px;z-index:30}.sticky-inner{max-width:1050px;margin:auto;display:flex;justify-content:flex-end;gap:10px}
 .notice{background:#fff8e8;border:1px solid #efd5a1;color:#815b24;border-radius:13px;padding:10px 13px;font-size:12px;margin-bottom:10px}
 .status{font-size:12px;color:var(--muted);margin-top:8px}.status.ok{color:#16794a}.status.err{color:var(--danger)}
@@ -106,6 +112,12 @@ input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0
   <section class="card">
     <h2 class="section-title"><span class="icon">▣</span> Diagnosis <span class="req">*</span></h2>
     <textarea id="diagnosis" placeholder="Enter diagnosis / clinical impression"></textarea>
+    <div class="template-warning">
+      <strong>Adult treatment templates — review before signing.</strong>
+      These are point-of-care starter templates for common, uncomplicated presentations. Selecting a template adds medicines and advice; it does not replace clinical assessment, contraindication checks, diagnosis confirmation, dose adjustment, or guideline review.
+    </div>
+    <div class="template-grid" id="treatmentTemplateGrid"></div>
+    <div class="hint">Templates intentionally avoid routine antibiotics and high-risk/complex prescribing. You can edit or delete any generated medicine before issuing the prescription.</div>
   </section>
 
   <section class="card">
@@ -250,6 +262,165 @@ function applyMedicineAutocomplete(card){
     if(exact.instructions) card.querySelector(".med-instructions").value=exact.instructions;
   });
 }
+const TREATMENT_TEMPLATES = [
+  {
+    name:"Acute Viral URTI",
+    preview:"Symptomatic treatment; no routine antibiotic",
+    diagnosis:"Acute viral upper respiratory tract infection",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"After Meal"},
+      {name:"Tab Cetirizine 10 mg",dose:"1 tablet",freq:"0-0-0-1",duration:"5 days",instructions:"At Bedtime"}
+    ],
+    advice:"Adequate oral fluids and rest. Saline nasal care. Avoid smoke and respiratory irritants. No routine antibiotic is indicated for an uncomplicated viral URTI. Review if symptoms worsen, breathlessness develops, or fever persists."
+  },
+  {
+    name:"Acute Cough / Bronchitis",
+    preview:"Supportive care; avoid routine antibiotics",
+    diagnosis:"Acute cough / acute bronchitis — uncomplicated",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Adequate fluids and rest. Honey may be used in adults if appropriate. Avoid smoking and respiratory irritants. Routine antibiotics are not recommended for uncomplicated acute cough/bronchitis; reassess if symptoms worsen, the patient becomes systemically unwell, or cough persists beyond 3–4 weeks."
+  },
+  {
+    name:"Acute Diarrhea",
+    preview:"ORS-focused; no routine antibiotic",
+    diagnosis:"Acute diarrhea / acute gastroenteritis without dehydration",
+    medicines:[
+      {name:"ORS sachet",dose:"1 sachet in 1 L water",freq:"After each loose stool",duration:"3 days",instructions:"Oral rehydration"}
+    ],
+    advice:"Use low-osmolarity ORS and replace ongoing fluid losses. Continue normal/light food as tolerated. Maintain hand hygiene. Do not routinely use antibiotics or antidiarrhoeals in uncomplicated acute diarrhea. Review urgently for dehydration, blood in stool, persistent vomiting, severe abdominal pain, or worsening symptoms."
+  },
+  {
+    name:"GERD / Dyspepsia",
+    preview:"PPI starter course",
+    diagnosis:"Dyspepsia / gastro-oesophageal reflux symptoms",
+    medicines:[
+      {name:"Tab Pantoprazole 40 mg",dose:"1 tablet",freq:"1-0-0-0",duration:"4 weeks",instructions:"Empty Stomach"}
+    ],
+    advice:"Take the PPI before breakfast. Avoid late-night meals and known trigger foods. Reduce tobacco/alcohol exposure and avoid lying down soon after meals. Review persistent, recurrent, or alarm symptoms; consider H. pylori testing where appropriate."
+  },
+  {
+    name:"Allergic Rhinitis",
+    preview:"Antihistamine ± intranasal steroid",
+    diagnosis:"Allergic rhinitis",
+    medicines:[
+      {name:"Tab Cetirizine 10 mg",dose:"1 tablet",freq:"0-0-0-1",duration:"2 weeks",instructions:"At Bedtime"},
+      {name:"Fluticasone nasal spray 50 mcg",dose:"1 spray each nostril",freq:"1-0-0-0",duration:"2 weeks",instructions:"Intranasal"}
+    ],
+    advice:"Avoid identified allergens and smoke. Use saline nasal care. Demonstrate correct intranasal spray technique. Intranasal corticosteroid is particularly useful for moderate/severe or persistent symptoms; reassess if symptoms remain uncontrolled."
+  },
+  {
+    name:"Tension-Type Headache",
+    preview:"Simple analgesic; limit frequent use",
+    diagnosis:"Tension-type headache — uncomplicated",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Maintain regular sleep, meals and hydration. Identify and reduce triggers. Avoid frequent analgesic use to reduce medication-overuse headache risk. Review atypical, recurrent, progressive, or red-flag headache features."
+  },
+  {
+    name:"Nausea / Vomiting",
+    preview:"Short symptomatic antiemetic option",
+    diagnosis:"Acute nausea / vomiting — uncomplicated",
+    medicines:[
+      {name:"Tab Ondansetron 4 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"As needed for nausea/vomiting"}
+    ],
+    advice:"Take small frequent sips of oral fluids/ORS and resume light food as tolerated. Review for dehydration, persistent vomiting, severe abdominal pain, altered sensorium, GI bleeding, or other red flags. Check QT-prolonging drugs and relevant contraindications before ondansetron."
+  },
+  {
+    name:"Constipation",
+    preview:"Osmotic laxative starter option",
+    diagnosis:"Functional constipation — uncomplicated",
+    medicines:[
+      {name:"Polyethylene glycol (PEG) powder",dose:"17 g",freq:"1-0-0-0",duration:"5 days",instructions:"Dissolve in water"}
+    ],
+    advice:"Increase fluids, dietary fibre and physical activity as appropriate. Establish a regular toilet routine. Review if there is bleeding, severe abdominal pain, vomiting, weight loss, anemia, or a new/change in bowel habit requiring evaluation."
+  },
+  {
+    name:"Acute Mechanical Low Back Pain",
+    preview:"NSAID option — screen contraindications first",
+    diagnosis:"Acute mechanical low back pain without red flags",
+    medicines:[
+      {name:"Tab Naproxen 250 mg",dose:"1 tablet",freq:"1-0-1-0",duration:"5 days",instructions:"After Meal"},
+      {name:"Tab Omeprazole 20 mg",dose:"1 tablet",freq:"1-0-0-0",duration:"5 days",instructions:"Empty Stomach"}
+    ],
+    advice:"Remain active as tolerated; avoid prolonged bed rest. Continue appropriate exercise/physiotherapy. Before NSAID use, assess renal function/risk, peptic ulcer or GI bleeding history, anticoagulants, cardiovascular risk, pregnancy, and drug interactions. Use the lowest effective NSAID dose for the shortest duration."
+  },
+  {
+    name:"Primary Dysmenorrhea",
+    preview:"NSAID option when appropriate",
+    diagnosis:"Primary dysmenorrhea — uncomplicated",
+    medicines:[
+      {name:"Tab Ibuprofen 400 mg",dose:"1 tablet",freq:"1-1-1-0",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Start the NSAID early in the menstrual period when clinically appropriate. Use the lowest effective dose for the shortest duration. Screen for NSAID contraindications. Reassess severe, new, progressive, or atypical menstrual pain."
+  },
+  {
+    name:"Acute Musculoskeletal Pain",
+    preview:"Simple analgesic starter option",
+    diagnosis:"Acute uncomplicated musculoskeletal pain",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"1-1-1-0",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Relative rest from aggravating activity while maintaining gentle mobility. Use local heat/ice as appropriate. Continue physiotherapy/exercises where indicated. Reassess persistent, severe, traumatic, neurological, or systemic symptoms."
+  },
+  {
+    name:"Fever — Symptomatic",
+    preview:"Antipyretic while evaluating cause",
+    diagnosis:"Acute febrile illness — symptomatic treatment pending clinical evaluation",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Maintain hydration and rest. Monitor temperature and clinical progression. Evaluate for the underlying cause rather than treating fever alone. Review urgently for altered sensorium, respiratory distress, hypotension, persistent high fever, bleeding, severe pain, or other red flags."
+  },
+  {
+    name:"Allergic / Urticarial Symptoms",
+    preview:"Non-sedating antihistamine option",
+    diagnosis:"Acute urticaria / allergic symptoms — uncomplicated",
+    medicines:[
+      {name:"Tab Cetirizine 10 mg",dose:"1 tablet",freq:"0-0-0-1",duration:"5 days",instructions:"At Bedtime"}
+    ],
+    advice:"Avoid the suspected trigger where identifiable. Review urgently for lip/tongue swelling, wheeze, breathing difficulty, dizziness, or hypotension suggestive of anaphylaxis."
+  },
+  {
+    name:"Mild Viral Fever + Body Ache",
+    preview:"Symptomatic treatment only",
+    diagnosis:"Probable viral febrile illness — uncomplicated, pending evaluation",
+    medicines:[
+      {name:"Tab Paracetamol 650 mg",dose:"1 tablet",freq:"SOS",duration:"3 days",instructions:"After Meal"}
+    ],
+    advice:"Adequate fluids and rest. Monitor temperature and hydration. Avoid unnecessary antibiotics. Reassess if fever persists, worsens, or is associated with rash, bleeding, severe headache, neck stiffness, breathlessness, abdominal pain, or altered sensorium."
+  }
+];
+
+function renderTreatmentTemplates(){
+  const grid=$("treatmentTemplateGrid");
+  if(!grid) return;
+  grid.innerHTML=TREATMENT_TEMPLATES.map((t,i)=>
+    `<button type="button" class="template-chip" title="Add treatment template" onclick="applyTreatmentTemplate(${i})">
+      <span class="template-name">+ ${esc(t.name)}</span>
+      <span class="template-preview">${esc(t.preview)}</span>
+    </button>`
+  ).join("");
+}
+
+function applyTreatmentTemplate(index){
+  const t=TREATMENT_TEMPLATES[index];
+  if(!t) return;
+
+  if(!confirm(`Add the "${t.name}" treatment template?\n\nIt will replace the current medicine list and set the diagnosis/advice. Review all medicines, contraindications, dose, duration and patient-specific factors before signing.`)) return;
+
+  $("diagnosis").value=t.diagnosis;
+  $("generalAdvice").value=t.advice;
+
+  $("medicineList").innerHTML="";
+  medicineCounter=0;
+  t.medicines.forEach(m=>addMedicine(m));
+
+  window.scrollTo({top:document.getElementById("diagnosis").closest(".card").offsetTop-10,behavior:"smooth"});
+}
+
 const COMMON_ADVICE = [
   {name:"Fever / Viral Illness",text:"Adequate oral fluids, adequate rest, monitor temperature, and return for persistent or worsening fever."},
   {name:"Common Cold / URTI",text:"Warm fluids, adequate rest, saline nasal care, avoid smoke and other respiratory irritants, and return if breathlessness develops."},
@@ -623,6 +794,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   loadDoctorSettings();
   loadSavedImages();
   renderCommonAdvice();
+  renderTreatmentTemplates();
   addMedicine();
   rebuildDatalist();
   const consultationTime=$("consultationTime");
