@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC Duty Shift Counter</title>
+<style>
+:root{
+  --bg:#f4f7f8;--card:#fff;--text:#172126;--muted:#68767d;
+  --line:#dce4e7;--accent:#197a72;--accent2:#0f5f59;
+  --danger:#c0392b;--shadow:0 8px 25px rgba(20,40,45,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,#103f3b,#197a72);color:#fff;padding:28px 20px}
+.header-inner{max-width:1200px;margin:auto}
+h1{margin:0 0 6px;font-size:28px}
+.subtitle{opacity:.82;margin:0;font-size:14px}
+.container{max-width:1200px;margin:22px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+.card h2{font-size:18px;margin:0 0 15px}
+.controls{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+input,select,button{font:inherit}
+input,select{width:100%;border:1px solid #cfdadd;border-radius:9px;padding:11px 12px;background:#fff;color:var(--text);outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(25,122,114,.12)}
+button{border:0;border-radius:9px;padding:11px 15px;cursor:pointer;font-weight:700}
+.primary{background:var(--accent);color:#fff}.primary:hover{background:var(--accent2)}
+.secondary{background:#e9f1f1;color:#174e4a}
+.danger{background:#fdeceb;color:#a52f25}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.entry-grid{display:grid;grid-template-columns:160px 1fr 1fr 1fr auto;gap:10px;align-items:end}
+.small-note{font-size:12px;color:var(--muted);margin-top:9px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.stat{background:#f7faf9;border:1px solid var(--line);border-radius:11px;padding:14px}
+.stat .label{margin:0 0 4px}.stat .value{font-size:24px;font-weight:800}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
+th{background:#f6f8f9;color:#536269;position:sticky;top:0;z-index:1}
+td.num,th.num{text-align:center}
+.badge{display:inline-block;min-width:28px;text-align:center;padding:4px 7px;border-radius:7px;font-size:11px;font-weight:800}
+.badge-a{background:#e4f1ff;color:#1769aa}.badge-b{background:#fff0d9;color:#a15b00}.badge-c{background:#eee8ff;color:#6840a5}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.name-manager{display:grid;grid-template-columns:1fr auto;gap:10px}
+.list{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+.name-chip{display:flex;align-items:center;gap:6px;background:#eef4f3;border:1px solid #d5e2e0;border-radius:20px;padding:6px 9px 6px 11px;font-size:13px}
+.name-chip button{padding:2px 5px;background:transparent;color:#9a342b}
+.hidden{display:none!important}
+.notice{background:#fff8e7;border:1px solid #f0d58c;color:#755700;border-radius:9px;padding:10px 12px;font-size:13px;margin-top:12px}
+footer{text-align:center;color:#7a878c;font-size:12px;padding:10px 0 30px}
+@media(max-width:800px){
+ .controls,.entry-grid{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .entry-grid .actions{width:100%}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="header-inner">
+  <h1>ABC Duty Shift Counter</h1>
+  <p class="subtitle">Monthly hospital emergency roster — count A, B and C shifts doctor-wise</p>
+ </div>
+</header>
+
+<main class="container">
+
+<section class="card">
+ <h2>1. Select roster month</h2>
+ <div class="controls">
+  <div><label>Month</label><select id="month"></select></div>
+  <div><label>Year</label><input id="year" type="number" min="2000" max="2100"></div>
+  <button class="primary" id="newMonthBtn">Load Month</button>
+ </div>
+</section>
+
+<section class="card">
+ <h2>2. Doctor names</h2>
+ <div class="name-manager">
+  <input id="doctorName" placeholder="Enter doctor's name, e.g. Dr. A. Kumar">
+  <button class="primary" id="addDoctorBtn">+ Add Doctor</button>
+ </div>
+ <div id="doctorList" class="list"></div>
+ <div class="small-note">Add a doctor the first time their name appears in the roster. They will then be available in the date-wise dropdowns.</div>
+</section>
+
+<section class="card">
+ <h2>3. Enter daily A / B / C duty</h2>
+ <div class="entry-grid">
+  <div><label>Date</label><input id="dutyDate" type="date"></div>
+  <div><label>A Shift</label><select id="shiftA"><option value="">— No doctor —</option></select></div>
+  <div><label>B Shift</label><select id="shiftB"><option value="">— No doctor —</option></select></div>
+  <div><label>C Shift</label><select id="shiftC"><option value="">— No doctor —</option></select></div>
+  <button class="primary actions" id="saveDutyBtn">Save Day</button>
+ </div>
+ <div class="small-note">If the same doctor does two different shifts on the same date, select that doctor in both fields. Each shift is counted separately.</div>
+ <div id="entryNotice" class="notice hidden"></div>
+</section>
+
+<section class="card">
+ <h2>Monthly overview</h2>
+ <div class="stats">
+  <div class="stat"><div class="label">Days entered</div><div class="value" id="daysCount">0</div></div>
+  <div class="stat"><div class="label">A shifts</div><div class="value" id="aTotal">0</div></div>
+  <div class="stat"><div class="label">B shifts</div><div class="value" id="bTotal">0</div></div>
+  <div class="stat"><div class="label">C shifts</div><div class="value" id="cTotal">0</div></div>
+  <div class="stat"><div class="label">Total shifts</div><div class="value" id="allTotal">0</div></div>
+ </div>
+</section>
+
+<section class="card">
+ <h2>Doctor-wise monthly count</h2>
+ <div class="toolbar" style="margin-bottom:12px">
+  <input id="doctorSearch" placeholder="Search doctor..." style="max-width:320px">
+  <button class="secondary" id="exportSummaryBtn">Export Summary CSV</button>
+  <button class="secondary" id="exportRosterBtn">Export Roster CSV</button>
+  <button class="danger" id="clearMonthBtn">Clear This Month</button>
+ </div>
+ <div class="table-wrap">
+  <table>
+   <thead><tr><th>Doctor</th><th class="num">A</th><th class="num">B</th><th class="num">C</th><th class="num">Total</th></tr></thead>
+   <tbody id="summaryBody"></tbody>
+  </table>
+ </div>
+</section>
+
+<section class="card">
+ <h2>Date-wise roster</h2>
+ <div class="table-wrap">
+  <table>
+   <thead><tr><th>Date</th><th>A Shift</th><th>B Shift</th><th>C Shift</th><th class="num">Action</th></tr></thead>
+   <tbody id="rosterBody"></tbody>
+  </table>
+ </div>
+</section>
+
+<footer>ABC Duty Shift Counter • Data is stored locally in this browser.</footer>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const now=new Date();
+let state={doctors:[],rosters:{}};
+let currentKey="";
+
+function storageKey(){return "abc-duty-counter-v1";}
+function loadState(){
+ try{state=JSON.parse(localStorage.getItem(storageKey()))||{doctors:[],rosters:{}};}
+ catch(e){state={doctors:[],rosters:{}};}
+ state.doctors=Array.isArray(state.doctors)?state.doctors:[];
+ state.rosters=state.rosters&&typeof state.rosters==="object"?state.rosters:{};
+}
+function saveState(){localStorage.setItem(storageKey(),JSON.stringify(state));}
+function getKey(){
+ const y=Number($("year").value),m=Number($("month").value);
+ return `${y}-${String(m+1).padStart(2,"0")}`;
+}
+function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+function setDefaultDate(){
+ const y=Number($("year").value),m=Number($("month").value);
+ const d=Math.min(now.getDate(),daysInMonth(y,m));
+ $("dutyDate").value=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+}
+function populateMonths(){
+ months.forEach((x,i)=>{let o=document.createElement("option");o.value=i;o.textContent=x;$("month").appendChild(o);});
+ $("month").value=now.getMonth();$("year").value=now.getFullYear();
+}
+function monthRoster(){return state.rosters[currentKey]||{};}
+function renderDoctorDropdowns(){
+ ["shiftA","shiftB","shiftC"].forEach(id=>{
+  const old=$(id).value;
+  $(id).innerHTML='<option value="">— No doctor —</option>';
+  state.doctors.forEach((name,i)=>{
+   const o=document.createElement("option");o.value=String(i);o.textContent=name;$(id).appendChild(o);
+  });
+  if([...$(id).options].some(o=>o.value===old))$(id).value=old;
+ });
+}
+function renderDoctorList(){
+ const box=$("doctorList");box.innerHTML="";
+ if(!state.doctors.length){box.innerHTML='<span class="small-note">No doctors added yet.</span>';return;}
+ state.doctors.forEach((name,i)=>{
+  const chip=document.createElement("span");chip.className="name-chip";
+  chip.innerHTML=`${escapeHtml(name)} <button title="Delete doctor" onclick="deleteDoctor(${i})">×</button>`;
+  box.appendChild(chip);
+ });
+}
+function render(){
+ currentKey=getKey();
+ if(!state.rosters[currentKey])state.rosters[currentKey]={};
+ renderDoctorDropdowns();renderDoctorList();renderSummary();renderRoster();setDefaultDate();saveState();
+}
+function nameFromIndex(v){return v===""?"":(state.doctors[Number(v)]||"");}
+function renderSummary(){
+ const counts={};state.doctors.forEach(n=>counts[n]={a:0,b:0,c:0});
+ let a=0,b=0,c=0;
+ Object.values(monthRoster()).forEach(r=>{
+  [["a","A"],["b","B"],["c","C"]].forEach(([k])=>{
+   const n=r[k];if(n){if(!counts[n])counts[n]={a:0,b:0,c:0};counts[n][k]++;if(k==="a")a++;if(k==="b")b++;if(k==="c")c++;}
+  });
+ });
+ $("daysCount").textContent=Object.keys(monthRoster()).length;
+ $("aTotal").textContent=a;$("bTotal").textContent=b;$("cTotal").textContent=c;$("allTotal").textContent=a+b+c;
+ const q=$("doctorSearch").value.toLowerCase().trim(),body=$("summaryBody");body.innerHTML="";
+ let names=Object.keys(counts).filter(n=>n.toLowerCase().includes(q));
+ if(!names.length){body.innerHTML='<tr><td colspan="5" class="empty">No matching doctors.</td></tr>';return;}
+ names.sort((x,y)=>x.localeCompare(y)).forEach(n=>{
+  const c=counts[n],tr=document.createElement("tr");
+  tr.innerHTML=`<td><strong>${escapeHtml(n)}</strong></td>
+   <td class="num"><span class="badge badge-a">${c.a}</span></td>
+   <td class="num"><span class="badge badge-b">${c.b}</span></td>
+   <td class="num"><span class="badge badge-c">${c.c}</span></td>
+   <td class="num"><strong>${c.a+c.b+c.c}</strong></td>`;
+  body.appendChild(tr);
+ });
+}
+function renderRoster(){
+ const body=$("rosterBody");body.innerHTML="";
+ const rows=Object.entries(monthRoster()).sort(([a],[b])=>a.localeCompare(b));
+ if(!rows.length){body.innerHTML='<tr><td colspan="5" class="empty">No daily duties entered for this month.</td></tr>';return;}
+ rows.forEach(([date,r])=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td><strong>${formatDate(date)}</strong></td>
+   <td>${r.a?`<span class="badge badge-a">A</span> ${escapeHtml(r.a)}`:"—"}</td>
+   <td>${r.b?`<span class="badge badge-b">B</span> ${escapeHtml(r.b)}`:"—"}</td>
+   <td>${r.c?`<span class="badge badge-c">C</span> ${escapeHtml(r.c)}`:"—"}</td>
+   <td class="num"><button class="secondary" onclick="editDay('${date}')">Edit</button>
+   <button class="danger" onclick="deleteDay('${date}')">Delete</button></td>`;
+  body.appendChild(tr);
+ });
+}
+function formatDate(s){
+ const [y,m,d]=s.split("-");return new Date(Number(y),Number(m)-1,Number(d)).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+function addDoctor(){
+ const name=$("doctorName").value.trim().replace(/\s+/g," ");
+ if(!name){alert("Enter a doctor's name.");return;}
+ if(state.doctors.some(n=>n.toLowerCase()===name.toLowerCase())){alert("This doctor is already in the list.");return;}
+ state.doctors.push(name);state.doctors.sort((a,b)=>a.localeCompare(b));$("doctorName").value="";saveState();render();
+}
+function deleteDoctor(i){
+ const name=state.doctors[i];
+ const used=Object.values(state.rosters).some(month=>Object.values(month).some(r=>[r.a,r.b,r.c].includes(name)));
+ if(used){alert("This doctor is already used in a roster. Delete or change those roster entries first.");return;}
+ if(confirm(`Remove ${name} from the doctor list?`)){state.doctors.splice(i,1);saveState();render();}
+}
+function saveDuty(){
+ const date=$("dutyDate").value;if(!date){alert("Select a date.");return;}
+ if(date.slice(0,7)!==currentKey){alert("The selected date is outside the loaded month.");return;}
+ const r={a:nameFromIndex($("shiftA").value),b:nameFromIndex($("shiftB").value),c:nameFromIndex($("shiftC").value)};
+ if(!r.a&&!r.b&&!r.c){alert("Select at least one doctor.");return;}
+ state.rosters[currentKey][date]=r;saveState();
+ $("entryNotice").textContent=`Saved duty for ${formatDate(date)}.`;
+ $("entryNotice").classList.remove("hidden");
+ setTimeout(()=>$("entryNotice").classList.add("hidden"),1800);
+ renderSummary();renderRoster();
+}
+function editDay(date){
+ const r=monthRoster()[date]||{};
+ $("dutyDate").value=date;
+ ["A","B","C"].forEach(k=>{
+  const id="shift"+k,idx=state.doctors.indexOf(r[k]);
+  $(id).value=idx>=0?String(idx):"";
+ });
+ window.scrollTo({top:$("dutyDate").closest(".card").offsetTop-10,behavior:"smooth"});
+}
+function deleteDay(date){
+ if(confirm(`Delete the duty entry for ${formatDate(date)}?`)){delete state.rosters[currentKey][date];saveState();renderSummary();renderRoster();}
+}
+function clearMonth(){
+ const n=Object.keys(monthRoster()).length;
+ if(!n){alert("There are no roster entries to clear.");return;}
+ if(confirm(`Delete all ${n} daily entries for ${months[Number($("month").value)]} ${$("year").value}?`)){
+  state.rosters[currentKey]={};saveState();render();
+ }
+}
+function csvEscape(v){return `"${String(v??"").replace(/"/g,'""')}"`;}
+function downloadCSV(filename,rows){
+ const blob=new Blob([rows.map(r=>r.map(csvEscape).join(",")).join("\n")],{type:"text/csv;charset=utf-8;"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href);
+}
+function exportSummary(){
+ const rows=[["Doctor","A Shifts","B Shifts","C Shifts","Total Shifts"]];
+ const counts={};state.doctors.forEach(n=>counts[n]={a:0,b:0,c:0});
+ Object.values(monthRoster()).forEach(r=>{["a","b","c"].forEach(k=>{if(r[k]){if(!counts[r[k]])counts[r[k]]={a:0,b:0,c:0};counts[r[k]][k]++;}});});
+ Object.keys(counts).sort((a,b)=>a.localeCompare(b)).forEach(n=>{const c=counts[n];rows.push([n,c.a,c.b,c.c,c.a+c.b+c.c]);});
+ downloadCSV(`ABC_Shift_Summary_${currentKey}.csv`,rows);
+}
+function exportRoster(){
+ const rows=[["Date","A Shift","B Shift","C Shift"]];
+ Object.entries(monthRoster()).sort(([a],[b])=>a.localeCompare(b)).forEach(([d,r])=>rows.push([d,r.a||"",r.b||"",r.c||""]));
+ downloadCSV(`ABC_Daily_Roster_${currentKey}.csv`,rows);
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+$("addDoctorBtn").onclick=addDoctor;
+$("doctorName").addEventListener("keydown",e=>{if(e.key==="Enter")addDoctor();});
+$("saveDutyBtn").onclick=saveDuty;
+$("newMonthBtn").onclick=render;
+$("doctorSearch").oninput=renderSummary;
+$("clearMonthBtn").onclick=clearMonth;
+$("exportSummaryBtn").onclick=exportSummary;
+$("exportRosterBtn").onclick=exportRoster;
+$("dutyDate").addEventListener("change",()=>{$("entryNotice").classList.add("hidden");});
+
+loadState();populateMonths();render();
+</script>
+</body>
+</html>
