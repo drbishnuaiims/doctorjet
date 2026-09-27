@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shree Health Pharmacy | Doctor Consultation</title>
+  <meta name="description" content="Doctor consultation available at Shree Health Pharmacy. View doctors, consultation timings and request an appointment on WhatsApp.">
+  <meta name="theme-color" content="#0f766e">
+
+  <style>
+    :root{
+      --primary:#087f73;
+      --primary-dark:#06665d;
+      --primary-soft:#e9f7f4;
+      --text:#172033;
+      --muted:#667085;
+      --border:#e5e7eb;
+      --bg:#f7f9fa;
+      --white:#ffffff;
+      --danger:#c62828;
+      --shadow:0 8px 30px rgba(15,23,42,.07);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      line-height:1.5;
+    }
+
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
+
+    .container{
+      width:min(760px,calc(100% - 28px));
+      margin:auto;
+    }
+
+    /* PROFILE HEADER */
+    .profile{
+      background:var(--white);
+      text-align:center;
+      padding:42px 18px 28px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .profile-photo{
+      width:104px;
+      height:104px;
+      margin:0 auto 15px;
+      border-radius:50%;
+      overflow:hidden;
+      border:4px solid var(--white);
+      box-shadow:0 4px 20px rgba(15,23,42,.12);
+      background:var(--primary-soft);
+    }
+
+    .profile-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .profile h1{
+      margin:0;
+      font-size:25px;
+      line-height:1.2;
+      letter-spacing:-.02em;
+    }
+
+    .profile-tagline{
+      color:var(--muted);
+      font-size:13px;
+      margin:7px 0 14px;
+    }
+
+    .location{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:var(--primary);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .location span{
+      font-size:15px;
+    }
+
+    .profile-actions{
+      display:flex;
+      justify-content:center;
+      gap:9px;
+      margin-top:18px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      min-height:42px;
+      padding:10px 17px;
+      border-radius:11px;
+      border:1px solid var(--border);
+      background:var(--white);
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      transition:.18s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+
+    .btn-primary:hover{
+      background:var(--primary-dark);
+    }
+
+    .btn-whatsapp{
+      color:#fff;
+      background:#159447;
+      border-color:#159447;
+    }
+
+    /* MAIN */
+    main{
+      padding:28px 0 70px;
+    }
+
+    .section-heading{
+      margin-bottom:16px;
+    }
+
+    .section-heading h2{
+      font-size:20px;
+      margin:0;
+      letter-spacing:-.02em;
+    }
+
+    .section-heading p{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* DOCTOR CARD */
+    .doctor-list{
+      display:grid;
+      gap:13px;
+    }
+
+    .doctor-card{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:var(--shadow);
+    }
+
+    .doctor-top{
+      display:flex;
+      gap:13px;
+      align-items:center;
+    }
+
+    .doctor-photo{
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      overflow:hidden;
+      flex:0 0 68px;
+      background:var(--primary-soft);
+      border:1px solid #d7ebe7;
+    }
+
+    .doctor-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .doctor-info{
+      min-width:0;
+    }
+
+    .doctor-info h3{
+      margin:0;
+      font-size:17px;
+      line-height:1.25;
+    }
+
+    .department{
+      color:var(--primary);
+      font-size:11px;
+      font-weight:800;
+      margin-top:3px;
+    }
+
+    .qualification{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:2px;
+    }
+
+    .doctor-details{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:14px;
+    }
+
+    .detail{
+      background:#f8fafb;
+      border-radius:10px;
+      padding:9px 10px;
+    }
+
+    .detail-label{
+      color:#98a2b3;
+      display:block;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-weight:700;
+      margin-bottom:2px;
+    }
+
+    .detail-value{
+      font-size:11px;
+      font-weight:700;
+      color:#344054;
+    }
+
+    .doctor-footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:13px;
+      padding-top:13px;
+      border-top:1px solid #f0f2f4;
+    }
+
+    .availability{
+      color:#16803c;
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .book-btn{
+      padding:10px 15px;
+      min-height:40px;
+    }
+
+    /* INFO */
+    .info-card{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:17px;
+      margin-top:13px;
+    }
+
+    .info-row{
+      display:flex;
+      gap:11px;
+      align-items:flex-start;
+      padding:10px 0;
+      border-bottom:1px solid #f0f2f4;
+    }
+
+    .info-row:last-child{
+      border-bottom:0;
+      padding-bottom:0;
+    }
+
+    .info-row:first-child{
+      padding-top:0;
+    }
+
+    .info-icon{
+      width:31px;
+      height:31px;
+      border-radius:9px;
+      background:var(--primary-soft);
+      color:var(--primary);
+      display:grid;
+      place-items:center;
+      flex:none;
+      font-size:14px;
+    }
+
+    .info-row strong{
+      display:block;
+      font-size:12px;
+    }
+
+    .info-row small{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      margin-top:1px;
+    }
+
+    /* FOOTER */
+    footer{
+      background:#142029;
+      color:#aebbc4;
+      text-align:center;
+      padding:22px 15px 26px;
+      font-size:10px;
+    }
+
+    footer strong{
+      color:#fff;
+      display:block;
+      font-size:12px;
+      margin-bottom:5px;
+    }
+
+    /* MODAL */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      z-index:100;
+      background:rgba(15,23,42,.58);
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:12px;
+    }
+
+    .modal-backdrop[hidden]{
+      display:none;
+    }
+
+    .modal{
+      width:min(620px,100%);
+      max-height:92vh;
+      overflow-y:auto;
+      background:#fff;
+      border-radius:22px;
+      padding:22px;
+      position:relative;
+      box-shadow:0 25px 80px rgba(0,0,0,.25);
+    }
+
+    .modal-close{
+      position:absolute;
+      top:13px;
+      right:13px;
+      width:35px;
+      height:35px;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:10px;
+      font-size:22px;
+      color:#667085;
+    }
+
+    .modal h2{
+      margin:0;
+      padding-right:42px;
+      font-size:21px;
+    }
+
+    .modal-subtitle{
+      color:var(--muted);
+      font-size:11px;
+      margin:4px 0 17px;
+    }
+
+    .selected-doctor{
+      background:var(--primary-soft);
+      border-radius:13px;
+      padding:11px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:17px;
+    }
+
+    .selected-doctor img{
+      width:47px;
+      height:47px;
+      border-radius:50%;
+      object-fit:cover;
+      background:#fff;
+    }
+
+    .selected-doctor strong{
+      display:block;
+      font-size:12px;
+    }
+
+    .selected-doctor span{
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .field.full{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:block;
+      font-size:10px;
+      font-weight:800;
+      color:#344054;
+      margin-bottom:5px;
+    }
+
+    label span{
+      color:var(--danger);
+    }
+
+    input,select,textarea{
+      width:100%;
+      border:1px solid #d8dee5;
+      border-radius:10px;
+      padding:10px 11px;
+      outline:none;
+      background:#fff;
+      color:var(--text);
+      font-size:11px;
+    }
+
+    textarea{
+      resize:vertical;
+      min-height:72px;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(8,127,115,.08);
+    }
+
+    .error{
+      color:var(--danger);
+      display:block;
+      font-size:9px;
+      min-height:13px;
+      margin-top:3px;
+    }
+
+    .consent{
+      display:flex;
+      align-items:flex-start;
+      gap:7px;
+      font-weight:500;
+      color:#667085;
+      line-height:1.4;
+      margin-top:2px;
+    }
+
+    .consent input{
+      width:15px;
+      height:15px;
+      margin-top:1px;
+      accent-color:var(--primary);
+      flex:none;
+    }
+
+    .submit{
+      width:100%;
+      margin-top:8px;
+      min-height:47px;
+    }
+
+    .confirmation{
+      text-align:center;
+      padding:20px 5px 8px;
+    }
+
+    .success-icon{
+      width:58px;
+      height:58px;
+      margin:0 auto 12px;
+      border-radius:50%;
+      background:var(--primary-soft);
+      color:var(--primary);
+      display:grid;
+      place-items:center;
+      font-size:27px;
+      font-weight:800;
+    }
+
+    .confirmation h2{
+      padding:0;
+    }
+
+    .confirmation p{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .confirmation-buttons{
+      display:grid;
+      gap:8px;
+      margin-top:18px;
+    }
+
+    /* DESKTOP */
+    @media(min-width:700px){
+      .profile{
+        padding:52px 20px 35px;
+      }
+
+      .profile-photo{
+        width:120px;
+        height:120px;
+      }
+
+      .profile h1{
+        font-size:30px;
+      }
+
+      .doctor-list{
+        gap:16px;
+      }
+
+      .doctor-card{
+        padding:19px;
+      }
+
+      .doctor-photo{
+        width:76px;
+        height:76px;
+        flex-basis:76px;
+      }
+
+      .modal-backdrop{
+        align-items:center;
+      }
+    }
+
+    @media(max-width:520px){
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .field.full{
+        grid-column:auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       PHARMACY PROFILE
+       Change these details
+       ========================= -->
+  <header class="profile">
+    <div class="profile-photo">
+      <img src="assets/logo.svg" alt="Shree Health Pharmacy">
+    </div>
+
+    <h1 id="pharmacyName">Shree Health Pharmacy</h1>
+
+    <p class="profile-tagline" id="pharmacyTagline">
+      Pharmacy & Doctor Consultation Centre
+    </p>
+
+    <a class="location" id="locationLink"
+       href="https://maps.google.com/?q=Bhubaneswar+Odisha"
+       target="_blank"
+       rel="noopener noreferrer">
+      <span>⌖</span>
+      <span id="pharmacyAddress">Bhubaneswar, Odisha</span>
+    </a>
+
+    <div class="profile-actions">
+      <a class="btn" id="mapButton"
+         href="https://maps.google.com/?q=Bhubaneswar+Odisha"
+         target="_blank"
+         rel="noopener noreferrer">
+        View Location
+      </a>
+
+      <a class="btn btn-whatsapp" id="pharmacyWhatsApp"
+         href="#"
+         target="_blank"
+         rel="noopener noreferrer">
+        WhatsApp
+      </a>
+    </div>
+  </header>
+
+
+  <main>
+    <div class="container">
+
+      <section>
+        <div class="section-heading">
+          <h2>Doctors available for consultation</h2>
+          <p>Select a doctor to view availability and request an appointment.</p>
+        </div>
+
+        <div class="doctor-list" id="doctorList"></div>
+      </section>
+
+
+      <section class="info-card">
+        <div class="info-row">
+          <div class="info-icon">◷</div>
+          <div>
+            <strong>Pharmacy Hours</strong>
+            <small id="openingHours">8:00 AM – 10:00 PM</small>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">☎</div>
+          <div>
+            <strong>Contact</strong>
+            <small id="phoneNumber">+91 98765 43210</small>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">+</div>
+          <div>
+            <strong>Consultation</strong>
+            <small>Doctor consultation by appointment. Availability varies by doctor.</small>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <footer>
+    <strong id="footerName">Shree Health Pharmacy</strong>
+    Doctor consultation requests are subject to doctor availability.
+    <br><br>
+    For medical emergencies, visit the nearest emergency department.
+  </footer>
+
+
+  <!-- =========================
+       BOOKING MODAL
+       ========================= -->
+  <div class="modal-backdrop" id="bookingModal" hidden>
+
+    <div class="modal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modalTitle">
+
+      <button class="modal-close"
+              id="closeModal"
+              type="button"
+              aria-label="Close">
+        ×
+      </button>
+
+      <div id="bookingView">
+
+        <h2 id="modalTitle">Request a Consultation</h2>
+
+        <p class="modal-subtitle">
+          Fill in the details below. Your request will be prepared as a WhatsApp message.
+        </p>
+
+        <div class="selected-doctor" id="selectedDoctor"></div>
+
+        <form id="bookingForm" novalidate>
+
+          <div class="form-grid">
+
+            <div>
+              <label for="patientName">
+                Full Name <span>*</span>
+              </label>
+              <input id="patientName"
+                     type="text"
+                     placeholder="Enter your name"
+                     autocomplete="name"
+                     required>
+              <small class="error" id="nameError"></small>
+            </div>
+
+
+            <div>
+              <label for="patientMobile">
+                Mobile Number <span>*</span>
+              </label>
+              <input id="patientMobile"
+                     type="tel"
+                     inputmode="numeric"
+                     placeholder="10-digit mobile number"
+                     autocomplete="tel"
+                     required>
+              <small class="error" id="mobileError"></small>
+            </div>
+
+
+            <div>
+              <label for="patientAge">
+                Age
+              </label>
+              <input id="patientAge"
+                     type="number"
+                     min="0"
+                     max="120"
+                     placeholder="Age">
+            </div>
+
+
+            <div>
+              <label for="patientGender">
+                Gender
+              </label>
+              <select id="patientGender">
+                <option value="">Prefer not to say</option>
+                <option>Female</option>
+                <option>Male</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label for="appointmentDate">
+                Preferred Date <span>*</span>
+              </label>
+              <input id="appointmentDate"
+                     type="date"
+                     required>
+              <small class="error" id="dateError"></small>
+            </div>
+
+
+            <div>
+              <label for="appointmentTime">
+                Preferred Time <span>*</span>
+              </label>
+              <select id="appointmentTime" required disabled>
+                <option value="">Select date first</option>
+              </select>
+              <small class="error" id="timeError"></small>
+            </div>
+
+
+            <div>
+              <label for="consultationType">
+                Consultation Type
+              </label>
+              <select id="consultationType">
+                <option>In-person</option>
+                <option>Video consultation</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label for="reason">
+                Reason for Consultation <span>*</span>
+              </label>
+              <input id="reason"
+                     type="text"
+                     placeholder="Brief reason"
+                     required>
+              <small class="error" id="reasonError"></small>
+            </div>
+
+
+            <div class="field full">
+              <label for="additionalMessage">
+                Additional Message
+              </label>
+              <textarea id="additionalMessage"
+                        placeholder="Optional"></textarea>
+            </div>
+
+
+            <div class="field full">
+              <label class="consent">
+                <input id="consent" type="checkbox">
+                <span>
+                  I confirm that the information provided is correct and agree to be contacted regarding this consultation request.
+                </span>
+              </label>
+              <small class="error" id="consentError"></small>
+            </div>
+
+          </div>
+
+          <button class="btn btn-primary submit"
+                  type="submit">
+            Continue to WhatsApp ↗
+          </button>
+
+        </form>
+      </div>
+
+
+      <!-- CONFIRMATION -->
+      <div class="confirmation" id="confirmationView" hidden>
+
+        <div class="success-icon">✓</div>
+
+        <h2>Request Ready</h2>
+
+        <p>
+          Your consultation details have been prepared in WhatsApp.
+          Please send the message to the pharmacy to complete your request.
+        </p>
+
+        <div id="confirmationSummary"></div>
+
+        <div class="confirmation-buttons">
+          <button class="btn btn-whatsapp"
+                  id="openWhatsAppAgain"
+                  type="button">
+            Open WhatsApp Again ↗
+          </button>
+
+          <button class="btn"
+                  id="closeConfirmation"
+                  type="button">
+            Close
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+    /*
+      ==========================================================
+      PHARMACY CONFIGURATION
+      Change these values for each pharmacy.
+      ==========================================================
+    */
+
+    const pharmacyConfig = {
+      name: "Shree Health Pharmacy",
+      tagline: "Pharmacy & Doctor Consultation Centre",
+      logo: "assets/logo.svg",
+
+      address: "Bhubaneswar, Odisha",
+      phone: "+91 98765 43210",
+
+      // Digits only. Include country code.
+      whatsapp: "919876543210",
+
+      mapsUrl: "https://maps.google.com/?q=Bhubaneswar+Odisha",
+
+      openingHours: "8:00 AM – 10:00 PM"
+    };
+
+
+    /*
+      ==========================================================
+      DOCTOR DATA
+      Add/remove doctors here.
+      ==========================================================
+    */
+
+    const doctors = [
+
+      {
+        id: "doctor-001",
+
+        name: "Dr. Ananya Sharma",
+
+        department: "General Medicine",
+
+        qualification: "MBBS, MD",
+
+        experience: "8+ years",
+
+        photo: "assets/doctors/doctor-1.svg",
+
+        fee: "₹500",
+
+        whatsapp: "",
+
+        schedule: [
+          {
+            day: "Monday",
+            start: "17:00",
+            end: "19:00"
+          },
+          {
+            day: "Wednesday",
+            start: "17:00",
+            end: "19:00"
+          },
+          {
+            day: "Friday",
+            start: "17:00",
+            end: "19:00"
+          }
+        ],
+
+        slotDuration: 30
+      },
+
+
+      {
+        id: "doctor-002",
+
+        name: "Dr. Rohan Mehta",
+
+        department: "Dermatology",
+
+        qualification: "MBBS, MD",
+
+        experience: "7+ years",
+
+        photo: "assets/doctors/doctor-2.svg",
+
+        fee: "₹600",
+
+        whatsapp: "",
+
+        schedule: [
+          {
+            day: "Tuesday",
+            start: "17:30",
+            end: "19:30"
+          },
+          {
+            day: "Thursday",
+            start: "17:30",
+            end: "19:30"
+          },
+          {
+            day: "Saturday",
+            start: "10:00",
+            end: "12:00"
+          }
+        ],
+
+        slotDuration: 30
+      },
+
+
+      {
+        id: "doctor-003",
+
+        name: "Dr. Priya Nair",
+
+        department: "Pediatrics",
+
+        qualification: "MBBS, MD",
+
+        experience: "10+ years",
+
+        photo: "assets/doctors/doctor-3.svg",
+
+        fee: "₹500",
+
+        whatsapp: "",
+
+        schedule: [
+          {
+            day: "Monday",
+            start: "18:00",
+            end: "20:00"
+          },
+          {
+            day: "Thursday",
+            start: "18:00",
+            end: "20:00"
+          },
+          {
+            day: "Saturday",
+            start: "16:00",
+            end: "18:00"
+          }
+        ],
+
+        slotDuration: 30
+      },
+
+
+      {
+        id: "doctor-004",
+
+        name: "Dr. Arjun Rao",
+
+        department: "Psychiatry",
+
+        qualification: "MBBS, MD",
+
+        experience: "9+ years",
+
+        photo: "assets/doctors/doctor-4.svg",
+
+        fee: "₹700",
+
+        whatsapp: "",
+
+        schedule: [
+          {
+            day: "Tuesday",
+            start: "18:00",
+            end: "20:00"
+          },
+          {
+            day: "Friday",
+            start: "18:00",
+            end: "20:00"
+          }
+        ],
+
+        slotDuration: 30
+      }
+
+    ];
+
+
+    /*
+      ==========================================================
+      PAGE SETUP
+      ==========================================================
+    */
+
+    const $ = selector => document.querySelector(selector);
+
+    let selectedDoctor = null;
+    let whatsappUrl = "";
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      populatePharmacy();
+
+      renderDoctors();
+
+      setMinimumDate();
+
+      bindEvents();
+
+    });
+
+
+    function populatePharmacy(){
+
+      $("#pharmacyName").textContent = pharmacyConfig.name;
+
+      $("#pharmacyTagline").textContent =
+        pharmacyConfig.tagline;
+
+      $("#pharmacyAddress").textContent =
+        pharmacyConfig.address;
+
+      $("#openingHours").textContent =
+        pharmacyConfig.openingHours;
+
+      $("#phoneNumber").textContent =
+        pharmacyConfig.phone;
+
+      $("#footerName").textContent =
+        pharmacyConfig.name;
+
+      $("#locationLink").href =
+        pharmacyConfig.mapsUrl;
+
+      $("#mapButton").href =
+        pharmacyConfig.mapsUrl;
+
+      $("#pharmacyWhatsApp").href =
+        createWhatsAppUrl(
+          pharmacyConfig.whatsapp,
+          `Hello ${pharmacyConfig.name}, I would like to know about doctor consultation services.`
+        );
+
+      document.title =
+        `${pharmacyConfig.name} | Doctor Consultation`;
+
+      const logo = document.querySelector(".profile-photo img");
+
+      if(logo){
+        logo.src = pharmacyConfig.logo;
+      }
+
+    }
+
+
+    /*
+      ==========================================================
+      DOCTOR CARDS
+      ==========================================================
+    */
+
+    function renderDoctors(){
+
+      const list = $("#doctorList");
+
+      list.innerHTML = "";
+
+      doctors.forEach(doctor => {
+
+        const card = document.createElement("article");
+
+        card.className = "doctor-card";
+
+        const scheduleText =
+          formatSchedule(doctor.schedule);
+
+        card.innerHTML = `
+
+          <div class="doctor-top">
+
+            <div class="doctor-photo">
+
+              <img
+                src="${escapeHtml(doctor.photo)}"
+                alt="${escapeHtml(doctor.name)}"
+                onerror="this.src='assets/doctors/doctor-placeholder.svg'"
+              >
+
+            </div>
+
+            <div class="doctor-info">
+
+              <h3>
+                ${escapeHtml(doctor.name)}
+              </h3>
+
+              <div class="department">
+                ${escapeHtml(doctor.department)}
+              </div>
+
+              <div class="qualification">
+                ${escapeHtml(doctor.qualification)}
+                ·
+                ${escapeHtml(doctor.experience)}
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="doctor-details">
+
+            <div class="detail">
+
+              <span class="detail-label">
+                Consultation
+              </span>
+
+              <span class="detail-value">
+                ${escapeHtml(scheduleText)}
+              </span>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span class="detail-label">
+                Fee
+              </span>
+
+              <span class="detail-value">
+                ${escapeHtml(doctor.fee)}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="doctor-footer">
+
+            <span class="availability">
+              ● Available by appointment
+            </span>
+
+            <button
+              class="btn btn-primary book-btn"
+              type="button"
+              data-doctor="${escapeHtml(doctor.id)}">
+              Book Consultation
+            </button>
+
+          </div>
+
+        `;
+
+        list.appendChild(card);
+
+      });
+
+    }
+
+
+    function formatSchedule(schedule){
+
+      return schedule.map(item => {
+
+        return `${item.day.slice(0,3)} ${formatTime(item.start)}–${formatTime(item.end)}`;
+
+      }).join(" · ");
+
+    }
+
+
+    /*
+      ==========================================================
+      EVENTS
+      ==========================================================
+    */
+
+    function bindEvents(){
+
+      document.addEventListener("click", event => {
+
+        const button =
+          event.target.closest("[data-doctor]");
+
+        if(button){
+
+          openBooking(button.dataset.doctor);
+
+        }
+
+      });
+
+
+      $("#closeModal").addEventListener(
+        "click",
+        closeModal
+      );
+
+
+      $("#closeConfirmation").addEventListener(
+        "click",
+        closeModal
+      );
+
+
+      $("#bookingModal").addEventListener(
+        "click",
+        event => {
+
+          if(event.target === $("#bookingModal")){
+            closeModal();
+          }
+
+        }
+      );
+
+
+      document.addEventListener(
+        "keydown",
+        event => {
+
+          if(
+            event.key === "Escape" &&
+            !$("#bookingModal").hidden
+          ){
+
+            closeModal();
+
+          }
+
+        }
+      );
+
+
+      $("#appointmentDate").addEventListener(
+        "change",
+        generateTimeSlots
+      );
+
+
+      $("#bookingForm").addEventListener(
+        "submit",
+        submitBooking
+      );
+
+
+      $("#openWhatsAppAgain").addEventListener(
+        "click",
+        () => {
+
+          if(whatsappUrl){
+
+            window.open(
+              whatsappUrl,
+              "_blank",
+              "noopener,noreferrer"
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /*
+      ==========================================================
+      BOOKING
+      ==========================================================
+    */
+
+    function openBooking(doctorId){
+
+      selectedDoctor =
+        doctors.find(
+          doctor => doctor.id === doctorId
+        );
+
+      if(!selectedDoctor){
+        return;
+      }
+
+      $("#bookingView").hidden = false;
+
+      $("#confirmationView").hidden = true;
+
+      $("#bookingModal").hidden = false;
+
+      document.body.style.overflow = "hidden";
+
+
+      $("#selectedDoctor").innerHTML = `
+
+        <img
+          src="${escapeHtml(selectedDoctor.photo)}"
+          alt="${escapeHtml(selectedDoctor.name)}"
+          onerror="this.src='assets/doctors/doctor-placeholder.svg'"
+        >
+
+        <div>
+
+          <strong>
+            ${escapeHtml(selectedDoctor.name)}
+          </strong>
+
+          <span>
+            ${escapeHtml(selectedDoctor.department)}
+            ·
+            ${escapeHtml(selectedDoctor.qualification)}
+          </span>
+
+        </div>
+
+      `;
+
+
+      $("#bookingForm").reset();
+
+      clearErrors();
+
+      setMinimumDate();
+
+      $("#appointmentTime").disabled = true;
+
+      $("#appointmentTime").innerHTML =
+        `<option value="">Select date first</option>`;
+
+      setTimeout(() => {
+        $("#patientName").focus();
+      },50);
+
+    }
+
+
+    function closeModal(){
+
+      $("#bookingModal").hidden = true;
+
+      document.body.style.overflow = "";
+
+      $("#bookingForm").reset();
+
+      clearErrors();
+
+      selectedDoctor = null;
+
+      whatsappUrl = "";
+
+    }
+
+
+    /*
+      ==========================================================
+      DATE + TIME SLOTS
+      ==========================================================
+    */
+
+    function setMinimumDate(){
+
+      const input =
+        $("#appointmentDate");
+
+      const now =
+        new Date();
+
+      const yyyy =
+        now.getFullYear();
+
+      const mm =
+        String(now.getMonth()+1)
+          .padStart(2,"0");
+
+      const dd =
+        String(now.getDate())
+          .padStart(2,"0");
+
+      input.min =
+        `${yyyy}-${mm}-${dd}`;
+
+    }
+
+
+    function generateTimeSlots(){
+
+      const dateValue =
+        $("#appointmentDate").value;
+
+      const timeSelect =
+        $("#appointmentTime");
+
+      timeSelect.innerHTML = "";
+
+      if(!dateValue || !selectedDoctor){
+
+        timeSelect.disabled = true;
+
+        timeSelect.innerHTML =
+          `<option value="">Select date first</option>`;
+
+        return;
+
+      }
+
+
+      const date =
+        new Date(`${dateValue}T00:00:00`);
+
+      const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ];
+
+      const day =
+        days[date.getDay()];
+
+
+      const schedules =
+        selectedDoctor.schedule.filter(
+          item => item.day === day
+        );
+
+
+      if(!schedules.length){
+
+        timeSelect.disabled = true;
+
+        timeSelect.innerHTML =
+          `<option value="">Doctor unavailable on ${day}</option>`;
+
+        return;
+
+      }
+
+
+      const slots = [];
+
+
+      schedules.forEach(schedule => {
+
+        let current =
+          toMinutes(schedule.start);
+
+        const end =
+          toMinutes(schedule.end);
+
+        const duration =
+          selectedDoctor.slotDuration || 30;
+
+
+        while(current < end){
+
+          const next =
+            current + duration;
+
+          if(next > end){
+            break;
+          }
+
+          const hour =
+            Math.floor(current/60);
+
+          const minute =
+            current%60;
+
+          const value =
+            `${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`;
+
+          slots.push(value);
+
+          current = next;
+
+        }
+
+      });
+
+
+      timeSelect.innerHTML =
+        `<option value="">Select a time</option>` +
+        slots.map(
+          slot =>
+            `<option value="${slot}">
+              ${formatTime(slot)}
+            </option>`
+        ).join("");
+
+
+      timeSelect.disabled =
+        false;
+
+    }
+
+
+    function toMinutes(time){
+
+      const [hour,minute] =
+        time.split(":").map(Number);
+
+      return hour*60+minute;
+
+    }
+
+
+    function formatTime(time){
+
+      const [hour,minute] =
+        time.split(":").map(Number);
+
+      const suffix =
+        hour >= 12 ? "PM" : "AM";
+
+      const displayHour =
+        hour%12 || 12;
+
+      return `${displayHour}:${String(minute).padStart(2,"0")} ${suffix}`;
+
+    }
+
+
+    /*
+      ==========================================================
+      SUBMIT
+      ==========================================================
+    */
+
+    function submitBooking(event){
+
+      event.preventDefault();
+
+      clearErrors();
+
+
+      const name =
+        $("#patientName").value.trim();
+
+      const mobile =
+        $("#patientMobile").value
+          .replace(/\D/g,"");
+
+      const age =
+        $("#patientAge").value.trim();
+
+      const gender =
+        $("#patientGender").value;
+
+      const date =
+        $("#appointmentDate").value;
+
+      const time =
+        $("#appointmentTime").value;
+
+      const mode =
+        $("#consultationType").value;
+
+      const reason =
+        $("#reason").value.trim();
+
+      const additional =
+        $("#additionalMessage").value.trim();
+
+      const consent =
+        $("#consent").checked;
+
+
+      let valid = true;
+
+
+      if(name.length < 2){
+
+        $("#nameError").textContent =
+          "Please enter your name.";
+
+        valid = false;
+
+      }
+
+
+      if(!/^[6-9]\d{9}$/.test(mobile)){
+
+        $("#mobileError").textContent =
+          "Enter a valid 10-digit mobile number.";
+
+        valid = false;
+
+      }
+
+
+      if(!date){
+
+        $("#dateError").textContent =
+          "Please select a date.";
+
+        valid = false;
+
+      }
+
+
+      if(!time){
+
+        $("#timeError").textContent =
+          "Please select a time.";
+
+        valid = false;
+
+      }
+
+
+      if(reason.length < 3){
+
+        $("#reasonError").textContent =
+          "Please enter a brief reason.";
+
+        valid = false;
+
+      }
+
+
+      if(!consent){
+
+        $("#consentError").textContent =
+          "Please confirm the statement.";
+
+        valid = false;
+
+      }
+
+
+      if(!valid){
+
+        return;
+
+      }
+
+
+      const dateObject =
+        new Date(`${date}T00:00:00`);
+
+
+      const formattedDate =
+        dateObject.toLocaleDateString(
+          "en-IN",
+          {
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+          }
+        );
+
+
+      const message = `Hello ${pharmacyConfig.name},
+
+I would like to request a doctor consultation.
+
+PATIENT DETAILS
+Name: ${name}
+Age: ${age || "Not provided"}
+Gender: ${gender || "Not provided"}
+Mobile: ${mobile}
+
+DOCTOR
+${selectedDoctor.name}
+${selectedDoctor.qualification}
+Department: ${selectedDoctor.department}
+
+CONSULTATION
+Date: ${formattedDate}
+Preferred Time: ${formatTime(time)}
+Mode: ${mode}
+Consultation Fee: ${selectedDoctor.fee}
+
+Reason for consultation:
+${reason}
+
+Additional message:
+${additional || "None"}
+
+Please confirm the appointment request.
+
+Thank you.`;
+
+
+      const number =
+        selectedDoctor.whatsapp ||
+        pharmacyConfig.whatsapp;
+
+
+      whatsappUrl =
+        createWhatsAppUrl(
+          number,
+          message
+        );
+
+
+      const popup =
+        window.open(
+          whatsappUrl,
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+
+      $("#bookingView").hidden = true;
+
+      $("#confirmationView").hidden = false;
+
+
+      $("#confirmationSummary").innerHTML = `
+
+        <div class="info-card" style="margin-top:15px;text-align:left">
+
+          <div class="info-row">
+            <div class="info-icon">+</div>
+            <div>
+              <strong>${escapeHtml(selectedDoctor.name)}</strong>
+              <small>${escapeHtml(selectedDoctor.department)}</small>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">◷</div>
+            <div>
+              <strong>${escapeHtml(formattedDate)}</strong>
+              <small>${escapeHtml(formatTime(time))}</small>
+            </div>
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    function createWhatsAppUrl(number,message){
+
+      const clean =
+        String(number)
+          .replace(/\D/g,"");
+
+      return `https://wa.me/${clean}?text=${encodeURIComponent(message)}`;
+
+    }
+
+
+    /*
+      ==========================================================
+      HELPERS
+      ==========================================================
+    */
+
+    function clearErrors(){
+
+      [
+        "nameError",
+        "mobileError",
+        "dateError",
+        "timeError",
+        "reasonError",
+        "consentError"
+      ].forEach(id => {
+
+        const element = $("#"+id);
+
+        if(element){
+          element.textContent = "";
+        }
+
+      });
+
+    }
+
+
+    function escapeHtml(value){
+
+      return String(value ?? "")
+        .replace(/[&<>"']/g, char => ({
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          '"':"&quot;",
+          "'":"&#039;"
+        }[char]));
+
+    }
+
+  </script>
+
+</body>
+</html>
