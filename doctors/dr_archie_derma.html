@@ -2119,6 +2119,183 @@ img{
     color:#263128;
 }
 
+
+
+/* =========================================================
+   FINAL MOBILE BOOKING MODAL FIX
+========================================================= */
+.modal-overlay{
+    padding:12px;
+    overflow:hidden;
+    overscroll-behavior:contain;
+}
+
+.booking-modal{
+    width:min(560px,100%);
+    max-width:100%;
+    max-height:calc(100dvh - 24px);
+    min-height:0;
+    overflow-x:hidden;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+}
+
+.booking-form{
+    min-width:0;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+}
+
+@media (max-width:600px){
+    .modal-overlay{
+        align-items:flex-end;
+        padding:
+            8px
+            8px
+            max(8px,env(safe-area-inset-bottom))
+            8px;
+    }
+
+    .booking-modal{
+        width:100%;
+        max-width:100%;
+        max-height:
+            calc(
+                100dvh
+                - max(16px,env(safe-area-inset-top))
+                - max(8px,env(safe-area-inset-bottom))
+            );
+        margin:0;
+        border-radius:20px 20px 16px 16px;
+        transform:translateY(20px) scale(.985);
+    }
+
+    .modal-overlay.active .booking-modal{
+        transform:translateY(0) scale(1);
+    }
+
+    .modal-header{
+        position:sticky;
+        top:0;
+        z-index:5;
+        padding:15px 16px;
+        gap:12px;
+        background:rgba(255,255,255,.97);
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+    }
+
+    .modal-header h2{
+        font-size:21px;
+        line-height:1.2;
+    }
+
+    .modal-header p{
+        font-size:10px;
+        line-height:1.45;
+    }
+
+    .close-modal{
+        width:36px;
+        height:36px;
+        min-width:36px;
+        flex:0 0 36px;
+    }
+
+    .booking-form{
+        padding:16px;
+    }
+
+    .form-group{
+        margin-bottom:13px;
+    }
+
+    .form-group label{
+        font-size:10px;
+        margin-bottom:5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+        padding:11px 12px;
+        font-size:13px;
+        border-radius:9px;
+    }
+
+    .form-group textarea{
+        min-height:72px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .form-note{
+        font-size:9.5px;
+        line-height:1.5;
+        margin-bottom:13px;
+    }
+
+    .submit-booking{
+        height:46px;
+        min-height:46px;
+        font-size:13px;
+    }
+
+    body.modal-open .mobile-book{
+        opacity:0;
+        pointer-events:none;
+        transform:translateY(15px);
+    }
+}
+
+@media (max-width:380px){
+    .modal-overlay{
+        padding-left:6px;
+        padding-right:6px;
+    }
+
+    .booking-modal{
+        border-radius:18px 18px 14px 14px;
+    }
+
+    .modal-header{
+        padding:13px 14px;
+    }
+
+    .booking-form{
+        padding:14px;
+    }
+
+    .modal-header h2{
+        font-size:19px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+        padding:10px 11px;
+    }
+}
+
+@supports (-webkit-touch-callout:none){
+    @media (max-width:600px){
+        .booking-modal{
+            max-height:calc(100dvh - 16px);
+        }
+    }
+}
+
 </style>
 </head>
 
@@ -2145,7 +2322,7 @@ img{
 <header class="navbar">
     <div class="container nav-inner">
         <a href="#top" class="nav-brand">
-            <img class="nav-avatar" src="https://scontent.cdninstagram.com/v/t51.82787-19/670873643_18075981509271036_2672183758451533183_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=103&ccb=7-5&_nc_sid=f7ccc5&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=xMN8PMGJOyAQ7kNvwH2rA0B&_nc_oc=AdpXIVseZ63PkXzRgust4jf78sMmncDsEPE3OAPiz3dxcud_ezYDBfZ3-I0D2FJGxkbZTmfM23JD7NVwkTbVCWNk&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=jUHp3yiiWjBYkr8PHrOz1g&_nc_ss=7b689&oh=00_AQLy_N13wishpdYSkAKzl5CEBiJbI9EPEgn7Iha1Uiobtw&oe=6ABE4B01" alt="Dr. Archie Kriplani">
+            <img class="nav-avatar" src="../images/dr-archie-kriplani.jpg" alt="Dr. Archie Kriplani">
             <div class="nav-name">
                 <strong>Dr. Archie Kriplani</strong>
                 <span>Dermatology · Skin, Hair & Nails</span>
@@ -2219,7 +2396,7 @@ img{
 
         <div class="hero-profile-card">
             <div class="profile-image-wrap">
-                <img class="profile-image" src="https://scontent.cdninstagram.com/v/t51.82787-19/670873643_18075981509271036_2672183758451533183_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=103&ccb=7-5&_nc_sid=f7ccc5&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=xMN8PMGJOyAQ7kNvwH2rA0B&_nc_oc=AdpXIVseZ63PkXzRgust4jf78sMmncDsEPE3OAPiz3dxcud_ezYDBfZ3-I0D2FJGxkbZTmfM23JD7NVwkTbVCWNk&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=jUHp3yiiWjBYkr8PHrOz1g&_nc_ss=7b689&oh=00_AQLy_N13wishpdYSkAKzl5CEBiJbI9EPEgn7Iha1Uiobtw&oe=6ABE4B01" alt="Dr. Archie Kriplani Dermatologist">
+                <img class="profile-image" src="../images/dr-archie-kriplani.jpg" alt="Dr. Archie Kriplani Dermatologist">
                 <div class="profile-badge">
                     <span class="profile-badge-dot"></span>
                     Online Consultations · Mon–Fri
@@ -2920,12 +3097,14 @@ function openBooking(){
     bookingModal.classList.add("active");
     bookingModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
 }
 
 function closeBooking(){
     bookingModal.classList.remove("active");
     bookingModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    document.body.classList.remove("modal-open");
 }
 
 bookingModal.addEventListener("click", event => {
