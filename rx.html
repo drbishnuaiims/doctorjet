@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prescription Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root{--primary:#078fc7;--primary-dark:#057aa9;--soft:#eaf7fc;--border:#d8e0e5;--text:#173042;--muted:#647786;--danger:#c62828;--bg:#f5f8fa;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center}.brand-mark{width:42px;height:42px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:800;color:var(--primary)}h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted)}
+.container{max-width:1050px;margin:20px auto;padding:0 14px 100px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}
+.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px rgba(20,50,70,.04)}
+.section-title{font-size:17px;font-weight:800;margin:0 0 16px;display:flex;align-items:center;gap:9px}.icon{color:var(--primary)}
+label{font-size:12px;font-weight:800;color:#5b6b76;text-transform:uppercase;letter-spacing:.04em;display:block;margin:0 0 7px}
+input,textarea,select{width:100%;border:1px solid #c9d3d9;border-radius:15px;background:#f3f9fc;padding:13px 14px;font:inherit;color:var(--text);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(7,143,199,.1)}textarea{min-height:105px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.form-grid.three{grid-template-columns:repeat(3,1fr)}
+.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer}.btn-primary{background:var(--primary);color:#fff}.btn-light{background:#e8f6fb;color:#087da8}.btn-danger{background:#fff0f0;color:var(--danger)}.btn-small{font-size:12px;padding:9px 12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.patient-meta{display:grid;grid-template-columns:1.5fr .6fr .8fr;gap:12px}
+.medicine{border:1px solid var(--border);border-radius:20px;padding:17px;margin-top:14px;background:#fff}
+.med-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.med-title{font-weight:800}
+.med-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1fr;gap:12px}.med-grid .wide{grid-column:span 2}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.chip{border:0;background:#dff2fa;color:#087da8;border-radius:20px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer}.chip:hover{background:#c8eaf7}
+.req{color:#d52b2b}.hint{font-size:11px;color:var(--muted);margin-top:5px}
+.followup-buttons{display:flex;gap:8px;flex-wrap:wrap}.followup-buttons button.active{background:var(--primary);color:#fff}
+.sticky-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 14px;z-index:30}.sticky-inner{max-width:1050px;margin:auto;display:flex;justify-content:flex-end;gap:10px}
+.notice{background:#fff8e8;border:1px solid #efd5a1;color:#815b24;border-radius:13px;padding:10px 13px;font-size:12px;margin-bottom:10px}
+.status{font-size:12px;color:var(--muted);margin-top:8px}.status.ok{color:#16794a}.status.err{color:var(--danger)}
+.logo-preview{width:70px;height:70px;object-fit:contain;border:1px solid var(--border);border-radius:12px;background:#fff}
+@media(max-width:780px){.grid,.form-grid,.form-grid.three,.med-grid,.patient-meta{grid-template-columns:1fr}.full{grid-column:auto}.med-grid .wide{grid-column:auto}.container{margin-top:10px}.card{border-radius:18px;padding:16px}header{padding:12px}.sticky-inner{justify-content:stretch}.sticky-inner button{flex:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-mark">Rx</div>
+    <div><h1>New Prescription</h1><div class="sub">Digital prescription generator</div></div>
+  </div>
+  <button class="btn btn-light" onclick="clearForm()">Clear</button>
+</header>
+
+<main class="container">
+  <div class="notice">Prescription data is generated in your browser. Google Sheets is used only for medicine lookup and optional prescription logging.</div>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">⚙</span> Clinic & Doctor Details</h2>
+    <div class="form-grid">
+      <div><label>Clinic / Hospital Name <span class="req">*</span></label><input id="clinicName" placeholder="e.g. Thomson Clinic"></div>
+      <div><label>Doctor Name <span class="req">*</span></label><input id="doctorName" placeholder="Dr. Bishnu Prasad Sahoo"></div>
+      <div><label>Qualification</label><input id="qualification" placeholder="MD Psychiatry"></div>
+      <div><label>Registration No.</label><input id="regNo" placeholder="Registration number"></div>
+      <div><label>Clinic Address</label><input id="clinicAddress" placeholder="Address"></div>
+      <div><label>Contact</label><input id="clinicContact" placeholder="Phone / email / website"></div>
+    </div>
+    <div class="actions" style="margin-top:12px"><button class="btn btn-light" onclick="saveDoctorSettings()">Save Doctor/Clinic Details</button><button class="btn btn-light" onclick="loadDoctorSettings()">Load Saved Details</button></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">👤</span> Patient Details</h2>
+    <div class="patient-meta">
+      <div><label>Patient Name <span class="req">*</span></label><input id="patientName" placeholder="Patient name"></div>
+      <div><label>Age</label><input id="patientAge" type="number" min="0" placeholder="Age"></div>
+      <div><label>Gender</label><select id="patientGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+    </div>
+    <div style="margin-top:14px"><label>Chief Complaint</label><input id="complaint" placeholder="e.g. Fever, cough and cold"></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">▣</span> Diagnosis <span class="req">*</span></h2>
+    <textarea id="diagnosis" placeholder="Enter diagnosis / clinical impression"></textarea>
+  </section>
+
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <h2 class="section-title" style="margin-bottom:0"><span class="icon">✚</span> Medicines <span class="req">*</span></h2>
+      <button class="btn btn-light" onclick="addMedicine()">+ Add Medicine</button>
+    </div>
+    <div id="medicineList"></div>
+    <div id="medicineStatus" class="status">Medicine list not loaded yet. You can enter medicines manually.</div>
+    <button class="btn btn-light" style="margin-top:12px" onclick="loadMedicines()">↻ Load Medicines from Google Sheet</button>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">☑</span> General Advice / Instructions <span class="req">*</span></h2>
+    <textarea id="generalAdvice" placeholder="e.g. Rest and physiotherapy&#10;Investigations: CBC, LFT, X-ray LS spine AP/L"></textarea>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="icon">◷</span> Next Follow-up <span class="req">*</span></h2>
+    <div class="followup-buttons">
+      <button class="btn btn-light" data-follow="No Follow-Up" onclick="setFollowup('No Follow-Up',this)">No Follow-Up</button>
+      <button class="btn btn-light" data-follow="3 Days" onclick="setFollowup('3 Days',this)">3 Days</button>
+      <button class="btn btn-light" data-follow="1 Week" onclick="setFollowup('1 Week',this)">1 Week</button>
+      <button class="btn btn-light" data-follow="2 Weeks" onclick="setFollowup('2 Weeks',this)">2 Weeks</button>
+      <button class="btn btn-light" data-follow="Custom" onclick="setFollowup('Custom',this)">Custom</button>
+    </div>
+    <input id="followupText" style="margin-top:10px" placeholder="e.g. Follow up after 7 days">
+  </section>
+</main>
+
+<div class="sticky-actions">
+  <div class="sticky-inner">
+    <button class="btn btn-light" onclick="window.scrollTo({top:0,behavior:'smooth'})">Review</button>
+    <button class="btn btn-primary" onclick="generatePrescription()">Generate PDF</button>
+    <button class="btn btn-primary" onclick="generateAndLog()">Save & Generate PDF</button>
+  </div>
+</div>
+
+<script>
+/* ==============================
+   CONFIGURATION
+   ============================== */
+const CONFIG = {
+  // Paste your deployed Google Apps Script Web App URL here.
+  GOOGLE_SCRIPT_URL: "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE",
+  DEFAULT_CLINIC: "",
+  DEFAULT_DOCTOR: "",
+  DEFAULT_QUALIFICATION: "",
+  DEFAULT_REG_NO: ""
+};
+
+let medicinesFromSheet = [];
+let medicineCounter = 0;
+let selectedFollowup = "";
+
+const $ = id => document.getElementById(id);
+
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function addMedicine(data={}){
+  medicineCounter++;
+  const id = medicineCounter;
+  const div = document.createElement("div");
+  div.className = "medicine";
+  div.dataset.id = id;
+  div.innerHTML = `
+    <div class="med-head">
+      <div class="med-title">Medicine #${id}</div>
+      <button class="btn btn-danger btn-small" onclick="removeMedicine(${id})">Delete</button>
+    </div>
+    <div class="med-grid">
+      <div class="wide">
+        <label>Medicine Name <span class="req">*</span></label>
+        <input class="med-name" list="medicineDatalist" placeholder="Type medicine name or select from Google Sheet" value="${esc(data.name||"")}">
+        <div class="hint">You can type any medicine manually even if it is not in the Sheet.</div>
+      </div>
+      <div>
+        <label>Dosage <span class="req">*</span></label>
+        <input class="med-dose" placeholder="e.g. 1 tablet" value="${esc(data.dose||"")}">
+        <div class="chips">
+          ${["1 tablet","2 tablets","1 capsule","5 ml","10 ml","1 drop"].map(x=>`<button type="button" class="chip" onclick="setSibling(this,'.med-dose','${x}')">${x}</button>`).join("")}
+        </div>
+      </div>
+      <div>
+        <label>Frequency <span class="req">*</span> <span style="font-weight:400;text-transform:none">morning-afternoon-evening-night</span></label>
+        <input class="med-freq" placeholder="e.g. 1-0-0-0 / SOS" value="${esc(data.freq||"")}">
+        <div class="chips">
+          ${["1-0-0-0","0-0-1-0","1-0-1-0","1-1-1-0","1-1-1-1","0-0-0-1","SOS"].map(x=>`<button type="button" class="chip" onclick="setSibling(this,'.med-freq','${x}')">${x}</button>`).join("")}
+        </div>
+      </div>
+      <div>
+        <label>Duration <span class="req">*</span></label>
+        <input class="med-duration" placeholder="e.g. 5 days" value="${esc(data.duration||"")}">
+        <div class="chips">
+          ${["3 days","5 days","1 week","2 weeks","1 month"].map(x=>`<button type="button" class="chip" onclick="setSibling(this,'.med-duration','${x}')">${x}</button>`).join("")}
+        </div>
+      </div>
+      <div class="wide">
+        <label>Instructions</label>
+        <input class="med-instructions" placeholder="e.g. After Meal / Before Meal / Empty Stomach" value="${esc(data.instructions||"")}">
+        <div class="chips">
+          ${["Before Meal","After Meal","Empty Stomach","At Bedtime","With Water"].map(x=>`<button type="button" class="chip" onclick="setSibling(this,'.med-instructions','${x}')">${x}</button>`).join("")}
+        </div>
+      </div>
+    </div>`;
+  $("medicineList").appendChild(div);
+  applyMedicineAutocomplete(div);
+}
+function removeMedicine(id){
+  const el = document.querySelector(`.medicine[data-id="${id}"]`);
+  if(el) el.remove();
+  renumberMedicines();
+}
+function renumberMedicines(){
+  document.querySelectorAll(".medicine").forEach((el,i)=>el.querySelector(".med-title").textContent=`Medicine #${i+1}`);
+}
+function setSibling(button,selector,value){
+  const input=button.closest(".medicine").querySelector(selector);
+  input.value=value;
+  input.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function applyMedicineAutocomplete(card){
+  const input=card.querySelector(".med-name");
+  input.addEventListener("change",()=>{
+    const exact=medicinesFromSheet.find(m=>(m.name||"").toLowerCase()===input.value.trim().toLowerCase());
+    if(!exact) return;
+    if(exact.dosage) card.querySelector(".med-dose").value=exact.dosage;
+    if(exact.frequency) card.querySelector(".med-freq").value=exact.frequency;
+    if(exact.duration) card.querySelector(".med-duration").value=exact.duration;
+    if(exact.instructions) card.querySelector(".med-instructions").value=exact.instructions;
+  });
+}
+function setFollowup(value,btn){
+  selectedFollowup=value;
+  document.querySelectorAll(".followup-buttons button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  $("followupText").value=value==="Custom"?"":value;
+  if(value==="Custom") $("followupText").focus();
+}
+function collectData(){
+  const meds=[...document.querySelectorAll(".medicine")].map(card=>({
+    name:card.querySelector(".med-name").value.trim(),
+    dose:card.querySelector(".med-dose").value.trim(),
+    freq:card.querySelector(".med-freq").value.trim(),
+    duration:card.querySelector(".med-duration").value.trim(),
+    instructions:card.querySelector(".med-instructions").value.trim()
+  }));
+  return {
+    prescriptionDate:new Date().toISOString(),
+    clinic:{name:$("clinicName").value.trim(),doctor:$("doctorName").value.trim(),qualification:$("qualification").value.trim(),regNo:$("regNo").value.trim(),address:$("clinicAddress").value.trim(),contact:$("clinicContact").value.trim()},
+    patient:{name:$("patientName").value.trim(),age:$("patientAge").value.trim(),gender:$("patientGender").value,complaint:$("complaint").value.trim()},
+    diagnosis:$("diagnosis").value.trim(),
+    medicines:meds,
+    generalAdvice:$("generalAdvice").value.trim(),
+    followup:$("followupText").value.trim()
+  };
+}
+function validate(d){
+  if(!d.clinic.name || !d.clinic.doctor){alert("Enter Clinic / Hospital Name and Doctor Name.");return false}
+  if(!d.patient.name){alert("Enter patient name.");return false}
+  if(!d.diagnosis){alert("Enter diagnosis.");return false}
+  if(!d.medicines.length){alert("Add at least one medicine.");return false}
+  for(let i=0;i<d.medicines.length;i++){
+    const m=d.medicines[i];
+    if(!m.name||!m.dose||!m.freq||!m.duration){alert(`Complete Medicine #${i+1}: name, dosage, frequency and duration are required.`);return false}
+  }
+  if(!d.generalAdvice){alert("Enter General Advice / Instructions.");return false}
+  if(!d.followup){alert("Select or enter the next follow-up.");return false}
+  return true;
+}
+function makeRxId(){
+  const d=new Date();
+  return "RX-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+Math.random().toString(36).slice(2,7).toUpperCase();
+}
+function formatDate(iso){
+  return new Date(iso).toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"});
+}
+function generatePrescription(dataOverride=null){
+  const d=dataOverride||collectData();
+  if(!validate(d)) return;
+  const rxId=makeRxId();
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:"mm",format:"a4"});
+  const W=210, M=14;
+  let y=14;
+
+  // Header
+  doc.setFillColor(7,143,199); doc.rect(M,y,4,28,"F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.setTextColor(20,48,66);
+  doc.text(d.clinic.name || "Clinic", M+8,y+8);
+  doc.setFontSize(12); doc.setTextColor(60,75,85); doc.text(d.clinic.doctor||"",M+8,y+15);
+  doc.setFont("helvetica","normal"); doc.setFontSize(9);
+  const qual=[d.clinic.qualification,d.clinic.regNo?`Regd. No.: ${d.clinic.regNo}`:""].filter(Boolean).join("  |  ");
+  doc.text(qual,M+8,y+21);
+  if(d.clinic.address) doc.text(d.clinic.address,M+8,y+26);
+  if(d.clinic.contact) doc.text(d.clinic.contact,W-M,y+8,{align:"right"});
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120,60,70); doc.text("Rx",W-M,y+18,{align:"right"});
+  doc.setFont("helvetica","normal"); doc.setTextColor(50,50,50); doc.text(formatDate(d.prescriptionDate),W-M,y+24,{align:"right"});
+  y+=34; doc.setDrawColor(210,220,225); doc.line(M,y,W-M,y); y+=7;
+
+  // Patient box
+  doc.setFillColor(246,249,251); doc.roundedRect(M,y,W-2*M,24,3,3,"F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.setTextColor(95,105,110);
+  doc.text("PATIENT DETAILS",M+5,y+6);
+  doc.setFontSize(10); doc.setTextColor(30,45,55);
+  doc.text(`Name: ${d.patient.name}`,M+5,y+13);
+  doc.text(`Age: ${d.patient.age||"-"}`,M+75,y+13);
+  doc.text(`Gender: ${d.patient.gender||"-"}`,M+105,y+13);
+  doc.setFontSize(8); doc.setTextColor(90,100,105); doc.text(`Prescription ID: ${rxId}`,M+5,y+20);
+  y+=31;
+
+  if(d.patient.complaint){
+    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(120,60,70);doc.text("CHIEF COMPLAINT",M,y);
+    doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(30,45,55);
+    const c=doc.splitTextToSize(d.patient.complaint,W-2*M-35);doc.text(c,M+35,y);y+=Math.max(7,c.length*4)+3;
+  }
+  doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(120,60,70);doc.text("PRIMARY DIAGNOSIS",M,y);
+  doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(30,45,55);
+  const diag=doc.splitTextToSize(d.diagnosis,W-2*M-38);doc.text(diag,M+38,y);y+=Math.max(7,diag.length*4)+5;
+
+  doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(120,60,70);doc.text("PRESCRIBED MEDICINES",M,y);y+=4;
+  const rows=d.medicines.map((m,i)=>[String(i+1),m.name,m.dose,m.freq,m.duration,m.instructions||"-"]);
+  doc.autoTable({
+    startY:y,margin:{left:M,right:M},
+    head:[["#","MEDICINE","DOSAGE","FREQUENCY","DURATION","INSTRUCTIONS"]],
+    body:rows,
+    theme:"grid",
+    styles:{font:"helvetica",fontSize:8,cellPadding:2.5,textColor:[35,50,60],lineColor:[220,228,232],lineWidth:.25},
+    headStyles:{fillColor:[232,246,251],textColor:[7,110,150],fontStyle:"bold",fontSize:7},
+    columnStyles:{0:{cellWidth:8},1:{cellWidth:45},2:{cellWidth:27},3:{cellWidth:28},4:{cellWidth:25},5:{cellWidth:"auto"}}
+  });
+  y=doc.lastAutoTable.finalY+8;
+
+  doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(120,60,70);doc.text("DOCTOR ADVICE",M,y);
+  y+=4;doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(35,50,60);
+  const advice=doc.splitTextToSize(d.generalAdvice,W-2*M-8);doc.text(advice,M+3,y);y+=Math.max(8,advice.length*4)+7;
+
+  doc.setFillColor(237,244,255);doc.roundedRect(W-75,y-2,61,23,3,3,"F");
+  doc.setFont("helvetica","bold");doc.setFontSize(7);doc.setTextColor(40,70,110);doc.text("FOLLOW-UP",W-70,y+5);
+  doc.setFont("helvetica","normal");doc.setFontSize(9);doc.text(d.followup,W-70,y+12);
+  y+=31;
+
+  if(y>260){doc.addPage();y=18}
+  doc.setDrawColor(205,215,220);doc.line(W-75,y,W-M,y);
+  doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(80,90,95);doc.text("Doctor's Signature",W-M,y+5,{align:"right"});
+  doc.setFontSize(7);doc.text("This is a digitally generated prescription.",M,285);
+  doc.text(rxId,W-M,285,{align:"right"});
+  doc.save(`${d.patient.name.replace(/[^a-z0-9]+/gi,"_")}_${rxId}.pdf`);
+  return rxId;
+}
+async function generateAndLog(){
+  const d=collectData();
+  if(!validate(d)) return;
+  const rxId=generatePrescription(d);
+  if(!rxId) return;
+  await logPrescription({...d,rxId});
+}
+async function logPrescription(d){
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")){
+    alert("PDF generated. Google Script URL is not configured, so the prescription was not logged.");
+    return;
+  }
+  const payload={
+    action:"savePrescription",
+    rxId:d.rxId,
+    timestamp:new Date().toISOString(),
+    clinic:JSON.stringify(d.clinic),
+    patient:JSON.stringify(d.patient),
+    diagnosis:d.diagnosis,
+    medicines:JSON.stringify(d.medicines),
+    generalAdvice:d.generalAdvice,
+    followup:d.followup
+  };
+  try{
+    // URLSearchParams keeps this a "simple" POST and avoids a browser CORS preflight.
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(payload)});
+    alert("Prescription PDF generated. The prescription record has been submitted to Google Sheets.");
+  }catch(e){
+    console.error(e);
+    alert("PDF was generated, but the Google Sheet submission could not be sent. Check the Web App URL/deployment.");
+  }
+}
+function loadMedicines(){
+  const status=$("medicineStatus");
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")){
+    status.textContent="Google Script URL is not configured. Manual medicine entry remains available.";
+    status.className="status err"; return;
+  }
+  status.textContent="Loading medicines…";status.className="status";
+  const callbackName="rxMedicines_"+Date.now();
+  window[callbackName]=function(data){
+    try{
+      if(!Array.isArray(data)) throw new Error("Invalid response");
+      medicinesFromSheet=data.map(x=>({
+        name:x.name||x.medicine||x["Medicine Name"]||"",
+        dosage:x.dosage||x["Default Dosage"]||"",
+        frequency:x.frequency||x["Default Frequency"]||"",
+        duration:x.duration||x["Default Duration"]||"",
+        instructions:x.instructions||x["Default Instructions"]||""
+      })).filter(x=>x.name);
+      rebuildDatalist();
+      status.textContent=`Loaded ${medicinesFromSheet.length} medicines from Google Sheet.`;
+      status.className="status ok";
+    }catch(e){
+      console.error(e);status.textContent="Invalid medicine response. Manual entry still works.";status.className="status err";
+    }finally{
+      delete window[callbackName];
+      script.remove();
+    }
+  };
+  const script=document.createElement("script");
+  script.src=CONFIG.GOOGLE_SCRIPT_URL+"?action=medicines&callback="+encodeURIComponent(callbackName);
+  script.onerror=()=>{status.textContent="Could not load Google Sheet medicines. Manual entry still works.";status.className="status err";delete window[callbackName];script.remove()};
+  document.body.appendChild(script);
+}
+function rebuildDatalist(){
+  let dl=$("medicineDatalist");
+  if(!dl){dl=document.createElement("datalist");dl.id="medicineDatalist";document.body.appendChild(dl)}
+  dl.innerHTML=medicinesFromSheet.map(m=>`<option value="${esc(m.name)}"></option>`).join("");
+}
+function saveDoctorSettings(){
+  const settings={clinicName:$("clinicName").value,doctorName:$("doctorName").value,qualification:$("qualification").value,regNo:$("regNo").value,clinicAddress:$("clinicAddress").value,clinicContact:$("clinicContact").value};
+  localStorage.setItem("rxDoctorSettings",JSON.stringify(settings));alert("Doctor/clinic details saved on this device.");
+}
+function loadDoctorSettings(){
+  const s=JSON.parse(localStorage.getItem("rxDoctorSettings")||"null");
+  if(!s){$("clinicName").value=CONFIG.DEFAULT_CLINIC;$("doctorName").value=CONFIG.DEFAULT_DOCTOR;$("qualification").value=CONFIG.DEFAULT_QUALIFICATION;$("regNo").value=CONFIG.DEFAULT_REG_NO;return}
+  Object.keys(s).forEach(k=>{if($(k))$(k).value=s[k]||""});
+}
+function clearForm(){
+  if(!confirm("Clear the current prescription?")) return;
+  ["patientName","patientAge","complaint","diagnosis","generalAdvice","followupText"].forEach(id=>$(id).value="");
+  $("patientGender").value="";$("medicineList").innerHTML="";medicineCounter=0;selectedFollowup="";
+  document.querySelectorAll(".followup-buttons button").forEach(b=>b.classList.remove("active"));
+  addMedicine();
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  loadDoctorSettings();
+  addMedicine();
+  rebuildDatalist();
+  if(CONFIG.GOOGLE_SCRIPT_URL && !CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) loadMedicines();
+});
+</script>
+</body>
+</html>
