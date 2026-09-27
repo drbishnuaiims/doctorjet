@@ -1,0 +1,2888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT Module 1 | Therapist Workspace</title>
+
+<style>
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#667085;
+  --border:#dfe4ec;
+  --primary:#315efb;
+  --primary-dark:#2448c8;
+  --soft:#eef3ff;
+  --green:#16805c;
+  --green-soft:#eaf8f2;
+  --amber:#a15c00;
+  --amber-soft:#fff5df;
+  --red:#c62828;
+  --red-soft:#fff0f0;
+  --purple:#6941c6;
+  --purple-soft:#f3efff;
+  --shadow:0 8px 28px rgba(20,32,55,.07);
+  --radius:14px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.45;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:270px;
+  background:#101828;
+  color:#fff;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  overflow-y:auto;
+  z-index:20;
+}
+
+.brand{
+  padding:22px 20px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand h1{
+  margin:0;
+  font-size:20px;
+}
+
+.brand p{
+  margin:4px 0 0;
+  color:#98a2b3;
+  font-size:12px;
+}
+
+.patient-mini{
+  margin:16px;
+  padding:14px;
+  background:#1d2939;
+  border-radius:10px;
+}
+
+.patient-mini strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.patient-mini span{
+  color:#98a2b3;
+  font-size:12px;
+}
+
+.module-nav{
+  padding:10px 12px 30px;
+}
+
+.nav-section{
+  color:#667085;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin:18px 10px 8px;
+}
+
+.nav-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#d0d5dd;
+  background:transparent;
+  border:0;
+  text-align:left;
+  padding:11px 12px;
+  border-radius:8px;
+  margin:2px 0;
+}
+
+.nav-item:hover{
+  background:#1d2939;
+}
+
+.nav-item.active{
+  background:#315efb;
+  color:white;
+}
+
+.nav-number{
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.1);
+  font-size:11px;
+}
+
+.nav-item.active .nav-number{
+  background:rgba(255,255,255,.2);
+}
+
+/* MAIN */
+
+.main{
+  margin-left:270px;
+  width:calc(100% - 270px);
+}
+
+.topbar{
+  height:68px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:15;
+}
+
+.topbar-title{
+  font-size:18px;
+  font-weight:700;
+}
+
+.topbar-actions{
+  display:flex;
+  gap:8px;
+}
+
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:26px;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:1px solid var(--border);
+  background:white;
+  color:var(--text);
+  padding:9px 14px;
+  border-radius:8px;
+  font-weight:600;
+  font-size:13px;
+}
+
+.btn:hover{
+  background:#f8fafc;
+}
+
+.btn-primary{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:white;
+}
+
+.btn-primary:hover{
+  background:var(--primary-dark);
+}
+
+.btn-danger{
+  background:var(--red);
+  border-color:var(--red);
+  color:white;
+}
+
+.btn-success{
+  background:var(--green);
+  border-color:var(--green);
+  color:white;
+}
+
+.btn-small{
+  padding:6px 9px;
+  font-size:12px;
+}
+
+/* CARDS */
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
+}
+
+.card-header{
+  padding:18px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.card-header h2,
+.card-header h3{
+  margin:0;
+}
+
+.card-header h2{
+  font-size:17px;
+}
+
+.card-header h3{
+  font-size:15px;
+}
+
+.card-body{
+  padding:20px;
+}
+
+.section-title{
+  font-size:22px;
+  margin:0 0 6px;
+}
+
+.section-subtitle{
+  color:var(--muted);
+  margin:0 0 22px;
+  font-size:14px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  gap:14px;
+}
+
+.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.grid-3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.grid-4{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+/* FORMS */
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:6px;
+  color:#344054;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid #cfd6e2;
+  background:white;
+  border-radius:8px;
+  padding:10px 11px;
+  outline:none;
+  color:var(--text);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(49,94,251,.1);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+/* SESSION SELECTOR */
+
+.session-selector{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.session-card{
+  border:2px solid var(--border);
+  border-radius:12px;
+  background:white;
+  padding:18px;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.session-card:hover{
+  border-color:#9db2ff;
+}
+
+.session-card.active{
+  border-color:var(--primary);
+  background:var(--soft);
+}
+
+.session-card strong{
+  display:block;
+  font-size:16px;
+}
+
+.session-card span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* PROGRESS */
+
+.progress-wrap{
+  margin-bottom:24px;
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+
+.progress{
+  height:8px;
+  background:#e8ecf3;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:var(--primary);
+  transition:.25s;
+}
+
+/* QUESTIONS */
+
+.question-block{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:12px;
+  background:#fcfdff;
+}
+
+.question{
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.question small{
+  display:block;
+  font-weight:400;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.answer-tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:9px;
+}
+
+.quick{
+  border:1px solid #cbd5e1;
+  background:white;
+  border-radius:7px;
+  padding:6px 9px;
+  font-size:11px;
+}
+
+.quick:hover{
+  border-color:var(--primary);
+  color:var(--primary);
+}
+
+/* RESPONSE BOX */
+
+.response-box{
+  margin-top:14px;
+  padding:13px;
+  border-left:4px solid var(--primary);
+  background:var(--soft);
+  border-radius:7px;
+}
+
+.response-box strong{
+  display:block;
+  margin-bottom:4px;
+  font-size:12px;
+}
+
+.response-box p{
+  margin:0;
+  font-size:13px;
+}
+
+/* RISK */
+
+.risk-panel{
+  border:2px solid #f0b4b4;
+  background:var(--red-soft);
+  border-radius:12px;
+  padding:18px;
+}
+
+.risk-panel h3{
+  color:var(--red);
+  margin-top:0;
+}
+
+.risk-status{
+  margin-top:15px;
+  padding:13px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+.risk-low{
+  background:var(--green-soft);
+  color:var(--green);
+}
+
+.risk-moderate{
+  background:var(--amber-soft);
+  color:var(--amber);
+}
+
+.risk-high{
+  background:var(--red-soft);
+  color:var(--red);
+  border:1px solid #efb0b0;
+}
+
+/* CHIPS */
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.chip{
+  border:1px solid #d5dbe5;
+  background:white;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.chip.selected{
+  background:var(--soft);
+  border-color:var(--primary);
+  color:var(--primary);
+  font-weight:700;
+}
+
+/* SCALE */
+
+.scale-row{
+  display:grid;
+  grid-template-columns:repeat(11,1fr);
+  gap:5px;
+  margin-top:8px;
+}
+
+.scale-btn{
+  border:1px solid var(--border);
+  background:white;
+  padding:9px 2px;
+  border-radius:6px;
+  font-size:12px;
+}
+
+.scale-btn.selected{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+/* FORMULATION */
+
+.formulation{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.formulation-box{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+}
+
+.formulation-box h4{
+  margin:0 0 10px;
+}
+
+.formulation-box small{
+  color:var(--muted);
+}
+
+/* CBT CYCLE */
+
+.cycle{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  align-items:stretch;
+}
+
+.cycle-box{
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+  text-align:center;
+  font-size:12px;
+}
+
+.cycle-arrow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:#98a2b3;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,td{
+  border-bottom:1px solid var(--border);
+  padding:10px;
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  background:#f8fafc;
+  font-size:11px;
+  text-transform:uppercase;
+  color:#667085;
+}
+
+/* TASKS */
+
+.task-row{
+  display:grid;
+  grid-template-columns:28px 1fr 120px;
+  align-items:center;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #edf0f4;
+}
+
+.task-row:last-child{
+  border-bottom:0;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#101828;
+  color:white;
+  padding:12px 16px;
+  border-radius:8px;
+  font-size:13px;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.2s;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* FOOTER */
+
+.footer-actions{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:18px 0 50px;
+}
+
+/* HIDDEN */
+
+.hidden{
+  display:none!important;
+}
+
+.session-section{
+  display:none;
+}
+
+.session-section.active{
+  display:block;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:900px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.2s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .grid-3,
+  .grid-4,
+  .grid-2,
+  .formulation{
+    grid-template-columns:1fr;
+  }
+
+  .cycle{
+    grid-template-columns:1fr;
+  }
+
+  .session-selector{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    padding:16px;
+  }
+
+  .topbar{
+    padding:0 16px;
+  }
+}
+
+/* PRINT */
+
+@media print{
+
+  .sidebar,
+  .topbar,
+  .footer-actions,
+  .no-print,
+  .btn,
+  .module-nav{
+    display:none!important;
+  }
+
+  .main{
+    margin:0;
+    width:100%;
+  }
+
+  body{
+    background:white;
+  }
+
+  .card{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+
+  .session-section{
+    display:block!important;
+  }
+
+  textarea,
+  input,
+  select{
+    border:0;
+    padding:0;
+  }
+
+  .progress-wrap{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+    <h1>CBT Therapist Workspace</h1>
+    <p>Module 1 · Childhood Abuse & Depression</p>
+  </div>
+
+  <div class="patient-mini">
+    <strong id="miniPatient">New Patient</strong>
+    <span id="miniSession">Session 1</span>
+  </div>
+
+  <nav class="module-nav">
+
+    <div class="nav-section">Patient</div>
+
+    <button class="nav-item active" onclick="goTo('patient')">
+      <span class="nav-number">1</span>
+      Patient Details
+    </button>
+
+    <div class="nav-section">Session Workflow</div>
+
+    <button class="nav-item" onclick="goTo('opening')">
+      <span class="nav-number">2</span>
+      Opening & Agenda
+    </button>
+
+    <button class="nav-item" onclick="goTo('depression')">
+      <span class="nav-number">3</span>
+      Depression
+    </button>
+
+    <button class="nav-item" onclick="goTo('risk')">
+      <span class="nav-number">4</span>
+      Safety & Risk
+    </button>
+
+    <button class="nav-item" onclick="goTo('trauma')">
+      <span class="nav-number">5</span>
+      Trauma Screening
+    </button>
+
+    <button class="nav-item" onclick="goTo('cbt')">
+      <span class="nav-number">6</span>
+      CBT Model
+    </button>
+
+    <button class="nav-item" onclick="goTo('formulation')">
+      <span class="nav-number">7</span>
+      Formulation
+    </button>
+
+    <button class="nav-item" onclick="goTo('goals')">
+      <span class="nav-number">8</span>
+      Goals
+    </button>
+
+    <div class="nav-section">Intervention</div>
+
+    <button class="nav-item" onclick="goTo('activation')">
+      <span class="nav-number">9</span>
+      Behavioural Activation
+    </button>
+
+    <button class="nav-item" onclick="goTo('thought')">
+      <span class="nav-number">10</span>
+      Thought Record
+    </button>
+
+    <button class="nav-item" onclick="goTo('homework')">
+      <span class="nav-number">11</span>
+      Homework
+    </button>
+
+    <button class="nav-item" onclick="goTo('summary')">
+      <span class="nav-number">12</span>
+      Session Summary
+    </button>
+
+  </nav>
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+<header class="topbar">
+
+  <div style="display:flex;align-items:center;gap:12px">
+
+    <button class="btn mobile-menu" onclick="toggleSidebar()">☰</button>
+
+    <div class="topbar-title">
+      CBT Module 1
+    </div>
+
+  </div>
+
+  <div class="topbar-actions no-print">
+    <button class="btn" onclick="saveData()">Save</button>
+    <button class="btn" onclick="loadData()">Load</button>
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+  </div>
+
+</header>
+
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="card">
+    <div class="card-body">
+
+      <div style="display:flex;justify-content:space-between;gap:20px;align-items:flex-start">
+
+        <div>
+          <h1 class="section-title">
+            Module 1 — Engagement, Safety & Formulation
+          </h1>
+
+          <p class="section-subtitle">
+            Structured therapist workflow for depression with childhood adversity/abuse.
+            Use clinical judgement throughout. Do not use this tool as a substitute for
+            comprehensive psychiatric assessment or emergency risk management.
+          </p>
+        </div>
+
+        <div class="no-print">
+          <button class="btn btn-primary" onclick="generateSummary()">
+            Generate Summary
+          </button>
+        </div>
+
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-label">
+          <span>Module completion</span>
+          <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- SESSION SELECTOR -->
+
+  <div class="session-selector no-print">
+
+    <div class="session-card active" id="session1Card"
+         onclick="selectSession(1)">
+      <strong>Session 1</strong>
+      <span>Engagement · Assessment · Safety · Initial formulation</span>
+    </div>
+
+    <div class="session-card" id="session2Card"
+         onclick="selectSession(2)">
+      <strong>Session 2</strong>
+      <span>Review · Behavioural activation · CBT maintenance cycle</span>
+    </div>
+
+  </div>
+
+
+  <!-- PATIENT DETAILS -->
+
+  <section class="card" id="patient">
+
+    <div class="card-header">
+      <h2>1. Patient Details</h2>
+      <span style="font-size:12px;color:#667085">Complete before starting</span>
+    </div>
+
+    <div class="card-body">
+
+      <div class="grid grid-3">
+
+        <div class="field">
+          <label>Patient name / ID</label>
+          <input id="patientName"
+                 placeholder="Name or clinic ID"
+                 oninput="updatePatient()">
+        </div>
+
+        <div class="field">
+          <label>Age</label>
+          <input id="patientAge" type="number">
+        </div>
+
+        <div class="field">
+          <label>Gender</label>
+          <select id="patientGender">
+            <option value="">Select</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Non-binary / Other</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Date</label>
+          <input id="sessionDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>Therapist</label>
+          <input id="therapistName">
+        </div>
+
+        <div class="field">
+          <label>Session number</label>
+          <select id="sessionNumber" onchange="selectSession(this.value)">
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="field">
+          <label>Primary presenting problem</label>
+          <textarea id="presentingProblem"
+            placeholder="Patient's own description of the current problem"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Current treatment / medication</label>
+          <textarea id="currentTreatment"
+            placeholder="Psychiatric treatment, psychotherapy, medications, etc."></textarea>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SESSION 1 -->
+
+  <div id="session1" class="session-section active">
+
+
+    <!-- OPENING -->
+
+    <section class="card" id="opening">
+
+      <div class="card-header">
+        <h2>2. Opening & Agenda Setting</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+          <strong>Suggested opening</strong>
+          <p>
+            "Before we talk about difficult experiences from the past, I want to
+            understand what is happening in your life now and what you would like
+            to be different. We can approach difficult material gradually, and you
+            remain in control of what we discuss."
+          </p>
+        </div>
+
+        <br>
+
+        <div class="question-block">
+
+          <div class="question">
+            What brought you to therapy at this point?
+          </div>
+
+          <textarea id="openingQ1"
+            placeholder="Document patient's response..."></textarea>
+
+          <div class="answer-tools">
+            <button class="quick"
+              onclick="insertText('openingQ1','Tell me more about what has changed recently.')">
+              Clarify
+            </button>
+
+            <button class="quick"
+              onclick="insertText('openingQ1','What feels most important to address first?')">
+              Prioritise
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            If therapy were useful, what would be different?
+          </div>
+
+          <textarea id="openingQ2"></textarea>
+
+        </div>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            What would you like us to work on together?
+          </div>
+
+          <textarea id="openingQ3"></textarea>
+
+        </div>
+
+
+        <div class="field">
+          <label>Therapist observations</label>
+          <textarea id="openingObservations"
+            placeholder="Affect, engagement, speech, behaviour, rapport, etc."></textarea>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- DEPRESSION -->
+
+    <section class="card" id="depression">
+
+      <div class="card-header">
+        <h2>3. Depression Assessment</h2>
+
+        <button class="btn btn-small no-print"
+          onclick="showResponse('depressionResponse')">
+          Therapist prompts
+        </button>
+
+      </div>
+
+      <div class="card-body">
+
+        <div id="depressionResponse" class="response-box hidden">
+
+          <strong>Clinical approach</strong>
+
+          <p>
+            Assess depressive symptoms systematically, including mood,
+            anhedonia, biological symptoms, cognition, functioning and
+            suicidality. Consider screening for bipolarity before conceptualising
+            the presentation as unipolar depression.
+          </p>
+
+        </div>
+
+        <div class="grid grid-2">
+
+          <div class="question-block">
+
+            <div class="question">Low mood</div>
+
+            <textarea id="depMood"
+              placeholder="Frequency, duration, severity, triggers..."></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Loss of interest / pleasure</div>
+
+            <textarea id="depAnhedonia"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Sleep</div>
+
+            <textarea id="depSleep"
+              placeholder="Insomnia / hypersomnia / early morning awakening"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Appetite / weight</div>
+
+            <textarea id="depAppetite"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Energy / fatigue</div>
+
+            <textarea id="depEnergy"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Concentration</div>
+
+            <textarea id="depConcentration"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Psychomotor changes</div>
+
+            <textarea id="depPsychomotor"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">Negative cognitions</div>
+
+            <textarea id="depCognition"
+              placeholder="Worthlessness, guilt, hopelessness, helplessness..."></textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            What has the depression stopped you from doing?
+          </div>
+
+          <div class="chips" id="functionChips">
+
+            <button class="chip" onclick="toggleChip(this)">Work</button>
+            <button class="chip" onclick="toggleChip(this)">Study</button>
+            <button class="chip" onclick="toggleChip(this)">Self-care</button>
+            <button class="chip" onclick="toggleChip(this)">Exercise</button>
+            <button class="chip" onclick="toggleChip(this)">Socialising</button>
+            <button class="chip" onclick="toggleChip(this)">Family interaction</button>
+            <button class="chip" onclick="toggleChip(this)">Hobbies</button>
+            <button class="chip" onclick="toggleChip(this)">Sexual functioning</button>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Depression severity / clinical impression</label>
+
+          <select id="depSeverity">
+
+            <option value="">Select</option>
+            <option>Minimal / subthreshold</option>
+            <option>Mild</option>
+            <option>Moderate</option>
+            <option>Moderately severe</option>
+            <option>Severe</option>
+            <option>Requires further assessment</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            Bipolarity screen / history suggestive of mania or hypomania
+          </div>
+
+          <textarea id="bipolarScreen"
+            placeholder="Past episodes of elevated/irritable mood, decreased need for sleep, increased activity, grandiosity, impulsivity, etc."></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RISK -->
+
+    <section class="card" id="risk">
+
+      <div class="card-header">
+        <h2>4. Suicide / Self-Harm / Safety Assessment</h2>
+
+        <span style="font-size:12px;color:#c62828;font-weight:700">
+          Must be assessed clinically
+        </span>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="risk-panel">
+
+          <h3>Direct assessment</h3>
+
+          <p>
+            Use direct, non-judgmental questions. Do not rely solely on
+            spontaneous disclosure.
+          </p>
+
+          <div class="question-block">
+
+            <div class="question">
+              "Have you had thoughts that life is not worth living?"
+            </div>
+
+            <div class="chips">
+
+              <button class="chip"
+                onclick="setRisk('No')">No</button>
+
+              <button class="chip"
+                onclick="setRisk('Passive thoughts')">
+                Passive thoughts
+              </button>
+
+              <button class="chip"
+                onclick="setRisk('Active suicidal thoughts')">
+                Active suicidal thoughts
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="grid grid-2">
+
+            <div class="field">
+              <label>Suicidal ideation</label>
+
+              <textarea id="suicideIdeation"
+                placeholder="Frequency, intensity, duration, controllability..."></textarea>
+
+            </div>
+
+            <div class="field">
+              <label>Plan / intent / preparation</label>
+
+              <textarea id="suicidePlan"></textarea>
+
+            </div>
+
+            <div class="field">
+              <label>Past attempts / self-harm</label>
+
+              <textarea id="pastSelfHarm"></textarea>
+
+            </div>
+
+            <div class="field">
+              <label>Access to means</label>
+
+              <textarea id="accessMeans"></textarea>
+
+            </div>
+
+            <div class="field">
+              <label>Protective factors</label>
+
+              <textarea id="protectiveFactors"
+                placeholder="Relationships, responsibilities, future plans, treatment engagement, etc."></textarea>
+
+            </div>
+
+            <div class="field">
+              <label>Current safety concerns</label>
+
+              <textarea id="safetyConcerns"></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div id="riskStatus" class="risk-status risk-low">
+            Risk status: not yet classified. Complete clinical assessment.
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="field">
+
+          <label>Clinical risk formulation</label>
+
+          <textarea id="riskFormulation"
+            placeholder="Document formulation, not merely a numerical label."></textarea>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Safety plan / action taken</label>
+
+          <textarea id="safetyPlan"
+            placeholder="Supports, crisis contacts, means restriction, increased monitoring, emergency referral, etc."></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TRAUMA -->
+
+    <section class="card" id="trauma">
+
+      <div class="card-header">
+        <h2>5. Childhood Trauma / Abuse Screening</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+
+          <strong>Trauma-informed instruction</strong>
+
+          <p>
+            Do not require a detailed narrative in Module 1. Establish the nature
+            of exposure, current relevance, safety and symptom domains.
+            Avoid unnecessary graphic details.
+          </p>
+
+        </div>
+
+        <br>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            "Were there experiences during childhood that made you feel unsafe,
+            frightened, humiliated, neglected or repeatedly hurt?"
+          </div>
+
+          <textarea id="traumaOverview"
+            placeholder="Brief clinically relevant description"></textarea>
+
+        </div>
+
+
+        <div class="question-block">
+
+          <div class="question">
+            Type(s) of childhood adversity identified
+          </div>
+
+          <div class="chips">
+
+            <button class="chip" onclick="toggleChip(this)">Physical abuse</button>
+            <button class="chip" onclick="toggleChip(this)">Emotional abuse</button>
+            <button class="chip" onclick="toggleChip(this)">Sexual abuse</button>
+            <button class="chip" onclick="toggleChip(this)">Neglect</button>
+            <button class="chip" onclick="toggleChip(this)">Domestic violence exposure</button>
+            <button class="chip" onclick="toggleChip(this)">Parental loss</button>
+            <button class="chip" onclick="toggleChip(this)">Family instability</button>
+            <button class="chip" onclick="toggleChip(this)">Other adversity</button>
+
+          </div>
+
+        </div>
+
+
+        <h3>Current trauma-related symptoms</h3>
+
+        <div class="grid grid-2">
+
+          <div class="question-block">
+
+            <div class="question">
+              Re-experiencing
+            </div>
+
+            <textarea id="traumaReexperience"
+              placeholder="Intrusive memories, nightmares, flashbacks..."></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">
+              Avoidance
+            </div>
+
+            <textarea id="traumaAvoidance"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">
+              Hyperarousal / threat sensitivity
+            </div>
+
+            <textarea id="traumaArousal"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">
+              Negative trauma-related beliefs
+            </div>
+
+            <textarea id="traumaBeliefs"
+              placeholder="I am unsafe / worthless / damaged / powerless / cannot trust others..."></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">
+              Dissociation
+            </div>
+
+            <textarea id="dissociation"></textarea>
+
+          </div>
+
+          <div class="question-block">
+
+            <div class="question">
+              Current safety / ongoing abuse
+            </div>
+
+            <textarea id="currentDanger"
+              placeholder="Is there any ongoing threat or abusive environment?"></textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Trauma-focused work readiness</label>
+
+          <select id="traumaReadiness">
+
+            <option value="">Select</option>
+            <option>Not appropriate yet — stabilisation required</option>
+            <option>Needs further assessment</option>
+            <option>Potentially appropriate after preparation</option>
+            <option>Clinically appropriate to consider</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CBT -->
+
+    <section class="card" id="cbt">
+
+      <div class="card-header">
+        <h2>6. Explain the CBT Model</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+
+          <strong>Suggested therapist explanation</strong>
+
+          <p>
+            "CBT looks at the connection between situations, thoughts, emotions,
+            physical reactions and behaviour. We are not going to assume that
+            your thoughts are simply wrong. Instead, we will understand how
+            certain patterns developed and examine whether they are still useful
+            in your current life."
+          </p>
+
+        </div>
+
+        <br>
+
+        <div class="cycle">
+
+          <div class="cycle-box">
+            <strong>Situation</strong>
+            <br>
+            What happened?
+          </div>
+
+          <div class="cycle-box">
+            <strong>Thought</strong>
+            <br>
+            What went through your mind?
+          </div>
+
+          <div class="cycle-box">
+            <strong>Emotion / Body</strong>
+            <br>
+            What did you feel?
+          </div>
+
+          <div class="cycle-box">
+            <strong>Behaviour</strong>
+            <br>
+            What did you do?
+          </div>
+
+          <div class="cycle-box">
+            <strong>Consequence</strong>
+            <br>
+            What happened next?
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label>Patient's understanding of CBT</label>
+            <textarea id="cbtUnderstanding"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Patient's reaction to formulation</label>
+            <textarea id="cbtReaction"></textarea>
+          </div>
+
+        </div>
+
+
+        <div class="response-box">
+
+          <strong>Useful therapist responses</strong>
+
+          <p>
+            <b>Validate:</b> "Given what you experienced, it makes sense that this
+            reaction developed."
+          </p>
+
+          <p>
+            <b>Explore:</b> "What makes that interpretation feel convincing?"
+          </p>
+
+          <p>
+            <b>Differentiate past from present:</b> "Was that belief useful for
+            surviving then, and does it necessarily describe your situation now?"
+          </p>
+
+          <p>
+            <b>Collaborate:</b> "Let's treat this as a hypothesis that we can
+            examine together."
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FORMULATION -->
+
+    <section class="card" id="formulation">
+
+      <div class="card-header">
+        <h2>7. Initial 5P Formulation</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="formulation">
+
+          <div class="formulation-box">
+            <h4>Predisposing</h4>
+            <small>What increased vulnerability?</small>
+            <textarea id="predisposing"
+              placeholder="Childhood adversity, temperament, family environment..."></textarea>
+          </div>
+
+          <div class="formulation-box">
+            <h4>Precipitating</h4>
+            <small>What triggered the current episode?</small>
+            <textarea id="precipitating"></textarea>
+          </div>
+
+          <div class="formulation-box">
+            <h4>Perpetuating</h4>
+            <small>What keeps the problem going?</small>
+            <textarea id="perpetuating"
+              placeholder="Avoidance, rumination, withdrawal, self-criticism..."></textarea>
+          </div>
+
+          <div class="formulation-box">
+            <h4>Protective</h4>
+            <small>What supports recovery?</small>
+            <textarea id="protective"
+              placeholder="Relationships, work, values, strengths, motivation..."></textarea>
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="field">
+
+          <label>CBT maintenance cycle</label>
+
+          <textarea id="maintenanceCycle"
+            placeholder="Situation → automatic thought → emotion → behaviour → consequence"></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>Core belief hypothesis</label>
+
+          <textarea id="coreBelief"
+            placeholder="e.g., I am unlovable / I am worthless / I am unsafe"></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>Conditional assumptions / rules</label>
+
+          <textarea id="rulesBeliefs"
+            placeholder="e.g., If I say no, people will reject me."></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- GOALS -->
+
+    <section class="card" id="goals">
+
+      <div class="card-header">
+        <h2>8. Treatment Goals</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label>Goal 1</label>
+            <input id="goal1"
+              placeholder="Specific functional goal">
+          </div>
+
+          <div class="field">
+            <label>Goal 2</label>
+            <input id="goal2">
+          </div>
+
+          <div class="field">
+            <label>Goal 3</label>
+            <input id="goal3">
+          </div>
+
+          <div class="field">
+            <label>Long-term recovery goal</label>
+            <input id="goal4"
+              placeholder="What would meaningful recovery look like?">
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label>Patient's own words</label>
+
+          <textarea id="patientGoalWords"
+            placeholder="Document goals using the patient's language where possible."></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- SESSION 2 -->
+
+  <div id="session2" class="session-section">
+
+
+    <!-- REVIEW -->
+
+    <section class="card">
+
+      <div class="card-header">
+        <h2>Session 2 — Review & Agenda</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+
+          <strong>Suggested opening</strong>
+
+          <p>
+            "Before we move forward, I'd like to review what you noticed during
+            the week, what was useful, what was difficult, and whether anything
+            important changed."
+          </p>
+
+        </div>
+
+        <br>
+
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label>What went better?</label>
+            <textarea id="s2Better"></textarea>
+          </div>
+
+          <div class="field">
+            <label>What was difficult?</label>
+            <textarea id="s2Difficult"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Important triggers noticed</label>
+            <textarea id="s2Triggers"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Safety / risk update</label>
+            <textarea id="s2Safety"></textarea>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BEHAVIOURAL ACTIVATION -->
+
+    <section class="card" id="activation">
+
+      <div class="card-header">
+        <h2>9. Behavioural Activation Planner</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+
+          <strong>Therapist explanation</strong>
+
+          <p>
+            "Depression often reduces activity, which reduces opportunities for
+            pleasure, achievement and connection. We don't need to wait for
+            motivation to return before starting. We begin with small,
+            achievable actions."
+          </p>
+
+        </div>
+
+        <br>
+
+        <div class="table-wrap">
+
+          <table id="activityTable">
+
+            <thead>
+
+              <tr>
+                <th>Day</th>
+                <th>Activity</th>
+                <th>Type</th>
+                <th>Predicted mood</th>
+                <th>Actual mood</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary no-print"
+          onclick="addActivity()">
+          + Add Activity
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- THOUGHT RECORD -->
+
+    <section class="card" id="thought">
+
+      <div class="card-header">
+        <h2>10. Automatic Thought Record</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="response-box">
+
+          <strong>Important</strong>
+
+          <p>
+            The objective is not to force positive thinking. Examine the evidence,
+            alternative explanations and usefulness of the interpretation.
+          </p>
+
+        </div>
+
+        <br>
+
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label>Situation</label>
+            <textarea id="thoughtSituation"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Automatic thought</label>
+            <textarea id="automaticThought"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Emotion + intensity 0–100</label>
+            <textarea id="thoughtEmotion"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Behaviour / response</label>
+            <textarea id="thoughtBehaviour"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Evidence supporting the thought</label>
+            <textarea id="evidenceFor"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Evidence not supporting / alternative evidence</label>
+            <textarea id="evidenceAgainst"></textarea>
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label>Balanced alternative interpretation</label>
+
+          <textarea id="balancedThought"
+            placeholder="A realistic alternative — not forced positivity"></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>Emotion after reconsideration</label>
+
+          <textarea id="emotionAfter"></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HOMEWORK -->
+
+    <section class="card" id="homework">
+
+      <div class="card-header">
+        <h2>11. Homework Generator</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid grid-2">
+
+          <div>
+
+            <h3>Recommended tasks</h3>
+
+            <div class="task-row">
+              <input type="checkbox" id="hwMood">
+              <label for="hwMood" style="margin:0">
+                Daily mood/activity monitoring
+              </label>
+              <span></span>
+            </div>
+
+            <div class="task-row">
+              <input type="checkbox" id="hwActivity">
+              <label for="hwActivity" style="margin:0">
+                Complete scheduled activities
+              </label>
+              <span></span>
+            </div>
+
+            <div class="task-row">
+              <input type="checkbox" id="hwThought">
+              <label for="hwThought" style="margin:0">
+                Complete one thought record
+              </label>
+              <span></span>
+            </div>
+
+            <div class="task-row">
+              <input type="checkbox" id="hwSleep">
+              <label for="hwSleep" style="margin:0">
+                Monitor sleep pattern
+              </label>
+              <span></span>
+            </div>
+
+            <div class="task-row">
+              <input type="checkbox" id="hwSupport">
+              <label for="hwSupport" style="margin:0">
+                One planned social connection
+              </label>
+              <span></span>
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <h3>Therapist-selected task</h3>
+
+            <textarea id="customHomework"
+              placeholder="Write a specific, achievable task for this patient..."></textarea>
+
+          </div>
+
+        </div>
+
+
+        <br>
+
+        <div class="response-box">
+
+          <strong>Recommended therapist wording</strong>
+
+          <p>
+            "I'd like you to treat this as an experiment rather than an exam.
+            The purpose is to learn what happens when you try the exercise."
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card" id="summary">
+
+      <div class="card-header">
+        <h2>12. Session Summary</h2>
+
+        <button class="btn btn-primary no-print"
+          onclick="generateSummary()">
+          Generate
+        </button>
+
+      </div>
+
+      <div class="card-body">
+
+        <textarea id="sessionSummary"
+          style="min-height:420px"
+          placeholder="Generated session summary will appear here..."></textarea>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- FINAL ACTIONS -->
+
+  <div class="footer-actions no-print">
+
+    <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      Back to top
+    </button>
+
+    <div style="display:flex;gap:8px">
+
+      <button class="btn" onclick="saveData()">
+        Save Session
+      </button>
+
+      <button class="btn btn-primary" onclick="generateSummary()">
+        Generate Summary
+      </button>
+
+      <button class="btn" onclick="window.print()">
+        Print / Save PDF
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</main>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   CBT MODULE 1 — JAVASCRIPT
+   ========================================================= */
+
+let currentSession = 1;
+
+
+/* -------------------------
+   INITIALISE
+------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("sessionDate").value =
+    new Date().toISOString().split("T")[0];
+
+  addActivity();
+  addActivity();
+  addActivity();
+
+  updateProgress();
+
+});
+
+
+/* -------------------------
+   SIDEBAR
+------------------------- */
+
+function toggleSidebar(){
+
+  document.getElementById("sidebar").classList.toggle("open");
+
+}
+
+
+/* -------------------------
+   NAVIGATION
+------------------------- */
+
+function goTo(id){
+
+  const el = document.getElementById(id);
+
+  if(!el) return;
+
+  el.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+  document.querySelectorAll(".nav-item")
+    .forEach(x => x.classList.remove("active"));
+
+  const matching = [...document.querySelectorAll(".nav-item")]
+    .find(x => x.getAttribute("onclick")?.includes("'" + id + "'"));
+
+  if(matching){
+    matching.classList.add("active");
+  }
+
+}
+
+
+/* -------------------------
+   SESSION SELECTOR
+------------------------- */
+
+function selectSession(num){
+
+  num = Number(num);
+
+  currentSession = num;
+
+  document.getElementById("sessionNumber").value = num;
+
+  document.getElementById("session1Card")
+    .classList.toggle("active",num===1);
+
+  document.getElementById("session2Card")
+    .classList.toggle("active",num===2);
+
+  document.getElementById("session1")
+    .classList.toggle("active",num===1);
+
+  document.getElementById("session2")
+    .classList.toggle("active",num===2);
+
+  document.getElementById("miniSession").textContent =
+    "Session " + num;
+
+  updateProgress();
+
+}
+
+
+/* -------------------------
+   PATIENT
+------------------------- */
+
+function updatePatient(){
+
+  const name =
+    document.getElementById("patientName").value.trim();
+
+  document.getElementById("miniPatient").textContent =
+    name || "New Patient";
+
+}
+
+
+/* -------------------------
+   TEXT INSERT
+------------------------- */
+
+function insertText(id,text){
+
+  const el = document.getElementById(id);
+
+  if(!el) return;
+
+  if(el.value.trim()){
+    el.value += "\n\n" + text;
+  }else{
+    el.value = text;
+  }
+
+  el.focus();
+
+  updateProgress();
+
+}
+
+
+/* -------------------------
+   RESPONSE BOX
+------------------------- */
+
+function showResponse(id){
+
+  const el = document.getElementById(id);
+
+  if(el){
+    el.classList.toggle("hidden");
+  }
+
+}
+
+
+/* -------------------------
+   CHIPS
+------------------------- */
+
+function toggleChip(el){
+
+  el.classList.toggle("selected");
+
+  updateProgress();
+
+}
+
+
+/* -------------------------
+   RISK
+------------------------- */
+
+function setRisk(status){
+
+  const box =
+    document.getElementById("riskStatus");
+
+  box.className = "risk-status";
+
+  if(status === "No"){
+
+    box.classList.add("risk-low");
+
+    box.textContent =
+      "Risk status: no suicidal ideation reported in this response. Continue full clinical risk assessment.";
+
+  }
+
+  else if(status === "Passive thoughts"){
+
+    box.classList.add("risk-moderate");
+
+    box.textContent =
+      "Risk status: passive death wishes reported. Complete full assessment of intent, plan, means, past behaviour, protective factors and dynamic risk.";
+
+  }
+
+  else{
+
+    box.classList.add("risk-high");
+
+    box.textContent =
+      "Risk status: active suicidal thoughts reported. Complete immediate clinical risk assessment and follow local emergency/safety procedures. Do not proceed to trauma processing solely on the basis of this workflow.";
+
+  }
+
+  updateProgress();
+
+}
+
+
+/* -------------------------
+   ACTIVITY PLANNER
+------------------------- */
+
+function addActivity(){
+
+  const tbody =
+    document.querySelector("#activityTable tbody");
+
+  const row =
+    document.createElement("tr");
+
+  row.innerHTML = `
+
+    <td>
+      <select>
+        <option>Mon</option>
+        <option>Tue</option>
+        <option>Wed</option>
+        <option>Thu</option>
+        <option>Fri</option>
+        <option>Sat</option>
+        <option>Sun</option>
+      </select>
+    </td>
+
+    <td>
+      <input placeholder="Activity">
+    </td>
+
+    <td>
+      <select>
+        <option>Pleasure</option>
+        <option>Mastery</option>
+        <option>Connection</option>
+        <option>Self-care</option>
+      </select>
+    </td>
+
+    <td>
+      <input type="number" min="0" max="10"
+        placeholder="0–10">
+    </td>
+
+    <td>
+      <input type="number" min="0" max="10"
+        placeholder="0–10">
+    </td>
+
+    <td>
+      <input placeholder="Notes">
+    </td>
+
+    <td>
+      <button class="btn btn-small"
+        onclick="this.closest('tr').remove()">
+        ×
+      </button>
+    </td>
+
+  `;
+
+  tbody.appendChild(row);
+
+}
+
+
+/* -------------------------
+   AUTO SUMMARY
+------------------------- */
+
+function val(id){
+
+  const el = document.getElementById(id);
+
+  return el ? el.value.trim() : "";
+
+}
+
+
+function selectedChips(containerId){
+
+  const container =
+    document.getElementById(containerId);
+
+  if(!container) return [];
+
+  return [...container.querySelectorAll(".chip.selected")]
+    .map(x => x.textContent.trim());
+
+}
+
+
+function generateSummary(){
+
+  const name =
+    val("patientName") || "Patient";
+
+  const date =
+    val("sessionDate");
+
+  const session =
+    currentSession;
+
+  const summary = `
+
+CBT MODULE 1 — SESSION SUMMARY
+
+Patient: ${name}
+Date: ${date}
+Session: ${session}
+
+PRESENTING PROBLEM
+${val("presentingProblem") || "Not documented."}
+
+SESSION FOCUS
+${session === 1
+  ? "Engagement, depression assessment, safety assessment, trauma screening and initial CBT formulation."
+  : "Review of previous work, behavioural activation, CBT maintenance cycle and homework planning."}
+
+
+CURRENT DEPRESSION
+Mood:
+${val("depMood") || "Not documented."}
+
+Anhedonia:
+${val("depAnhedonia") || "Not documented."}
+
+Sleep:
+${val("depSleep") || "Not documented."}
+
+Appetite / weight:
+${val("depAppetite") || "Not documented."}
+
+Energy:
+${val("depEnergy") || "Not documented."}
+
+Concentration:
+${val("depConcentration") || "Not documented."}
+
+Psychomotor:
+${val("depPsychomotor") || "Not documented."}
+
+Negative cognitions:
+${val("depCognition") || "Not documented."}
+
+Functional impairment:
+${selectedChips("functionChips").join(", ") || "Not documented."}
+
+Clinical severity:
+${val("depSeverity") || "Not documented."}
+
+
+SAFETY / RISK
+
+Suicidal ideation:
+${val("suicideIdeation") || "Not documented."}
+
+Plan / intent / preparation:
+${val("suicidePlan") || "Not documented."}
+
+Past self-harm / attempts:
+${val("pastSelfHarm") || "Not documented."}
+
+Access to means:
+${val("accessMeans") || "Not documented."}
+
+Protective factors:
+${val("protectiveFactors") || "Not documented."}
+
+Clinical risk formulation:
+${val("riskFormulation") || "Not documented."}
+
+Safety plan / action:
+${val("safetyPlan") || "Not documented."}
+
+
+TRAUMA / CHILDHOOD ADVERSITY
+
+Overview:
+${val("traumaOverview") || "Not documented."}
+
+Re-experiencing:
+${val("traumaReexperience") || "Not documented."}
+
+Avoidance:
+${val("traumaAvoidance") || "Not documented."}
+
+Hyperarousal:
+${val("traumaArousal") || "Not documented."}
+
+Trauma-related beliefs:
+${val("traumaBeliefs") || "Not documented."}
+
+Dissociation:
+${val("dissociation") || "Not documented."}
+
+Current danger:
+${val("currentDanger") || "Not documented."}
+
+Readiness for trauma-focused work:
+${val("traumaReadiness") || "Not documented."}
+
+
+CBT FORMULATION
+
+Predisposing:
+${val("predisposing") || "Not documented."}
+
+Precipitating:
+${val("precipitating") || "Not documented."}
+
+Perpetuating:
+${val("perpetuating") || "Not documented."}
+
+Protective:
+${val("protective") || "Not documented."}
+
+Maintenance cycle:
+${val("maintenanceCycle") || "Not documented."}
+
+Core belief hypothesis:
+${val("coreBelief") || "Not documented."}
+
+Conditional assumptions:
+${val("rulesBeliefs") || "Not documented."}
+
+
+TREATMENT GOALS
+
+1. ${val("goal1") || "Not documented."}
+2. ${val("goal2") || "Not documented."}
+3. ${val("goal3") || "Not documented."}
+4. ${val("goal4") || "Not documented."}
+
+Patient's own words:
+${val("patientGoalWords") || "Not documented."}
+
+
+BEHAVIOURAL ACTIVATION
+
+${getActivities()}
+
+
+AUTOMATIC THOUGHT RECORD
+
+Situation:
+${val("thoughtSituation") || "Not documented."}
+
+Automatic thought:
+${val("automaticThought") || "Not documented."}
+
+Emotion:
+${val("thoughtEmotion") || "Not documented."}
+
+Behaviour:
+${val("thoughtBehaviour") || "Not documented."}
+
+Evidence supporting:
+${val("evidenceFor") || "Not documented."}
+
+Alternative evidence:
+${val("evidenceAgainst") || "Not documented."}
+
+Balanced interpretation:
+${val("balancedThought") || "Not documented."}
+
+Emotion after reconsideration:
+${val("emotionAfter") || "Not documented."}
+
+
+HOMEWORK
+
+Daily mood/activity monitoring:
+${document.getElementById("hwMood").checked ? "Yes" : "No"}
+
+Scheduled activities:
+${document.getElementById("hwActivity").checked ? "Yes" : "No"}
+
+Thought record:
+${document.getElementById("hwThought").checked ? "Yes" : "No"}
+
+Sleep monitoring:
+${document.getElementById("hwSleep").checked ? "Yes" : "No"}
+
+Social connection:
+${document.getElementById("hwSupport").checked ? "Yes" : "No"}
+
+Custom homework:
+${val("customHomework") || "Not documented."}
+
+
+THERAPIST OBSERVATIONS
+
+${val("openingObservations") || "Not documented."}
+
+
+CLINICAL NOTE
+
+This structured summary is a documentation aid. Clinical diagnosis,
+risk stratification, safeguarding decisions, treatment selection and
+emergency management require professional clinical judgement and
+appropriate local protocols.
+
+`;
+
+  document.getElementById("sessionSummary").value =
+    summary.trim();
+
+  document.getElementById("summary")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  showToast("Session summary generated");
+
+}
+
+
+/* -------------------------
+   ACTIVITY SUMMARY
+------------------------- */
+
+function getActivities(){
+
+  const rows =
+    [...document.querySelectorAll("#activityTable tbody tr")];
+
+  if(!rows.length) return "No activities entered.";
+
+  return rows.map((row,i)=>{
+
+    const inputs =
+      [...row.querySelectorAll("input,select")];
+
+    return `${i+1}. ${
+      inputs[0]?.value || ""
+    } — ${
+      inputs[1]?.value || ""
+    } — ${
+      inputs[2]?.value || ""
+    } — predicted ${
+      inputs[3]?.value || ""
+    }/10 — actual ${
+      inputs[4]?.value || ""
+    }/10 — ${
+      inputs[5]?.value || ""
+    }`;
+
+  }).join("\n");
+
+}
+
+
+/* -------------------------
+   LOCAL STORAGE
+------------------------- */
+
+function collectData(){
+
+  const data = {};
+
+  document.querySelectorAll("input,textarea,select")
+    .forEach(el=>{
+
+      if(!el.id) return;
+
+      if(el.type === "checkbox"){
+        data[el.id] = el.checked;
+      }else{
+        data[el.id] = el.value;
+      }
+
+    });
+
+  data.currentSession = currentSession;
+
+  return data;
+
+}
+
+
+function saveData(){
+
+  const data = collectData();
+
+  localStorage.setItem(
+    "cbtModule1Session",
+    JSON.stringify(data)
+  );
+
+  showToast(
+    "Session saved locally in this browser"
+  );
+
+}
+
+
+function loadData(){
+
+  const raw =
+    localStorage.getItem("cbtModule1Session");
+
+  if(!raw){
+
+    showToast("No saved session found");
+
+    return;
+  }
+
+  const data =
+    JSON.parse(raw);
+
+  Object.entries(data).forEach(([id,value])=>{
+
+    if(id === "currentSession") return;
+
+    const el =
+      document.getElementById(id);
+
+    if(!el) return;
+
+    if(el.type === "checkbox"){
+      el.checked = value;
+    }else{
+      el.value = value;
+    }
+
+  });
+
+  if(data.currentSession){
+    selectSession(data.currentSession);
+  }
+
+  updatePatient();
+  updateProgress();
+
+  showToast("Saved session loaded");
+
+}
+
+
+/* -------------------------
+   PROGRESS
+------------------------- */
+
+function updateProgress(){
+
+  const ids = [
+
+    "patientName",
+    "presentingProblem",
+    "depMood",
+    "depAnhedonia",
+    "suicideIdeation",
+    "riskFormulation",
+    "traumaOverview",
+    "traumaBeliefs",
+    "cbtUnderstanding",
+    "maintenanceCycle",
+    "coreBelief",
+    "goal1",
+    "goal2",
+    "customHomework"
+
+  ];
+
+  let completed = 0;
+
+  ids.forEach(id=>{
+
+    const el =
+      document.getElementById(id);
+
+    if(el && el.value.trim()){
+      completed++;
+    }
+
+  });
+
+  const percentage =
+    Math.round((completed / ids.length) * 100);
+
+  document.getElementById("progressBar")
+    .style.width = percentage + "%";
+
+  document.getElementById("progressText")
+    .textContent = percentage + "%";
+
+}
+
+
+/* -------------------------
+   TOAST
+------------------------- */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
+
+}
+
+
+/* -------------------------
+   LIVE PROGRESS
+------------------------- */
+
+document.addEventListener("input",updateProgress);
+document.addEventListener("change",updateProgress);
+
+
+/* -------------------------
+   KEYBOARD SHORTCUT
+------------------------- */
+
+document.addEventListener("keydown",e=>{
+
+  if((e.ctrlKey || e.metaKey) && e.key === "s"){
+
+    e.preventDefault();
+
+    saveData();
+
+  }
+
+});
+
+
+</script>
+
+</body>
+</html>
