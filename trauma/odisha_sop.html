@@ -1,0 +1,5350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SOP – Casualty & Trauma Care | Government of Odisha</title>
+
+<meta name="description"
+      content="Standard Operating Procedure for Casualty and Trauma Care in Medical College Hospitals – Government of Odisha, Health & Family Welfare Department, 2017.">
+
+<style>
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+:root {
+    --primary: #0b3d62;
+    --primary-dark: #082d48;
+    --secondary: #176b87;
+    --accent: #0e7490;
+
+    --bg: #f4f7fa;
+    --surface: #ffffff;
+    --surface-2: #eef4f8;
+
+    --text: #17212b;
+    --muted: #61707d;
+    --border: #d9e1e7;
+
+    --success: #16803c;
+    --success-bg: #eaf7ef;
+
+    --warning: #a15c00;
+    --warning-bg: #fff4df;
+
+    --danger: #b42318;
+    --danger-bg: #fff0ee;
+
+    --info: #075985;
+    --info-bg: #e9f5ff;
+
+    --purple: #6941c6;
+    --purple-bg: #f2edff;
+
+    --shadow: 0 8px 24px rgba(15, 45, 70, 0.08);
+    --shadow-small: 0 3px 12px rgba(15, 45, 70, 0.06);
+
+    --radius: 14px;
+    --radius-small: 9px;
+
+    --sidebar-width: 290px;
+}
+
+body.dark {
+    --bg: #0e1720;
+    --surface: #17232e;
+    --surface-2: #1d2c38;
+
+    --text: #edf4f8;
+    --muted: #aab9c5;
+    --border: #30404d;
+
+    --success-bg: #123622;
+    --warning-bg: #3b2b12;
+    --danger-bg: #3b1917;
+    --info-bg: #112e42;
+    --purple-bg: #2c2344;
+
+    --shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: var(--shadow-small);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background: var(--primary);
+    color: white;
+
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.brand-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    display: grid;
+    place-items: center;
+
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--surface-2);
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 72px);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: var(--sidebar-width);
+
+    position: sticky;
+    top: 72px;
+
+    height: calc(100vh - 72px);
+
+    overflow-y: auto;
+
+    flex-shrink: 0;
+
+    background: var(--surface);
+
+    border-right: 1px solid var(--border);
+
+    padding: 18px 13px;
+}
+
+.sidebar-title {
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    margin: 7px 10px 10px;
+}
+
+.nav-item {
+    display: block;
+
+    text-decoration: none;
+
+    color: var(--text);
+
+    padding: 8px 10px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    margin-bottom: 2px;
+
+    transition: 0.15s;
+}
+
+.nav-item:hover {
+    background: var(--surface-2);
+}
+
+.nav-item.active {
+    background: #e5f2f8;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+body.dark .nav-item.active {
+    background: #17394d;
+    color: #7dd3fc;
+}
+
+.nav-number {
+    display: inline-block;
+    width: 25px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 30px 34px 80px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color: white;
+
+    border-radius: 20px;
+
+    padding: 38px;
+
+    box-shadow: var(--shadow);
+
+    margin-bottom: 25px;
+}
+
+.hero-kicker {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    opacity: 0.82;
+}
+
+.hero h1 {
+    font-size: clamp(27px, 4vw, 44px);
+
+    line-height: 1.12;
+
+    margin: 10px 0 12px;
+
+    max-width: 950px;
+}
+
+.hero p {
+    max-width: 900px;
+
+    opacity: 0.9;
+
+    margin: 0 0 20px;
+}
+
+.hero-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+.meta-pill {
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.13);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-panel {
+    position: sticky;
+
+    top: 86px;
+
+    z-index: 20;
+
+    margin-bottom: 24px;
+}
+
+.search-box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow-small);
+
+    border-radius: 12px;
+
+    padding: 10px 13px;
+}
+
+.search-box span {
+    color: var(--muted);
+}
+
+.search-box input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section {
+    scroll-margin-top: 95px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow-small);
+
+    margin-bottom: 20px;
+
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 19px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid transparent;
+}
+
+.section.open .section-header {
+    border-bottom-color: var(--border);
+}
+
+.section-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.section-number {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    flex-shrink: 0;
+}
+
+.section-title {
+    margin: 0;
+
+    font-size: 18px;
+
+    line-height: 1.25;
+}
+
+.chevron {
+    transition: transform 0.25s;
+    color: var(--muted);
+}
+
+.section.open .chevron {
+    transform: rotate(180deg);
+}
+
+.section-body {
+    display: none;
+
+    padding: 22px;
+}
+
+.section.open .section-body {
+    display: block;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h2,
+h3,
+h4 {
+    color: var(--text);
+}
+
+h3 {
+    font-size: 17px;
+    margin: 24px 0 10px;
+}
+
+h4 {
+    font-size: 14px;
+    margin: 18px 0 8px;
+}
+
+p {
+    margin-top: 7px;
+    margin-bottom: 10px;
+}
+
+strong {
+    font-weight: 750;
+}
+
+ul,
+ol {
+    margin-top: 8px;
+    padding-left: 23px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+.compact-list li {
+    margin-bottom: 3px;
+}
+
+
+/* =========================================================
+   HIGHLIGHTS
+========================================================= */
+
+.highlight {
+    display: inline;
+
+    padding: 2px 6px;
+
+    border-radius: 5px;
+
+    background: #fff1a8;
+
+    color: #3d3100;
+
+    font-weight: 650;
+}
+
+body.dark .highlight {
+    background: #5b4b08;
+    color: #fff4a3;
+}
+
+.critical {
+    padding: 15px 17px;
+
+    border-left: 5px solid var(--danger);
+
+    background: var(--danger-bg);
+
+    border-radius: 8px;
+
+    margin: 15px 0;
+}
+
+.warning {
+    padding: 15px 17px;
+
+    border-left: 5px solid var(--warning);
+
+    background: var(--warning-bg);
+
+    border-radius: 8px;
+
+    margin: 15px 0;
+}
+
+.info {
+    padding: 15px 17px;
+
+    border-left: 5px solid var(--info);
+
+    background: var(--info-bg);
+
+    border-radius: 8px;
+
+    margin: 15px 0;
+}
+
+.success {
+    padding: 15px 17px;
+
+    border-left: 5px solid var(--success);
+
+    background: var(--success-bg);
+
+    border-radius: 8px;
+
+    margin: 15px 0;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 13px;
+
+    margin: 15px 0;
+}
+
+.card {
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    padding: 17px;
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-small);
+}
+
+.card-title {
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 6px;
+}
+
+.card-text {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.stat-card {
+    text-align: center;
+
+    padding: 18px;
+}
+
+.stat-value {
+    display: block;
+
+    font-size: 28px;
+
+    line-height: 1;
+
+    font-weight: 850;
+
+    color: var(--primary);
+
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrap {
+    overflow-x: auto;
+
+    margin: 15px 0;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 650px;
+
+    font-size: 12px;
+}
+
+th {
+    background: var(--primary);
+
+    color: white;
+
+    text-align: left;
+
+    padding: 11px 12px;
+
+    font-size: 11px;
+
+    letter-spacing: 0.02em;
+}
+
+td {
+    padding: 10px 12px;
+
+    border-bottom: 1px solid var(--border);
+
+    vertical-align: top;
+}
+
+tr:nth-child(even) td {
+    background: var(--surface-2);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   TRIAGE TABLE
+========================================================= */
+
+.triage-table tr.immediate td:first-child {
+    border-left: 5px solid #c62828;
+}
+
+.triage-table tr.very-urgent td:first-child {
+    border-left: 5px solid #ef6c00;
+}
+
+.triage-table tr.urgent td:first-child {
+    border-left: 5px solid #f9a825;
+}
+
+.triage-table tr.less-urgent td:first-child {
+    border-left: 5px solid #2e7d32;
+}
+
+.triage-table tr.non-urgent td:first-child {
+    border-left: 5px solid #1565c0;
+}
+
+.triage-table tr.dead td:first-child {
+    border-left: 5px solid #424242;
+}
+
+.priority-badge {
+    display: inline-block;
+
+    padding: 4px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+.badge-immediate {
+    background: #ffdddd;
+    color: #a10000;
+}
+
+.badge-very {
+    background: #ffe8d0;
+    color: #9a4300;
+}
+
+.badge-urgent {
+    background: #fff3bf;
+    color: #725600;
+}
+
+.badge-less {
+    background: #dcf4df;
+    color: #1f6a2a;
+}
+
+.badge-non {
+    background: #dceeff;
+    color: #075985;
+}
+
+.badge-dead {
+    background: #e7e7e7;
+    color: #333;
+}
+
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.workflow {
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    padding: 8px 2px 16px;
+}
+
+.workflow-step {
+    min-width: 145px;
+
+    padding: 15px 12px;
+
+    border-radius: 10px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    text-align: center;
+
+    position: relative;
+}
+
+.workflow-step strong {
+    display: block;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+.workflow-step span {
+    display: block;
+
+    font-size: 10px;
+
+    color: var(--muted);
+}
+
+.workflow-arrow {
+    align-self: center;
+
+    color: var(--primary);
+
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   RESPONSIBILITY CARDS
+========================================================= */
+
+.role-card {
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+
+    overflow: hidden;
+}
+
+.role-header {
+    background: var(--surface-2);
+
+    padding: 13px 16px;
+
+    font-weight: 800;
+
+    color: var(--primary);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.role-body {
+    padding: 13px 16px;
+}
+
+
+/* =========================================================
+   CHECKLIST
+========================================================= */
+
+.checklist {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 9px;
+
+    margin: 12px 0;
+}
+
+.check-item {
+    display: flex;
+
+    gap: 9px;
+
+    padding: 10px;
+
+    background: var(--surface-2);
+
+    border-radius: 8px;
+
+    font-size: 12px;
+}
+
+.check-icon {
+    color: var(--success);
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin: 14px 0;
+}
+
+.action-btn {
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.action-btn:hover {
+    background: var(--surface-2);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   BACK TO TOP
+========================================================= */
+
+#backTop {
+    position: fixed;
+
+    right: 22px;
+
+    bottom: 22px;
+
+    width: 43px;
+    height: 43px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow);
+
+    display: none;
+
+    z-index: 100;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        position: fixed;
+
+        left: -310px;
+
+        top: 72px;
+
+        z-index: 900;
+
+        transition: left 0.25s;
+
+        box-shadow: var(--shadow);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .mobile-menu {
+        display: grid;
+    }
+
+    .main {
+        padding: 20px 15px 60px;
+    }
+
+    .hero {
+        padding: 25px 20px;
+    }
+
+    .search-panel {
+        top: 82px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .brand-subtitle {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .section-header {
+        padding: 15px;
+    }
+
+    .section-body {
+        padding: 16px;
+    }
+
+    .section-title {
+        font-size: 15px;
+    }
+
+    .section-number {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .topbar,
+    .sidebar,
+    .search-panel,
+    .toolbar,
+    #backTop {
+        display: none !important;
+    }
+
+    .main {
+        padding: 0;
+        max-width: none;
+    }
+
+    .hero {
+        color: black;
+        background: white;
+        border: 2px solid #222;
+        box-shadow: none;
+    }
+
+    .section {
+        box-shadow: none;
+        border: 1px solid #aaa;
+
+        break-inside: avoid;
+    }
+
+    .section-body {
+        display: block !important;
+    }
+
+    .section-header {
+        cursor: default;
+    }
+
+    table {
+        font-size: 9px;
+    }
+
+    th {
+        background: #ddd !important;
+        color: black !important;
+    }
+
+    .workflow {
+        overflow: visible;
+    }
+
+    .footer {
+        border-top: 1px solid #aaa;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <button
+            class="icon-btn mobile-menu"
+            id="menuBtn"
+            aria-label="Open navigation">
+            ☰
+        </button>
+
+        <div class="brand-icon">
+            ER
+        </div>
+
+        <div>
+            <div class="brand-title">
+                Casualty & Trauma Care SOP
+            </div>
+
+            <div class="brand-subtitle">
+                Government of Odisha • Health & Family Welfare Department
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button
+            class="icon-btn"
+            id="themeBtn"
+            title="Toggle dark mode">
+            ☾
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="window.print()"
+            title="Print SOP">
+            🖨
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<div class="layout">
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-title">
+        Contents
+    </div>
+
+    <a class="nav-item" href="#section-1">
+        <span class="nav-number">01</span> Introduction
+    </a>
+
+    <a class="nav-item" href="#section-2">
+        <span class="nav-number">02</span> Policy
+    </a>
+
+    <a class="nav-item" href="#section-3">
+        <span class="nav-number">03</span> Goal
+    </a>
+
+    <a class="nav-item" href="#section-4">
+        <span class="nav-number">04</span> Basic Functions
+    </a>
+
+    <a class="nav-item" href="#section-5">
+        <span class="nav-number">05</span> Casualty Teams
+    </a>
+
+    <a class="nav-item" href="#section-6">
+        <span class="nav-number">06</span> Unit Arrangements
+    </a>
+
+    <a class="nav-item" href="#section-7">
+        <span class="nav-number">07</span> Instruments, Equipment & Drugs
+    </a>
+
+    <a class="nav-item" href="#section-8">
+        <span class="nav-number">08</span> Reception
+    </a>
+
+    <a class="nav-item" href="#section-9">
+        <span class="nav-number">09</span> Triage
+    </a>
+
+    <a class="nav-item" href="#section-10">
+        <span class="nav-number">10</span> Death in Casualty
+    </a>
+
+    <a class="nav-item" href="#section-11">
+        <span class="nav-number">11</span> Brought Dead
+    </a>
+
+    <a class="nav-item" href="#section-12">
+        <span class="nav-number">12</span> Medico-Legal Cases
+    </a>
+
+    <a class="nav-item" href="#section-13">
+        <span class="nav-number">13</span> Case Sheet
+    </a>
+
+    <a class="nav-item" href="#section-14">
+        <span class="nav-number">14</span> Observation Area
+    </a>
+
+    <a class="nav-item" href="#section-15">
+        <span class="nav-number">15</span> Admission Policy
+    </a>
+
+    <a class="nav-item" href="#section-16">
+        <span class="nav-number">16</span> Trauma Ward
+    </a>
+
+    <a class="nav-item" href="#section-17">
+        <span class="nav-number">17</span> OT
+    </a>
+
+    <a class="nav-item" href="#section-18">
+        <span class="nav-number">18</span> ICU
+    </a>
+
+    <a class="nav-item" href="#section-19">
+        <span class="nav-number">19</span> Interdepartmental Coordination
+    </a>
+
+    <a class="nav-item" href="#section-20">
+        <span class="nav-number">20</span> Investigations
+    </a>
+
+    <a class="nav-item" href="#section-21">
+        <span class="nav-number">21</span> Free Medicines
+    </a>
+
+    <a class="nav-item" href="#section-22">
+        <span class="nav-number">22</span> Ambulance / Battery Car
+    </a>
+
+    <a class="nav-item" href="#section-23">
+        <span class="nav-number">23</span> Registers & Records
+    </a>
+
+    <a class="nav-item" href="#section-24">
+        <span class="nav-number">24</span> Staff Responsibilities
+    </a>
+
+    <a class="nav-item" href="#section-25">
+        <span class="nav-number">25</span> Meetings & Reviews
+    </a>
+
+    <a class="nav-item" href="#section-26">
+        <span class="nav-number">26</span> Ethics
+    </a>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-kicker">
+        Standard Operating Procedure
+    </div>
+
+    <h1>
+        Casualty and Trauma Care
+        in Medical College Hospitals
+    </h1>
+
+    <p>
+        Government of Odisha
+        <br>
+        Health & Family Welfare Department
+        <br>
+        Directorate of Medical Education & Training, Odisha
+    </p>
+
+    <div class="hero-meta">
+
+        <span class="meta-pill">
+            Government of Odisha
+        </span>
+
+        <span class="meta-pill">
+            Health & Family Welfare Department
+        </span>
+
+        <span class="meta-pill">
+            2017
+        </span>
+
+        <span class="meta-pill">
+            Approved: 20.12.2017
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<div class="search-panel">
+
+    <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search SOP: triage, MLC, CMO, admission, ICU, registers..."
+            autocomplete="off">
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     QUICK REFERENCE
+========================================================= -->
+
+<section class="section open">
+
+    <div class="section-header">
+
+        <div class="section-heading">
+
+            <div class="section-number">
+                QR
+            </div>
+
+            <h2 class="section-title">
+                Quick Reference — Critical Operational Rules
+            </h2>
+
+        </div>
+
+        <span class="chevron">⌄</span>
+
+    </div>
+
+
+    <div class="section-body">
+
+        <div class="card-grid">
+
+            <div class="card stat-card">
+
+                <span class="stat-value">24×7</span>
+
+                <span class="stat-label">
+                    Casualty & Trauma Care service
+                </span>
+
+            </div>
+
+
+            <div class="card stat-card">
+
+                <span class="stat-value">2–4 min</span>
+
+                <span class="stat-label">
+                    Initial CMO triage examination
+                </span>
+
+            </div>
+
+
+            <div class="card stat-card">
+
+                <span class="stat-value">≤ 2 hr</span>
+
+                <span class="stat-label">
+                    Maximum time in triage
+                </span>
+
+            </div>
+
+
+            <div class="card stat-card">
+
+                <span class="stat-value">24×7</span>
+
+                <span class="stat-label">
+                    OT / investigation availability requirements
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="critical">
+
+            <strong>Core emergency principle:</strong>
+
+            No patient requiring emergency medical care shall be refused
+            adequate treatment even if no bed is available and the
+            particular specialisation is nonexistent.
+
+        </div>
+
+
+        <div class="warning">
+
+            <strong>Critical escalation rule:</strong>
+
+            Calls to the concerned RP/RS/POC/SOC must be attended
+            immediately. If a call is not attended, escalation occurs
+            at half-hour intervals through the specified hierarchy.
+
+        </div>
+
+
+        <div class="success">
+
+            <strong>Patient-care principle:</strong>
+
+            Treatment must not be stopped, delayed, or denied because of
+            unresolved departmental priority or bed availability.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 1
+========================================================= -->
+
+<section class="section open" id="section-1">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">01</div>
+
+<h2 class="section-title">Introduction</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<p>
+Public perception and opinion regarding a hospital is based on their
+visit to the accident & emergency department. This facility usually
+accounts for a substantial number of hospital admissions.
+</p>
+
+<p>
+An accident (trauma) or an emergency (casualty) is an injury or illness
+that is acute and poses an immediate risk to a person's life or long
+term health.
+</p>
+
+<p>
+Casualty and Trauma Care patients often present with potentially
+life-threatening symptoms such as:
+</p>
+
+<ul>
+<li>Headache</li>
+<li>Chest pain</li>
+<li>Abdominal pain</li>
+<li>Collapse of unknown cause</li>
+<li>Severe injury, mostly due to road traffic accidents</li>
+</ul>
+
+<p>
+Trauma patients sustain injury which is unexpected and unannounced,
+leading to damage, deformity and/or death.
+</p>
+
+<p>
+Such patients may reach hospital without prior appointment, either
+on their own or by ambulance.
+</p>
+
+
+<h3>Purpose of the SOP</h3>
+
+<div class="checklist">
+
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Identify procedures for triage and clear, precise assessment of patients arriving in the Emergency Department.</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Improve patient flow from initial reception through discharge or admission.</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Ensure patients receive proper care and treatment at the appropriate time.</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Enable multidisciplinary teamwork regardless of department workload.</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 2
+========================================================= -->
+
+<section class="section" id="section-2">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">02</div>
+
+<h2 class="section-title">Policy</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+<strong>Mandatory service:</strong>
+
+All health facilities shall mandatorily provide Casualty and Trauma
+Care Services.
+
+</div>
+
+<p>
+The manner of disposal of a patient starting from entry into Casualty
+and Trauma Care until exit from the hospital reflects the alertness
+and promptness of the hospital.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 3
+========================================================= -->
+
+<section class="section" id="section-3">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">03</div>
+
+<h2 class="section-title">Goal</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="info">
+
+The goal is to establish efficient and effective Casualty and Trauma
+Care services to reduce disability, morbidity and mortality in
+hospitals.
+
+</div>
+
+<p>
+The SOP emphasizes providing the:
+</p>
+
+<div class="card-grid">
+
+<div class="card">
+<div class="card-title">Right treatment</div>
+<div class="card-text">Appropriate treatment for the patient's condition.</div>
+</div>
+
+<div class="card">
+<div class="card-title">Right time</div>
+<div class="card-text">Timely emergency intervention.</div>
+</div>
+
+<div class="card">
+<div class="card-title">Right place</div>
+<div class="card-text">Appropriate area, ward, OT or ICU.</div>
+</div>
+
+<div class="card">
+<div class="card-title">Right resources</div>
+<div class="card-text">Use of available emergency resources.</div>
+</div>
+
+<div class="card">
+<div class="card-title">Science</div>
+<div class="card-text">Evidence-based and appropriate emergency care.</div>
+</div>
+
+<div class="card">
+<div class="card-title">Sympathy & Speed</div>
+<div class="card-text">Compassionate and prompt care.</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 4
+========================================================= -->
+
+<section class="section" id="section-4">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">04</div>
+
+<h2 class="section-title">Basic Function of Casualty & Trauma Care Department / Unit</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<p>
+The Casualty and Trauma Care department/unit shall operate a
+<strong>24-hour service</strong> and provide initial treatment for a
+broad spectrum of illnesses and injuries that may be life threatening
+and require immediate attention.
+</p>
+
+<div class="critical">
+
+No patient requiring emergency medical care shall be refused adequate
+treatment even if no bed is available and the particular specialisation
+is nonexistent.
+
+</div>
+
+<ol type="a">
+
+<li>
+Provide immediate, appropriate life-saving care and service,
+efficient and effective, while remaining sensitive to emotional
+needs and arranging subsequent disposition.
+</li>
+
+<li>
+Serve as the definitive specialised care facility, properly equipped
+and staffed to provide rapid and varied emergency care to people with
+life-threatening conditions.
+</li>
+
+<li>
+Use a triage system of screening and classification to determine
+priority needs and provide patient care efficiently.
+</li>
+
+<li>
+Financial consideration should not be a barrier to initial treatment.
+</li>
+
+<li>
+Play a key role during critical interventions of all kinds.
+</li>
+
+<li>
+Liaison with courts and police in medico-legal cases.
+</li>
+
+<li>
+Public relation information, communication and feedback.
+</li>
+
+<li>
+Provide ambulance service.
+</li>
+
+<li>
+Education, training and research.
+</li>
+
+</ol>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 5
+========================================================= -->
+
+<section class="section" id="section-5">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">05</div>
+
+<h2 class="section-title">Casualty & Trauma Care Teams</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<h3>Emergency Core Team</h3>
+
+<p>
+The emergency core team should be physically present at all times,
+shift-wise, with the following personnel per shift:
+</p>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Personnel</th>
+<th>Number / Shift</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr><td>Casualty Medical Officer</td><td>1</td></tr>
+<tr><td>Casualty Manager</td><td>1</td></tr>
+<tr><td>Pharmacist</td><td>1</td></tr>
+<tr><td>Nurses</td><td>4</td></tr>
+<tr><td>Lab Technician</td><td>1</td></tr>
+<tr><td>ECG Technician</td><td>1</td></tr>
+<tr><td>Attendants</td><td>4</td></tr>
+<tr><td>Ambulance Drivers</td><td>3</td></tr>
+<tr><td>Sweepers</td><td>2</td></tr>
+<tr><td>Data Entry Operators</td><td>2</td></tr>
+<tr><td>Record Clerk</td><td>1</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<p>
+The core team shall work in <strong>three shifts</strong>.
+</p>
+
+
+<h3>Expanded Team</h3>
+
+<p>
+The Expanded Team should comprise Assistant Professors / Senior
+Residents on emergency duty from departments such as:
+</p>
+
+<div class="card-grid">
+
+<div class="card">Surgery</div>
+<div class="card">Orthopaedics</div>
+<div class="card">Neurosurgery</div>
+<div class="card">Plastic Surgery</div>
+<div class="card">Nephrology</div>
+<div class="card">Radiology</div>
+<div class="card">Anaesthesia</div>
+<div class="card">Ophthalmology</div>
+<div class="card">ENT</div>
+<div class="card">Other required departments</div>
+
+</div>
+
+
+<h3>Designation hierarchy</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Designation</th>
+<th>Role</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Senior Resident</td>
+<td>RP/RS on Duty — Resident Physician/Surgeon on Duty</td>
+</tr>
+
+<tr>
+<td>Assistant Professor</td>
+<td>RP/RS on Call — Resident Physician/Surgeon on Call</td>
+</tr>
+
+<tr>
+<td>Associate Professor</td>
+<td>POC/SOC 1st Call — Physician/Surgeon on 1st Call</td>
+</tr>
+
+<tr>
+<td>Professor</td>
+<td>POC/SOC 2nd Call — Physician/Surgeon on 2nd Call</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="card-grid">
+
+<div class="card">
+<div class="card-title">Unit Head</div>
+<div class="card-text">CMO</div>
+</div>
+
+<div class="card">
+<div class="card-title">Operational supervision</div>
+<div class="card-text">Casualty In-Charge / ECRO + Trauma Care Nodal Officer</div>
+</div>
+
+<div class="card">
+<div class="card-title">Overall authority</div>
+<div class="card-text">Medical Superintendent</div>
+</div>
+
+</div>
+
+
+<h3>Continuous Professional Development</h3>
+
+<p>
+All personnel working in Casualty and Trauma Care should have regular
+training and discussions in emergency care.
+</p>
+
+<div class="checklist">
+
+<div class="check-item"><span class="check-icon">✓</span>Basic Life Support</div>
+<div class="check-item"><span class="check-icon">✓</span>Advance Cardiac Life Support</div>
+<div class="check-item"><span class="check-icon">✓</span>Advance Trauma Life Support</div>
+<div class="check-item"><span class="check-icon">✓</span>Paediatric Advance Life Support</div>
+<div class="check-item"><span class="check-icon">✓</span>Triaging</div>
+<div class="check-item"><span class="check-icon">✓</span>Recognition and Management of the Critically Ill</div>
+
+</div>
+
+
+<div class="warning">
+
+Staff engaged in Casualty and Trauma Care shall not be directly or
+indirectly linked with private clinical establishments.
+
+</div>
+
+<p>
+All Core Team staff shall be changed with a new team every
+<strong>three months</strong>.
+</p>
+
+<p>
+Staff should be sympathetic and well trained, capable of providing
+immediate life-saving treatment while addressing the emotional
+requirements of patients and attendants.
+</p>
+
+<p>
+Employees posted in casualty must wear proper hospital dress
+(white coat etc.) and display name plates or special identity cards.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 6
+========================================================= -->
+
+<section class="section" id="section-6">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">06</div>
+
+<h2 class="section-title">Arrangements in the Casualty & Trauma Care Unit</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<p>
+The Dean & Principal, Medical Superintendent, CIC and TNO shall ensure
+the following arrangements:
+</p>
+
+<div class="card-grid">
+
+<div class="card">Help Desk / Reception / Registration</div>
+<div class="card">Waiting Area</div>
+<div class="card">Triage Area</div>
+<div class="card">Resuscitation Area / Beds / Stabilization Room</div>
+<div class="card">Transient Observation & Treatment Area</div>
+<div class="card">Procedure Room</div>
+<div class="card">Operation Theatre</div>
+<div class="card">Dressing Room</div>
+<div class="card">Plaster Room</div>
+<div class="card">Trauma ICU</div>
+<div class="card">Trauma OT</div>
+<div class="card">Laboratory for Bedside Diagnosis</div>
+<div class="card">Ambulance & Trolley Bay</div>
+<div class="card">Drinking Water & Toilet</div>
+<div class="card">24×7 Pathology / X-Ray / USG / CT / MRI / Niramaya</div>
+<div class="card">Money Receipt Counter</div>
+<div class="card">Internal Security & Police Post</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 7
+========================================================= -->
+
+<section class="section" id="section-7">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">07</div>
+
+<h2 class="section-title">Standard Instruments, Equipment and Drugs</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="info">
+
+The CIC/TNO must ensure availability of minimum instruments,
+equipment and drugs required for efficient and timely management
+of Casualty and Trauma Care cases.
+
+</div>
+
+<p>
+Instruments and equipment must be checked periodically for proper
+functioning.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 8
+========================================================= -->
+
+<section class="section" id="section-8">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">08</div>
+
+<h2 class="section-title">Reception of Patients</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+If the patient's condition is grave, treatment should start
+<strong>immediately</strong>, followed by paperwork.
+
+</div>
+
+<p>
+Computerised registration should be made quickly incorporating the
+following preliminary data:
+</p>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Information Required</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr><td>1</td><td>Name, age, sex, father's name</td></tr>
+<tr><td>2</td><td>Address including Police Station and temporary address for non-residents</td></tr>
+<tr><td>3</td><td>Telephone numbers including temporary numbers for non-residents</td></tr>
+<tr><td>4</td><td>Marital status and next of kin including contact details</td></tr>
+<tr><td>5</td><td>Presenting complaint</td></tr>
+<tr><td>6</td><td>Mode of arrival</td></tr>
+<tr><td>7</td><td>Time since incident</td></tr>
+<tr><td>8</td><td>Special information regarding alcohol or weapon involvement</td></tr>
+<tr><td>9</td><td>Whether assailant was identified</td></tr>
+<tr><td>10</td><td>Precise location of event</td></tr>
+<tr><td>11</td><td>Time of day and day of week of event</td></tr>
+<tr><td>12</td><td>Whether police have been or will be notified</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 9
+========================================================= -->
+
+<section class="section" id="section-9">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">09</div>
+
+<h2 class="section-title">Management of Patients in Triage Area</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<h3>Purpose of triage</h3>
+
+<ul>
+
+<li>Expedite timely treatment for life-threatening conditions.</li>
+
+<li>Ensure appropriate categorisation according to clinical condition.</li>
+
+<li>Improve patient flow.</li>
+
+<li>Improve patient satisfaction.</li>
+
+<li>Decrease overall length of stay.</li>
+
+<li>Facilitate streaming of less urgent patients.</li>
+
+<li>Be user-friendly for all levels of healthcare professionals.</li>
+
+</ul>
+
+
+<h3>Initial triage process</h3>
+
+<p>
+On arrival, the patient shall immediately be taken from reception to
+the waiting/triage area accompanied by an attendant and the
+registration slip handed to the CMO. This shall be supervised by the
+Casualty Manager.
+</p>
+
+<p>
+The CMO shall conduct a quick examination within
+<strong>2–4 minutes</strong>.
+</p>
+
+<p>
+Assessment includes:
+</p>
+
+<div class="checklist">
+
+<div class="check-item"><span class="check-icon">✓</span>Life threat</div>
+<div class="check-item"><span class="check-icon">✓</span>Haemorrhage</div>
+<div class="check-item"><span class="check-icon">✓</span>Pain</div>
+<div class="check-item"><span class="check-icon">✓</span>Conscious level</div>
+<div class="check-item"><span class="check-icon">✓</span>Temperature</div>
+<div class="check-item"><span class="check-icon">✓</span>Acuteness</div>
+
+</div>
+
+
+<h3>Triage categories and response times</h3>
+
+<div class="table-wrap">
+
+<table class="triage-table">
+
+<thead>
+
+<tr>
+<th>Category</th>
+<th>Attendance Target</th>
+<th>Management</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr class="immediate">
+
+<td>
+<span class="priority-badge badge-immediate">
+IMMEDIATE
+</span>
+</td>
+
+<td>0–1 minute</td>
+
+<td>
+Immediately attended and taken to resuscitation bed equipped with
+oxygen, ventilator and other Cardio Pulmonary Cerebral Resuscitation
+requirements. After stabilisation, shifted to respective ward.
+</td>
+
+</tr>
+
+
+<tr class="very-urgent">
+
+<td>
+<span class="priority-badge badge-very">
+VERY URGENT
+</span>
+</td>
+
+<td>Within 15 minutes</td>
+
+<td>
+Immediate intervention.
+</td>
+
+</tr>
+
+
+<tr class="urgent">
+
+<td>
+<span class="priority-badge badge-urgent">
+URGENT
+</span>
+</td>
+
+<td>Within 30 minutes</td>
+
+<td>
+Prompt emergency assessment and treatment.
+</td>
+
+</tr>
+
+
+<tr class="less-urgent">
+
+<td>
+<span class="priority-badge badge-less">
+LESS URGENT
+</span>
+</td>
+
+<td>Within 60 minutes</td>
+
+<td>
+Directed to appropriate physician/surgeon for advice and disposal.
+</td>
+
+</tr>
+
+
+<tr class="non-urgent">
+
+<td>
+<span class="priority-badge badge-non">
+NON-URGENT
+</span>
+</td>
+
+<td>Within 120 minutes</td>
+
+<td>
+Managed in observation bed and discharged after relief or sent to
+appropriate departmental ward.
+</td>
+
+</tr>
+
+
+<tr class="dead">
+
+<td>
+<span class="priority-badge badge-dead">
+DEAD
+</span>
+</td>
+
+<td>Identification</td>
+
+<td>
+Identification must be made and body shifted to Mortuary until
+handover to appropriate person or police.
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="info">
+
+<strong>Important:</strong>
+
+The above time frames apply when patient load is high and discrimination
+is required for initiation of treatment. Otherwise, all patients shall
+be attended immediately.
+
+</div>
+
+
+<h3>Escalation of emergency calls</h3>
+
+<div class="workflow">
+
+<div class="workflow-step">
+<strong>CMO</strong>
+<span>Immediate call</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>RP/RS on Duty</strong>
+<span>First emergency response</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>RP/RS on Call</strong>
+<span>If not attended</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>POC/SOC 1st Call</strong>
+<span>Further escalation</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>POC/SOC 2nd Call</strong>
+<span>Further escalation</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>CIC + Superintendent</strong>
+<span>Alternative arrangement</span>
+</div>
+
+</div>
+
+
+<div class="critical">
+
+Calls may be escalated at <strong>half-hour intervals</strong> if the
+preceding call is not attended. The Superintendent shall subsequently
+enquire into non-attendance and initiate necessary action if no
+justified reason is found.
+
+</div>
+
+
+<div class="warning">
+
+<strong>No patient shall remain in the triage area for more than 2 hours.</strong>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 10
+========================================================= -->
+
+<section class="section" id="section-10">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">10</div>
+
+<h2 class="section-title">Management of Patients Who Die in Casualty / Trauma Ward</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<ol type="a">
+
+<li>
+Death certificate should be issued by the CMO or Senior Resident of
+the clinical/surgical unit.
+</li>
+
+<li>
+CMO should ensure the body is sent to mortuary with due care and
+promptly inform relatives.
+</li>
+
+<li>
+Due courtesy and sympathy should be shown to relatives and assistance
+provided for disposal of the dead body.
+</li>
+
+<li>
+Every casualty death should be reported in writing directly to the
+Medical Superintendent with particulars and brief resume.
+</li>
+
+</ol>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 11
+========================================================= -->
+
+<section class="section" id="section-11">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">11</div>
+
+<h2 class="section-title">Management of Patients Brought Dead to Casualty</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<ol type="a">
+
+<li>
+All "brought in dead" cases where actual cause of death is unknown
+should be handed over to police for suitable action.
+</li>
+
+<li>
+Name and available details should be entered in the casualty
+attendance register, including accompanying relatives' name and
+address.
+</li>
+
+<li>
+Where death occurred due to natural causes and there is no suspicion
+of foul play, the body may be handed over to relatives on request,
+with signatures recorded.
+</li>
+
+<li>
+Deaths due to accident, assault, burns, suicide, poison, rape or
+other suspected non-natural causes must be registered as
+<strong>medico-legal cases</strong> and police informed.
+</li>
+
+<li>
+Out-patient tickets and death reports must be forwarded to Medical
+Records Section and Registrar Birth & Death.
+</li>
+
+</ol>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 12
+========================================================= -->
+
+<section class="section" id="section-12">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">12</div>
+
+<h2 class="section-title">Management of Medico-Legal Cases</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="info">
+
+A medico-legal situation is defined as one where there is an
+allegation, confession or suspicion of causes attributing to body
+injury or danger to life.
+
+</div>
+
+<h3>Core CMO principle</h3>
+
+<div class="critical">
+
+The CMO's foremost duty is to <strong>render medical aid</strong>.
+
+The CMO must not enter into arguments with the patient, relatives or
+attendants regarding medico-legal aspects. The matter should be left
+to the Police Constable on duty.
+
+</div>
+
+
+<h3>MLC documentation requirements</h3>
+
+<ol>
+
+<li>Promptly enter all MLC cases in the medico-legal case register.</li>
+
+<li>Ensure register pages are properly numbered.</li>
+
+<li>Make each entry properly and adequately.</li>
+
+<li>Record name, address, time of arrival, cause and nature of injury clearly.</li>
+
+<li>Record full signature with name of CMO/RS/RP in capital letters.</li>
+
+<li>Enter at least two marks of identification of the patient.</li>
+
+<li>Hand a copy of report and register to police for safe custody.</li>
+
+<li>No unauthorised person should have access to MLC records without written consent of the Medical Superintendent or authorised officer.</li>
+
+<li>Nature of injuries must be recorded in every MLC case.</li>
+
+<li>X-ray reports should be entered within 7 days in the MLC register.</li>
+
+<li>X-ray department is requested to provide X-ray report within 48 hours.</li>
+
+<li>Specialist remarks should be entered and signed by the specialist with name in block letters.</li>
+
+<li>Legal exhibits such as gastric lavage must be immediately sealed and delivered to police with signatures obtained in the book.</li>
+
+<li>For expert medico-legal advice, the faculty on call from Forensic Medicine should be contacted.</li>
+
+<li>MLC reports should be prepared by CMO/RP/RS, not Interns/Junior Residents.</li>
+
+<li>The police officer posted in casualty should expedite completion of MLC reports within 7 days.</li>
+
+</ol>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 13
+========================================================= -->
+
+<section class="section" id="section-13">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">13</div>
+
+<h2 class="section-title">Preparation of Case Sheet & Management Policy</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="warning">
+
+The Case Sheet is a <strong>legal document</strong>. It must be
+prepared carefully, legibly and contemporaneously.
+
+</div>
+
+<ol type="a">
+
+<li>
+Case Sheet must be legibly written with full signature, designation,
+date and time of call/examination.
+</li>
+
+<li>
+Haphazard writing with omissions or commissions of facts is strictly
+to be avoided.
+</li>
+
+<li>
+In a grave condition, treatment must start immediately and the Case
+Sheet maintained subsequently.
+</li>
+
+<li>
+Name, age, sex, father's name, full address and accompanying person's
+name should be clearly written in capital letters.
+</li>
+
+<li>
+Provisional diagnosis should be written in capital letters.
+</li>
+
+<li>
+Brief and pertinent examination findings should be clearly recorded.
+</li>
+
+<li>
+Only investigations essential for diagnosis and immediate management
+should be advised.
+</li>
+
+<li>
+Clear directions should be given for pathology, X-ray, USG, CT and
+MRI within the hospital.
+</li>
+
+<li>
+Patient must be guided to the investigation location; Casualty
+Manager assistance may be taken.
+</li>
+
+<li>
+Direct or indirect indication for investigations through private
+agencies is strictly condemned and punishable.
+</li>
+
+<li>
+No advice should be given to purchase medicines from outside because
+medicines available in Niramaya are procured according to standard
+treatment protocol.
+</li>
+
+<li>
+Physicians/surgeons should prescribe drugs using generic names,
+legibly and preferably in capital letters, ensuring rational
+prescription and use.
+</li>
+
+<li>
+Periodic prescription audit should be undertaken.
+</li>
+
+<li>
+Erring officers may be held responsible and appropriate action
+initiated.
+</li>
+
+<li>
+Legal action may be taken against staff who mislead patients and
+cause harassment.
+</li>
+
+<li>
+Utmost care should be taken so that patients do not incur expenditure
+during their stay in Casualty and Trauma Care.
+</li>
+
+</ol>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 14
+========================================================= -->
+
+<section class="section" id="section-14">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">14</div>
+
+<h2 class="section-title">Management in Triage & Observation Area</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<ul>
+
+<li>
+No serious patient needing admission should remain under observation
+without admission and proper case notes.
+</li>
+
+<li>
+Staff nurses manage treatment according to physician/surgeon advice.
+</li>
+
+<li>
+Before taking charge, nurses must check availability of life-saving
+drugs and oxygen.
+</li>
+
+<li>
+Any shortage must be indented immediately and kept in stock.
+</li>
+
+<li>
+Privacy must be provided while dressing private parts.
+</li>
+
+<li>
+IV drugs and IM drugs to the gluteal region must not be administered
+in sitting position.
+</li>
+
+<li>
+IM drugs in the upper limb may be administered while sitting with
+back support.
+</li>
+
+<li>
+Injection/drug distribution area must be separate or segregated by
+partition screen.
+</li>
+
+<li>
+Aseptic precautions must be taken before parenteral drugs.
+</li>
+
+<li>
+Dilution and speed of injection administration must follow
+specification.
+</li>
+
+<li>
+Expiry date and route of administration must be verified before every
+injection.
+</li>
+
+<li>
+Every medicine/injection dispensed must be recorded in a register
+against the registration number.
+</li>
+
+<li>
+Drugs, surgical items and medicines must be properly arranged and
+surroundings kept clean.
+</li>
+
+<li>
+IV infusion rate and oxygen flow must strictly follow doctor's advice.
+</li>
+
+<li>
+Administration of IM/IV drugs, wound dressing and nursing care shall
+be periodically supervised by CMO.
+</li>
+
+<li>
+Biomedical waste must be appropriately disposed of.
+</li>
+
+<li>
+Syringes and needles must be destroyed before disposal.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 15
+========================================================= -->
+
+<section class="section" id="section-15">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">15</div>
+
+<h2 class="section-title">Casualty & Trauma Care Admission Policy</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+Only patients whose triage assessment falls under
+<strong>Immediate, Very Urgent or Urgent</strong> shall be admitted to
+the trauma ward for further management.
+
+</div>
+
+<p>
+The trauma ward is for emergency care and management and not for
+continued treatment.
+</p>
+
+
+<h3>Departmental admission priority</h3>
+
+<ol type="b">
+
+<li>
+Clinical departments/units should first admit patients already in the
+trauma ward, followed by OPD patients.
+</li>
+
+<li>
+Departmental wards should not keep beds vacant while trauma ward beds
+are occupied.
+</li>
+
+<li>
+No gravely ill patient can be denied attention/admission because of
+non-availability of beds.
+</li>
+
+<li>
+In emergency situations, the CMO may obtain permission of the
+Medical Superintendent to admit a seriously ill patient in any
+vacant hospital bed after consultation with RP/RS.
+</li>
+
+</ol>
+
+
+<h3>Priority when multiple departments are involved</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Clinical Situation</th>
+<th>Primary Responsibility / Principle</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Multiple injuries</td>
+<td>
+General Surgery generally takes primary responsibility where abdomen
+and other systems are involved. Altered sensorium due to head injury
+is admitted under Neurosurgery.
+</td>
+</tr>
+
+<tr>
+<td>Surgical + Medical disease</td>
+<td>
+The problem of immediate importance decides primary responsibility.
+</td>
+</tr>
+
+<tr>
+<td>Medicine vs Medical Superspeciality</td>
+<td>
+Specific cardiologic, neurologic, nephrologic, endocrinologic or
+gastroenterological therapeutic measures are managed by concerned
+superspeciality on advice of Senior Resident.
+</td>
+</tr>
+
+<tr>
+<td>General Surgery vs Surgical Superspeciality</td>
+<td>
+Neurosurgical, cardio-thoracic, surgical gastroenterology, paediatric
+surgery and plastic surgery requirements are managed by the concerned
+superspeciality on Senior Resident advice.
+</td>
+</tr>
+
+<tr>
+<td>Obstetrics/Gynaecology & Psychiatry</td>
+<td>
+Same principle of concerned specialty responsibility applies.
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="warning">
+
+The priority decision is indicative. CMO and concerned
+RP/RS/POC/SOC may jointly decide priority. If unresolved, the
+Superintendent's decision is final.
+
+<strong>
+In no case may treatment be stopped or a patient neglected or deprived
+of treatment.
+</strong>
+
+</div>
+
+
+<h3>Other admission provisions</h3>
+
+<ul>
+
+<li>
+Patients with infectious disease requiring isolation should be admitted
+to the ID ward.
+</li>
+
+<li>
+After isolation is no longer required, patient may be shifted to the
+appropriate ward or discharged.
+</li>
+
+<li>
+The triage officer/CMO shall direct Less Urgent and Non-Urgent patients
+to available physician/surgeon for appropriate advice and disposal.
+</li>
+
+<li>
+There is no provision for back-ward movement of patients in the
+admission scheme.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 16
+========================================================= -->
+
+<section class="section" id="section-16">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">16</div>
+
+<h2 class="section-title">Management in Trauma Ward</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<ul>
+
+<li>
+Trauma ward shall be mostly used for accident/surgical patients.
+</li>
+
+<li>
+It shall be managed on rotation by Surgery and Orthopaedics.
+</li>
+
+<li>
+Rotation shall be monthly: Surgery one month followed by Orthopaedics.
+</li>
+
+<li>
+HODs shall prepare day-wise unit distribution.
+</li>
+
+<li>
+Concerned RS/RP on Call shall be in charge of the trauma ward for the
+day.
+</li>
+
+<li>
+He/she shall make frequent rounds and ensure appropriate management
+and timely shifting.
+</li>
+
+<li>
+By <strong>9:00 AM daily</strong>, concerned POC/SOC shall take all
+trauma ward cases to respective departmental wards.
+</li>
+
+<li>
+Post-operative cases operated in Trauma OT may remain in trauma ward
+until recovery from anaesthesia and stabilisation.
+</li>
+
+<li>
+If ICU is not required, the stabilised patient should be shifted to
+the respective ward.
+</li>
+
+<li>
+CIC/TNO shall ensure shifting.
+</li>
+
+<li>
+Once admitted to a respective ward or treated in departmental OT,
+the patient should not again be brought back to trauma ward.
+</li>
+
+</ul>
+
+
+<h3>Patient movement pathway</h3>
+
+<div class="workflow">
+
+<div class="workflow-step">
+<strong>Casualty</strong>
+<span>Emergency presentation</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>Trauma Ward</strong>
+<span>Temporary emergency management</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>Resuscitation / OT / ICU</strong>
+<span>As clinically required</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>Departmental Ward</strong>
+<span>Definitive further treatment</span>
+</div>
+
+<div class="workflow-arrow">→</div>
+
+<div class="workflow-step">
+<strong>Discharge</strong>
+<span>After departmental management</span>
+</div>
+
+</div>
+
+
+<h3>Investigations in Trauma Ward</h3>
+
+<ul>
+
+<li>Immediate diagnostic/management investigations only.</li>
+
+<li>Pathology/haematology, X-ray and USG in Casualty & Trauma Care.</li>
+
+<li>CT and MRI in institutional 24×7 units.</li>
+
+<li>No patient should go to private agencies while in trauma ward.</li>
+
+<li>Money receipt counter should be in Casualty & Trauma Care.</li>
+
+</ul>
+
+
+<h3>Medicines and blood</h3>
+
+<ul>
+
+<li>
+Medicines should be procured from Niramaya counter in the Casualty &
+Trauma Care unit.
+</li>
+
+<li>
+Medicines unavailable in Niramaya should not be prescribed.
+</li>
+
+<li>
+Life-saving blood transfusion may be made available up to a maximum
+of two units.
+</li>
+
+<li>
+Attendants should be encouraged to donate equal units of blood.
+</li>
+
+</ul>
+
+
+<h3>Transfer requirements</h3>
+
+<ol>
+
+<li>Attending doctor must personally evaluate the patient before transfer.</li>
+
+<li>All safety measures and appropriate care must be provided.</li>
+
+<li>Transferring doctor is responsible for appropriate documentation.</li>
+
+<li>Mutual decision with receiving department/unit should be reached.</li>
+
+</ol>
+
+
+<h3>Discharge / DOR / LAMA</h3>
+
+<ul>
+
+<li>
+Discharging doctor must provide verbal and legibly written follow-up
+instructions.
+</li>
+
+<li>
+Discharge certificate must contain patient details, admission date,
+investigations, diagnosis, treatment and follow-up advice.
+</li>
+
+<li>
+Full name of treating doctor/unit must be mentioned.
+</li>
+
+<li>
+Patients refusing further management should be requested to sign the
+Discharge on Request (DOR) form.
+</li>
+
+<li>
+DOR form must be attached to the Case Sheet.
+</li>
+
+<li>
+Refusal to sign should be documented and witnessed.
+</li>
+
+<li>
+A patient leaving before treatment starts should have this documented,
+including reason if known, time and signature.
+</li>
+
+<li>
+Patients leaving against medical advice without hospital knowledge
+should be marked <strong>LAMA</strong> in Case Sheet and police
+intimated.
+</li>
+
+<li>
+A LAMA register may be maintained.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 17
+========================================================= -->
+
+<section class="section" id="section-17">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">17</div>
+
+<h2 class="section-title">Treatment in OT</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="info">
+
+<strong>OT must function 24×7.</strong>
+
+</div>
+
+<ul>
+
+<li>
+Trauma/emergency patients requiring surgery should be sent to OT from
+triage.
+</li>
+
+<li>
+If OT table is unavailable, patient may be kept under observation in
+trauma ward.
+</li>
+
+<li>
+After OT, once recovered from anaesthesia and stabilised, patients not
+requiring ICU should be shifted to respective ward.
+</li>
+
+<li>
+No stabilised patient should remain in trauma ward unnecessarily.
+</li>
+
+<li>
+In polytrauma, treatment follows first priority; after stabilisation,
+patient may move to departmental ward and subsequently to another
+departmental ward according to priority.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 18
+========================================================= -->
+
+<section class="section" id="section-18">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">18</div>
+
+<h2 class="section-title">Treatment in ICU</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<ol type="a">
+
+<li>
+If CMO decides ICU management is required, patient should be
+immediately shifted to ICU.
+</li>
+
+<li>
+Casualty Manager ensures speedy shifting with assistance of one
+attendant.
+</li>
+
+<li>
+After handover to ICU medical officer, Casualty Manager should inform
+attendants about patient status, line of management and probable
+outcome and provide brief counselling to reduce anxiety.
+</li>
+
+<li>
+Patients from Trauma OT requiring ICU are managed in Trauma ICU.
+</li>
+
+<li>
+Once critical condition resolves and patient stabilises, the patient
+should be shifted to the respective ward.
+</li>
+
+<li>
+If required, patient may be kept in departmental or central ICU,
+preferably not Trauma ICU.
+</li>
+
+</ol>
+
+
+<div class="warning">
+
+The Trauma ICU must remain ready to accept needy patients from the
+triage area.
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 19
+========================================================= -->
+
+<section class="section" id="section-19">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">19</div>
+
+<h2 class="section-title">Interdepartmental Coordination</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+The Casualty & Trauma Care unit is the face of the hospital.
+Prompt, appropriate and coordinated emergency care increases public
+confidence in the health-care delivery system.
+
+</div>
+
+<ul>
+
+<li>
+All departments and Casualty & Trauma Care should work as one team.
+</li>
+
+<li>
+Shifting responsibility from one department to another on technical
+grounds causing patient suffering is strongly condemned.
+</li>
+
+<li>
+Every department receiving a referral must examine the patient
+immediately and provide appropriate advice.
+</li>
+
+<li>
+In management conflicts such as polytrauma, departments must discuss
+treatment modalities and decide which intervention should start first.
+</li>
+
+<li>
+All departments must maintain round-the-clock preparedness.
+</li>
+
+<li>
+Interdepartmental referral should be made by calling the concerned
+department and recording the call in the call register.
+</li>
+
+<li>
+During epidemics and disasters, all appropriate departments share
+responsibility in a coordinated manner.
+</li>
+
+<li>
+During such situations, Superintendent is overall supervising
+authority and ECRO is chief coordinator.
+</li>
+
+<li>
+All relevant staff must follow directions of Superintendent and ECRO
+for smooth management.
+</li>
+
+<li>
+Superintendent's decision is final and binding in such situations.
+</li>
+
+<li>
+Any call from CMO to RP/RS or POC/SOC should be attended immediately.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 20
+========================================================= -->
+
+<section class="section" id="section-20">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">20</div>
+
+<h2 class="section-title">Investigation Facility</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<h3>Required investigation services</h3>
+
+<div class="card-grid">
+
+<div class="card">Pathology</div>
+<div class="card">Biochemistry</div>
+<div class="card">X-Ray</div>
+<div class="card">USG</div>
+<div class="card">CT Scan</div>
+<div class="card">MRI</div>
+
+</div>
+
+<ul>
+
+<li>
+Ideally these facilities should be available in one building.
+</li>
+
+<li>
+If geographically separated, Casualty Manager shall assist patients in
+reaching the appropriate building.
+</li>
+
+<li>
+Fees should be deposited at the appropriate counter.
+</li>
+
+<li>
+Once fees are deposited, investigating authority should not deny the
+test.
+</li>
+
+<li>
+Doctors should inform patients about the investigation location.
+</li>
+
+<li>
+No patient should be directed to private agencies.
+</li>
+
+<li>
+Superintendent must ensure 24×7 operation of investigating units.
+</li>
+
+<li>
+Superintendent should conduct periodic prescription audits to assess
+whether investigations are performed inside campus or outside.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 21
+========================================================= -->
+
+<section class="section" id="section-21">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">21</div>
+
+<h2 class="section-title">Free Medicine Supply</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+No patient shall be advised to buy medicine from outside.
+
+</div>
+
+<ul>
+
+<li>
+All patients attending Casualty/Trauma Care must receive free medicine
+from Niramaya.
+</li>
+
+<li>
+Appropriate instructions should be provided regarding Niramaya
+medicine availability.
+</li>
+
+<li>
+Doctors must know the medicines available in Niramaya.
+</li>
+
+<li>
+The medicine list must be displayed.
+</li>
+
+<li>
+Doctors should manage patients using medicines available in Niramaya.
+</li>
+
+<li>
+Superintendent should regularly check whether patients are being
+advised to purchase medicines outside.
+</li>
+
+<li>
+Action may be taken against erring officers/staff.
+</li>
+
+<li>
+Superintendent should hold regular meetings with physicians/surgeons
+regarding effectiveness of Niramaya drugs.
+</li>
+
+<li>
+Suggestions for procurement of newer drugs may be made to Government
+if required.
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 22
+========================================================= -->
+
+<section class="section" id="section-22">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">22</div>
+
+<h2 class="section-title">Management of Ambulance / Battery Car</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Requirement</th>
+<th>Provision</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Patient transport</td>
+<td>Ambulance should be used when transporting patients to departmental wards.</td>
+</tr>
+
+<tr>
+<td>Parking</td>
+<td>Ambulances should park near Casualty/Trauma Care.</td>
+</tr>
+
+<tr>
+<td>Battery cars</td>
+<td>Two-thirds should be in use; one-third may be parked for charging.</td>
+</tr>
+
+<tr>
+<td>Vehicle staffing</td>
+<td>One driver and one attendant per vehicle.</td>
+</tr>
+
+<tr>
+<td>Movement records</td>
+<td>Transportation time and return time must be recorded.</td>
+</tr>
+
+<tr>
+<td>Supervision</td>
+<td>Casualty Manager supervises the register.</td>
+</tr>
+
+<tr>
+<td>Contact information</td>
+<td>Mobile numbers of drivers and attendants must be available in casualty.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 23
+========================================================= -->
+
+<section class="section" id="section-23">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">23</div>
+
+<h2 class="section-title">Registers and Records to be Maintained</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>#</th>
+<th>Register / Record</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr><td>1</td><td>Casualty OPD Register</td></tr>
+<tr><td>2</td><td>Casualty Admission Register</td></tr>
+<tr><td>3</td><td>Attendance Registers of all staff in all shifts</td></tr>
+<tr><td>4</td><td>Physician / Surgeon Call Register</td></tr>
+<tr><td>5</td><td>Indent Register</td></tr>
+<tr><td>6</td><td>Stock Ledger</td></tr>
+<tr><td>7</td><td>Daily Issue Register</td></tr>
+<tr><td>8</td><td>Duty Register for all staff</td></tr>
+<tr><td>9</td><td>Medico-Legal Case Register</td></tr>
+<tr><td>10</td><td>Injury Register</td></tr>
+<tr><td>11</td><td>Police Information Register</td></tr>
+<tr><td>12</td><td>LAMA Register</td></tr>
+<tr><td>13</td><td>Ambulance / Battery Car Movement Register</td></tr>
+<tr><td>14</td><td>Register of Meetings and Proceedings</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="warning">
+
+All listed registers must be signed daily by the
+<strong>CIC/TNO</strong>, as applicable, and
+<strong>twice weekly by the Superintendent.</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 24
+========================================================= -->
+
+<section class="section" id="section-24">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">24</div>
+
+<h2 class="section-title">Duties & Responsibilities of Staff and Officers</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+
+<!-- SAFAI -->
+
+<div class="role-card">
+
+<div class="role-header">
+A. Safai Karmachari
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Keep area neat and clean.</li>
+
+<li>Provide clean and disinfected urinals and bedpans.</li>
+
+<li>Carry urine and stool samples to laboratory.</li>
+
+<li>Transport dead bodies to mortuary and dispose of dead foetus/body parts to incinerator.</li>
+
+<li>Clean soiled linen with bleach solution and send to laundry.</li>
+
+<li>Take personal precautions while handling infectious biomaterials.</li>
+
+<li>Be courteous to patients and attendants.</li>
+
+<li>Perform other work assigned by authority.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- STRETCHER -->
+
+<div class="role-card">
+
+<div class="role-header">
+B. Stretcher Bearer
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Remain on duty near casualty entrance or ambulance.</li>
+
+<li>Assist transfer from ambulance to casualty/ward using stretcher, wheelchair or trolley.</li>
+
+<li>Be conversant with first aid treatment.</li>
+
+<li>Perform duties assigned by CMO.</li>
+
+<li>Be polite and sympathetic.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- SECURITY -->
+
+<div class="role-card">
+
+<div class="role-header">
+C. Security Personnel
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Be polite, tactful, courteous and sympathetic.</li>
+
+<li>Perform duty according to roster.</li>
+
+<li>Regulate patient flow.</li>
+
+<li>Maintain security of area under charge.</li>
+
+<li>Be responsible for untoward incidents in the area.</li>
+
+<li>Perform duties assigned by supervisor/security officer.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- ATTENDANTS -->
+
+<div class="role-card">
+
+<div class="role-header">
+D. Attendants
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Dusting and disinfection of casualty wards and rooms.</li>
+
+<li>Assist nursing personnel in patient care.</li>
+
+<li>Obtain indents from store and sterilised items from CSSD.</li>
+
+<li>Take referral calls to different departments.</li>
+
+<li>Provide first aid when required.</li>
+
+<li>Assist patient transfers for treatment, investigation and diagnostics.</li>
+
+<li>Give special attention to MLC/critically ill patients until nurse/doctor takes charge.</li>
+
+<li>Assist nursing staff in packing dead bodies for mortuary.</li>
+
+<li>Be courteous and polite.</li>
+
+<li>Perform other assigned duties.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- NURSES -->
+
+<div class="role-card">
+
+<div class="role-header">
+E. Staff Nurses
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Attend patients with sincerity and devotion.</li>
+
+<li>Make beds, feed patients, administer injections, infusions and medicines and arrange investigations with Casualty Manager assistance.</li>
+
+<li>Administer oxygen, catheterisation, dressing and toilet.</li>
+
+<li>Maintain pulse, BP and medication/injection records with date and time.</li>
+
+<li>Be polite and sympathetic.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- CASUALTY MANAGER -->
+
+<div class="role-card">
+
+<div class="role-header">
+F. Casualty Manager
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>
+Under administrative control of Superintendent and directly works under CMO.
+</li>
+
+<li>
+Responsible for patient records including admission, management and inter-facility transfer, with record clerk support.
+</li>
+
+<li>
+Coordinates registration, movement to triage, resuscitation, ICU, Trauma OT, trauma ward and departmental wards.
+</li>
+
+<li>
+Facilitates patient transfer by battery car/Government ambulance and records movement.
+</li>
+
+<li>
+Maintains records of deaths brought by 108 ambulance services.
+</li>
+
+<li>
+Acts for proper treatment of unknown/destitute and burn patients.
+</li>
+
+<li>
+Coordinates mass casualty/natural calamity situations and religious celebrations such as Diwali and Holi.
+</li>
+
+<li>
+Coordinates nurses, attendants and vehicle staff.</li>
+
+<li>
+Supervises sanitation and coordinates Electricity/PHD/Security/Police.</li>
+
+<li>
+Coordinates RSBY/BKKY/OSTF facilities.</li>
+
+<li>
+Assists patients regarding Niramaya medicines and investigations.</li>
+
+<li>
+Performs other duties assigned by authority.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- JR -->
+
+<div class="role-card">
+
+<div class="role-header">
+G. Junior Residents (JR) / PG Students
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Perform casualty duties on rotation.</li>
+
+<li>Carry out treatment advised by RP/RS or POC/SOC.</li>
+
+<li>
+Write case sheets neatly and legibly without omissions and in
+accordance with MCI guidelines.
+</li>
+
+<li>
+Put full signature with time of writing; senior doctor must countersign
+with full signature, date and time.
+</li>
+
+<li>
+JR must not sign on behalf of a senior doctor.
+</li>
+
+<li>
+Perform minor operative procedures and dressings under Senior Resident guidance.</li>
+
+<li>
+Make rounds with Senior Resident/RP/RS/POC/SOC.</li>
+
+<li>
+Handle relatives/attendants tactfully during death.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- CMO -->
+
+<div class="role-card">
+
+<div class="role-header">
+H. Casualty Medical Officer (CMO)
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>
+Remain in casualty with high preparedness and attend patients immediately.
+</li>
+
+<li>
+No patient should be denied treatment on the ground that it is not an emergency. Counselling may follow treatment.
+</li>
+
+<li>
+Understand physical and psychological condition of patients and attendants.
+</li>
+
+<li>
+For extreme unruliness, inform security/police and immediately inform CIC/TNO and Superintendent.
+</li>
+
+<li>
+Reach casualty at least 10 minutes before shift to review status and facilitate timely relief.
+</li>
+
+<li>
+Ensure life-saving drugs and oxygen are available before shift.
+</li>
+
+<li>
+Manage triage without delay and ask attendants to wait in waiting area.
+</li>
+
+<li>
+CMO is the final authority in casualty and responsible for complete patient management.
+</li>
+
+<li>
+CMO should act as treating doctor and not merely as a referral clerk.
+</li>
+
+<li>
+Calls to RS/RP/SOC/POC must be made instantly by phone and recorded in call register.
+</li>
+
+<li>
+Actual attending time must be recorded.
+</li>
+
+<li>
+No one may sign the call register on behalf of RS/RP/SOC/POC.
+</li>
+
+<li>
+Patients should not be sent to wards or OT without being seen/advised by concerned Senior Resident/faculty.
+</li>
+
+<li>
+In emergencies requiring a bed, CMO may admit directly to vacant bed after consultation with RP/RS and Superintendent.
+</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- RP RS -->
+
+<div class="role-card">
+
+<div class="role-header">
+I. RP/RS on Duty — Senior Residents
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Examine all patients and provide prompt treatment.</li>
+
+<li>Serious patients require consultation with RP/RS on Call.</li>
+
+<li>Transfer patients to ward/OT/ICU on advice of RP/RS on Call.</li>
+
+<li>Cooperate with CMO in MLC documentation.</li>
+
+<li>Ensure history, examination, investigations and provisional diagnosis are documented.</li>
+
+<li>Countersign Case Sheet with full signature, date and time.</li>
+
+<li>Certify death of patients.</li>
+
+<li>Be courteous and polite.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- FACULTY ON CALL -->
+
+<div class="role-card">
+
+<div class="role-header">
+J. RP/POC on Call & RS/SOC on Call
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>
+Faculty and Senior Residents on call must inform CMO of whereabouts and mobile numbers.
+</li>
+
+<li>
+Emergency calls must be attended immediately and should not wait for completion of OPD/ward rounds.
+</li>
+
+<li>
+They should be available in duty rooms during the night.
+</li>
+
+<li>
+Departmental call register shall be maintained and staff nurse shall be in charge.
+</li>
+
+<li>
+Telephone calls must be recorded with call time.
+</li>
+
+<li>
+If admission is required, it should be done immediately.
+</li>
+
+<li>
+No admission may be deferred on the plea that no bed is vacant.
+</li>
+
+<li>
+Immediate surgical interventions should be performed in Trauma OT.
+</li>
+
+<li>
+Guide JRs in history taking and examination of MLC cases.</li>
+
+<li>
+Train junior doctors in emergency management.</li>
+
+<li>
+Undue delay is subject to review by CIC/TNO/Superintendent and appropriate action if unjustified.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- CIC -->
+
+<div class="role-card">
+
+<div class="role-header">
+K. Casualty In-Charge (CIC) / Emergency Control Room Officer (ECRO)
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Visit casualty every day by 9:00 AM.</li>
+
+<li>Prepare duty chart of all staff.</li>
+
+<li>Countersign attendance and casualty records.</li>
+
+<li>Forward staff leave applications after arranging duty coverage.</li>
+
+<li>Assess daily readiness.</li>
+
+<li>Ensure cleanliness, sanitation, lighting and ventilation.</li>
+
+<li>Ensure drug and life-saving drug/oxygen indents.</li>
+
+<li>Ensure life-saving drugs, equipment, oxygen and Ambu Bag availability and functionality.</li>
+
+<li>Examine patients when required.</li>
+
+<li>Conduct periodic disaster/mass casualty drills.</li>
+
+<li>Organise regular training involving all departments.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- TNO -->
+
+<div class="role-card">
+
+<div class="role-header">
+L. Trauma Care Nodal Officer (TNO)
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Visit Trauma Ward/Trauma OT/Trauma ICU daily by 9:00 AM.</li>
+
+<li>Prepare duty chart.</li>
+
+<li>Countersign attendance and records.</li>
+
+<li>Forward leave applications after duty arrangements.</li>
+
+<li>Assess readiness of Trauma Ward/OT/ICU.</li>
+
+<li>Ensure cleanliness, sanitation, lighting and ventilation.</li>
+
+<li>Ensure life-saving drugs, equipment, oxygen and Ambu Bag availability.</li>
+
+<li>Examine patients when required.</li>
+
+<li>Conduct disaster/mass casualty drills.</li>
+
+<li>Organise regular training programmes involving all departments.</li>
+
+</ol>
+
+</div>
+</div>
+
+
+<!-- SUPERINTENDENT -->
+
+<div class="role-card">
+
+<div class="role-header">
+M. Medical Superintendent
+</div>
+
+<div class="role-body">
+
+<ol type="i">
+
+<li>Highest supervising authority.</li>
+
+<li>Visit casualty at least twice weekly.</li>
+
+<li>Ensure patient management follows the SOP.</li>
+
+<li>Review call register and time lag in attending patients.</li>
+
+<li>Examine unjustified delays and initiate appropriate action.</li>
+
+<li>
+No staff on duty should take leave without duty arrangement and
+official approval; otherwise absence is unauthorised.
+</li>
+
+<li>
+Mobile number, alternate mobile number and residential address of
+staff should be available in Casualty & Trauma Care.
+</li>
+
+<li>Periodically assess functioning and suggest modifications.</li>
+
+<li>
+Ensure deployed staff have no direct or indirect private clinical
+establishment linkage.
+</li>
+
+<li>
+Obtain undertaking regarding absence of such linkage before deployment.
+</li>
+
+<li>
+Staff diverting patients to private nursing homes/diagnostic centres
+may be removed from Casualty & Trauma Care and appropriate action
+initiated.
+</li>
+
+</ol>
+
+
+<h3>Mass casualty responsibilities</h3>
+
+<ul>
+
+<li>Mobilise adequate manpower.</li>
+
+<li>Ensure adequate life-saving medicines and other requirements.</li>
+
+<li>Establish special enquiry/help desk.</li>
+
+<li>Provide half-hourly patient status updates.</li>
+
+<li>Control crowd.</li>
+
+<li>Deploy security and volunteers.</li>
+
+<li>Inform police for law-and-order situations.</li>
+
+<li>Maintain traffic movement.</li>
+
+<li>Ensure smooth ambulance entry and patient disposal.</li>
+
+</ul>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 25
+========================================================= -->
+
+<section class="section" id="section-25">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">25</div>
+
+<h2 class="section-title">Casualty & Trauma Care Meetings / Reviews</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="card-grid">
+
+<div class="card">
+
+<div class="card-title">
+Monthly
+</div>
+
+<div class="card-text">
+
+Clinical updates and sensitisation of all Casualty & Trauma Care
+staff, organised by CIC/TNO for preparedness and emergency efficiency.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+Bi-monthly
+</div>
+
+<div class="card-text">
+
+Mortality meeting.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+Quarterly
+</div>
+
+<div class="card-text">
+
+Interdepartmental/inter-unit meeting, reviews and seminars to determine
+best management methodology for Immediate, Very Urgent and Urgent
+triage cases.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="info">
+
+Methodologies developed through quarterly meetings should be recorded
+and circulated among all Casualty & Trauma Care staff and concerned
+departments.
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SECTION 26
+========================================================= -->
+
+<section class="section" id="section-26">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">26</div>
+
+<h2 class="section-title">Ethics of Casualty & Trauma Care</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="critical">
+
+All citizens of India have a right to emergency medical care.
+
+</div>
+
+
+<p>
+To fulfil this right, emergency care providers shall:
+</p>
+
+
+<div class="checklist">
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Abide by institutional and/or Government guidelines on patient
+management.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Respond promptly and expertly, without prejudice or partiality, to
+the need for emergency medical care.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Respect patient rights and protect their best interests, particularly
+vulnerable patients and those unable to make treatment choices due to
+diminished decision-making capacity.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Communicate truthfully with patients/attendants and obtain informed
+consent unless urgency requires immediate response.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Manage patients considering psychological, social and financial
+conditions.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Respect privacy and disclose confidential information only with
+consent or when required by overriding duty/law.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Deal fairly and honestly with colleagues and protect patients from
+impaired/incompetent providers or fraud/deception.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Work cooperatively with other stakeholders in emergency care.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Engage in continuing study to maintain knowledge and skills required
+for high-quality emergency care.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Act as responsible stewards of healthcare resources.
+</span>
+
+</div>
+
+
+<div class="check-item">
+
+<span class="check-icon">✓</span>
+
+<span>
+Support societal efforts to improve public health and safety, reduce
+injury and illness and secure access to emergency and basic healthcare.
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FINAL OPERATIONAL CHECKLIST
+========================================================= -->
+
+<section class="section open">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">✓</div>
+
+<h2 class="section-title">
+Casualty Readiness — Operational Checklist
+</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="checklist">
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>CMO present and ready for immediate response</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Life-saving drugs available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Oxygen available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Ambu Bag available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Emergency equipment functional</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Triage area operational</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Resuscitation bed ready</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Trauma OT ready</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Trauma ICU ready</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Pathology/X-Ray/USG/CT/MRI availability ensured</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Niramaya medicines available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Ambulance/battery car available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Call registers maintained</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>MLC register maintained</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Police information register maintained</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>LAMA register maintained</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Daily staff attendance verified</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Duty chart available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Departmental on-call contact numbers available</span>
+</div>
+
+<div class="check-item">
+<span class="check-icon">□</span>
+<span>Security and police coordination available</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SOURCE / DOCUMENT CONTROL
+========================================================= -->
+
+<section class="section open">
+
+<div class="section-header">
+
+<div class="section-heading">
+
+<div class="section-number">DOC</div>
+
+<h2 class="section-title">
+Document Control
+</h2>
+
+</div>
+
+<span class="chevron">⌄</span>
+
+</div>
+
+
+<div class="section-body">
+
+<div class="table-wrap">
+
+<table>
+
+<tbody>
+
+<tr>
+<th>Document</th>
+<td>
+Standard Operating Procedure for Casualty and Trauma Care in Medical
+College Hospitals
+</td>
+</tr>
+
+<tr>
+<th>Department</th>
+<td>
+Health & Family Welfare Department, Government of Odisha
+</td>
+</tr>
+
+<tr>
+<th>Directorate</th>
+<td>
+Directorate of Medical Education & Training, Odisha
+</td>
+</tr>
+
+<tr>
+<th>Year</th>
+<td>2017</td>
+</tr>
+
+<tr>
+<th>Approval</th>
+<td>
+Approved by Government vide Letter No.
+ME-I-IM-27/15-32145/H dated 20.12.2017
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="warning">
+
+<strong>Document-use note:</strong>
+
+This webpage is a structured digital presentation of the uploaded
+Government of Odisha SOP. For official administrative or legal use,
+the original approved Government document should be treated as the
+controlling source.
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+<strong>
+Standard Operating Procedure for Casualty and Trauma Care
+</strong>
+
+<br>
+
+Government of Odisha • Health & Family Welfare Department • 2017
+
+<br><br>
+
+Approved vide Government Letter No.
+ME-I-IM-27/15-32145/H dated 20.12.2017
+
+<br><br>
+
+© Digital reference interface — structured from the supplied SOP document.
+
+</footer>
+
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     BACK TO TOP
+========================================================= -->
+
+<button id="backTop" title="Back to top">
+↑
+</button>
+
+
+
+<script>
+
+/* =========================================================
+   SECTION ACCORDION
+========================================================= */
+
+document.querySelectorAll(".section-header").forEach(header => {
+
+    header.addEventListener("click", () => {
+
+        const section = header.closest(".section");
+
+        section.classList.toggle("open");
+
+    });
+
+});
+
+
+/* =========================================================
+   OPEN SECTION FROM HASH
+========================================================= */
+
+function openHashSection() {
+
+    const id = window.location.hash.replace("#", "");
+
+    if (!id) return;
+
+    const target = document.getElementById(id);
+
+    if (target && target.classList.contains("section")) {
+
+        target.classList.add("open");
+
+        setTimeout(() => {
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }, 100);
+
+    }
+
+}
+
+window.addEventListener("load", openHashSection);
+
+window.addEventListener("hashchange", openHashSection);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function () {
+
+    const query = this.value
+        .trim()
+        .toLowerCase();
+
+    const sections =
+        document.querySelectorAll(".section");
+
+    sections.forEach(section => {
+
+        if (!query) {
+
+            section.style.display = "";
+
+            return;
+
+        }
+
+        const text =
+            section.innerText.toLowerCase();
+
+        const match =
+            text.includes(query);
+
+        section.style.display =
+            match ? "" : "none";
+
+        if (match) {
+            section.classList.add("open");
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "casualtySOPDarkMode",
+        dark ? "1" : "0"
+    );
+
+    themeBtn.textContent =
+        dark ? "☀" : "☾";
+
+});
+
+
+if (
+    localStorage.getItem("casualtySOPDarkMode") === "1"
+) {
+
+    document.body.classList.add("dark");
+
+    themeBtn.textContent = "☀";
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+if (menuBtn) {
+
+    menuBtn.addEventListener("click", () => {
+
+        sidebar.classList.toggle("open");
+
+    });
+
+}
+
+
+document.querySelectorAll(".nav-item")
+    .forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            sidebar.classList.remove("open");
+
+        });
+
+    });
+
+
+/* =========================================================
+   BACK TO TOP
+========================================================= */
+
+const backTop =
+    document.getElementById("backTop");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 500) {
+
+        backTop.style.display = "grid";
+
+    } else {
+
+        backTop.style.display = "none";
+
+    }
+
+});
+
+
+backTop.addEventListener("click", () => {
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+});
+
+
+/* =========================================================
+   ACTIVE SIDEBAR SECTION
+========================================================= */
+
+const navLinks =
+    document.querySelectorAll(".nav-item");
+
+const observedSections =
+    document.querySelectorAll(
+        ".section[id^='section-']"
+    );
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (!entry.isIntersecting)
+                    return;
+
+                navLinks.forEach(link => {
+
+                    link.classList.remove("active");
+
+                });
+
+                const active =
+                    document.querySelector(
+                        `.nav-item[href="#${entry.target.id}"]`
+                    );
+
+                if (active) {
+
+                    active.classList.add("active");
+
+                }
+
+            });
+
+        },
+
+        {
+            rootMargin: "-100px 0px -65% 0px"
+        }
+
+    );
+
+
+observedSections.forEach(section => {
+
+    observer.observe(section);
+
+});
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+========================================================= */
+
+document.addEventListener("keydown", event => {
+
+    /* "/" focuses search */
+
+    if (
+        event.key === "/" &&
+        document.activeElement.tagName !== "INPUT" &&
+        document.activeElement.tagName !== "TEXTAREA"
+    ) {
+
+        event.preventDefault();
+
+        searchInput.focus();
+
+    }
+
+    /* Escape clears search */
+
+    if (
+        event.key === "Escape" &&
+        document.activeElement === searchInput
+    ) {
+
+        searchInput.value = "";
+
+        searchInput.dispatchEvent(
+            new Event("input")
+        );
+
+        searchInput.blur();
+
+    }
+
+});
+
+
+/* =========================================================
+   PRINT BEFORE PRINT
+========================================================= */
+
+window.addEventListener("beforeprint", () => {
+
+    document.querySelectorAll(".section")
+        .forEach(section => {
+
+            section.classList.add("open");
+
+        });
+
+});
+
+
+</script>
+
+</body>
+</html>
