@@ -1,0 +1,1443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet — Appointments</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background: #f0f2f5;
+        color: #111b21;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* =========================
+       MAIN APP
+    ========================= */
+
+    .app {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+        width: 360px;
+        background: #ffffff;
+        border-right: 1px solid #d1d7db;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-header {
+        height: 70px;
+        background: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        border-bottom: 1px solid #d1d7db;
+    }
+
+    .doctor-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .doctor-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: #075e54;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .doctor-name {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .doctor-speciality {
+        font-size: 12px;
+        color: #667781;
+        margin-top: 2px;
+    }
+
+    .header-icons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .icon-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 20px;
+        color: #54656f;
+        padding: 7px;
+        border-radius: 50%;
+    }
+
+    .icon-btn:hover {
+        background: #e9edef;
+    }
+
+    /* Search */
+
+    .search-area {
+        padding: 10px 12px;
+        background: #ffffff;
+        border-bottom: 1px solid #e9edef;
+    }
+
+    .search-box {
+        background: #f0f2f5;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+    }
+
+    .search-box span {
+        color: #667781;
+        font-size: 15px;
+    }
+
+    .search-box input {
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Filters */
+
+    .filters {
+        display: flex;
+        gap: 6px;
+        padding: 8px 12px;
+        overflow-x: auto;
+        border-bottom: 1px solid #e9edef;
+    }
+
+    .filter-btn {
+        border: none;
+        background: #f0f2f5;
+        color: #54656f;
+        padding: 7px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    .filter-btn.active {
+        background: #d9fdd3;
+        color: #075e54;
+        font-weight: 600;
+    }
+
+    /* Appointment list */
+
+    .appointment-list {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .appointment-item {
+        display: flex;
+        gap: 12px;
+        padding: 13px 15px;
+        border-bottom: 1px solid #e9edef;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+
+    .appointment-item:hover {
+        background: #f5f6f6;
+    }
+
+    .appointment-item.active {
+        background: #f0f2f5;
+    }
+
+    .patient-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #dfe5e7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #54656f;
+        flex-shrink: 0;
+    }
+
+    .appointment-preview {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .appointment-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .patient-name {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .appointment-time {
+        font-size: 11px;
+        color: #667781;
+        white-space: nowrap;
+    }
+
+    .appointment-message {
+        color: #667781;
+        font-size: 13px;
+        margin-top: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .status-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .status-new {
+        background: #25d366;
+    }
+
+    .status-confirmed {
+        background: #34b7f1;
+    }
+
+    .status-completed {
+        background: #8696a0;
+    }
+
+    /* =========================
+       CHAT AREA
+    ========================= */
+
+    .chat {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .chat-header {
+        height: 70px;
+        background: #f0f2f5;
+        border-bottom: 1px solid #d1d7db;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 12px;
+    }
+
+    .chat-patient-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #dfe5e7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #54656f;
+    }
+
+    .chat-patient-info {
+        flex: 1;
+    }
+
+    .chat-patient-name {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .chat-patient-phone {
+        color: #667781;
+        font-size: 12px;
+        margin-top: 2px;
+    }
+
+    .chat-actions {
+        display: flex;
+        gap: 5px;
+    }
+
+    /* =========================
+       CHAT BODY
+    ========================= */
+
+    .chat-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 25px;
+        background-color: #efeae2;
+
+        /* subtle WhatsApp-like background */
+        background-image:
+            radial-gradient(rgba(84, 101, 111, 0.08) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+
+    .date-divider {
+        display: flex;
+        justify-content: center;
+        margin: 5px 0 18px;
+    }
+
+    .date-divider span {
+        background: #ffffff;
+        color: #667781;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+    }
+
+    /* Message bubble */
+
+    .message-row {
+        display: flex;
+        margin-bottom: 12px;
+    }
+
+    .message-row.patient {
+        justify-content: flex-start;
+    }
+
+    .message-bubble {
+        max-width: 620px;
+        background: #ffffff;
+        padding: 10px 12px 8px;
+        border-radius: 8px;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+        position: relative;
+    }
+
+    .message-bubble::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 0;
+        border-top: 8px solid #ffffff;
+        border-left: 8px solid transparent;
+    }
+
+    .message-label {
+        color: #075e54;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .message-text {
+        font-size: 14px;
+        line-height: 1.45;
+    }
+
+    .message-meta {
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+        margin-top: 6px;
+        font-size: 10px;
+        color: #667781;
+    }
+
+    /* Appointment card inside bubble */
+
+    .appointment-card {
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #f0f2f5;
+        border-left: 3px solid #075e54;
+    }
+
+    .appointment-card-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .appointment-detail {
+        display: flex;
+        gap: 8px;
+        font-size: 12px;
+        margin: 5px 0;
+        color: #54656f;
+    }
+
+    .appointment-detail strong {
+        color: #111b21;
+    }
+
+    /* Call buttons */
+
+    .contact-actions {
+        display: flex;
+        gap: 7px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+
+    .contact-btn {
+        border: none;
+        border-radius: 6px;
+        padding: 8px 11px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+    }
+
+    .whatsapp-btn {
+        background: #25d366;
+        color: white;
+    }
+
+    .call-btn {
+        background: #075e54;
+        color: white;
+    }
+
+    .contact-btn:hover {
+        opacity: 0.9;
+    }
+
+    /* =========================
+       ACTION BAR
+    ========================= */
+
+    .chat-footer {
+        background: #f0f2f5;
+        border-top: 1px solid #d1d7db;
+        padding: 10px 15px;
+    }
+
+    .action-bar {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .action {
+        border: none;
+        padding: 9px 14px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .confirm {
+        background: #d9fdd3;
+        color: #075e54;
+    }
+
+    .reschedule {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .cancel {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .complete {
+        background: #e2e3e5;
+        color: #41464b;
+    }
+
+    .action:hover {
+        filter: brightness(0.96);
+    }
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-state {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #667781;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .empty-state h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: #41525d;
+    }
+
+    .empty-state p {
+        font-size: 13px;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: #111b21;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 7px;
+        font-size: 13px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 750px) {
+
+        .sidebar {
+            width: 100%;
+        }
+
+        .chat {
+            display: none;
+        }
+
+        .sidebar.mobile-chat-open {
+            display: none;
+        }
+
+        .chat.mobile-visible {
+            display: flex;
+            width: 100%;
+        }
+
+        .back-button {
+            display: block !important;
+        }
+
+        .chat-header {
+            padding: 0 12px;
+        }
+
+        .chat-body {
+            padding: 15px;
+        }
+
+        .message-bubble {
+            max-width: 90%;
+        }
+    }
+
+    .back-button {
+        display: none;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="doctor-info">
+
+                <div class="doctor-avatar">
+                    TM
+                </div>
+
+                <div>
+                    <div class="doctor-name">
+                        Dr Thitta Mohanty
+                    </div>
+
+                    <div class="doctor-speciality">
+                        Respiratory Medicine
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="header-icons">
+                <button class="icon-btn" title="Settings">⚙</button>
+            </div>
+
+        </div>
+
+
+        <div class="search-area">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search appointments"
+                    oninput="renderAppointments()"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="filters">
+
+            <button
+                class="filter-btn active"
+                onclick="setFilter('all', this)">
+                All
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('new', this)">
+                New
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('confirmed', this)">
+                Confirmed
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('completed', this)">
+                Completed
+            </button>
+
+        </div>
+
+
+        <div
+            class="appointment-list"
+            id="appointmentList">
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CHAT
+    ========================== -->
+
+    <main class="chat" id="chat">
+
+        <div class="chat-header">
+
+            <button
+                class="icon-btn back-button"
+                onclick="closeMobileChat()">
+                ←
+            </button>
+
+            <div
+                class="chat-patient-avatar"
+                id="chatAvatar">
+                R
+            </div>
+
+            <div class="chat-patient-info">
+
+                <div
+                    class="chat-patient-name"
+                    id="chatPatientName">
+                    Select an appointment
+                </div>
+
+                <div
+                    class="chat-patient-phone"
+                    id="chatPatientPhone">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="chat-actions">
+
+                <a
+                    id="headerWhatsApp"
+                    class="icon-btn"
+                    href="#"
+                    target="_blank"
+                    title="Open WhatsApp">
+                    ◉
+                </a>
+
+                <a
+                    id="headerCall"
+                    class="icon-btn"
+                    href="#"
+                    title="Call patient">
+                    ☎
+                </a>
+
+                <button
+                    class="icon-btn"
+                    title="More">
+                    ⋮
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="chat-body"
+            id="chatBody">
+
+            <div class="empty-state">
+
+                <h2>DoctorJet Appointments</h2>
+
+                <p>
+                    Select an appointment from the left
+                    to view patient details.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-footer">
+
+            <div
+                class="action-bar"
+                id="actionBar">
+
+                <button
+                    class="action confirm"
+                    onclick="updateStatus('confirmed')">
+                    ✓ Confirm
+                </button>
+
+                <button
+                    class="action reschedule"
+                    onclick="showToast('Reschedule feature can be connected to your backend.')">
+                    ◷ Reschedule
+                </button>
+
+                <button
+                    class="action cancel"
+                    onclick="updateStatus('cancelled')">
+                    × Cancel
+                </button>
+
+                <button
+                    class="action complete"
+                    onclick="updateStatus('completed')">
+                    ✓ Completed
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<script>
+
+/* =========================================================
+   SAMPLE APPOINTMENT DATA
+
+   Later this array can be replaced with data fetched
+   from Google Apps Script.
+========================================================= */
+
+const appointments = [
+
+    {
+        id: "APT001",
+
+        name: "Rahul Kumar",
+
+        phone: "919876543210",
+
+        date: "01 October 2026",
+
+        time: "10:30 AM",
+
+        reason: "Consultation for persistent cough and breathing difficulty.",
+
+        status: "new",
+
+        created: "10:05 AM"
+    },
+
+    {
+        id: "APT002",
+
+        name: "Priya Das",
+
+        phone: "919876543211",
+
+        date: "01 October 2026",
+
+        time: "11:30 AM",
+
+        reason: "Follow-up consultation.",
+
+        status: "confirmed",
+
+        created: "09:42 AM"
+    },
+
+    {
+        id: "APT003",
+
+        name: "Amit Mohanty",
+
+        phone: "919876543212",
+
+        date: "01 October 2026",
+
+        time: "02:00 PM",
+
+        reason: "Review of CT chest and previous reports.",
+
+        status: "new",
+
+        created: "08:50 AM"
+    },
+
+    {
+        id: "APT004",
+
+        name: "Sanjay Behera",
+
+        phone: "919876543213",
+
+        date: "30 September 2026",
+
+        time: "04:30 PM",
+
+        reason: "Follow-up for respiratory symptoms.",
+
+        status: "completed",
+
+        created: "Yesterday"
+    }
+
+];
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let selectedAppointment = null;
+
+let currentFilter = "all";
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    renderAppointments();
+
+});
+
+
+/* =========================================================
+   RENDER APPOINTMENT LIST
+========================================================= */
+
+function renderAppointments() {
+
+    const list = document.getElementById("appointmentList");
+
+    const searchTerm =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    let filtered = appointments.filter(function(item) {
+
+        const matchesFilter =
+            currentFilter === "all" ||
+            item.status === currentFilter;
+
+        const matchesSearch =
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.phone.includes(searchTerm) ||
+            item.reason.toLowerCase().includes(searchTerm);
+
+        return matchesFilter && matchesSearch;
+
+    });
+
+
+    list.innerHTML = "";
+
+
+    if (filtered.length === 0) {
+
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#667781;
+                font-size:13px;
+            ">
+                No appointments found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    filtered.forEach(function(item) {
+
+        const initials =
+            getInitials(item.name);
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "appointment-item" +
+            (selectedAppointment &&
+             selectedAppointment.id === item.id
+                ? " active"
+                : "");
+
+
+        div.onclick = function() {
+
+            selectAppointment(item);
+
+        };
+
+
+        div.innerHTML = `
+
+            <div class="patient-avatar">
+                ${initials}
+            </div>
+
+            <div class="appointment-preview">
+
+                <div class="appointment-top">
+
+                    <div class="patient-name">
+                        ${escapeHTML(item.name)}
+                    </div>
+
+                    <div class="appointment-time">
+                        ${item.created}
+                    </div>
+
+                </div>
+
+                <div class="appointment-message">
+
+                    <span
+                        class="status-dot status-${item.status}">
+                    </span>
+
+                    ${escapeHTML(item.reason)}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   SELECT APPOINTMENT
+========================================================= */
+
+function selectAppointment(item) {
+
+    selectedAppointment = item;
+
+
+    document
+        .getElementById("chatPatientName")
+        .textContent = item.name;
+
+
+    document
+        .getElementById("chatPatientPhone")
+        .textContent =
+        formatPhone(item.phone);
+
+
+    document
+        .getElementById("chatAvatar")
+        .textContent =
+        getInitials(item.name);
+
+
+    /* Header WhatsApp link */
+
+    document
+        .getElementById("headerWhatsApp")
+        .href =
+        whatsappChatLink(item.phone);
+
+
+    /* Header call */
+
+    document
+        .getElementById("headerCall")
+        .href =
+        whatsappCallLink(item.phone);
+
+
+    renderChat(item);
+
+    renderAppointments();
+
+
+    /* Mobile */
+
+    if (window.innerWidth <= 750) {
+
+        document
+            .getElementById("sidebar")
+            .style.display = "none";
+
+        document
+            .getElementById("chat")
+            .style.display = "flex";
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(item) {
+
+    const body =
+        document.getElementById("chatBody");
+
+
+    body.innerHTML = `
+
+        <div class="date-divider">
+
+            <span>
+                ${item.date}
+            </span>
+
+        </div>
+
+
+        <div class="message-row patient">
+
+            <div class="message-bubble">
+
+                <div class="message-label">
+                    Appointment Request
+                </div>
+
+                <div class="message-text">
+                    ${escapeHTML(item.reason)}
+                </div>
+
+
+                <div class="appointment-card">
+
+                    <div class="appointment-card-title">
+                        Appointment Details
+                    </div>
+
+
+                    <div class="appointment-detail">
+                        <span>📅</span>
+                        <strong>${item.date}</strong>
+                    </div>
+
+
+                    <div class="appointment-detail">
+                        <span>🕐</span>
+                        <strong>${item.time}</strong>
+                    </div>
+
+
+                    <div class="appointment-detail">
+                        <span>📱</span>
+                        <strong>${formatPhone(item.phone)}</strong>
+                    </div>
+
+
+                    <div class="appointment-detail">
+                        <span>📌</span>
+                        <strong>${capitalize(item.status)}</strong>
+                    </div>
+
+
+                    <div class="contact-actions">
+
+                        <a
+                            href="${whatsappChatLink(item.phone)}"
+                            target="_blank"
+                            class="contact-btn whatsapp-btn">
+
+                            ◉ Chat on WhatsApp
+
+                        </a>
+
+
+                        <a
+                            href="${whatsappCallLink(item.phone)}"
+                            class="contact-btn call-btn">
+
+                            ☎ WhatsApp Call
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="message-meta">
+
+                    ${item.created}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    /*
+        Scroll to latest message
+    */
+
+    body.scrollTop =
+        body.scrollHeight;
+
+}
+
+
+/* =========================================================
+   WHATSAPP LINKS
+========================================================= */
+
+function whatsappChatLink(phone) {
+
+    /*
+        Phone must contain country code.
+
+        Example:
+        India:
+        919876543210
+
+        No + sign
+        No spaces
+        No brackets
+    */
+
+    return "https://wa.me/" + phone;
+
+}
+
+
+function whatsappCallLink(phone) {
+
+    /*
+        WhatsApp does not provide a universally supported
+        standard web URL that guarantees a WhatsApp voice
+        call from every browser.
+
+        This uses the WhatsApp deep-link format.
+
+        On supported devices it can hand off to WhatsApp.
+        If unsupported, the user can use the Chat button.
+    */
+
+    return "whatsapp://call?number=" + phone;
+
+}
+
+
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
+
+function updateStatus(newStatus) {
+
+    if (!selectedAppointment) {
+
+        showToast("Please select an appointment first.");
+
+        return;
+
+    }
+
+
+    selectedAppointment.status =
+        newStatus;
+
+
+    /*
+        In the real DoctorJet system,
+        this is where we will send the update
+        to Google Apps Script.
+
+        Example:
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "updateStatus",
+                appointmentId: selectedAppointment.id,
+                status: newStatus
+            })
+        });
+    */
+
+
+    renderChat(selectedAppointment);
+
+    renderAppointments();
+
+
+    showToast(
+        "Appointment marked as " +
+        capitalize(newStatus)
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function setFilter(filter, button) {
+
+    currentFilter =
+        filter;
+
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(function(btn) {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    renderAppointments();
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function closeMobileChat() {
+
+    document
+        .getElementById("chat")
+        .style.display = "none";
+
+    document
+        .getElementById("sidebar")
+        .style.display = "flex";
+
+}
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .map(function(word) {
+            return word.charAt(0);
+        })
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+
+}
+
+
+function capitalize(value) {
+
+    if (!value) return "";
+
+    return value.charAt(0).toUpperCase() +
+           value.slice(1);
+
+}
+
+
+function formatPhone(phone) {
+
+    if (phone.startsWith("91") &&
+        phone.length === 12) {
+
+        return "+91 " +
+               phone.substring(2, 7) +
+               " " +
+               phone.substring(7);
+
+    }
+
+    return "+" + phone;
+
+}
+
+
+/* =========================================================
+   SECURITY / HTML ESCAPING
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(function() {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+</script>
+
+</body>
+</html>
+
