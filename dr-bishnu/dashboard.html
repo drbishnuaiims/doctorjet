@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#075e54">
+  <title>DoctorJet — Appointments</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --wa-green: #075e54;
+      --wa-green-dark: #054c44;
+      --wa-light-green: #25d366;
+      --wa-chat: #efeae2;
+      --wa-bubble: #ffffff;
+      --wa-outgoing: #d9fdd3;
+      --wa-text: #111b21;
+      --wa-muted: #667781;
+      --wa-border: #e9edef;
+      --wa-blue: #53bdeb;
+      --wa-orange: #ffb74d;
+      --wa-red: #ea4335;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--wa-text);
+      background: #d9dbd5;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* APP SHELL */
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--wa-chat);
+      box-shadow: 0 0 30px rgba(0,0,0,.16);
+    }
+
+    /* TOP BAR */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 72px;
+      background: var(--wa-green);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 14px;
+    }
+
+    .doctor-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #128c7e;
+      display: grid;
+      place-items: center;
+      flex: 0 0 46px;
+      font-weight: 700;
+      font-size: 17px;
+      overflow: hidden;
+    }
+
+    .doctor-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .topbar-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .topbar-name {
+      font-size: 17px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-status {
+      margin-top: 2px;
+      font-size: 12px;
+      opacity: .85;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255,255,255,.12);
+    }
+
+    /* DASHBOARD SUMMARY */
+    .summary {
+      background: #fff;
+      border-bottom: 1px solid var(--wa-border);
+      padding: 14px 16px 12px;
+    }
+
+    .summary-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #3b4a54;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      border: 1px solid var(--wa-border);
+      border-radius: 10px;
+      padding: 9px 8px;
+      background: #fff;
+      min-width: 0;
+    }
+
+    .stat-number {
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      color: var(--wa-muted);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* SEARCH / FILTERS */
+    .controls {
+      background: #fff;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--wa-border);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .search {
+      width: 100%;
+      height: 40px;
+      border: 0;
+      outline: 0;
+      border-radius: 20px;
+      background: #f0f2f5;
+      padding: 0 14px 0 39px;
+      color: var(--wa-text);
+      font-size: 14px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 10px;
+      color: #667781;
+      font-size: 17px;
+      pointer-events: none;
+    }
+
+    .filter {
+      height: 40px;
+      border: 0;
+      border-radius: 20px;
+      background: #f0f2f5;
+      color: #3b4a54;
+      padding: 0 12px;
+      outline: none;
+      min-width: 112px;
+      font-size: 13px;
+    }
+
+    /* CHAT AREA */
+    .chat-area {
+      flex: 1;
+      position: relative;
+      padding: 18px 12px 35px;
+      overflow: hidden;
+      background-color: var(--wa-chat);
+    }
+
+    /* WhatsApp-like subtle doodle texture */
+    .chat-area::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .34;
+      background-image:
+        radial-gradient(circle at 10px 10px, rgba(100,100,100,.09) 1px, transparent 1.5px),
+        radial-gradient(circle at 45px 35px, rgba(100,100,100,.06) 1px, transparent 1.5px);
+      background-size: 58px 58px, 76px 76px;
+    }
+
+    .chat-content {
+      position: relative;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .date-divider {
+      display: flex;
+      justify-content: center;
+      margin: 2px 0 14px;
+    }
+
+    .date-divider span {
+      background: #fff;
+      color: #54656f;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 11px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.08);
+    }
+
+    /* PATIENT BUBBLE */
+    .message {
+      display: flex;
+      margin: 0 0 10px;
+    }
+
+    .message.incoming {
+      justify-content: flex-start;
+    }
+
+    .bubble {
+      width: min(720px, 94%);
+      background: var(--wa-bubble);
+      border-radius: 8px;
+      padding: 10px 11px 9px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.10);
+      position: relative;
+    }
+
+    .bubble::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-top: 9px solid #fff;
+      border-left: 9px solid transparent;
+    }
+
+    .patient-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .patient-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #dfe5e7;
+      color: #54656f;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 15px;
+      flex: 0 0 42px;
+    }
+
+    .patient-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .patient-name-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .patient-name {
+      font-size: 16px;
+      font-weight: 600;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .patient-id {
+      color: var(--wa-muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .patient-meta {
+      color: #54656f;
+      font-size: 12px;
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .appointment-line {
+      margin-top: 8px;
+      padding: 8px 9px;
+      background: #f5f6f6;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #344047;
+    }
+
+    .appointment-line strong {
+      color: #111b21;
+    }
+
+    .reason {
+      margin-top: 8px;
+      color: #3b4a54;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .notes {
+      margin-top: 5px;
+      color: #667781;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+      padding-top: 8px;
+      border-top: 1px solid #edf0f1;
+    }
+
+    .status-badge {
+      border-radius: 12px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-confirmed {
+      background: #d9fdd3;
+      color: #1b5e20;
+    }
+
+    .status-completed {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .status-cancelled {
+      background: #fde7e7;
+      color: #b42318;
+    }
+
+    .status-noshow {
+      background: #eceff1;
+      color: #455a64;
+    }
+
+    .time {
+      color: #667781;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .action {
+      min-height: 36px;
+      border: 1px solid #d9dfe2;
+      border-radius: 6px;
+      background: #fff;
+      color: #344047;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: .15s ease;
+    }
+
+    .action:hover {
+      background: #f0f2f5;
+    }
+
+    .action.whatsapp {
+      color: #128c7e;
+      border-color: #b7dfd8;
+    }
+
+    .action.video {
+      color: #087f8c;
+      border-color: #b7dfe2;
+    }
+
+    .action.rx {
+      color: #546e7a;
+      border-color: #cfd8dc;
+    }
+
+    .action.confirm {
+      color: #1b5e20;
+      border-color: #b7dcb8;
+      background: #f4fff2;
+    }
+
+    .action.cancel {
+      color: #b42318;
+      border-color: #efc0bc;
+      background: #fff8f7;
+    }
+
+    .action:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    /* EMPTY / LOADING */
+    .state {
+      text-align: center;
+      padding: 70px 20px;
+      color: #667781;
+    }
+
+    .state-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+      opacity: .75;
+    }
+
+    .state-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #455a64;
+    }
+
+    .state-text {
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid #d8dddf;
+      border-top-color: var(--wa-green);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 20px);
+      background: #323739;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 7px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 100;
+      max-width: calc(100vw - 30px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* MOBILE */
+    @media (max-width: 640px) {
+      .app {
+        max-width: none;
+        box-shadow: none;
+      }
+
+      .topbar {
+        height: 62px;
+        padding: 0 12px;
+      }
+
+      .doctor-avatar {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+      }
+
+      .topbar-name {
+        font-size: 15px;
+      }
+
+      .topbar-status {
+        font-size: 11px;
+      }
+
+      .summary {
+        padding: 11px 10px 9px;
+      }
+
+      .summary-title {
+        margin-bottom: 7px;
+      }
+
+      .stats {
+        gap: 5px;
+      }
+
+      .stat {
+        padding: 8px 6px;
+        border-radius: 8px;
+      }
+
+      .stat-number {
+        font-size: 18px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+      .controls {
+        padding: 8px 10px;
+      }
+
+      .filter {
+        min-width: 94px;
+        padding: 0 8px;
+      }
+
+      .chat-area {
+        padding: 13px 8px 25px;
+      }
+
+      .bubble {
+        width: 97%;
+        padding: 9px;
+      }
+
+      .actions {
+        gap: 5px;
+      }
+
+      .action {
+        min-height: 38px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .patient-avatar {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+      }
+
+      .patient-name {
+        font-size: 15px;
+      }
+
+      .patient-id {
+        display: none;
+      }
+
+      .action {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- WHATSAPP HEADER -->
+  <header class="topbar">
+    <div class="doctor-avatar">
+      <span id="avatarInitials">BS</span>
+      <img id="doctorPhoto" src="../images/dr-bishnu.jpg" alt="">
+    </div>
+
+    <div class="topbar-info">
+      <div class="topbar-name">Dr Bishnu Prasad Sahoo</div>
+      <div class="topbar-status" id="topStatus">Appointment Dashboard</div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" type="button" title="Refresh" onclick="loadAppointments(true)">↻</button>
+    </div>
+  </header>
+
+  <!-- QUICK VIEW -->
+  <section class="summary">
+    <div class="summary-title">Appointments</div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number" id="countToday">0</div>
+        <div class="stat-label">Today</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="countPending">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="countConfirmed">0</div>
+        <div class="stat-label">Confirmed</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="countTotal">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH + FILTER -->
+  <section class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="Search patient or phone"
+        autocomplete="off"
+        oninput="renderAppointments()"
+      >
+    </div>
+
+    <select id="filterSelect" class="filter" onchange="renderAppointments()">
+      <option value="all">All</option>
+      <option value="Pending">Pending</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+      <option value="No Show">No Show</option>
+    </select>
+  </section>
+
+  <!-- CHAT -->
+  <main class="chat-area">
+    <div class="chat-content" id="chatContent">
+
+      <div class="state" id="loadingState">
+        <div class="spinner"></div>
+        <div class="state-title">Loading appointments</div>
+        <div class="state-text">Connecting to DoctorJet</div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbxv5lzQwlP17YApffDFK3VLPhk1KAlSFgmcZ-opLhc9oKPEr2cPg-dmjtR1qicy6_p1/exec";
+
+  let appointments = [];
+
+  /*
+    ---------------------------------------------------------
+    INITIALIZATION
+    ---------------------------------------------------------
+  */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAppointments(false);
+
+    // Show doctor's image if it exists.
+    const photo = document.getElementById("doctorPhoto");
+    photo.onload = () => {
+      photo.style.display = "block";
+      document.getElementById("avatarInitials").style.display = "none";
+    };
+    photo.onerror = () => {
+      photo.style.display = "none";
+      document.getElementById("avatarInitials").style.display = "block";
+    };
+  });
+
+
+  /*
+    ---------------------------------------------------------
+    LOAD APPOINTMENTS
+    ---------------------------------------------------------
+  */
+
+  async function loadAppointments(showToast = false) {
+    const chat = document.getElementById("chatContent");
+
+    if (!showToast) {
+      chat.innerHTML = `
+        <div class="state">
+          <div class="spinner"></div>
+          <div class="state-title">Loading appointments</div>
+          <div class="state-text">Connecting to DoctorJet</div>
+        </div>
+      `;
+    }
+
+    try {
+      const response = await fetch(
+        API_URL + "?action=getAppointments",
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Server returned " + response.status);
+      }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "Unable to load appointments");
+      }
+
+      appointments = normalizeAppointments(data.appointments || data.data || []);
+
+      // Newest first
+      appointments.sort((a, b) => {
+        const da = new Date(a.createdAt || 0).getTime();
+        const db = new Date(b.createdAt || 0).getTime();
+        return db - da;
+      });
+
+      updateStats();
+      renderAppointments();
+
+      document.getElementById("topStatus").textContent =
+        "Updated " + formatTime(new Date());
+
+      if (showToast) {
+        showToastMessage("Appointments refreshed");
+      }
+
+    } catch (error) {
+      console.error(error);
+
+      chat.innerHTML = `
+        <div class="state">
+          <div class="state-icon">⚠</div>
+          <div class="state-title">Could not load appointments</div>
+          <div class="state-text">${escapeHTML(error.message || "Connection error")}</div>
+          <br>
+          <button class="action" style="max-width:180px;margin:auto;" onclick="loadAppointments(false)">
+            Try Again
+          </button>
+        </div>
+      `;
+
+      document.getElementById("topStatus").textContent = "Connection error";
+    }
+  }
+
+
+  /*
+    ---------------------------------------------------------
+    NORMALIZE GOOGLE SHEET / APPS SCRIPT DATA
+    ---------------------------------------------------------
+  */
+
+  function normalizeAppointments(list) {
+    if (!Array.isArray(list)) return [];
+
+    return list.map(item => ({
+      appointmentId: item.appointmentId || item["Appointment ID"] || "",
+      createdAt: item.createdAt || item["Created At"] || "",
+      patientName: item.patientName || item["Patient Name"] || "",
+      age: item.age || item["Age"] || "",
+      gender: item.gender || item["Gender"] || "",
+      phone: item.phone || item["Phone"] || "",
+      email: item.email || item["Email"] || "",
+      appointmentDate: item.appointmentDate || item["Appointment Date"] || "",
+      appointmentTime: item.appointmentTime || item["Appointment Time"] || "",
+      doctor: item.doctor || item["Doctor"] || "Dr Bishnu Prasad Sahoo",
+      department: item.department || item["Department"] || "Psychiatry",
+      consultationMode: item.consultationMode || item["Consultation Mode"] || "",
+      reason: item.reason || item["Reason"] || "",
+      additionalNotes: item.additionalNotes || item["Additional Notes"] || "",
+      status: item.status || item["Status"] || "Pending",
+      lastUpdated: item.lastUpdated || item["Last Updated"] || ""
+    }));
+  }
+
+
+  /*
+    ---------------------------------------------------------
+    QUICK STATS
+    ---------------------------------------------------------
+  */
+
+  function updateStats() {
+    const today = localDateISO(new Date());
+
+    document.getElementById("countToday").textContent =
+      appointments.filter(a => normalizeDate(a.appointmentDate) === today &&
+        !["Cancelled", "Completed"].includes(a.status)).length;
+
+    document.getElementById("countPending").textContent =
+      appointments.filter(a => a.status === "Pending").length;
+
+    document.getElementById("countConfirmed").textContent =
+      appointments.filter(a => a.status === "Confirmed").length;
+
+    document.getElementById("countTotal").textContent =
+      appointments.filter(a => a.status !== "Cancelled").length;
+  }
+
+
+  /*
+    ---------------------------------------------------------
+    RENDER CHAT BUBBLES
+    ---------------------------------------------------------
+  */
+
+  function renderAppointments() {
+    const chat = document.getElementById("chatContent");
+    const search = document.getElementById("searchInput").value.trim().toLowerCase();
+    const filter = document.getElementById("filterSelect").value;
+
+    let filtered = appointments.filter(a => {
+
+      const matchesStatus =
+        filter === "all" || a.status === filter;
+
+      const haystack = [
+        a.patientName,
+        a.phone,
+        a.email,
+        a.appointmentId,
+        a.reason
+      ].join(" ").toLowerCase();
+
+      const matchesSearch =
+        !search || haystack.includes(search);
+
+      return matchesStatus && matchesSearch;
+    });
+
+    if (!filtered.length) {
+      chat.innerHTML = `
+        <div class="state">
+          <div class="state-icon">☵</div>
+          <div class="state-title">No appointments found</div>
+          <div class="state-text">
+            ${search || filter !== "all"
+              ? "Try changing your search or filter."
+              : "New appointments will appear here."}
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    chat.innerHTML = `
+      <div class="date-divider">
+        <span>${filtered.length} appointment${filtered.length === 1 ? "" : "s"}</span>
+      </div>
+      ${filtered.map(renderAppointment).join("")}
+    `;
+  }
+
+
+  function renderAppointment(a) {
+    const initials = getInitials(a.patientName);
+    const statusClass = getStatusClass(a.status);
+
+    const phone = cleanPhone(a.phone);
+
+    const whatsappText =
+      `Hello ${a.patientName}, this is Dr Bishnu Prasad Sahoo regarding your appointment on ${formatDate(a.appointmentDate)} at ${formatTimeValue(a.appointmentTime)}.`;
+
+    const whatsappUrl =
+      phone
+        ? `https://wa.me/${phone}?text=${encodeURIComponent(whatsappText)}`
+        : "#";
+
+    /*
+      WhatsApp does not provide a reliable public HTTPS URL that
+      directly starts a video call. The Video button opens the
+      patient's WhatsApp chat, from which the doctor can start a
+      video call.
+    */
+    const videoUrl =
+      phone
+        ? `https://wa.me/${phone}`
+        : "#";
+
+    const rxUrl =
+      `../rx.html?patient=${encodeURIComponent(a.patientName)}`
+      + `&age=${encodeURIComponent(a.age)}`
+      + `&gender=${encodeURIComponent(a.gender)}`
+      + `&phone=${encodeURIComponent(a.phone)}`
+      + `&appointmentId=${encodeURIComponent(a.appointmentId)}`;
+
+    const canConfirm = a.status === "Pending";
+    const canCancel = !["Cancelled", "Completed"].includes(a.status);
+
+    return `
+      <article class="message incoming">
+        <div class="bubble">
+
+          <div class="patient-row">
+
+            <div class="patient-avatar">${escapeHTML(initials)}</div>
+
+            <div class="patient-main">
+
+              <div class="patient-name-line">
+                <div class="patient-name">
+                  ${escapeHTML(a.patientName || "Unnamed Patient")}
+                </div>
+
+                <div class="patient-id">
+                  ${escapeHTML(a.appointmentId)}
+                </div>
+              </div>
+
+              <div class="patient-meta">
+                ${escapeHTML(patientMeta(a))}
+              </div>
+
+            </div>
+          </div>
+
+          <div class="appointment-line">
+            <strong>${escapeHTML(formatDate(a.appointmentDate))}</strong>
+            &nbsp;·&nbsp;
+            <strong>${escapeHTML(formatTimeValue(a.appointmentTime))}</strong>
+            &nbsp;·&nbsp;
+            ${escapeHTML(a.consultationMode || "Consultation")}
+          </div>
+
+          ${a.reason ? `
+            <div class="reason">
+              <strong>Reason:</strong> ${escapeHTML(a.reason)}
+            </div>
+          ` : ""}
+
+          ${a.additionalNotes ? `
+            <div class="notes">
+              <strong>Notes:</strong> ${escapeHTML(a.additionalNotes)}
+            </div>
+          ` : ""}
+
+          <div class="status-row">
+            <span class="status-badge ${statusClass}">
+              ${escapeHTML(a.status)}
+            </span>
+
+            <span class="time">
+              ${escapeHTML(formatTime(a.createdAt))}
+            </span>
+          </div>
+
+          <div class="actions">
+
+            <a
+              class="action whatsapp"
+              href="${whatsappUrl}"
+              target="_blank"
+              rel="noopener"
+              ${phone ? "" : 'aria-disabled="true"'}
+              title="WhatsApp message"
+            >
+              <span>◉</span> Message
+            </a>
+
+            <a
+              class="action video"
+              href="${videoUrl}"
+              target="_blank"
+              rel="noopener"
+              ${phone ? "" : 'aria-disabled="true"'}
+              title="Open WhatsApp chat and start video call"
+            >
+              <span>▣</span> Video
+            </a>
+
+            <a
+              class="action rx"
+              href="${rxUrl}"
+              target="_blank"
+              rel="noopener"
+              title="Open digital prescription"
+            >
+              <span>Rx</span> Prescription
+            </a>
+
+          </div>
+
+          ${(canConfirm || canCancel) ? `
+            <div class="actions">
+
+              ${canConfirm ? `
+                <button
+                  class="action confirm"
+                  onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Confirmed', this)"
+                >
+                  ✓ Confirm
+                </button>
+              ` : `
+                <div></div>
+              `}
+
+              ${canCancel ? `
+                <button
+                  class="action cancel"
+                  onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Cancelled', this)"
+                >
+                  × Cancel
+                </button>
+              ` : `
+                <div></div>
+              `}
+
+              <button
+                class="action"
+                onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Completed', this)"
+              >
+                ✓ Completed
+              </button>
+
+            </div>
+          ` : ""}
+
+        </div>
+      </article>
+    `;
+  }
+
+
+  /*
+    ---------------------------------------------------------
+    UPDATE APPOINTMENT STATUS
+    ---------------------------------------------------------
+  */
+
+  async function changeStatus(appointmentId, status, button) {
+
+    const appointment = appointments.find(
+      a => a.appointmentId === appointmentId
+    );
+
+    if (!appointment) return;
+
+    if (status === "Cancelled") {
+      const ok = confirm(
+        `Cancel appointment for ${appointment.patientName}?`
+      );
+
+      if (!ok) return;
+    }
+
+    const originalText = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = "Updating…";
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "updateAppointment",
+          appointmentId: appointmentId,
+          status: status
+        })
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "Unable to update appointment");
+      }
+
+      appointment.status = status;
+      appointment.lastUpdated = new Date().toISOString();
+
+      updateStats();
+      renderAppointments();
+
+      showToastMessage(`Appointment ${status.toLowerCase()}`);
+
+    } catch (error) {
+      console.error(error);
+
+      button.disabled = false;
+      button.innerHTML = originalText;
+
+      showToastMessage(
+        error.message || "Could not update appointment"
+      );
+    }
+  }
+
+
+  /*
+    ---------------------------------------------------------
+    HELPERS
+    ---------------------------------------------------------
+  */
+
+  function patientMeta(a) {
+    const parts = [];
+
+    if (a.age) parts.push(`${a.age} yrs`);
+    if (a.gender) parts.push(a.gender);
+    if (a.phone) parts.push(a.phone);
+
+    return parts.join(" · ") || "Patient";
+  }
+
+  function getInitials(name) {
+    const words = String(name || "").trim().split(/\s+/).filter(Boolean);
+
+    if (!words.length) return "P";
+    if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
+
+    return (
+      words[0].charAt(0) +
+      words[words.length - 1].charAt(0)
+    ).toUpperCase();
+  }
+
+  function getStatusClass(status) {
+    switch (String(status).toLowerCase()) {
+      case "pending":
+        return "status-pending";
+      case "confirmed":
+        return "status-confirmed";
+      case "completed":
+        return "status-completed";
+      case "cancelled":
+        return "status-cancelled";
+      case "no show":
+        return "status-noshow";
+      default:
+        return "status-pending";
+    }
+  }
+
+  function cleanPhone(phone) {
+    let p = String(phone || "").replace(/\D/g, "");
+
+    // Indian 10-digit number
+    if (p.length === 10) p = "91" + p;
+
+    // Already country coded
+    return p;
+  }
+
+  function normalizeDate(value) {
+    if (!value) return "";
+
+    const s = String(value).trim();
+
+    // YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+
+    // DD/MM/YYYY
+    const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+    if (m) {
+      return `${m[3]}-${String(m[2]).padStart(2, "0")}-${String(m[1]).padStart(2, "0")}`;
+    }
+
+    const d = new Date(s);
+
+    if (isNaN(d.getTime())) return s;
+
+    return localDateISO(d);
+  }
+
+  function localDateISO(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+
+    return `${y}-${m}-${d}`;
+  }
+
+  function formatDate(value) {
+    if (!value) return "Date not set";
+
+    const normalized = normalizeDate(value);
+    const d = new Date(normalized + "T00:00:00");
+
+    if (isNaN(d.getTime())) return String(value);
+
+    return d.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  }
+
+  function formatTimeValue(value) {
+    if (!value) return "Time not set";
+
+    const s = String(value).trim();
+
+    // Already HH:MM or HH:MM:SS
+    const m = s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+
+    if (m) {
+      let h = Number(m[1]);
+      const min = m[2];
+      const suffix = h >= 12 ? "PM" : "AM";
+      h = h % 12 || 12;
+      return `${h}:${min} ${suffix}`;
+    }
+
+    const d = new Date(s);
+
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleTimeString("en-IN", {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    return s;
+  }
+
+  function formatTime(value) {
+    if (!value) return "";
+
+    const d = new Date(value);
+
+    if (isNaN(d.getTime())) return "";
+
+    return d.toLocaleTimeString("en-IN", {
+      hour: "numeric",
+      minute: "2-digit"
+    });
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function escapeJS(value) {
+    return String(value ?? "")
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
+  }
+
+  let toastTimer;
+
+  function showToastMessage(message) {
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2600);
+  }
+</script>
+
+</body>
+</html>
