@@ -1,0 +1,2692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet — Patient Appointments</title>
+
+<style>
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --green: #128c7e;
+    --green-dark: #075e54;
+    --green-light: #25d366;
+
+    --bg: #efeae2;
+    --panel: #ffffff;
+    --border: #e5e7eb;
+
+    --text: #111827;
+    --muted: #6b7280;
+
+    --bubble: #ffffff;
+    --bubble-own: #dcf8c6;
+
+    --danger: #dc2626;
+    --warning: #d97706;
+    --success: #15803d;
+    --blue: #2563eb;
+
+    --sidebar-width: 360px;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    background: #d9dbd5;
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    background: #fff;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+
+    background: #fff;
+
+    border-right: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar Header */
+
+.sidebar-header {
+    height: 70px;
+
+    background: var(--green-dark);
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: white;
+    color: var(--green-dark);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 800;
+}
+
+.brand-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.brand-subtitle {
+    font-size: 11px;
+    opacity: .75;
+}
+
+/* Search */
+
+.search-container {
+    padding: 10px;
+    background: #f0f2f5;
+}
+
+.search-box {
+    background: white;
+
+    border-radius: 8px;
+
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+
+    gap: 8px;
+}
+
+.search-box span {
+    color: #667781;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+
+    width: 100%;
+
+    font-size: 14px;
+}
+
+/* Category */
+
+.categories {
+    display: flex;
+
+    gap: 6px;
+
+    padding: 8px;
+
+    overflow-x: auto;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.category-btn {
+    border: none;
+
+    background: #f0f2f5;
+
+    padding: 7px 12px;
+
+    border-radius: 16px;
+
+    white-space: nowrap;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.category-btn.active {
+    background: var(--green);
+    color: white;
+}
+
+/* Patient list */
+
+.patient-list {
+    flex: 1;
+
+    overflow-y: auto;
+}
+
+.patient-item {
+    height: 74px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 10px 14px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.patient-item:hover {
+    background: #f5f6f6;
+}
+
+.patient-item.active {
+    background: #e9edef;
+}
+
+.patient-avatar {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #dfe5e7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    color: #54656f;
+
+    flex-shrink: 0;
+}
+
+.patient-info {
+    flex: 1;
+
+    min-width: 0;
+
+    margin-left: 12px;
+}
+
+.patient-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.patient-name {
+    font-size: 15px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.patient-time {
+    font-size: 11px;
+    color: var(--muted);
+
+    white-space: nowrap;
+}
+
+.patient-preview {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* =========================================================
+   MAIN CHAT
+========================================================= */
+
+.chat {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    background: var(--bg);
+}
+
+/* Chat Header */
+
+.chat-header {
+    height: 70px;
+
+    background: #f0f2f5;
+
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 18px;
+
+    gap: 12px;
+}
+
+.back-button {
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.chat-avatar {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    background: #dfe5e7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 600;
+}
+
+.chat-patient-info {
+    flex: 1;
+}
+
+.chat-patient-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.chat-patient-meta {
+    color: var(--muted);
+    font-size: 12px;
+
+    margin-top: 2px;
+}
+
+/* =========================================================
+   CHAT BODY
+========================================================= */
+
+.chat-body {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 25px 6%;
+
+    position: relative;
+}
+
+/* WhatsApp style background */
+
+.chat-body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 70px 0 0 360px;
+
+    pointer-events: none;
+
+    opacity: .25;
+
+    background-image:
+        radial-gradient(#bbb 0.6px, transparent 0.6px);
+
+    background-size: 12px 12px;
+}
+
+/* Date separator */
+
+.date-separator {
+    text-align: center;
+
+    margin: 10px 0 16px;
+}
+
+.date-separator span {
+    display: inline-block;
+
+    background: #d9fdd3;
+
+    color: #54656f;
+
+    padding: 6px 12px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+}
+
+/* Appointment bubble */
+
+.appointment {
+    position: relative;
+
+    max-width: 720px;
+
+    background: var(--bubble);
+
+    border-radius: 9px;
+
+    padding: 12px 14px 13px;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 1px 1px rgba(0,0,0,.08);
+
+    margin-left: auto;
+}
+
+/* little bubble triangle */
+
+.appointment::after {
+    content: "";
+
+    position: absolute;
+
+    right: -7px;
+    top: 0;
+
+    border-left: 8px solid white;
+    border-top: 8px solid transparent;
+}
+
+/* Appointment header */
+
+.appointment-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+}
+
+.appointment-title {
+    font-weight: 700;
+
+    font-size: 15px;
+}
+
+.appointment-date {
+    font-size: 12px;
+
+    color: var(--muted);
+
+    margin-top: 3px;
+}
+
+.appointment-time {
+    font-weight: 700;
+
+    color: var(--green-dark);
+
+    font-size: 13px;
+}
+
+/* status */
+
+.status {
+    display: inline-block;
+
+    padding: 3px 8px;
+
+    border-radius: 10px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    margin-top: 6px;
+}
+
+.status.confirmed {
+    background: #dcfce7;
+    color: var(--success);
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: var(--warning);
+}
+
+.status.completed {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.status.cancelled {
+    background: #fee2e2;
+    color: var(--danger);
+}
+
+/* Patient details */
+
+.patient-details {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0,1fr));
+
+    gap: 8px;
+
+    margin-top: 13px;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.detail {
+    min-width: 0;
+}
+
+.detail-label {
+    font-size: 9px;
+
+    color: #87929a;
+
+    text-transform: uppercase;
+
+    letter-spacing: .4px;
+}
+
+.detail-value {
+    font-size: 12px;
+
+    margin-top: 2px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+/* Reason */
+
+.reason {
+    margin-top: 11px;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+}
+
+.reason strong {
+    color: #374151;
+}
+
+/* Appointment footer */
+
+.appointment-footer {
+    margin-top: 13px;
+
+    padding-top: 9px;
+
+    border-top: 1px solid #eeeeee;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+}
+
+.appointment-id {
+    font-size: 10px;
+
+    color: #9ca3af;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.actions {
+    display: flex;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 7px 9px;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    border: none;
+
+    transition: .15s;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+
+    filter: brightness(.96);
+}
+
+.btn-video {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.btn-message {
+    background: #e0f2fe;
+
+    color: #0369a1;
+}
+
+.btn-rx {
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    padding: 30px;
+}
+
+.empty-icon {
+    font-size: 55px;
+
+    margin-bottom: 12px;
+
+    opacity: .4;
+}
+
+.empty-state h3 {
+    color: #374151;
+
+    margin-bottom: 5px;
+}
+
+.empty-state p {
+    font-size: 13px;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+    padding: 30px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   FOOTER / STATUS BAR
+========================================================= */
+
+.chat-footer {
+    min-height: 42px;
+
+    background: #f0f2f5;
+
+    border-top: 1px solid var(--border);
+
+    padding: 7px 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.footer-text {
+    font-size: 10px;
+
+    color: var(--muted);
+}
+
+.refresh-btn {
+    border: none;
+
+    background: white;
+
+    border-radius: 6px;
+
+    padding: 6px 10px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        background: #fff;
+    }
+
+    .sidebar {
+        width: 100%;
+
+        min-width: 100%;
+
+        display: flex;
+    }
+
+    .chat {
+        display: none;
+
+        width: 100%;
+    }
+
+    .app.chat-open .sidebar {
+        display: none;
+    }
+
+    .app.chat-open .chat {
+        display: flex;
+    }
+
+    .back-button {
+        display: block;
+    }
+
+    .chat-header {
+        height: 62px;
+
+        padding: 0 10px;
+    }
+
+    .chat-body {
+        padding: 15px 10px;
+    }
+
+    .chat-body::before {
+        left: 0;
+        top: 62px;
+    }
+
+    .appointment {
+        max-width: 94%;
+
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .patient-details {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .actions {
+        width: 100%;
+    }
+
+    .action-btn {
+        flex: 1;
+    }
+
+    .appointment-footer {
+        align-items: flex-end;
+
+        flex-direction: column;
+    }
+
+    .appointment-id {
+        align-self: flex-start;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .sidebar-header {
+        height: 62px;
+    }
+
+    .brand-title {
+        font-size: 15px;
+    }
+
+    .patient-avatar {
+        width: 44px;
+        height: 44px;
+    }
+
+    .appointment {
+        max-width: 96%;
+    }
+
+    .appointment-title {
+        font-size: 14px;
+    }
+
+    .appointment-time {
+        font-size: 12px;
+    }
+
+    .action-btn {
+        font-size: 10px;
+
+        padding: 7px 5px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app" id="app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    D
+                </div>
+
+                <div>
+                    <div class="brand-title">
+                        DoctorJet
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Patient Appointments
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-container">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search patient..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- CATEGORIES -->
+
+        <div class="categories">
+
+            <button
+                class="category-btn active"
+                data-filter="all">
+                All
+            </button>
+
+            <button
+                class="category-btn"
+                data-filter="today">
+                Today
+            </button>
+
+            <button
+                class="category-btn"
+                data-filter="upcoming">
+                Upcoming
+            </button>
+
+            <button
+                class="category-btn"
+                data-filter="completed">
+                Completed
+            </button>
+
+            <button
+                class="category-btn"
+                data-filter="cancelled">
+                Cancelled
+            </button>
+
+        </div>
+
+
+        <!-- PATIENT LIST -->
+
+        <div
+            class="patient-list"
+            id="patientList">
+
+            <div class="loading">
+                Loading appointments...
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CHAT
+    ====================================================== -->
+
+    <main class="chat">
+
+        <header class="chat-header">
+
+            <button
+                class="back-button"
+                id="backButton">
+                ‹
+            </button>
+
+            <div
+                class="chat-avatar"
+                id="chatAvatar">
+                ?
+            </div>
+
+            <div class="chat-patient-info">
+
+                <div
+                    class="chat-patient-name"
+                    id="chatPatientName">
+                    Select a patient
+                </div>
+
+                <div
+                    class="chat-patient-meta"
+                    id="chatPatientMeta">
+                    Patient appointments
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CHAT BODY -->
+
+        <section
+            class="chat-body"
+            id="chatBody">
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    💬
+                </div>
+
+                <h3>
+                    Select a patient
+                </h3>
+
+                <p>
+                    Patient appointments will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="chat-footer">
+
+            <div class="footer-text">
+                DoctorJet Appointment Dashboard
+            </div>
+
+            <button
+                class="refresh-btn"
+                onclick="loadAppointments()">
+                ↻ Refresh
+            </button>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+/*
+    IMPORTANT:
+
+    Replace this URL with your Google Apps Script
+    Web App URL.
+
+    Example:
+
+    https://script.google.com/macros/s/XXXXXXXXXXXX/exec
+*/
+
+const API_URL =
+    "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+
+/*
+    Prescription page.
+
+    The patient/appointment information is passed through
+    URL parameters so rx.html can automatically populate
+    the prescription page.
+*/
+
+const RX_URL =
+    "https://doctorjet.in/rx.html";
+
+
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let appointments = [];
+
+let selectedPatientId = null;
+
+let currentFilter = "all";
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        setupEvents();
+
+        loadAppointments();
+
+    }
+);
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+function setupEvents() {
+
+    /*
+        Search
+    */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            renderPatientList
+        );
+
+
+    /*
+        Category buttons
+    */
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(".category-btn")
+                            .forEach(
+                                b =>
+                                    b.classList.remove(
+                                        "active"
+                                    )
+                            );
+
+                        button.classList.add("active");
+
+                        currentFilter =
+                            button.dataset.filter;
+
+                        renderPatientList();
+
+                    }
+                );
+
+            }
+        );
+
+
+    /*
+        Mobile back button
+    */
+
+    document
+        .getElementById("backButton")
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById("app")
+                    .classList.remove(
+                        "chat-open"
+                    );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   LOAD GOOGLE SHEET DATA
+========================================================= */
+
+async function loadAppointments() {
+
+    const list =
+        document.getElementById(
+            "patientList"
+        );
+
+    list.innerHTML =
+        `<div class="loading">
+            Loading appointments...
+        </div>`;
+
+
+    try {
+
+        /*
+            Google Apps Script should return JSON.
+
+            Expected format:
+
+            [
+                {
+                    id: "APT001",
+                    patientId: "P001",
+                    patientName: "Rahul Kumar",
+                    age: "34",
+                    gender: "Male",
+                    phone: "9876543210",
+                    date: "2026-10-02",
+                    time: "10:30 AM",
+                    doctor: "Dr Bishnu Prasad Sahoo",
+                    department: "Psychiatry",
+                    reason: "Follow-up",
+                    status: "Confirmed"
+                }
+            ]
+        */
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to connect to API"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+            Handle different possible
+            Google Apps Script response structures.
+        */
+
+        if (Array.isArray(data)) {
+
+            appointments = data;
+
+        } else if (
+            Array.isArray(data.data)
+        ) {
+
+            appointments = data.data;
+
+        } else if (
+            Array.isArray(data.appointments)
+        ) {
+
+            appointments = data.appointments;
+
+        } else {
+
+            throw new Error(
+                "Invalid API response"
+            );
+
+        }
+
+
+        /*
+            Normalize data
+        */
+
+        appointments =
+            appointments.map(
+                normalizeAppointment
+            );
+
+
+        renderPatientList();
+
+
+        /*
+            Automatically select first patient
+        */
+
+        if (
+            appointments.length > 0 &&
+            selectedPatientId === null
+        ) {
+
+            const first =
+                appointments[0];
+
+            selectPatient(
+                first.patientId
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML = `
+            <div class="loading">
+                <strong>Unable to load appointments.</strong>
+                <br><br>
+                Check your Google Apps Script
+                API URL and deployment.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   NORMALIZE APPOINTMENT
+========================================================= */
+
+function normalizeAppointment(a) {
+
+    return {
+
+        id:
+            a.id ||
+            a.appointmentId ||
+            a.AppointmentID ||
+            "",
+
+        patientId:
+            a.patientId ||
+            a.patientID ||
+            a.PatientID ||
+            a["Patient ID"] ||
+            a.phone ||
+            a.Phone ||
+            "",
+
+        patientName:
+            a.patientName ||
+            a.name ||
+            a.Name ||
+            a["Patient Name"] ||
+            "Unknown Patient",
+
+        age:
+            a.age ||
+            a.Age ||
+            "",
+
+        gender:
+            a.gender ||
+            a.Gender ||
+            "",
+
+        phone:
+            cleanPhone(
+                a.phone ||
+                a.Phone ||
+                a.mobile ||
+                a.Mobile ||
+                ""
+            ),
+
+        date:
+            a.date ||
+            a.Date ||
+            a.appointmentDate ||
+            a["Appointment Date"] ||
+            "",
+
+        time:
+            a.time ||
+            a.Time ||
+            a.appointmentTime ||
+            a["Appointment Time"] ||
+            "",
+
+        doctor:
+            a.doctor ||
+            a.Doctor ||
+            a.doctorName ||
+            a["Doctor Name"] ||
+            "",
+
+        department:
+            a.department ||
+            a.Department ||
+            "",
+
+        reason:
+            a.reason ||
+            a.Reason ||
+            a.symptoms ||
+            a["Reason for Visit"] ||
+            "",
+
+        status:
+            (
+                a.status ||
+                a.Status ||
+                "Pending"
+            ).toString(),
+
+        notes:
+            a.notes ||
+            a.Notes ||
+            ""
+
+    };
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+function cleanPhone(phone) {
+
+    let value =
+        String(phone || "")
+        .replace(/\D/g, "");
+
+
+    /*
+        Convert Indian 10-digit number
+        into international WhatsApp format.
+    */
+
+    if (
+        value.length === 10
+    ) {
+
+        value =
+            "91" + value;
+
+    }
+
+    return value;
+
+}
+
+
+/* =========================================================
+   PATIENT GROUPING
+========================================================= */
+
+function getPatients() {
+
+    const map =
+        new Map();
+
+
+    appointments.forEach(
+        appointment => {
+
+            const id =
+                appointment.patientId ||
+                appointment.phone ||
+                appointment.patientName;
+
+
+            if (!map.has(id)) {
+
+                map.set(
+                    id,
+                    {
+                        id,
+                        name:
+                            appointment.patientName,
+
+                        phone:
+                            appointment.phone,
+
+                        appointments: []
+
+                    }
+                );
+
+            }
+
+
+            map
+                .get(id)
+                .appointments
+                .push(appointment);
+
+        }
+    );
+
+
+    return Array.from(
+        map.values()
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function getAppointmentCategory(
+    appointment
+) {
+
+    const status =
+        appointment.status
+            .toLowerCase();
+
+
+    if (
+        status.includes("cancel")
+    ) {
+
+        return "cancelled";
+
+    }
+
+
+    if (
+        status.includes("complete")
+    ) {
+
+        return "completed";
+
+    }
+
+
+    const date =
+        parseAppointmentDate(
+            appointment.date
+        );
+
+
+    if (!date) {
+
+        return "upcoming";
+
+    }
+
+
+    const today =
+        new Date();
+
+    resetTime(today);
+
+    resetTime(date);
+
+
+    if (
+        date.getTime() ===
+        today.getTime()
+    ) {
+
+        return "today";
+
+    }
+
+
+    if (
+        date > today
+    ) {
+
+        return "upcoming";
+
+    }
+
+
+    return "completed";
+
+}
+
+
+/* =========================================================
+   RENDER PATIENT LIST
+========================================================= */
+
+function renderPatientList() {
+
+    const container =
+        document.getElementById(
+            "patientList"
+        );
+
+
+    const search =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    let patients =
+        getPatients();
+
+
+    /*
+        Search
+    */
+
+    if (search) {
+
+        patients =
+            patients.filter(
+                patient =>
+                    patient.name
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    patient.phone
+                        .includes(search)
+            );
+
+    }
+
+
+    /*
+        Category filter
+    */
+
+    if (
+        currentFilter !==
+        "all"
+    ) {
+
+        patients =
+            patients.filter(
+                patient => {
+
+                    return patient
+                        .appointments
+                        .some(
+                            appointment =>
+                                getAppointmentCategory(
+                                    appointment
+                                ) ===
+                                currentFilter
+                        );
+
+                }
+            );
+
+    }
+
+
+    if (
+        patients.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="loading">
+                No patients found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        patients
+            .map(
+                patient =>
+                    createPatientItem(
+                        patient
+                    )
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   PATIENT LIST ITEM
+========================================================= */
+
+function createPatientItem(
+    patient
+) {
+
+    const active =
+        patient.id ===
+        selectedPatientId
+            ? "active"
+            : "";
+
+
+    const latest =
+        [...patient.appointments]
+            .sort(
+                (a,b) =>
+                    appointmentTimestamp(b) -
+                    appointmentTimestamp(a)
+            )[0];
+
+
+    const count =
+        patient
+            .appointments
+            .length;
+
+
+    return `
+        <div
+            class="patient-item ${active}"
+            onclick="selectPatient('${escapeAttribute(patient.id)}')">
+
+            <div class="patient-avatar">
+                ${getInitials(patient.name)}
+            </div>
+
+            <div class="patient-info">
+
+                <div class="patient-top">
+
+                    <div class="patient-name">
+                        ${escapeHTML(patient.name)}
+                    </div>
+
+                    <div class="patient-time">
+                        ${formatShortDate(latest.date)}
+                    </div>
+
+                </div>
+
+                <div class="patient-preview">
+                    ${count}
+                    appointment${count !== 1 ? "s" : ""}
+                    ${latest.reason
+                        ? " • " + escapeHTML(latest.reason)
+                        : ""}
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/* =========================================================
+   SELECT PATIENT
+========================================================= */
+
+function selectPatient(
+    patientId
+) {
+
+    selectedPatientId =
+        patientId;
+
+
+    const patient =
+        getPatients()
+            .find(
+                p =>
+                    p.id ===
+                    patientId
+            );
+
+
+    if (!patient) {
+
+        return;
+
+    }
+
+
+    /*
+        Mobile navigation
+    */
+
+    document
+        .getElementById("app")
+        .classList.add(
+            "chat-open"
+        );
+
+
+    /*
+        Header
+    */
+
+    document
+        .getElementById(
+            "chatAvatar"
+        )
+        .textContent =
+            getInitials(
+                patient.name
+            );
+
+
+    document
+        .getElementById(
+            "chatPatientName"
+        )
+        .textContent =
+            patient.name;
+
+
+    document
+        .getElementById(
+            "chatPatientMeta"
+        )
+        .textContent =
+            `${patient.appointments.length}
+             appointment${
+                patient.appointments.length !== 1
+                    ? "s"
+                    : ""
+             }`;
+
+
+    /*
+        Sort appointments
+    */
+
+    const sorted =
+        [...patient.appointments]
+            .sort(
+                (a,b) =>
+                    appointmentTimestamp(a) -
+                    appointmentTimestamp(b)
+            );
+
+
+    renderAppointments(
+        sorted
+    );
+
+
+    renderPatientList();
+
+}
+
+
+/* =========================================================
+   RENDER APPOINTMENTS
+========================================================= */
+
+function renderAppointments(
+    list
+) {
+
+    const body =
+        document.getElementById(
+            "chatBody"
+        );
+
+
+    if (!list.length) {
+
+        body.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <h3>
+                    No appointments
+                </h3>
+
+                <p>
+                    No appointment records found.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+    let previousDate = "";
+
+
+    list.forEach(
+        appointment => {
+
+            const formattedDate =
+                formatLongDate(
+                    appointment.date
+                );
+
+
+            if (
+                formattedDate !==
+                previousDate
+            ) {
+
+                html += `
+                    <div class="date-separator">
+                        <span>
+                            ${formattedDate}
+                        </span>
+                    </div>
+                `;
+
+                previousDate =
+                    formattedDate;
+
+            }
+
+
+            html +=
+                createAppointmentBubble(
+                    appointment
+                );
+
+        }
+    );
+
+
+    body.innerHTML = html;
+
+
+    /*
+        Scroll to bottom
+    */
+
+    body.scrollTop =
+        body.scrollHeight;
+
+}
+
+
+/* =========================================================
+   APPOINTMENT BUBBLE
+========================================================= */
+
+function createAppointmentBubble(
+    a
+) {
+
+    const category =
+        getAppointmentCategory(
+            a
+        );
+
+
+    const statusClass =
+        getStatusClass(
+            a.status
+        );
+
+
+    const messageURL =
+        createWhatsAppMessageURL(
+            a
+        );
+
+
+    const videoURL =
+        createWhatsAppVideoURL(
+            a
+        );
+
+
+    const rxURL =
+        createPrescriptionURL(
+            a
+        );
+
+
+    return `
+        <div class="appointment">
+
+            <div class="appointment-header">
+
+                <div>
+
+                    <div class="appointment-title">
+                        ${escapeHTML(a.doctor || "Doctor Appointment")}
+                    </div>
+
+                    <div class="appointment-date">
+                        ${escapeHTML(
+                            formatLongDate(a.date)
+                        )}
+                    </div>
+
+                    <span
+                        class="status ${statusClass}">
+                        ${escapeHTML(
+                            a.status
+                        )}
+                    </span>
+
+                </div>
+
+                <div class="appointment-time">
+                    ${escapeHTML(
+                        a.time || "--:--"
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="patient-details">
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Patient
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            a.patientName
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Age / Sex
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            a.age || "-"
+                        )}
+                        /
+                        ${escapeHTML(
+                            a.gender || "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Department
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            a.department || "-"
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            ${
+                a.reason
+                    ? `
+                        <div class="reason">
+                            <strong>
+                                Reason:
+                            </strong>
+                            ${escapeHTML(a.reason)}
+                        </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                a.notes
+                    ? `
+                        <div class="reason">
+                            <strong>
+                                Notes:
+                            </strong>
+                            ${escapeHTML(a.notes)}
+                        </div>
+                    `
+                    : ""
+            }
+
+
+            <div class="appointment-footer">
+
+                <div class="appointment-id">
+                    ${a.id
+                        ? "Appointment #" +
+                          escapeHTML(a.id)
+                        : ""}
+                </div>
+
+
+                <div class="actions">
+
+                    <!-- WHATSAPP VIDEO -->
+
+                    <a
+                        class="action-btn btn-video"
+                        href="${videoURL}"
+                        target="_blank"
+                        rel="noopener">
+
+                        ◉ Video
+
+                    </a>
+
+
+                    <!-- WHATSAPP MESSAGE -->
+
+                    <a
+                        class="action-btn btn-message"
+                        href="${messageURL}"
+                        target="_blank"
+                        rel="noopener">
+
+                        ◇ Message
+
+                    </a>
+
+
+                    <!-- PRESCRIPTION -->
+
+                    <a
+                        class="action-btn btn-rx"
+                        href="${rxURL}"
+                        target="_blank"
+                        rel="noopener">
+
+                        Rx Prescription
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/* =========================================================
+   WHATSAPP MESSAGE
+========================================================= */
+
+function createWhatsAppMessageURL(
+    appointment
+) {
+
+    const phone =
+        cleanPhone(
+            appointment.phone
+        );
+
+
+    const message =
+        `Hello ${appointment.patientName},
+
+This is a reminder regarding your appointment with ${appointment.doctor || "the doctor"} on ${formatLongDate(appointment.date)} at ${appointment.time || ""}.
+
+Please let us know if you need any assistance.
+
+Thank you.`;
+
+
+    return `
+        https://wa.me/${phone}?text=${
+            encodeURIComponent(message)
+        }
+    `;
+
+}
+
+
+/* =========================================================
+   WHATSAPP VIDEO
+========================================================= */
+
+function createWhatsAppVideoURL(
+    appointment
+) {
+
+    const phone =
+        cleanPhone(
+            appointment.phone
+        );
+
+
+    /*
+        WhatsApp does not provide a universal
+        "start video call" web URL equivalent to
+        wa.me message links.
+
+        The following opens the WhatsApp chat,
+        from where the doctor can initiate a video call.
+
+        On supported mobile devices this can open
+        directly in WhatsApp.
+    */
+
+    return `
+        https://wa.me/${phone}
+    `;
+
+}
+
+
+/* =========================================================
+   PRESCRIPTION URL
+========================================================= */
+
+function createPrescriptionURL(
+    a
+) {
+
+    const params =
+        new URLSearchParams({
+
+            patientId:
+                a.patientId || "",
+
+            appointmentId:
+                a.id || "",
+
+            name:
+                a.patientName || "",
+
+            age:
+                a.age || "",
+
+            gender:
+                a.gender || "",
+
+            phone:
+                a.phone || "",
+
+            doctor:
+                a.doctor || "",
+
+            department:
+                a.department || "",
+
+            date:
+                a.date || "",
+
+            time:
+                a.time || ""
+
+        });
+
+
+    return RX_URL +
+        "?" +
+        params.toString();
+
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function parseAppointmentDate(
+    value
+) {
+
+    if (!value) {
+
+        return null;
+
+    }
+
+
+    /*
+        Handles:
+
+        2026-10-02
+        02/10/2026
+        02-10-2026
+    */
+
+    if (
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            String(value)
+        )
+    ) {
+
+        const [
+            y,
+            m,
+            d
+        ] =
+            value
+                .split("-")
+                .map(Number);
+
+
+        return new Date(
+            y,
+            m - 1,
+            d
+        );
+
+    }
+
+
+    if (
+        /^\d{2}[\/-]\d{2}[\/-]\d{4}$/
+            .test(String(value))
+    ) {
+
+        const [
+            d,
+            m,
+            y
+        ] =
+            String(value)
+                .split(/[\/-]/)
+                .map(Number);
+
+
+        return new Date(
+            y,
+            m - 1,
+            d
+        );
+
+    }
+
+
+    const parsed =
+        new Date(value);
+
+
+    if (
+        !isNaN(parsed)
+    ) {
+
+        return parsed;
+
+    }
+
+
+    return null;
+
+}
+
+
+function appointmentTimestamp(
+    appointment
+) {
+
+    const date =
+        parseAppointmentDate(
+            appointment.date
+        );
+
+
+    if (!date) {
+
+        return 0;
+
+    }
+
+
+    /*
+        Attempt to add time
+    */
+
+    if (
+        appointment.time
+    ) {
+
+        const match =
+            String(
+                appointment.time
+            )
+            .match(
+                /(\d{1,2}):(\d{2})\s*(AM|PM)?/i
+            );
+
+
+        if (match) {
+
+            let hours =
+                Number(match[1]);
+
+            const minutes =
+                Number(match[2]);
+
+            const meridian =
+                match[3];
+
+            if (
+                meridian
+            ) {
+
+                if (
+                    meridian
+                        .toUpperCase() ===
+                    "PM" &&
+                    hours < 12
+                ) {
+
+                    hours += 12;
+
+                }
+
+                if (
+                    meridian
+                        .toUpperCase() ===
+                    "AM" &&
+                    hours === 12
+                ) {
+
+                    hours = 0;
+
+                }
+
+            }
+
+            date.setHours(
+                hours,
+                minutes,
+                0,
+                0
+            );
+
+        }
+
+    }
+
+
+    return date.getTime();
+
+}
+
+
+function resetTime(date) {
+
+    date.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+}
+
+
+function formatLongDate(
+    value
+) {
+
+    const date =
+        parseAppointmentDate(
+            value
+        );
+
+
+    if (!date) {
+
+        return value || "-";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+function formatShortDate(
+    value
+) {
+
+    const date =
+        parseAppointmentDate(
+            value
+        );
+
+
+    if (!date) {
+
+        return "";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getStatusClass(
+    status
+) {
+
+    const s =
+        String(
+            status || ""
+        )
+        .toLowerCase();
+
+
+    if (
+        s.includes("cancel")
+    ) {
+
+        return "cancelled";
+
+    }
+
+
+    if (
+        s.includes("complete")
+    ) {
+
+        return "completed";
+
+    }
+
+
+    if (
+        s.includes("confirm")
+    ) {
+
+        return "confirmed";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function getInitials(
+    name
+) {
+
+    return String(
+        name || "?"
+    )
+    .trim()
+    .split(/\s+/)
+    .slice(0,2)
+    .map(
+        word =>
+            word.charAt(0)
+                .toUpperCase()
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   SECURITY / HTML ESCAPING
+========================================================= */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
