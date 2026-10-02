@@ -47,15 +47,18 @@ button{cursor:pointer}
 
 .app{
   display:grid;
-  grid-template-columns:248px minmax(0,1fr) 320px;
+  grid-template-columns:220px 340px minmax(0,1fr);
   min-height:100vh;
 }
+.main{grid-column:3;grid-row:1;min-width:0}
+.sidebar{grid-column:1;grid-row:1}
+.inspector{grid-column:2;grid-row:1}
 
 /* ---------- LEFT LIBRARY ---------- */
 .sidebar{
   background:#fbfcfe;
   border-right:1px solid var(--line);
-  padding:16px 14px;
+  padding:15px 12px;
   position:sticky;
   top:0;
   height:100vh;
@@ -144,9 +147,8 @@ button{cursor:pointer}
 .main{
   padding:18px 20px 36px;
   min-width:0;
-  max-width:1000px;
   width:100%;
-  margin:0 auto;
+  margin:0;
 }
 .topbar{
   display:flex;
@@ -360,7 +362,8 @@ button{cursor:pointer}
 .inspector{
   background:#fbfcfe;
   border-left:1px solid var(--line);
-  padding:17px 15px;
+  padding:17px 14px;
+  background:#ffffff;
   position:sticky;
   top:0;
   height:100vh;
@@ -495,13 +498,20 @@ button{cursor:pointer}
 .disclaimer{font-size:8px;color:#555;border-top:1px solid #bbb;padding-top:6px;margin-top:14px;line-height:1.4}
 #printRoot{display:none}
 
-@media(max-width:1120px){
-  .app{grid-template-columns:225px minmax(0,1fr)}
-  .inspector{display:none}
+@media(max-width:1320px){
+  .app{grid-template-columns:205px 300px minmax(0,1fr)}
+}
+@media(max-width:1080px){
+  .app{grid-template-columns:210px minmax(0,1fr)}
+  .inspector{grid-column:1;grid-row:2;position:static;height:auto;border-left:0;border-top:1px solid var(--line)}
+  .sidebar{grid-column:1;grid-row:1;position:static;height:auto}
+  .main{grid-column:2;grid-row:1 / span 2}
 }
 @media(max-width:760px){
   .app{display:block}
-  .sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .sidebar,.inspector{position:static;height:auto;border-right:0}
+  .sidebar{border-bottom:1px solid var(--line)}
+  .inspector{border-left:0;border-top:1px solid var(--line)}
   .main{padding:12px}
   .field{grid-column:1/-1}
   .topbar{align-items:flex-start;flex-direction:column}
@@ -545,7 +555,7 @@ button{cursor:pointer}
     <div class="topbar">
       <div>
         <h1>Prescription</h1>
-        <div class="helper">Select a drug from the left to inspect it, or type directly in the prescription.</div>
+        <div class="helper">Choose a medication on the left; its clinical intelligence stays visible beside the library while you compose the prescription.</div>
       </div>
       <div class="actions">
         <button class="btn compact" onclick="newRx()">New</button>
