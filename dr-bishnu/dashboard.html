@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="theme-color" content="#075e54">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>DoctorJet — Appointments</title>
 
   <style>
@@ -557,94 +559,385 @@
       transform: translate(-50%, 0);
     }
 
-    /* MOBILE */
+
+    /* =========================================================
+       TRUE WHATSAPP MOBILE SCREEN
+       ========================================================= */
     @media (max-width: 640px) {
-      .app {
-        max-width: none;
-        box-shadow: none;
+
+      html,
+      body {
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        background: #efeae2;
+        overflow-x: hidden;
       }
 
+      body {
+        min-height: 100dvh;
+      }
+
+      .app {
+        width: 100%;
+        max-width: none;
+        min-height: 100dvh;
+        height: 100dvh;
+        margin: 0;
+        background: #efeae2;
+        box-shadow: none;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* WhatsApp-style mobile header */
       .topbar {
-        height: 62px;
-        padding: 0 12px;
+        position: relative;
+        flex: 0 0 60px;
+        height: 60px;
+        padding: 0 8px;
+        gap: 9px;
+        background: #075e54;
       }
 
       .doctor-avatar {
         width: 40px;
         height: 40px;
         flex-basis: 40px;
+        font-size: 14px;
+      }
+
+      .topbar-info {
+        flex: 1;
+        min-width: 0;
       }
 
       .topbar-name {
         font-size: 15px;
+        line-height: 19px;
+        font-weight: 600;
       }
 
       .topbar-status {
+        margin-top: 0;
         font-size: 11px;
+        line-height: 15px;
       }
 
+      .top-actions {
+        gap: 0;
+      }
+
+      .icon-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      /* Compact WhatsApp-like quick stats */
       .summary {
-        padding: 11px 10px 9px;
+        flex: 0 0 auto;
+        padding: 7px 8px 6px;
+        border-bottom: 1px solid #d9dddf;
+        background: #fff;
       }
 
       .summary-title {
-        margin-bottom: 7px;
+        display: none;
       }
 
       .stats {
-        gap: 5px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
       }
 
       .stat {
-        padding: 8px 6px;
-        border-radius: 8px;
+        min-width: 0;
+        padding: 6px 3px 5px;
+        border: 0;
+        border-radius: 6px;
+        background: #f0f2f5;
+        text-align: center;
       }
 
       .stat-number {
-        font-size: 18px;
+        font-size: 17px;
+        line-height: 18px;
+        font-weight: 700;
+        color: #075e54;
       }
 
       .stat-label {
-        font-size: 10px;
+        margin-top: 2px;
+        font-size: 9px;
+        line-height: 11px;
+        color: #667781;
       }
 
+      /* WhatsApp search/filter strip */
       .controls {
-        padding: 8px 10px;
+        flex: 0 0 auto;
+        padding: 7px 8px;
+        gap: 6px;
+        background: #fff;
+        border-bottom: 1px solid #d9dddf;
+      }
+
+      .search-wrap {
+        min-width: 0;
+      }
+
+      .search {
+        height: 38px;
+        border-radius: 19px;
+        padding-left: 37px;
+        padding-right: 10px;
+        background: #f0f2f5;
+        font-size: 13px;
+      }
+
+      .search-icon {
+        left: 13px;
+        top: 9px;
+        font-size: 16px;
       }
 
       .filter {
-        min-width: 94px;
-        padding: 0 8px;
+        flex: 0 0 91px;
+        min-width: 91px;
+        width: 91px;
+        height: 38px;
+        padding: 0 7px;
+        border-radius: 19px;
+        background: #f0f2f5;
+        font-size: 11px;
       }
 
+      /* Actual phone-like WhatsApp chat viewport */
       .chat-area {
-        padding: 13px 8px 25px;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 10px 6px 20px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        background-color: #efeae2;
+      }
+
+      .chat-area::before {
+        opacity: .27;
+      }
+
+      .chat-content {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+      }
+
+      .date-divider {
+        margin: 2px 0 11px;
+      }
+
+      .date-divider span {
+        padding: 4px 9px;
+        border-radius: 6px;
+        font-size: 10px;
+      }
+
+      /* WhatsApp incoming-message bubble */
+      .message {
+        width: 100%;
+        margin: 0 0 7px;
       }
 
       .bubble {
-        width: 97%;
-        padding: 9px;
+        width: calc(100% - 6px);
+        max-width: none;
+        border-radius: 7px;
+        padding: 8px 8px 7px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.13);
       }
 
-      .actions {
+      .bubble::before {
+        left: -6px;
+        border-top-width: 8px;
+        border-left-width: 8px;
+      }
+
+      .patient-row {
+        gap: 8px;
+      }
+
+      .patient-avatar {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+        font-size: 13px;
+      }
+
+      .patient-name-line {
         gap: 5px;
       }
 
-      .action {
-        min-height: 38px;
+      .patient-name {
+        font-size: 14px;
+        line-height: 18px;
+      }
+
+      .patient-id {
+        font-size: 9px;
+      }
+
+      .patient-meta {
+        margin-top: 1px;
         font-size: 11px;
+        line-height: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .appointment-line {
+        margin-top: 7px;
+        padding: 7px 8px;
+        border-radius: 5px;
+        font-size: 11px;
+        line-height: 15px;
+      }
+
+      .reason {
+        margin-top: 7px;
+        font-size: 12px;
+        line-height: 16px;
+      }
+
+      .notes {
+        margin-top: 4px;
+        font-size: 11px;
+        line-height: 15px;
+      }
+
+      .status-row {
+        margin-top: 7px;
+        padding-top: 6px;
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .time {
+        font-size: 9px;
+      }
+
+      /* Compact mobile action buttons */
+      .actions {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+        margin-top: 7px;
+      }
+
+      .action {
+        min-height: 34px;
+        height: 34px;
+        border-radius: 5px;
+        padding: 0 3px;
+        font-size: 10px;
+        white-space: nowrap;
+      }
+
+      /* The status actions remain easy to tap */
+      .actions + .actions .action {
+        min-height: 32px;
+        height: 32px;
+        font-size: 10px;
+      }
+
+      .state {
+        padding: 55px 18px;
+      }
+
+      .state-icon {
+        font-size: 35px;
+      }
+
+      .state-title {
+        font-size: 15px;
+      }
+
+      .state-text {
+        font-size: 12px;
+      }
+
+      .toast {
+        bottom: calc(18px + env(safe-area-inset-bottom));
+        font-size: 12px;
       }
     }
 
-    @media (max-width: 390px) {
-      .patient-avatar {
+    /* Very small phones */
+    @media (max-width: 380px) {
+
+      .topbar {
+        height: 58px;
+        flex-basis: 58px;
+      }
+
+      .doctor-avatar {
         width: 38px;
         height: 38px;
         flex-basis: 38px;
       }
 
+      .topbar-name {
+        font-size: 14px;
+      }
+
+      .topbar-status {
+        font-size: 10px;
+      }
+
+      .summary {
+        padding: 6px 6px 5px;
+      }
+
+      .stat-number {
+        font-size: 16px;
+      }
+
+      .stat-label {
+        font-size: 8px;
+      }
+
+      .controls {
+        padding: 6px;
+      }
+
+      .filter {
+        flex-basis: 82px;
+        min-width: 82px;
+        width: 82px;
+      }
+
+      .chat-area {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .bubble {
+        width: calc(100% - 4px);
+      }
+
+      .patient-avatar {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+      }
+
       .patient-name {
-        font-size: 15px;
+        font-size: 13px;
       }
 
       .patient-id {
@@ -652,9 +945,10 @@
       }
 
       .action {
-        font-size: 10px;
+        font-size: 9px;
       }
     }
+
   </style>
 </head>
 
