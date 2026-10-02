@@ -949,6 +949,311 @@
       }
     }
 
+
+    /* =========================================================
+       APPOINTMENT DETAILS POPUP
+       ========================================================= */
+    .appointment-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0,0,0,.45);
+    }
+
+    .appointment-modal.show {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: min(560px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -5px 30px rgba(0,0,0,.22);
+      animation: sheetUp .18s ease-out;
+    }
+
+    @keyframes sheetUp {
+      from { transform: translateY(30px); opacity: .7; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 14px;
+      background: #075e54;
+      color: #fff;
+    }
+
+    .modal-close {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      font-size: 25px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,255,255,.12);
+    }
+
+    .modal-avatar {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      border-radius: 50%;
+      background: #128c7e;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .modal-title {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .modal-patient-name {
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .modal-patient-status {
+      margin-top: 2px;
+      font-size: 11px;
+      opacity: .85;
+    }
+
+    .modal-body {
+      padding: 14px;
+    }
+
+    .detail-appointment {
+      background: #f0f2f5;
+      border-radius: 9px;
+      padding: 11px 12px;
+      margin-bottom: 12px;
+    }
+
+    .detail-date {
+      font-size: 15px;
+      font-weight: 700;
+      color: #075e54;
+    }
+
+    .detail-mode {
+      margin-top: 3px;
+      color: #667781;
+      font-size: 12px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #e5e8ea;
+      border-radius: 9px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .detail-item {
+      padding: 9px 10px;
+      border-bottom: 1px solid #e5e8ea;
+    }
+
+    .detail-item:nth-child(odd) {
+      border-right: 1px solid #e5e8ea;
+    }
+
+    .detail-item:nth-last-child(-n+2) {
+      border-bottom: 0;
+    }
+
+    .detail-label {
+      color: #667781;
+      font-size: 10px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: .25px;
+    }
+
+    .detail-value {
+      color: #111b21;
+      font-size: 13px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .detail-section {
+      margin: 0 0 12px;
+      padding: 10px 11px;
+      background: #fafafa;
+      border: 1px solid #edf0f1;
+      border-radius: 8px;
+    }
+
+    .detail-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #54656f;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .detail-section-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #111b21;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .modal-action {
+      min-height: 40px;
+      border: 1px solid #d9dfe2;
+      border-radius: 7px;
+      background: #fff;
+      color: #344047;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+
+    .modal-action.whatsapp {
+      color: #128c7e;
+      border-color: #b7dfd8;
+    }
+
+    .modal-action.video {
+      color: #087f8c;
+      border-color: #b7dfe2;
+    }
+
+    .modal-action.rx {
+      color: #546e7a;
+    }
+
+    .modal-action.confirm {
+      color: #1b5e20;
+      border-color: #b7dcb8;
+      background: #f4fff2;
+    }
+
+    .modal-action.cancel {
+      color: #b42318;
+      border-color: #efc0bc;
+      background: #fff8f7;
+    }
+
+    .modal-action.complete {
+      color: #1565c0;
+      border-color: #bbd7ee;
+      background: #f5faff;
+    }
+
+    .modal-action:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .modal-footer {
+      padding: 0 14px calc(14px + env(safe-area-inset-bottom));
+    }
+
+    .modal-close-bottom {
+      width: 100%;
+      min-height: 40px;
+      border: 0;
+      border-radius: 8px;
+      background: #f0f2f5;
+      color: #54656f;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      .appointment-modal {
+        align-items: flex-end;
+      }
+
+      .modal-sheet {
+        width: 100%;
+        max-height: 91dvh;
+        border-radius: 15px 15px 0 0;
+      }
+
+      .modal-head {
+        padding: 10px 10px;
+      }
+
+      .modal-body {
+        padding: 11px;
+      }
+
+      .modal-avatar {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+      }
+
+      .modal-patient-name {
+        font-size: 15px;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .modal-actions {
+        gap: 5px;
+      }
+
+      .modal-action {
+        min-height: 39px;
+        font-size: 11px;
+      }
+
+      .modal-footer {
+        padding-left: 11px;
+        padding-right: 11px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .modal-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
   </style>
 </head>
 
@@ -1037,6 +1342,33 @@
     </div>
   </main>
 
+</div>
+
+
+<!-- APPOINTMENT DETAILS POPUP -->
+<div class="appointment-modal" id="appointmentModal" onclick="closeModalOnBackdrop(event)">
+  <section class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modalPatientName">
+
+    <header class="modal-head">
+      <button class="modal-close" type="button" onclick="closeAppointmentModal()" aria-label="Close">‹</button>
+
+      <div class="modal-avatar" id="modalAvatar">P</div>
+
+      <div class="modal-title">
+        <div class="modal-patient-name" id="modalPatientName">Patient</div>
+        <div class="modal-patient-status" id="modalPatientStatus">Appointment details</div>
+      </div>
+    </header>
+
+    <div class="modal-body" id="modalBody"></div>
+
+    <div class="modal-footer">
+      <button class="modal-close-bottom" type="button" onclick="closeAppointmentModal()">
+        Close
+      </button>
+    </div>
+
+  </section>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1256,62 +1588,37 @@
   function renderAppointment(a) {
     const initials = getInitials(a.patientName);
     const statusClass = getStatusClass(a.status);
-
     const phone = cleanPhone(a.phone);
 
-    const whatsappText =
-      `Hello ${a.patientName}, this is Dr Bishnu Prasad Sahoo regarding your appointment on ${formatDate(a.appointmentDate)} at ${formatTimeValue(a.appointmentTime)}.`;
-
-    const whatsappUrl =
-      phone
-        ? `https://wa.me/${phone}?text=${encodeURIComponent(whatsappText)}`
-        : "#";
-
-    /*
-      WhatsApp does not provide a reliable public HTTPS URL that
-      directly starts a video call. The Video button opens the
-      patient's WhatsApp chat, from which the doctor can start a
-      video call.
-    */
-    const videoUrl =
-      phone
-        ? `https://wa.me/${phone}`
-        : "#";
-
-    const rxUrl =
-      `../rx.html?patient=${encodeURIComponent(a.patientName)}`
-      + `&age=${encodeURIComponent(a.age)}`
-      + `&gender=${encodeURIComponent(a.gender)}`
-      + `&phone=${encodeURIComponent(a.phone)}`
-      + `&appointmentId=${encodeURIComponent(a.appointmentId)}`;
-
-    const canConfirm = a.status === "Pending";
-    const canCancel = !["Cancelled", "Completed"].includes(a.status);
-
     return `
-      <article class="message incoming">
+      <article
+        class="message incoming"
+        onclick="openAppointmentModal('${escapeJS(a.appointmentId)}')"
+        style="cursor:pointer;"
+        role="button"
+        tabindex="0"
+        onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); openAppointmentModal('${escapeJS(a.appointmentId)}'); }"
+        aria-label="Open appointment for ${escapeHTML(a.patientName || "Patient")}"
+      >
         <div class="bubble">
 
           <div class="patient-row">
-
             <div class="patient-avatar">${escapeHTML(initials)}</div>
 
             <div class="patient-main">
-
               <div class="patient-name-line">
                 <div class="patient-name">
                   ${escapeHTML(a.patientName || "Unnamed Patient")}
-                </div>
-
-                <div class="patient-id">
-                  ${escapeHTML(a.appointmentId)}
                 </div>
               </div>
 
               <div class="patient-meta">
                 ${escapeHTML(patientMeta(a))}
               </div>
+            </div>
 
+            <div class="time">
+              ${escapeHTML(formatTime(a.createdAt))}
             </div>
           </div>
 
@@ -1323,103 +1630,306 @@
             ${escapeHTML(a.consultationMode || "Consultation")}
           </div>
 
-          ${a.reason ? `
-            <div class="reason">
-              <strong>Reason:</strong> ${escapeHTML(a.reason)}
-            </div>
-          ` : ""}
-
-          ${a.additionalNotes ? `
-            <div class="notes">
-              <strong>Notes:</strong> ${escapeHTML(a.additionalNotes)}
-            </div>
-          ` : ""}
-
           <div class="status-row">
             <span class="status-badge ${statusClass}">
               ${escapeHTML(a.status)}
             </span>
 
-            <span class="time">
-              ${escapeHTML(formatTime(a.createdAt))}
-            </span>
+            <span class="time">Tap for details</span>
           </div>
-
-          <div class="actions">
-
-            <a
-              class="action whatsapp"
-              href="${whatsappUrl}"
-              target="_blank"
-              rel="noopener"
-              ${phone ? "" : 'aria-disabled="true"'}
-              title="WhatsApp message"
-            >
-              <span>◉</span> Message
-            </a>
-
-            <a
-              class="action video"
-              href="${videoUrl}"
-              target="_blank"
-              rel="noopener"
-              ${phone ? "" : 'aria-disabled="true"'}
-              title="Open WhatsApp chat and start video call"
-            >
-              <span>▣</span> Video
-            </a>
-
-            <a
-              class="action rx"
-              href="${rxUrl}"
-              target="_blank"
-              rel="noopener"
-              title="Open digital prescription"
-            >
-              <span>Rx</span> Prescription
-            </a>
-
-          </div>
-
-          ${(canConfirm || canCancel) ? `
-            <div class="actions">
-
-              ${canConfirm ? `
-                <button
-                  class="action confirm"
-                  onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Confirmed', this)"
-                >
-                  ✓ Confirm
-                </button>
-              ` : `
-                <div></div>
-              `}
-
-              ${canCancel ? `
-                <button
-                  class="action cancel"
-                  onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Cancelled', this)"
-                >
-                  × Cancel
-                </button>
-              ` : `
-                <div></div>
-              `}
-
-              <button
-                class="action"
-                onclick="changeStatus('${escapeJS(a.appointmentId)}', 'Completed', this)"
-              >
-                ✓ Completed
-              </button>
-
-            </div>
-          ` : ""}
 
         </div>
       </article>
     `;
   }
+
+
+  /*
+    ---------------------------------------------------------
+    APPOINTMENT DETAILS POPUP
+    ---------------------------------------------------------
+  */
+
+  function openAppointmentModal(appointmentId) {
+    const appointment = appointments.find(
+      a => String(a.appointmentId) === String(appointmentId)
+    );
+
+    if (!appointment) return;
+
+    const modal = document.getElementById("appointmentModal");
+
+    document.getElementById("modalAvatar").textContent =
+      getInitials(appointment.patientName);
+
+    document.getElementById("modalPatientName").textContent =
+      appointment.patientName || "Unnamed Patient";
+
+    document.getElementById("modalPatientStatus").textContent =
+      `${appointment.status || "Pending"} · ${formatDate(appointment.appointmentDate)} · ${formatTimeValue(appointment.appointmentTime)}`;
+
+    document.getElementById("modalBody").innerHTML =
+      buildAppointmentDetails(appointment);
+
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+
+  function closeAppointmentModal() {
+    const modal = document.getElementById("appointmentModal");
+
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+
+  function closeModalOnBackdrop(event) {
+    if (event.target.id === "appointmentModal") {
+      closeAppointmentModal();
+    }
+  }
+
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeAppointmentModal();
+    }
+  });
+
+
+  function buildAppointmentDetails(a) {
+    const phone = cleanPhone(a.phone);
+
+    const whatsappText =
+      `Hello ${a.patientName}, this is Dr Bishnu Prasad Sahoo regarding your appointment on ${formatDate(a.appointmentDate)} at ${formatTimeValue(a.appointmentTime)}.`;
+
+    const whatsappUrl = phone
+      ? `https://wa.me/${phone}?text=${encodeURIComponent(whatsappText)}`
+      : "#";
+
+    const videoUrl = phone
+      ? `https://wa.me/${phone}`
+      : "#";
+
+    const rxUrl =
+      `../rx.html?patient=${encodeURIComponent(a.patientName)}`
+      + `&age=${encodeURIComponent(a.age)}`
+      + `&gender=${encodeURIComponent(a.gender)}`
+      + `&phone=${encodeURIComponent(a.phone)}`
+      + `&appointmentId=${encodeURIComponent(a.appointmentId)}`;
+
+    const canConfirm = a.status === "Pending";
+    const canCancel = !["Cancelled", "Completed"].includes(a.status);
+    const canComplete = !["Cancelled", "Completed"].includes(a.status);
+
+    return `
+      <div class="detail-appointment">
+        <div class="detail-date">
+          ${escapeHTML(formatDate(a.appointmentDate))}
+          ·
+          ${escapeHTML(formatTimeValue(a.appointmentTime))}
+        </div>
+
+        <div class="detail-mode">
+          ${escapeHTML(a.consultationMode || "Consultation")}
+          · ${escapeHTML(a.department || "Psychiatry")}
+        </div>
+      </div>
+
+      <div class="detail-grid">
+
+        ${detailItem("Patient", a.patientName)}
+        ${detailItem("Appointment ID", a.appointmentId)}
+        ${detailItem("Age", a.age ? `${a.age} years` : "")}
+        ${detailItem("Gender", a.gender)}
+        ${detailItem("Phone", a.phone)}
+        ${detailItem("Email", a.email)}
+        ${detailItem("Doctor", a.doctor)}
+        ${detailItem("Status", a.status)}
+        ${detailItem("Created", formatDateTime(a.createdAt))}
+        ${detailItem("Last Updated", formatDateTime(a.lastUpdated))}
+
+      </div>
+
+      ${a.reason ? `
+        <div class="detail-section">
+          <div class="detail-section-title">Reason for appointment</div>
+          <div class="detail-section-text">${escapeHTML(a.reason)}</div>
+        </div>
+      ` : ""}
+
+      ${a.additionalNotes ? `
+        <div class="detail-section">
+          <div class="detail-section-title">Additional notes</div>
+          <div class="detail-section-text">${escapeHTML(a.additionalNotes)}</div>
+        </div>
+      ` : ""}
+
+      <div class="modal-actions">
+
+        <a
+          class="modal-action whatsapp"
+          href="${whatsappUrl}"
+          target="_blank"
+          rel="noopener"
+          ${phone ? "" : 'aria-disabled="true"'}
+        >
+          WhatsApp
+        </a>
+
+        <a
+          class="modal-action video"
+          href="${videoUrl}"
+          target="_blank"
+          rel="noopener"
+          ${phone ? "" : 'aria-disabled="true"'}
+        >
+          Video
+        </a>
+
+        <a
+          class="modal-action rx"
+          href="${rxUrl}"
+          target="_blank"
+          rel="noopener"
+        >
+          Prescription
+        </a>
+
+      </div>
+
+      <div class="modal-actions">
+
+        ${canConfirm ? `
+          <button
+            class="modal-action confirm"
+            onclick="changeStatusFromModal('${escapeJS(a.appointmentId)}', 'Confirmed', this)"
+          >
+            ✓ Confirm
+          </button>
+        ` : `
+          <div></div>
+        `}
+
+        ${canCancel ? `
+          <button
+            class="modal-action cancel"
+            onclick="changeStatusFromModal('${escapeJS(a.appointmentId)}', 'Cancelled', this)"
+          >
+            × Cancel
+          </button>
+        ` : `
+          <div></div>
+        `}
+
+        ${canComplete ? `
+          <button
+            class="modal-action complete"
+            onclick="changeStatusFromModal('${escapeJS(a.appointmentId)}', 'Completed', this)"
+          >
+            ✓ Complete
+          </button>
+        ` : `
+          <div></div>
+        `}
+
+      </div>
+    `;
+  }
+
+
+  function detailItem(label, value) {
+    return `
+      <div class="detail-item">
+        <div class="detail-label">${escapeHTML(label)}</div>
+        <div class="detail-value">${escapeHTML(value || "—")}</div>
+      </div>
+    `;
+  }
+
+
+  function formatDateTime(value) {
+    if (!value) return "—";
+
+    const d = new Date(value);
+
+    if (isNaN(d.getTime())) {
+      return String(value);
+    }
+
+    return d.toLocaleString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
+  }
+
+
+  async function changeStatusFromModal(appointmentId, status, button) {
+    const appointment = appointments.find(
+      a => String(a.appointmentId) === String(appointmentId)
+    );
+
+    if (!appointment) return;
+
+    if (status === "Cancelled") {
+      const ok = confirm(
+        `Cancel appointment for ${appointment.patientName}?`
+      );
+
+      if (!ok) return;
+    }
+
+    const originalText = button.innerHTML;
+
+    button.disabled = true;
+    button.innerHTML = "Updating…";
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "updateAppointment",
+          appointmentId: appointmentId,
+          status: status
+        })
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "Unable to update appointment");
+      }
+
+      appointment.status = status;
+      appointment.lastUpdated = new Date().toISOString();
+
+      updateStats();
+      renderAppointments();
+
+      // Refresh the open popup with the updated status.
+      openAppointmentModal(appointmentId);
+
+      showToastMessage(`Appointment ${status.toLowerCase()}`);
+
+    } catch (error) {
+      console.error(error);
+
+      button.disabled = false;
+      button.innerHTML = originalText;
+
+      showToastMessage(
+        error.message || "Could not update appointment"
+      );
+    }
+  }
+
 
 
   /*
