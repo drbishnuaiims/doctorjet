@@ -1,0 +1,2243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet Intelligent Rx</title>
+
+<style>
+:root{
+  --bg:#f4f6f8;
+  --panel:#ffffff;
+  --panel2:#f8fafc;
+  --border:#e2e8f0;
+  --text:#172033;
+  --muted:#64748b;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --green:#059669;
+  --red:#dc2626;
+  --orange:#ea580c;
+  --purple:#7c3aed;
+  --shadow:0 8px 30px rgba(15,23,42,.07);
+  --radius:16px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+  height:64px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  z-index:10;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:800;
+}
+
+.logo{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+}
+
+.brand small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:600;
+  letter-spacing:.6px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.icon-btn:hover{
+  background:#f8fafc;
+}
+
+.primary-btn{
+  background:var(--primary);
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:10px 16px;
+  font-weight:700;
+}
+
+.primary-btn:hover{
+  background:var(--primary2);
+}
+
+/* ================= WORKSPACE ================= */
+
+.workspace{
+  flex:1;
+  display:grid;
+  grid-template-columns:260px 390px minmax(520px,1fr);
+  min-height:0;
+}
+
+/* ================= LEFT ================= */
+
+.sidebar{
+  background:#fff;
+  border-right:1px solid var(--border);
+  overflow:auto;
+  padding:15px 12px;
+}
+
+.section-title{
+  font-size:11px;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:800;
+  letter-spacing:.8px;
+  margin:8px 7px 10px;
+}
+
+.search-box{
+  position:relative;
+  margin-bottom:12px;
+}
+
+.search-box input{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:11px 12px 11px 36px;
+  outline:none;
+  background:#f8fafc;
+}
+
+.search-box input:focus{
+  border-color:#93c5fd;
+  background:#fff;
+}
+
+.search-icon{
+  position:absolute;
+  left:12px;
+  top:11px;
+  color:var(--muted);
+}
+
+.category-row{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding-bottom:8px;
+}
+
+.category{
+  flex:0 0 auto;
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:20px;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.category.active{
+  background:#eff6ff;
+  border-color:#93c5fd;
+  color:#1d4ed8;
+}
+
+.drug-list{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.drug-item{
+  padding:10px 10px;
+  border-radius:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.drug-item:hover{
+  background:#f1f5f9;
+}
+
+.drug-item.active{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.drug-name{
+  font-weight:700;
+  font-size:13px;
+}
+
+.drug-strength{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.arrow{
+  color:#94a3b8;
+}
+
+/* ================= BRAND PANEL ================= */
+
+.brand-panel{
+  background:#f8fafc;
+  border-right:1px solid var(--border);
+  overflow:auto;
+  padding:16px;
+}
+
+.brand-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.brand-header h2{
+  margin:0;
+  font-size:18px;
+}
+
+.brand-header p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.brand-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:13px;
+  margin-bottom:9px;
+  box-shadow:0 3px 12px rgba(15,23,42,.03);
+}
+
+.brand-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.brand-name{
+  font-size:14px;
+  font-weight:800;
+}
+
+.brand-meta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+  line-height:1.5;
+}
+
+.price-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-top:11px;
+}
+
+.price{
+  font-weight:900;
+  font-size:16px;
+}
+
+.mrp{
+  color:#94a3b8;
+  text-decoration:line-through;
+  font-size:11px;
+}
+
+.pharmacy{
+  font-size:10px;
+  font-weight:800;
+  color:var(--green);
+  background:#ecfdf5;
+  padding:4px 7px;
+  border-radius:6px;
+}
+
+.brand-actions{
+  display:flex;
+  gap:6px;
+  margin-top:11px;
+}
+
+.small-btn{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:8px;
+  padding:7px 9px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.small-btn.primary{
+  background:#eff6ff;
+  border-color:#bfdbfe;
+  color:#1d4ed8;
+}
+
+/* ================= RX ================= */
+
+.rx-area{
+  background:#e9edf2;
+  overflow:auto;
+  padding:20px;
+}
+
+.rx-paper{
+  width:min(850px,100%);
+  margin:0 auto;
+  background:#fff;
+  min-height:1050px;
+  box-shadow:var(--shadow);
+  border-radius:6px;
+  padding:34px;
+}
+
+.clinic-header{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:2px solid #172033;
+  padding-bottom:16px;
+  gap:20px;
+}
+
+.clinic-name{
+  font-size:23px;
+  font-weight:900;
+}
+
+.clinic-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.doctor-block{
+  text-align:right;
+}
+
+.doctor-name{
+  font-weight:900;
+  font-size:15px;
+}
+
+.doctor-qual{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.patient-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:8px;
+  margin:18px 0;
+}
+
+.field{
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:7px 9px;
+  min-height:50px;
+}
+
+.field label{
+  display:block;
+  font-size:9px;
+  color:#64748b;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  font-weight:800;
+  margin-bottom:3px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  border:0;
+  outline:0;
+  font-size:12px;
+  background:transparent;
+  color:var(--text);
+}
+
+.rx-symbol{
+  font-family:Georgia,serif;
+  font-size:26px;
+  font-weight:900;
+  margin:15px 0;
+}
+
+/* ================= MEDICATION CARDS ================= */
+
+.rx-med{
+  border:1px solid #dbe1e8;
+  border-radius:12px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+
+.rx-med-head{
+  background:#f8fafc;
+  padding:11px 13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.med-number{
+  width:25px;
+  height:25px;
+  border-radius:7px;
+  background:#172033;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:900;
+}
+
+.med-title{
+  flex:1;
+}
+
+.med-title strong{
+  font-size:13px;
+}
+
+.med-title small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.med-actions{
+  display:flex;
+  gap:5px;
+}
+
+.delete-btn{
+  border:none;
+  background:#fee2e2;
+  color:#b91c1c;
+  width:28px;
+  height:28px;
+  border-radius:7px;
+}
+
+.rx-med-body{
+  padding:13px;
+}
+
+.dose-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr 1.2fr;
+  gap:8px;
+}
+
+.dose-box{
+  border:1px solid #e2e8f0;
+  border-radius:9px;
+  padding:8px;
+  background:white;
+}
+
+.dose-box label{
+  display:block;
+  font-size:9px;
+  text-transform:uppercase;
+  color:#64748b;
+  font-weight:800;
+  margin-bottom:4px;
+}
+
+.dose-box input,
+.dose-box select{
+  width:100%;
+  border:0;
+  outline:0;
+  font-weight:800;
+  font-size:13px;
+}
+
+.instruction{
+  margin-top:8px;
+}
+
+.instruction input{
+  width:100%;
+  border:1px solid #e2e8f0;
+  border-radius:8px;
+  padding:9px;
+  font-size:11px;
+  outline:none;
+}
+
+.cost-line{
+  margin-top:8px;
+  display:flex;
+  justify-content:space-between;
+  color:#64748b;
+  font-size:10px;
+}
+
+.cost-line strong{
+  color:#172033;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+  text-align:center;
+  padding:70px 20px;
+  color:#94a3b8;
+}
+
+.empty-icon{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+/* ================= BOTTOM ================= */
+
+.rx-footer{
+  margin-top:35px;
+  padding-top:15px;
+  border-top:1px solid #e2e8f0;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  color:#64748b;
+}
+
+.signature{
+  text-align:right;
+}
+
+.print-only{
+  display:none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+  .workspace{
+    grid-template-columns:220px 320px minmax(450px,1fr);
+  }
+}
+
+@media(max-width:850px){
+  body{
+    overflow:auto;
+  }
+
+  .workspace{
+    display:flex;
+    flex-direction:column;
+    overflow:auto;
+  }
+
+  .sidebar,
+  .brand-panel,
+  .rx-area{
+    max-height:none;
+  }
+
+  .sidebar{
+    min-height:260px;
+  }
+
+  .brand-panel{
+    min-height:400px;
+  }
+
+  .rx-area{
+    min-height:900px;
+  }
+
+  .rx-paper{
+    padding:20px;
+  }
+}
+
+/* ================= PRINT ================= */
+
+@media print{
+
+  body{
+    background:white;
+    overflow:visible;
+  }
+
+  .topbar,
+  .sidebar,
+  .brand-panel{
+    display:none !important;
+  }
+
+  .workspace{
+    display:block;
+  }
+
+  .rx-area{
+    padding:0;
+    background:white;
+    overflow:visible;
+  }
+
+  .rx-paper{
+    box-shadow:none;
+    width:100%;
+    margin:0;
+    padding:20px;
+  }
+
+  input,
+  select{
+    border:none !important;
+  }
+
+  .delete-btn,
+  .med-actions{
+    display:none !important;
+  }
+
+  .print-only{
+    display:block;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ================= TOP BAR ================= -->
+
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="logo">Rx</div>
+      <div>
+        DoctorJet Intelligent Rx
+        <small>CLINICAL PRESCRIPTION WORKSTATION</small>
+      </div>
+    </div>
+
+    <div class="top-actions">
+
+      <button class="icon-btn" onclick="newPrescription()" title="New prescription">
+        ＋
+      </button>
+
+      <button class="icon-btn" onclick="toggleTheme()" title="Theme">
+        ◐
+      </button>
+
+      <button class="icon-btn" onclick="window.print()" title="Print">
+        🖨
+      </button>
+
+      <button class="primary-btn" onclick="savePrescription()">
+        Save Rx
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= WORKSPACE ================= -->
+
+  <main class="workspace">
+
+    <!-- ================= DRUG / SALT COLUMN ================= -->
+
+    <aside class="sidebar">
+
+      <div class="section-title">Medication Library</div>
+
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input
+          id="drugSearch"
+          placeholder="Search salt, drug or class..."
+          oninput="renderDrugList()"
+        >
+      </div>
+
+      <div class="category-row">
+
+        <button class="category active" onclick="setCategory('All',this)">
+          All
+        </button>
+
+        <button class="category" onclick="setCategory('Psychiatry',this)">
+          Psychiatry
+        </button>
+
+        <button class="category" onclick="setCategory('General',this)">
+          General OPD
+        </button>
+
+        <button class="category" onclick="setCategory('GI',this)">
+          GI
+        </button>
+
+        <button class="category" onclick="setCategory('Respiratory',this)">
+          Respiratory
+        </button>
+
+      </div>
+
+      <div class="section-title">Drugs / Salts</div>
+
+      <div id="drugList" class="drug-list"></div>
+
+    </aside>
+
+
+    <!-- ================= BRAND COLUMN ================= -->
+
+    <section class="brand-panel">
+
+      <div id="brandHeader" class="brand-header">
+
+        <div>
+          <h2>Select a medication</h2>
+          <p>Choose a salt to view available brands.</p>
+        </div>
+
+      </div>
+
+      <div id="brandList">
+
+        <div class="empty">
+          <div class="empty-icon">💊</div>
+          Select a drug from the left panel
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PRESCRIPTION ================= -->
+
+    <section class="rx-area">
+
+      <div class="rx-paper" id="rxPaper">
+
+        <!-- HEADER -->
+
+        <div class="clinic-header">
+
+          <div>
+            <div class="clinic-name">
+              THOMSON CLINIC
+            </div>
+
+            <div class="clinic-sub">
+              Mental Health & Neuroscience eClinic<br>
+              Bhubaneswar, Odisha · Tel: +91-XXXXXXXXXX<br>
+              www.thomsonclinic.com
+            </div>
+          </div>
+
+          <div class="doctor-block">
+
+            <div class="doctor-name">
+              Dr. Bishnu Prasad Sahoo
+            </div>
+
+            <div class="doctor-qual">
+              MBBS, MD Psychiatry<br>
+              Consultant Psychiatrist
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PATIENT -->
+
+        <div class="patient-grid">
+
+          <div class="field">
+
+            <label>Patient Name</label>
+
+            <input
+              id="patientName"
+              placeholder="Enter patient name"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Age</label>
+
+            <input
+              id="patientAge"
+              placeholder="Age"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Sex</label>
+
+            <select id="patientSex">
+
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Weight</label>
+
+            <input
+              id="patientWeight"
+              placeholder="kg"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Mobile</label>
+
+            <input
+              id="patientMobile"
+              placeholder="+91"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Date</label>
+
+            <input
+              id="rxDate"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Rx ID</label>
+
+            <input
+              id="rxId"
+              readonly
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Follow-up</label>
+
+            <input
+              id="followup"
+              placeholder="e.g. 2 weeks"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="rx-symbol">
+          ℞
+        </div>
+
+
+        <!-- MEDICATIONS -->
+
+        <div id="prescriptionList">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              ℞
+            </div>
+
+            No medicines added yet.<br>
+            Select a medication from the left panel.
+
+          </div>
+
+        </div>
+
+
+        <!-- GENERAL INSTRUCTIONS -->
+
+        <div class="field" style="margin-top:20px;">
+
+          <label>General Advice / Investigations</label>
+
+          <textarea
+            id="generalAdvice"
+            rows="4"
+            style="
+              width:100%;
+              border:0;
+              outline:0;
+              resize:vertical;
+              font-size:12px;
+            "
+            placeholder="Dietary advice, investigations, counselling, precautions, lifestyle advice..."
+          ></textarea>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="rx-footer">
+
+          <div>
+            Prescription generated electronically.<br>
+            Patient should follow the prescribed instructions.
+          </div>
+
+          <div class="signature">
+
+            <strong>
+              Dr. Bishnu Prasad Sahoo
+            </strong>
+
+            <br>
+
+            MBBS, MD Psychiatry
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DOCTORJET INTELLIGENT RX
+   CORE DATA MODEL
+========================================================= */
+
+const medicineDatabase = [
+
+  /* ================= PSYCHIATRY ================= */
+
+  {
+    id:"sertraline",
+    salt:"Sertraline",
+    strength:"50 mg",
+    category:"Psychiatry",
+    class:"SSRI",
+    brands:[
+      {
+        name:"Sertima 50",
+        pack:"10 tablets",
+        pharmacy:"Apollo Pharmacy",
+        price:52,
+        mrp:68,
+        url:"https://www.apollopharmacy.in/"
+      },
+      {
+        name:"Serlift 50",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:65,
+        mrp:75
+      }
+    ]
+  },
+
+  {
+    id:"escitalopram",
+    salt:"Escitalopram",
+    strength:"10 mg",
+    category:"Psychiatry",
+    class:"SSRI",
+    brands:[
+      {
+        name:"Nexito 10",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:95,
+        mrp:110
+      },
+      {
+        name:"Escitalop 10",
+        pack:"10 tablets",
+        pharmacy:"Apollo Pharmacy",
+        price:48,
+        mrp:65,
+        url:"https://www.apollopharmacy.in/"
+      }
+    ]
+  },
+
+  {
+    id:"fluoxetine",
+    salt:"Fluoxetine",
+    strength:"20 mg",
+    category:"Psychiatry",
+    class:"SSRI",
+    brands:[
+      {
+        name:"Fludac 20",
+        pack:"10 capsules",
+        pharmacy:"Reference",
+        price:42,
+        mrp:50
+      }
+    ]
+  },
+
+  {
+    id:"risperidone",
+    salt:"Risperidone",
+    strength:"2 mg",
+    category:"Psychiatry",
+    class:"Antipsychotic",
+    brands:[
+      {
+        name:"Risperdal 2",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:120,
+        mrp:140
+      },
+      {
+        name:"Risdone 2",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:45,
+        mrp:55
+      }
+    ]
+  },
+
+  {
+    id:"olanzapine",
+    salt:"Olanzapine",
+    strength:"5 mg",
+    category:"Psychiatry",
+    class:"Antipsychotic",
+    brands:[
+      {
+        name:"Oleanz 5",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:80,
+        mrp:95
+      }
+    ]
+  },
+
+  {
+    id:"quetiapine",
+    salt:"Quetiapine",
+    strength:"100 mg",
+    category:"Psychiatry",
+    class:"Antipsychotic",
+    brands:[
+      {
+        name:"Qutan 100",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:75,
+        mrp:90
+      }
+    ]
+  },
+
+  {
+    id:"clonazepam",
+    salt:"Clonazepam",
+    strength:"0.5 mg",
+    category:"Psychiatry",
+    class:"Benzodiazepine",
+    brands:[
+      {
+        name:"Clonotril 0.5",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:55,
+        mrp:65
+      }
+    ]
+  },
+
+
+  /* ================= GENERAL OPD ================= */
+
+  {
+    id:"paracetamol",
+    salt:"Paracetamol",
+    strength:"650 mg",
+    category:"General",
+    class:"Analgesic / Antipyretic",
+    brands:[
+      {
+        name:"Calpol 650",
+        pack:"15 tablets",
+        pharmacy:"Reference",
+        price:25,
+        mrp:32
+      },
+      {
+        name:"Apollo Trusted Malidens 650",
+        pack:"10 tablets",
+        pharmacy:"Apollo Pharmacy",
+        price:13.70,
+        mrp:21,
+        url:"https://www.apollopharmacy.in/"
+      }
+    ]
+  },
+
+  {
+    id:"ibuprofen",
+    salt:"Ibuprofen",
+    strength:"400 mg",
+    category:"General",
+    class:"NSAID",
+    brands:[
+      {
+        name:"Brufen 400",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:25,
+        mrp:30
+      }
+    ]
+  },
+
+  {
+    id:"amoxicillin-clav",
+    salt:"Amoxicillin + Clavulanic Acid",
+    strength:"625 mg",
+    category:"General",
+    class:"Antibiotic",
+    brands:[
+      {
+        name:"Augmentin 625",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:200,
+        mrp:225
+      },
+      {
+        name:"Amoxyclav 625",
+        pack:"10 tablets",
+        pharmacy:"Apollo Pharmacy",
+        price:145.40,
+        mrp:196.50,
+        url:"https://www.apollopharmacy.in/"
+      }
+    ]
+  },
+
+
+  /* ================= GI ================= */
+
+  {
+    id:"pantoprazole",
+    salt:"Pantoprazole",
+    strength:"40 mg",
+    category:"GI",
+    class:"PPI",
+    brands:[
+      {
+        name:"Pantocid 40",
+        pack:"15 tablets",
+        pharmacy:"Reference",
+        price:100,
+        mrp:120
+      },
+      {
+        name:"Nicopenta 40",
+        pack:"10 tablets",
+        pharmacy:"Apollo Pharmacy",
+        price:84.50,
+        mrp:156.50,
+        url:"https://www.apollopharmacy.in/"
+      }
+    ]
+  },
+
+  {
+    id:"ondansetron",
+    salt:"Ondansetron",
+    strength:"4 mg",
+    category:"GI",
+    class:"Antiemetic",
+    brands:[
+      {
+        name:"Ondem 4",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:45,
+        mrp:55
+      }
+    ]
+  },
+
+
+  /* ================= RESPIRATORY ================= */
+
+  {
+    id:"cetirizine",
+    salt:"Cetirizine",
+    strength:"10 mg",
+    category:"Respiratory",
+    class:"Antihistamine",
+    brands:[
+      {
+        name:"Cetcip 10",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:20,
+        mrp:25
+      }
+    ]
+  },
+
+  {
+    id:"ambroxol",
+    salt:"Ambroxol",
+    strength:"30 mg",
+    category:"Respiratory",
+    class:"Mucolytic",
+    brands:[
+      {
+        name:"Mucolite 30",
+        pack:"10 tablets",
+        pharmacy:"Reference",
+        price:40,
+        mrp:50
+      }
+    ]
+  }
+
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentCategory = "All";
+let selectedDrug = null;
+let prescription = [];
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("rxDate").value =
+    new Date().toISOString().split("T")[0];
+
+  document.getElementById("rxId").value =
+    generateRxId();
+
+  renderDrugList();
+
+});
+
+
+/* =========================================================
+   RX ID
+========================================================= */
+
+function generateRxId(){
+
+  const d = new Date();
+
+  const date =
+    d.getFullYear().toString().slice(-2) +
+    String(d.getMonth()+1).padStart(2,"0") +
+    String(d.getDate()).padStart(2,"0");
+
+  const random =
+    Math.floor(Math.random()*9000)+1000;
+
+  return "RX-" + date + "-" + random;
+
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+function setCategory(category, button){
+
+  currentCategory = category;
+
+  document.querySelectorAll(".category")
+    .forEach(x => x.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderDrugList();
+
+}
+
+
+/* =========================================================
+   DRUG LIST
+========================================================= */
+
+function renderDrugList(){
+
+  const query =
+    document.getElementById("drugSearch").value
+      .toLowerCase()
+      .trim();
+
+  const container =
+    document.getElementById("drugList");
+
+  const filtered =
+    medicineDatabase.filter(drug => {
+
+      const categoryMatch =
+        currentCategory === "All" ||
+        drug.category === currentCategory;
+
+      const queryMatch =
+        !query ||
+        drug.salt.toLowerCase().includes(query) ||
+        drug.strength.toLowerCase().includes(query) ||
+        drug.class.toLowerCase().includes(query);
+
+      return categoryMatch && queryMatch;
+
+    });
+
+  container.innerHTML = "";
+
+  filtered.forEach(drug => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "drug-item " +
+      (selectedDrug?.id === drug.id ? "active" : "");
+
+    div.onclick =
+      () => showBrands(drug.id);
+
+    div.innerHTML = `
+
+      <div>
+
+        <div class="drug-name">
+          ${drug.salt}
+        </div>
+
+        <div class="drug-strength">
+          ${drug.strength} · ${drug.class}
+        </div>
+
+      </div>
+
+      <div class="arrow">
+        ›
+      </div>
+
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================================================
+   BRAND PANEL
+========================================================= */
+
+function showBrands(id){
+
+  selectedDrug =
+    medicineDatabase.find(x => x.id === id);
+
+  renderDrugList();
+
+  document.getElementById("brandHeader").innerHTML = `
+
+    <div>
+
+      <h2>${selectedDrug.salt}</h2>
+
+      <p>
+        ${selectedDrug.strength}
+        · ${selectedDrug.class}
+        · ${selectedDrug.category}
+      </p>
+
+    </div>
+
+    <button
+      class="small-btn"
+      onclick="addGeneric()"
+    >
+      + Add Generic
+    </button>
+
+  `;
+
+  const container =
+    document.getElementById("brandList");
+
+  container.innerHTML = "";
+
+  selectedDrug.brands.forEach((brand,index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "brand-card";
+
+    card.innerHTML = `
+
+      <div class="brand-top">
+
+        <div>
+
+          <div class="brand-name">
+            ${brand.name}
+          </div>
+
+          <div class="brand-meta">
+
+            ${selectedDrug.salt}
+            ${selectedDrug.strength}<br>
+
+            ${brand.pack}
+
+          </div>
+
+        </div>
+
+        <div class="pharmacy">
+          ${brand.pharmacy}
+        </div>
+
+      </div>
+
+
+      <div class="price-row">
+
+        <div>
+
+          <span class="price">
+            ₹${brand.price}
+          </span>
+
+          <span class="mrp">
+            ₹${brand.mrp}
+          </span>
+
+        </div>
+
+        <div class="brand-meta">
+          Approx. pack price
+        </div>
+
+      </div>
+
+
+      <div class="brand-actions">
+
+        <button
+          class="small-btn primary"
+          onclick='addMedicine(${JSON.stringify({
+            drugId:selectedDrug.id,
+            brandIndex:index
+          })})'
+        >
+          + Add to Rx
+        </button>
+
+        ${
+          brand.url
+          ?
+          `
+          <button
+            class="small-btn"
+            onclick="window.open('${brand.url}','_blank')"
+          >
+            View pharmacy
+          </button>
+          `
+          :
+          ""
+        }
+
+      </div>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   ADD GENERIC
+========================================================= */
+
+function addGeneric(){
+
+  if(!selectedDrug) return;
+
+  prescription.push({
+
+    id:Date.now(),
+
+    drugId:selectedDrug.id,
+
+    salt:selectedDrug.salt,
+
+    strength:selectedDrug.strength,
+
+    brand:"Generic / Salt",
+
+    dose:"1",
+
+    morning:"0",
+
+    afternoon:"0",
+
+    evening:"0",
+
+    night:"0",
+
+    route:"Oral",
+
+    frequency:"Once daily",
+
+    duration:"5 days",
+
+    instruction:"After food",
+
+    price:0
+
+  });
+
+  renderPrescription();
+
+}
+
+
+/* =========================================================
+   ADD BRAND
+========================================================= */
+
+function addMedicine(data){
+
+  const drug =
+    medicineDatabase.find(
+      x => x.id === data.drugId
+    );
+
+  const brand =
+    drug.brands[data.brandIndex];
+
+  prescription.push({
+
+    id:Date.now(),
+
+    drugId:drug.id,
+
+    salt:drug.salt,
+
+    strength:drug.strength,
+
+    brand:brand.name,
+
+    dose:"1",
+
+    morning:"0",
+
+    afternoon:"0",
+
+    evening:"0",
+
+    night:"0",
+
+    route:"Oral",
+
+    frequency:"Once daily",
+
+    duration:"5 days",
+
+    instruction:"After food",
+
+    price:brand.price
+
+  });
+
+  renderPrescription();
+
+}
+
+
+/* =========================================================
+   RENDER PRESCRIPTION
+========================================================= */
+
+function renderPrescription(){
+
+  const container =
+    document.getElementById("prescriptionList");
+
+  if(prescription.length === 0){
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ℞
+        </div>
+
+        No medicines added yet.<br>
+
+        Select a medication from the left panel.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+  prescription.forEach((med,index) => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "rx-med";
+
+    item.innerHTML = `
+
+      <div class="rx-med-head">
+
+        <div class="med-number">
+          ${index+1}
+        </div>
+
+        <div class="med-title">
+
+          <strong>
+            ${med.brand}
+          </strong>
+
+          <small>
+            ${med.salt} ${med.strength}
+          </small>
+
+        </div>
+
+        <div class="med-actions">
+
+          <button
+            class="delete-btn"
+            onclick="removeMedicine(${med.id})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="rx-med-body">
+
+
+        <div class="dose-grid">
+
+
+          <div class="dose-box">
+
+            <label>Dose</label>
+
+            <input
+              value="${med.dose}"
+              onchange="updateMed(${med.id},'dose',this.value)"
+            >
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Morning</label>
+
+            <input
+              value="${med.morning}"
+              placeholder="0"
+              onchange="updateMed(${med.id},'morning',this.value)"
+            >
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Afternoon</label>
+
+            <input
+              value="${med.afternoon}"
+              placeholder="0"
+              onchange="updateMed(${med.id},'afternoon',this.value)"
+            >
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Evening</label>
+
+            <input
+              value="${med.evening}"
+              placeholder="0"
+              onchange="updateMed(${med.id},'evening',this.value)"
+            >
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Night</label>
+
+            <input
+              value="${med.night}"
+              placeholder="0"
+              onchange="updateMed(${med.id},'night',this.value)"
+            >
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Route</label>
+
+            <select
+              onchange="updateMed(${med.id},'route',this.value)"
+            >
+
+              ${option("Oral",med.route)}
+              ${option("Sublingual",med.route)}
+              ${option("IM",med.route)}
+              ${option("IV",med.route)}
+              ${option("SC",med.route)}
+              ${option("Topical",med.route)}
+              ${option("Inhaled",med.route)}
+              ${option("Nasal",med.route)}
+
+            </select>
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Frequency</label>
+
+            <select
+              onchange="updateMed(${med.id},'frequency',this.value)"
+            >
+
+              ${option("Once daily",med.frequency)}
+              ${option("Twice daily",med.frequency)}
+              ${option("Three times daily",med.frequency)}
+              ${option("Four times daily",med.frequency)}
+              ${option("At bedtime",med.frequency)}
+              ${option("SOS",med.frequency)}
+              ${option("Weekly",med.frequency)}
+
+            </select>
+
+          </div>
+
+
+          <div class="dose-box">
+
+            <label>Duration</label>
+
+            <input
+              value="${med.duration}"
+              onchange="updateMed(${med.id},'duration',this.value)"
+            >
+
+          </div>
+
+
+        </div>
+
+
+        <div class="instruction">
+
+          <input
+            value="${med.instruction}"
+            placeholder="Special instruction..."
+            onchange="updateMed(${med.id},'instruction',this.value)"
+          >
+
+        </div>
+
+
+        <div class="cost-line">
+
+          <span>
+            Approximate pack price
+          </span>
+
+          <strong>
+            ${med.price ? "₹"+med.price : "—"}
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+    container.appendChild(item);
+
+  });
+
+}
+
+
+function option(value,current){
+
+  return `
+    <option
+      value="${value}"
+      ${value === current ? "selected" : ""}
+    >
+      ${value}
+    </option>
+  `;
+
+}
+
+
+/* =========================================================
+   UPDATE MEDICINE
+========================================================= */
+
+function updateMed(id,key,value){
+
+  const med =
+    prescription.find(x => x.id === id);
+
+  if(!med) return;
+
+  med[key] = value;
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function removeMedicine(id){
+
+  prescription =
+    prescription.filter(x => x.id !== id);
+
+  renderPrescription();
+
+}
+
+
+/* =========================================================
+   NEW PRESCRIPTION
+========================================================= */
+
+function newPrescription(){
+
+  if(
+    prescription.length &&
+    !confirm("Start a new prescription?")
+  ){
+    return;
+  }
+
+  prescription = [];
+
+  document.getElementById("patientName").value = "";
+  document.getElementById("patientAge").value = "";
+  document.getElementById("patientMobile").value = "";
+  document.getElementById("patientWeight").value = "";
+  document.getElementById("generalAdvice").value = "";
+  document.getElementById("followup").value = "";
+
+  document.getElementById("rxId").value =
+    generateRxId();
+
+  renderPrescription();
+
+}
+
+
+/* =========================================================
+   SAVE LOCAL
+========================================================= */
+
+function savePrescription(){
+
+  const data = {
+
+    rxId:
+      document.getElementById("rxId").value,
+
+    date:
+      document.getElementById("rxDate").value,
+
+    patient:{
+      name:
+        document.getElementById("patientName").value,
+
+      age:
+        document.getElementById("patientAge").value,
+
+      sex:
+        document.getElementById("patientSex").value,
+
+      weight:
+        document.getElementById("patientWeight").value,
+
+      mobile:
+        document.getElementById("patientMobile").value
+    },
+
+    medications:
+      prescription,
+
+    advice:
+      document.getElementById("generalAdvice").value,
+
+    followup:
+      document.getElementById("followup").value
+
+  };
+
+  localStorage.setItem(
+    "doctorjet_current_rx",
+    JSON.stringify(data)
+  );
+
+  alert("Prescription saved locally.");
+
+}
+
+
+/* =========================================================
+   LOAD SAVED PRESCRIPTION
+========================================================= */
+
+function loadSavedPrescription(){
+
+  const raw =
+    localStorage.getItem(
+      "doctorjet_current_rx"
+    );
+
+  if(!raw) return;
+
+  const data =
+    JSON.parse(raw);
+
+  document.getElementById("rxId").value =
+    data.rxId || generateRxId();
+
+  document.getElementById("rxDate").value =
+    data.date || "";
+
+  document.getElementById("patientName").value =
+    data.patient?.name || "";
+
+  document.getElementById("patientAge").value =
+    data.patient?.age || "";
+
+  document.getElementById("patientSex").value =
+    data.patient?.sex || "";
+
+  document.getElementById("patientWeight").value =
+    data.patient?.weight || "";
+
+  document.getElementById("patientMobile").value =
+    data.patient?.mobile || "";
+
+  document.getElementById("generalAdvice").value =
+    data.advice || "";
+
+  document.getElementById("followup").value =
+    data.followup || "";
+
+  prescription =
+    data.medications || [];
+
+  renderPrescription();
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+  const dark =
+    document.body.dataset.theme === "dark";
+
+  if(dark){
+
+    document.body.dataset.theme = "";
+
+    document.documentElement.style
+      .setProperty("--bg","#f4f6f8");
+
+    document.documentElement.style
+      .setProperty("--panel","#ffffff");
+
+    document.documentElement.style
+      .setProperty("--text","#172033");
+
+  }else{
+
+    document.body.dataset.theme = "dark";
+
+    document.documentElement.style
+      .setProperty("--bg","#0f172a");
+
+    document.documentElement.style
+      .setProperty("--panel","#111827");
+
+    document.documentElement.style
+      .setProperty("--text","#e5e7eb");
+
+  }
+
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+========================================================= */
+
+document.addEventListener("keydown", e => {
+
+  /* Ctrl/Cmd + P */
+  if(
+    (e.ctrlKey || e.metaKey) &&
+    e.key.toLowerCase() === "p"
+  ){
+    e.preventDefault();
+    window.print();
+  }
+
+  /* Ctrl/Cmd + S */
+  if(
+    (e.ctrlKey || e.metaKey) &&
+    e.key.toLowerCase() === "s"
+  ){
+    e.preventDefault();
+    savePrescription();
+  }
+
+});
+
+
+/* =========================================================
+   AUTO-SAVE
+========================================================= */
+
+setInterval(() => {
+
+  if(prescription.length > 0){
+
+    const data = {
+
+      rxId:
+        document.getElementById("rxId").value,
+
+      date:
+        document.getElementById("rxDate").value,
+
+      patient:{
+        name:
+          document.getElementById("patientName").value,
+
+        age:
+          document.getElementById("patientAge").value,
+
+        sex:
+          document.getElementById("patientSex").value,
+
+        weight:
+          document.getElementById("patientWeight").value,
+
+        mobile:
+          document.getElementById("patientMobile").value
+      },
+
+      medications:
+        prescription,
+
+      advice:
+        document.getElementById("generalAdvice").value,
+
+      followup:
+        document.getElementById("followup").value
+
+    };
+
+    localStorage.setItem(
+      "doctorjet_autosave",
+      JSON.stringify(data)
+    );
+
+  }
+
+},10000);
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadSavedPrescription();
+
+</script>
+
+</body>
+</html>
