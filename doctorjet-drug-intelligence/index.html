@@ -1,0 +1,5651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoctorJet Drug Intelligence — Phase 2</title>
+
+<style>
+:root{
+  --bg:#f4f7fa;
+  --surface:#fff;
+  --surface2:#f8fafc;
+  --surface3:#f1f5f9;
+  --border:#e2e8f0;
+  --border2:#cbd5e1;
+  --text:#172033;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --blue:#2563eb;
+  --blueSoft:#eff6ff;
+  --cyan:#0891b2;
+  --green:#059669;
+  --greenSoft:#ecfdf5;
+  --amber:#d97706;
+  --amberSoft:#fffbeb;
+  --red:#dc2626;
+  --redSoft:#fef2f2;
+  --purple:#7c3aed;
+  --purpleSoft:#f5f3ff;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 5px 18px rgba(15,23,42,.035);
+  --shadow2:0 12px 35px rgba(15,23,42,.08);
+  --radius:13px;
+  --radius2:9px;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI",Roboto,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:14px;
+  line-height:1.5;
+}
+
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.app{
+  min-height:100vh;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+  height:70px;
+  background:rgba(255,255,255,.95);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 23px;
+  gap:20px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(18px);
+}
+
+.brand{
+  flex:0 0 220px;
+  width:220px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand-mark{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:linear-gradient(145deg,#2563eb,#0891b2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:13px;
+  font-weight:850;
+  box-shadow:0 5px 14px rgba(37,99,235,.2);
+}
+
+.brand-title{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:-.025em;
+  line-height:1.05;
+}
+
+.brand-subtitle{
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  margin-top:4px;
+  font-weight:700;
+}
+
+.search-wrap{
+  position:relative;
+  width:min(620px,55vw);
+}
+
+.search{
+  height:42px;
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#f8fafc;
+  padding:0 90px 0 41px;
+  outline:none;
+  color:var(--text);
+  transition:.18s;
+}
+
+.search:focus{
+  background:#fff;
+  border-color:#93c5fd;
+  box-shadow:0 0 0 3px rgba(37,99,235,.08);
+}
+
+.search-icon{
+  position:absolute;
+  left:14px;
+  top:12px;
+  color:var(--muted2);
+  pointer-events:none;
+}
+
+.search-key{
+  position:absolute;
+  right:9px;
+  top:8px;
+  height:26px;
+  padding:0 7px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#fff;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.search-results{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow2);
+  overflow:hidden;
+  display:none;
+  z-index:300;
+}
+
+.search-results.show{display:block}
+
+.result{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid #f1f5f9;
+  cursor:pointer;
+}
+
+.result:last-child{border-bottom:0}
+
+.result:hover{background:#f8fafc}
+
+.result-icon{
+  width:33px;
+  height:33px;
+  border-radius:9px;
+  background:var(--blueSoft);
+  color:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:850;
+}
+
+.result-main{
+  flex:1;
+  min-width:0;
+}
+
+.result-title{
+  font-size:11px;
+  font-weight:800;
+}
+
+.result-meta{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.result-tag{
+  font-size:8px;
+  color:var(--muted);
+  background:var(--surface3);
+  padding:4px 6px;
+  border-radius:5px;
+}
+
+.top-actions{
+  margin-left:auto;
+  display:flex;
+  gap:7px;
+}
+
+.top-btn{
+  height:36px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:9px;
+  color:var(--muted);
+  display:flex;
+  gap:6px;
+  align-items:center;
+}
+
+.top-btn:hover{
+  color:var(--text);
+  border-color:var(--border2);
+}
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace{
+  height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:245px 355px minmax(0,1fr);
+  overflow:hidden;
+}
+
+.pane{
+  min-width:0;
+  overflow:hidden;
+  background:#fff;
+}
+
+.library-pane{
+  border-right:1px solid var(--border);
+  background:#fbfcfe;
+}
+
+.commercial-pane{
+  border-right:1px solid var(--border);
+}
+
+.intelligence-pane{
+  background:#f7f9fc;
+  overflow-y:auto;
+}
+
+/* =========================================================
+   LIBRARY
+========================================================= */
+
+.pane-head{
+  padding:17px 15px 12px;
+  border-bottom:1px solid var(--border);
+}
+
+.pane-head-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.pane-title{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:800;
+}
+
+.counter{
+  min-width:23px;
+  height:20px;
+  padding:0 6px;
+  border-radius:6px;
+  background:var(--surface3);
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+}
+
+.filters{
+  padding:9px 10px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  gap:5px;
+  overflow:auto;
+}
+
+.filter{
+  flex:0 0 auto;
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:7px;
+  padding:5px 7px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.filter.active{
+  background:var(--blueSoft);
+  border-color:#bfdbfe;
+  color:#1d4ed8;
+}
+
+.library-list{
+  height:calc(100% - 105px);
+  overflow-y:auto;
+  padding:6px;
+}
+
+.drug-item{
+  padding:11px 9px;
+  border:1px solid transparent;
+  border-radius:10px;
+  margin-bottom:3px;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.drug-item:hover{
+  background:#f8fafc;
+}
+
+.drug-item.active{
+  background:#eff6ff;
+  border-color:#bfdbfe;
+}
+
+.drug-item-top{
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+}
+
+.drug-item-name{
+  flex:1;
+  font-size:12px;
+  font-weight:800;
+}
+
+.fav{
+  color:#cbd5e1;
+  font-size:13px;
+}
+
+.drug-item.active .fav{
+  color:#2563eb;
+}
+
+.item-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-top:7px;
+}
+
+.chip{
+  padding:3px 6px;
+  background:#f1f5f9;
+  border-radius:5px;
+  color:#64748b;
+  font-size:8px;
+}
+
+.chip.blue{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.chip.purple{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+/* =========================================================
+   COMMERCIAL
+========================================================= */
+
+.commercial-head{
+  padding:16px;
+  border-bottom:1px solid var(--border);
+}
+
+.selected{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.avatar{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:11px;
+  background:var(--blueSoft);
+  color:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:850;
+}
+
+.selected-name{
+  font-size:14px;
+  font-weight:850;
+}
+
+.selected-meta{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.commercial-scroll{
+  height:calc(100% - 75px);
+  overflow-y:auto;
+}
+
+.commercial-summary{
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.summary-card{
+  border:1px solid var(--border);
+  background:#fbfcfe;
+  border-radius:8px;
+  padding:8px;
+}
+
+.summary-label{
+  color:var(--muted);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+}
+
+.summary-value{
+  margin-top:3px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.section-heading{
+  padding:13px 14px 7px;
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.075em;
+  font-weight:800;
+}
+
+.brand-list{
+  padding:0 10px 20px;
+}
+
+.brand-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:7px;
+  background:#fff;
+}
+
+.brand-card:hover{
+  border-color:var(--border2);
+}
+
+.brand-top{
+  display:flex;
+  gap:7px;
+}
+
+.brand-main{
+  flex:1;
+}
+
+.brand-name{
+  font-size:11px;
+  font-weight:800;
+}
+
+.brand-composition{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.manufacturer{
+  font-size:9px;
+  color:#475569;
+  margin-top:5px;
+}
+
+.brand-price{
+  text-align:right;
+}
+
+.price{
+  font-size:11px;
+  font-weight:850;
+}
+
+.demo{
+  display:inline-block;
+  margin-top:2px;
+  padding:2px 4px;
+  border-radius:4px;
+  background:#fff7ed;
+  color:#c2410c;
+  font-size:7px;
+  font-weight:750;
+}
+
+.brand-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  border-top:1px solid #f1f5f9;
+  margin-top:8px;
+  padding-top:8px;
+}
+
+.brand-detail{
+  font-size:8px;
+}
+
+.brand-detail span{
+  display:block;
+  color:var(--muted2);
+  margin-bottom:1px;
+}
+
+.source-line{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  color:var(--muted2);
+  font-size:7px;
+}
+
+.source{
+  padding:3px 5px;
+  border-radius:4px;
+  background:#f1f5f9;
+}
+
+/* =========================================================
+   INTELLIGENCE
+========================================================= */
+
+.detail{
+  max-width:1200px;
+  margin:auto;
+  padding:21px 23px 70px;
+}
+
+.hero{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:15px;
+}
+
+.hero-kicker{
+  color:var(--blue);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:9px;
+  font-weight:850;
+}
+
+.hero-title{
+  margin:3px 0 2px;
+  font-size:27px;
+  line-height:1.1;
+  letter-spacing:-.04em;
+}
+
+.hero-sub{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.hero-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:9px;
+}
+
+.hero-chip{
+  padding:4px 7px;
+  border-radius:5px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:#475569;
+  font-size:8px;
+}
+
+.hero-chip.primary{
+  color:#1d4ed8;
+  background:var(--blueSoft);
+  border-color:#bfdbfe;
+}
+
+.hero-actions{
+  display:flex;
+  gap:6px;
+}
+
+.icon-btn{
+  width:34px;
+  height:34px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  color:var(--muted);
+}
+
+.icon-btn:hover{
+  color:var(--blue);
+  border-color:#bfdbfe;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:12px;
+  overflow:hidden;
+}
+
+.card-head{
+  padding:13px 15px;
+  border-bottom:1px solid #eef2f7;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.card-title{
+  font-size:11px;
+  font-weight:850;
+}
+
+.card-sub{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.card-body{
+  padding:14px 15px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.grid4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+/* =========================================================
+   FACT STRIP
+========================================================= */
+
+.fact{
+  border:1px solid var(--border);
+  background:#fbfcfe;
+  border-radius:9px;
+  padding:9px;
+}
+
+.fact-label{
+  color:var(--muted);
+  font-size:7px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.fact-value{
+  font-size:11px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+/* =========================================================
+   MECHANISM
+========================================================= */
+
+.flow{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  overflow:auto;
+}
+
+.flow-node{
+  min-width:120px;
+  padding:9px;
+  border:1px solid var(--border);
+  background:#fbfcfe;
+  border-radius:9px;
+}
+
+.flow-label{
+  color:var(--muted2);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-size:7px;
+  font-weight:800;
+}
+
+.flow-value{
+  font-size:9px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+.arrow{
+  color:#94a3b8;
+  font-size:15px;
+}
+
+.explanation{
+  color:#475569;
+  font-size:10px;
+  line-height:1.65;
+  margin:12px 0 0;
+}
+
+.target-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+
+.target{
+  padding:5px 7px;
+  border-radius:6px;
+  background:var(--purpleSoft);
+  border:1px solid #ddd6fe;
+  color:#6d28d9;
+  font-size:8px;
+  font-weight:750;
+}
+
+/* =========================================================
+   INDICATIONS
+========================================================= */
+
+.indication{
+  display:grid;
+  grid-template-columns:1.2fr 125px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.indication:last-child{
+  border-bottom:0;
+}
+
+.ind-name{
+  font-size:9px;
+  font-weight:800;
+}
+
+.ind-role{
+  font-size:8px;
+  color:var(--muted);
+}
+
+.status{
+  display:inline-flex;
+  width:max-content;
+  padding:4px 6px;
+  border-radius:5px;
+  font-size:7px;
+  font-weight:800;
+}
+
+.status.approved{
+  background:var(--greenSoft);
+  color:#047857;
+}
+
+.status.evidence{
+  background:var(--purpleSoft);
+  color:#6d28d9;
+}
+
+.status.offlabel{
+  background:var(--amberSoft);
+  color:#b45309;
+}
+
+/* =========================================================
+   DOSING
+========================================================= */
+
+.dose-bar{
+  position:relative;
+  margin:6px 3% 19px;
+}
+
+.dose-line{
+  position:absolute;
+  left:2%;
+  right:2%;
+  top:17px;
+  height:4px;
+  background:#dbeafe;
+  border-radius:999px;
+}
+
+.dose-points{
+  display:flex;
+  justify-content:space-between;
+  position:relative;
+}
+
+.dose-point{
+  width:34%;
+  text-align:center;
+}
+
+.point{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#2563eb;
+  border:3px solid #dbeafe;
+  margin:auto;
+}
+
+.dose-value{
+  font-size:12px;
+  font-weight:850;
+  margin-top:5px;
+}
+
+.dose-label{
+  font-size:7px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.dose-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.dose-table th,
+.dose-table td{
+  padding:7px 6px;
+  border-bottom:1px solid #f1f5f9;
+  text-align:left;
+  font-size:8px;
+  vertical-align:top;
+}
+
+.dose-table th{
+  font-size:7px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+
+.dose-table td:first-child{
+  font-weight:800;
+}
+
+/* =========================================================
+   PK
+========================================================= */
+
+.timeline{
+  position:relative;
+  margin:19px 6px 5px;
+}
+
+.timeline-line{
+  position:absolute;
+  left:5%;
+  right:5%;
+  top:8px;
+  height:2px;
+  background:#cbd5e1;
+}
+
+.timeline-items{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  position:relative;
+}
+
+.timeline-item{
+  text-align:center;
+}
+
+.timeline-dot{
+  width:9px;
+  height:9px;
+  margin:4px auto 7px;
+  border-radius:50%;
+  background:#2563eb;
+  border:3px solid #dbeafe;
+}
+
+.timeline-title{
+  font-size:8px;
+  font-weight:800;
+}
+
+.timeline-value{
+  font-size:7px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* =========================================================
+   EFFECTS
+========================================================= */
+
+.effect{
+  border:1px solid var(--border);
+  border-radius:9px;
+  overflow:hidden;
+}
+
+.effect-head{
+  padding:7px 9px;
+  background:#fbfcfe;
+  border-bottom:1px solid var(--border);
+  font-size:8px;
+  font-weight:850;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.effect-body{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  padding:8px;
+}
+
+.effect-chip{
+  padding:5px 6px;
+  border-radius:5px;
+  font-size:7px;
+  border:1px solid var(--border);
+}
+
+.effect-chip.common{
+  background:var(--blueSoft);
+  color:#1d4ed8;
+  border-color:#bfdbfe;
+}
+
+.effect-chip.important{
+  background:var(--amberSoft);
+  color:#92400e;
+  border-color:#fde68a;
+}
+
+.effect-chip.serious{
+  background:var(--redSoft);
+  color:#b91c1c;
+  border-color:#fecaca;
+}
+
+.effect-chip.rare{
+  background:#f8fafc;
+  color:#64748b;
+}
+
+/* =========================================================
+   WARNINGS
+========================================================= */
+
+.warning{
+  border-left:3px solid var(--amber);
+  border-radius:7px;
+  background:var(--amberSoft);
+  padding:9px 10px;
+  margin-bottom:6px;
+}
+
+.warning.red{
+  border-left-color:var(--red);
+  background:var(--redSoft);
+}
+
+.warning-title{
+  font-size:8px;
+  font-weight:850;
+}
+
+.warning-text{
+  font-size:8px;
+  color:#64748b;
+  margin-top:2px;
+}
+
+/* =========================================================
+   INTERACTIONS
+========================================================= */
+
+.interaction{
+  display:grid;
+  grid-template-columns:1fr 100px 1.3fr;
+  gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.interaction:last-child{border-bottom:0}
+
+.interaction-name{
+  font-size:8px;
+  font-weight:850;
+}
+
+.interaction-type{
+  width:max-content;
+  padding:4px 6px;
+  border-radius:5px;
+  background:#f1f5f9;
+  color:#64748b;
+  font-size:7px;
+}
+
+.interaction-note{
+  font-size:8px;
+  color:#64748b;
+}
+
+/* =========================================================
+   MONITORING
+========================================================= */
+
+.monitor{
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:9px;
+}
+
+.monitor-stage{
+  color:var(--blue);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-size:7px;
+  font-weight:850;
+}
+
+.monitor-name{
+  font-size:9px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+.monitor-note{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+/* =========================================================
+   RATIONALE
+========================================================= */
+
+.rationale{
+  display:flex;
+  gap:8px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.rationale:last-child{border-bottom:0}
+
+.rationale-number{
+  width:23px;
+  height:23px;
+  border-radius:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--blueSoft);
+  color:var(--blue);
+  font-size:8px;
+  font-weight:850;
+  flex:0 0 23px;
+}
+
+.rationale-text{
+  font-size:9px;
+  color:#475569;
+}
+
+/* =========================================================
+   PEARLS
+========================================================= */
+
+.pearl{
+  padding:9px 10px 9px 29px;
+  border:1px solid #dbeafe;
+  border-radius:8px;
+  background:#f8fbff;
+  margin-bottom:6px;
+  position:relative;
+  font-size:9px;
+  color:#334155;
+}
+
+.pearl::before{
+  content:"✦";
+  position:absolute;
+  left:10px;
+  top:8px;
+  color:#2563eb;
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.reference{
+  display:grid;
+  grid-template-columns:25px 1fr auto;
+  gap:8px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.reference:last-child{border-bottom:0}
+
+.ref-number{
+  width:22px;
+  height:22px;
+  border-radius:6px;
+  background:#f1f5f9;
+  color:#64748b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:8px;
+  font-weight:850;
+}
+
+.ref-title{
+  font-size:8px;
+  font-weight:800;
+}
+
+.ref-meta{
+  font-size:7px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.tier{
+  padding:4px 6px;
+  border-radius:5px;
+  background:var(--blueSoft);
+  color:#1d4ed8;
+  font-size:7px;
+  font-weight:850;
+}
+
+.data-note{
+  padding:9px;
+  border-radius:7px;
+  background:#f8fafc;
+  color:#64748b;
+  font-size:7px;
+  line-height:1.55;
+  margin-top:10px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+  padding:30px 15px;
+  text-align:center;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#172033;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:9px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:.2s;
+  pointer-events:none;
+  z-index:500;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-nav{
+  display:none;
+}
+
+@media(max-width:1050px){
+
+  .workspace{
+    grid-template-columns:220px 315px minmax(0,1fr);
+  }
+
+  .brand{
+    flex-basis:190px;
+    width:190px;
+  }
+
+  .grid4{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:850px){
+
+  .topbar{
+    height:62px;
+    padding:0 11px;
+    gap:9px;
+  }
+
+  .brand{
+    width:auto;
+    flex-basis:auto;
+  }
+
+  .brand-title,
+  .brand-subtitle{
+    display:none;
+  }
+
+  .search-wrap{
+    flex:1;
+    width:auto;
+  }
+
+  .top-actions{
+    display:none;
+  }
+
+  .workspace{
+    height:calc(100vh - 62px);
+    display:block;
+  }
+
+  .pane{
+    display:none;
+    height:100%;
+  }
+
+  .pane.mobile-active{
+    display:block;
+  }
+
+  .intelligence-pane{
+    overflow-y:auto;
+  }
+
+  .mobile-nav{
+    display:grid;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:56px;
+    background:rgba(255,255,255,.97);
+    border-top:1px solid var(--border);
+    grid-template-columns:repeat(3,1fr);
+    z-index:200;
+  }
+
+  .mobile-tab{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-size:8px;
+  }
+
+  .mobile-tab.active{
+    color:var(--blue);
+    font-weight:850;
+  }
+
+  .detail{
+    padding:17px 12px 70px;
+  }
+
+  .hero-title{
+    font-size:23px;
+  }
+}
+
+@media(max-width:560px){
+
+  .grid2,
+  .grid3,
+  .grid4{
+    grid-template-columns:1fr;
+  }
+
+  .indication{
+    grid-template-columns:1fr;
+    gap:4px;
+  }
+
+  .interaction{
+    grid-template-columns:1fr;
+    gap:4px;
+  }
+
+  .timeline-items{
+    grid-template-columns:1fr;
+    gap:11px;
+  }
+
+  .timeline-line{
+    display:none;
+  }
+
+  .timeline-dot{
+    margin:0 auto 4px;
+  }
+
+  .search-key{
+    display:none;
+  }
+
+  .search{
+    padding-right:12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-mark">DJ</div>
+
+    <div>
+      <div class="brand-title">
+        DoctorJet Drug Intelligence
+      </div>
+
+      <div class="brand-subtitle">
+        Clinical Pharmacology Workstation
+      </div>
+    </div>
+
+  </div>
+
+  <div class="search-wrap">
+
+    <div class="search-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-4-4"></path>
+      </svg>
+    </div>
+
+    <input
+      id="searchInput"
+      class="search"
+      placeholder="Search drug, brand, class, indication..."
+      autocomplete="off"
+    >
+
+    <div class="search-key">
+      ⌘ K
+    </div>
+
+    <div id="searchResults" class="search-results"></div>
+
+  </div>
+
+  <div class="top-actions">
+
+    <button class="top-btn" id="compareButton">
+      ⇄ Compare
+    </button>
+
+    <button class="top-btn" id="evidenceButton">
+      ◎ Evidence
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- =======================================================
+     WORKSPACE
+======================================================= -->
+
+<main class="workspace">
+
+<!-- =======================================================
+     LEFT LIBRARY
+======================================================= -->
+
+<section
+  class="pane library-pane mobile-active"
+  id="libraryPane"
+>
+
+  <div class="pane-head">
+
+    <div class="pane-head-row">
+
+      <div class="pane-title">
+        Drug Library
+      </div>
+
+      <div class="counter" id="drugCount">
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="filters">
+
+    <button class="filter active" data-filter="all">
+      All
+    </button>
+
+    <button class="filter" data-filter="Psychiatry">
+      Psychiatry
+    </button>
+
+    <button class="filter" data-filter="Antidepressant">
+      Antidepressants
+    </button>
+
+    <button class="filter" data-filter="Antipsychotic">
+      Antipsychotics
+    </button>
+
+  </div>
+
+  <div class="library-list" id="libraryList"></div>
+
+</section>
+
+
+<!-- =======================================================
+     MIDDLE COMMERCIAL INTELLIGENCE
+======================================================= -->
+
+<section
+  class="pane commercial-pane"
+  id="commercialPane"
+>
+
+  <div class="commercial-head">
+
+    <div class="selected">
+
+      <div class="avatar" id="commercialAvatar">
+        ES
+      </div>
+
+      <div>
+
+        <div class="selected-name" id="commercialName">
+          Escitalopram
+        </div>
+
+        <div class="selected-meta" id="commercialMeta">
+          SSRI · Antidepressant
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="commercial-scroll">
+
+    <div class="commercial-summary">
+
+      <div class="summary">
+
+        <div class="summary-card">
+          <div class="summary-label">
+            Dosage forms
+          </div>
+          <div class="summary-value" id="summaryForms">
+            —
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-label">
+            Strengths
+          </div>
+          <div class="summary-value" id="summaryStrengths">
+            —
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-label">
+            Brands
+          </div>
+          <div class="summary-value" id="summaryBrands">
+            —
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-label">
+            Price status
+          </div>
+          <div class="summary-value">
+            Demo / placeholder
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="section-heading">
+      Available Brands & Price Intelligence
+    </div>
+
+    <div
+      class="brand-list"
+      id="brandList"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     RIGHT CLINICAL INTELLIGENCE
+======================================================= -->
+
+<section
+  class="pane intelligence-pane mobile-active"
+  id="intelligencePane"
+>
+
+  <div class="detail" id="detail"></div>
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<nav class="mobile-nav">
+
+  <button
+    class="mobile-tab active"
+    data-pane="libraryPane"
+  >
+    LIBRARY
+  </button>
+
+  <button
+    class="mobile-tab"
+    data-pane="commercialPane"
+  >
+    BRANDS
+  </button>
+
+  <button
+    class="mobile-tab"
+    data-pane="intelligencePane"
+  >
+    PHARMACOLOGY
+  </button>
+
+</nav>
+
+
+<div id="toast" class="toast"></div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   =========================================================
+   PHASE 2 DATA ARCHITECTURE
+   =========================================================
+
+   The database is intentionally NORMALIZED.
+
+   Clinical facts do not live inside brand records.
+   Price records do not live inside pharmacology records.
+   Manufacturer data are separate entities.
+   References are reusable entities.
+
+   This allows future migration to:
+
+   JSON
+   REST API
+   Supabase
+   PostgreSQL
+   Firebase
+   etc.
+
+   without changing the rendering architecture.
+========================================================= */
+
+
+/* =========================================================
+   1. MOLECULES
+========================================================= */
+
+const MOLECULES = {
+
+  escitalopram: {
+    id:"escitalopram",
+    name:"Escitalopram",
+    synonyms:[
+      "escitalopram oxalate",
+      "escitalopram"
+    ],
+    aliases:[
+      "Nexito",
+      "Lexapro"
+    ],
+    departments:["Psychiatry"],
+    drugClasses:[
+      "Antidepressant",
+      "SSRI"
+    ],
+    therapeuticClasses:[
+      "Antidepressant"
+    ],
+    routes:[
+      "oral"
+    ]
+  },
+
+  sertraline:{
+    id:"sertraline",
+    name:"Sertraline",
+    synonyms:[
+      "sertraline hydrochloride"
+    ],
+    aliases:[
+      "Zoloft",
+      "Serta",
+      "Serlift"
+    ],
+    departments:["Psychiatry"],
+    drugClasses:[
+      "Antidepressant",
+      "SSRI"
+    ],
+    therapeuticClasses:[
+      "Antidepressant"
+    ],
+    routes:["oral"]
+  },
+
+  fluoxetine:{
+    id:"fluoxetine",
+    name:"Fluoxetine",
+    synonyms:[
+      "fluoxetine hydrochloride"
+    ],
+    aliases:[
+      "Prozac",
+      "Fludac"
+    ],
+    departments:["Psychiatry"],
+    drugClasses:[
+      "Antidepressant",
+      "SSRI"
+    ],
+    therapeuticClasses:[
+      "Antidepressant"
+    ],
+    routes:["oral"]
+  },
+
+  olanzapine:{
+    id:"olanzapine",
+    name:"Olanzapine",
+    synonyms:[
+      "olanzapine"
+    ],
+    aliases:[
+      "Zyprexa",
+      "Oleanz"
+    ],
+    departments:["Psychiatry"],
+    drugClasses:[
+      "Antipsychotic",
+      "Second-generation antipsychotic"
+    ],
+    therapeuticClasses:[
+      "Antipsychotic"
+    ],
+    routes:[
+      "oral",
+      "intramuscular"
+    ]
+  },
+
+  risperidone:{
+    id:"risperidone",
+    name:"Risperidone",
+    synonyms:[
+      "risperidone"
+    ],
+    aliases:[
+      "Risperdal",
+      "Risdone"
+    ],
+    departments:["Psychiatry"],
+    drugClasses:[
+      "Antipsychotic",
+      "Second-generation antipsychotic"
+    ],
+    therapeuticClasses:[
+      "Antipsychotic"
+    ],
+    routes:[
+      "oral",
+      "intramuscular"
+    ]
+  }
+
+};
+
+
+/* =========================================================
+   2. FORMULATIONS
+========================================================= */
+
+const FORMULATIONS = {
+
+  escitalopram:{
+    molecule_id:"escitalopram",
+    dosage_forms:[
+      "Tablet",
+      "Oral solution"
+    ],
+    strengths:[
+      "5 mg",
+      "10 mg",
+      "20 mg"
+    ],
+    routes:["oral"]
+  },
+
+  sertraline:{
+    molecule_id:"sertraline",
+    dosage_forms:[
+      "Tablet",
+      "Oral concentrate"
+    ],
+    strengths:[
+      "25 mg",
+      "50 mg",
+      "100 mg"
+    ],
+    routes:["oral"]
+  },
+
+  fluoxetine:{
+    molecule_id:"fluoxetine",
+    dosage_forms:[
+      "Capsule",
+      "Tablet",
+      "Oral solution"
+    ],
+    strengths:[
+      "10 mg",
+      "20 mg",
+      "40 mg"
+    ],
+    routes:["oral"]
+  },
+
+  olanzapine:{
+    molecule_id:"olanzapine",
+    dosage_forms:[
+      "Tablet",
+      "Orally disintegrating tablet",
+      "Injection"
+    ],
+    strengths:[
+      "2.5 mg",
+      "5 mg",
+      "7.5 mg",
+      "10 mg",
+      "15 mg",
+      "20 mg"
+    ],
+    routes:[
+      "oral",
+      "intramuscular"
+    ]
+  },
+
+  risperidone:{
+    molecule_id:"risperidone",
+    dosage_forms:[
+      "Tablet",
+      "Orally disintegrating tablet",
+      "Oral solution",
+      "Long-acting injectable"
+    ],
+    strengths:[
+      "0.5 mg",
+      "1 mg",
+      "2 mg",
+      "3 mg",
+      "4 mg"
+    ],
+    routes:[
+      "oral",
+      "intramuscular"
+    ]
+  }
+
+};
+
+
+/* =========================================================
+   3. MANUFACTURERS
+========================================================= */
+
+const MANUFACTURERS = {
+
+  sun:{
+    id:"sun",
+    name:"Sun Pharmaceutical Industries",
+    country:"India"
+  },
+
+  cipla:{
+    id:"cipla",
+    name:"Cipla Ltd.",
+    country:"India"
+  },
+
+  torrent:{
+    id:"torrent",
+    name:"Torrent Pharmaceuticals",
+    country:"India"
+  },
+
+  zydus:{
+    id:"zydus",
+    name:"Zydus",
+    country:"India"
+  },
+
+  intas:{
+    id:"intas",
+    name:"Intas Pharmaceuticals",
+    country:"India"
+  },
+
+  janssen:{
+    id:"janssen",
+    name:"Janssen",
+    country:"United States / Global"
+  }
+
+};
+
+
+/* =========================================================
+   4. BRANDS
+========================================================= */
+
+const BRANDS = [
+
+  {
+    id:"nexito10",
+    molecule_id:"escitalopram",
+    manufacturer_id:"sun",
+    name:"Nexito 10",
+    composition:"Escitalopram 10 mg",
+    strength:"10 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"escitalop10",
+    molecule_id:"escitalopram",
+    manufacturer_id:"cipla",
+    name:"Escitalop 10",
+    composition:"Escitalopram 10 mg",
+    strength:"10 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"scita10",
+    molecule_id:"escitalopram",
+    manufacturer_id:"torrent",
+    name:"S-Cita 10",
+    composition:"Escitalopram 10 mg",
+    strength:"10 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"serta50",
+    molecule_id:"sertraline",
+    manufacturer_id:"sun",
+    name:"Serta 50",
+    composition:"Sertraline 50 mg",
+    strength:"50 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"serlift50",
+    molecule_id:"sertraline",
+    manufacturer_id:"sun",
+    name:"Serlift 50",
+    composition:"Sertraline 50 mg",
+    strength:"50 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"fludac20",
+    molecule_id:"fluoxetine",
+    manufacturer_id:"zydus",
+    name:"Fludac 20",
+    composition:"Fluoxetine 20 mg",
+    strength:"20 mg",
+    dosage_form:"Capsule"
+  },
+
+  {
+    id:"fluoxet20",
+    molecule_id:"fluoxetine",
+    manufacturer_id:"cipla",
+    name:"Fluoxet 20",
+    composition:"Fluoxetine 20 mg",
+    strength:"20 mg",
+    dosage_form:"Capsule"
+  },
+
+  {
+    id:"oleanz10",
+    molecule_id:"olanzapine",
+    manufacturer_id:"sun",
+    name:"Oleanz 10",
+    composition:"Olanzapine 10 mg",
+    strength:"10 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"oliza10",
+    molecule_id:"olanzapine",
+    manufacturer_id:"intas",
+    name:"Oliza 10",
+    composition:"Olanzapine 10 mg",
+    strength:"10 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"risdone2",
+    molecule_id:"risperidone",
+    manufacturer_id:"sun",
+    name:"Risdone 2",
+    composition:"Risperidone 2 mg",
+    strength:"2 mg",
+    dosage_form:"Tablet"
+  },
+
+  {
+    id:"risperdal2",
+    molecule_id:"risperidone",
+    manufacturer_id:"janssen",
+    name:"Risperdal 2",
+    composition:"Risperidone 2 mg",
+    strength:"2 mg",
+    dosage_form:"Tablet"
+  }
+
+];
+
+
+/* =========================================================
+   5. COMMERCIAL PRICE RECORDS
+=========================================================
+
+   IMPORTANT:
+   These are NOT current prices.
+
+   Production should receive records such as:
+
+   source_id
+   fetched_at
+   region
+   MRP
+   listed_price
+   availability
+
+   from a licensed/legitimate source or structured feed.
+========================================================= */
+
+const PRICE_RECORDS = [
+
+  {
+    id:"price_nexito10_demo",
+    brand_id:"nexito10",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_escitalop10_demo",
+    brand_id:"escitalop10",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_scita10_demo",
+    brand_id:"scita10",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_serta50_demo",
+    brand_id:"serta50",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_serlift50_demo",
+    brand_id:"serlift50",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_fludac20_demo",
+    brand_id:"fludac20",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 capsules",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / capsule",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_fluoxet20_demo",
+    brand_id:"fluoxet20",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 capsules",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / capsule",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_oleanz10_demo",
+    brand_id:"oleanz10",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_oliza10_demo",
+    brand_id:"oliza10",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_risdone2_demo",
+    brand_id:"risdone2",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  },
+
+  {
+    id:"price_risperdal2_demo",
+    brand_id:"risperdal2",
+    source_id:"demo",
+    region:"India",
+    pack_size:"10 tablets",
+    mrp:"₹XX.XX",
+    listed_price:"₹XX.XX",
+    unit_price:"₹X.XX / tablet",
+    discount:null,
+    availability:"Demo",
+    checked_at:null,
+    is_demo:true
+  }
+
+];
+
+
+/* =========================================================
+   6. INDICATIONS
+========================================================= */
+
+const INDICATIONS = [
+
+  {
+    id:"mdd",
+    name:"Major depressive disorder"
+  },
+
+  {
+    id:"gad",
+    name:"Generalized anxiety disorder"
+  },
+
+  {
+    id:"panic",
+    name:"Panic disorder"
+  },
+
+  {
+    id:"sad",
+    name:"Social anxiety disorder"
+  },
+
+  {
+    id:"ocd",
+    name:"Obsessive-compulsive disorder"
+  },
+
+  {
+    id:"ptsd",
+    name:"Post-traumatic stress disorder"
+  },
+
+  {
+    id:"bulimia",
+    name:"Bulimia nervosa"
+  },
+
+  {
+    id:"schizophrenia",
+    name:"Schizophrenia"
+  },
+
+  {
+    id:"bipolar",
+    name:"Bipolar disorder"
+  },
+
+  {
+    id:"bipolar_depression",
+    name:"Bipolar depression"
+  },
+
+  {
+    id:"autism_irritability",
+    name:"Irritability associated with autistic disorder"
+  }
+
+];
+
+
+/* =========================================================
+   7. DRUG-INDICATION RELATIONSHIPS
+========================================================= */
+
+const DRUG_INDICATIONS = [
+
+  {
+    molecule_id:"escitalopram",
+    indication_id:"mdd",
+    status:"approved",
+    role:"Antidepressant treatment",
+    evidence_refs:["ref_escitalopram_label"]
+  },
+
+  {
+    molecule_id:"escitalopram",
+    indication_id:"gad",
+    status:"approved",
+    role:"Long-term pharmacological treatment",
+    evidence_refs:["ref_escitalopram_label"]
+  },
+
+  {
+    molecule_id:"escitalopram",
+    indication_id:"panic",
+    status:"evidence",
+    role:"Evidence-supported clinical use",
+    evidence_refs:["ref_ssri_review"]
+  },
+
+  {
+    molecule_id:"escitalopram",
+    indication_id:"sad",
+    status:"evidence",
+    role:"Evidence-supported clinical use",
+    evidence_refs:["ref_ssri_review"]
+  },
+
+  {
+    molecule_id:"sertraline",
+    indication_id:"mdd",
+    status:"approved",
+    role:"Antidepressant treatment",
+    evidence_refs:["ref_sertraline_label"]
+  },
+
+  {
+    molecule_id:"sertraline",
+    indication_id:"ocd",
+    status:"approved",
+    role:"Long-term pharmacological treatment",
+    evidence_refs:["ref_sertraline_label"]
+  },
+
+  {
+    molecule_id:"sertraline",
+    indication_id:"panic",
+    status:"approved",
+    role:"Antidepressant/anxiolytic treatment",
+    evidence_refs:["ref_sertraline_label"]
+  },
+
+  {
+    molecule_id:"sertraline",
+    indication_id:"ptsd",
+    status:"approved",
+    role:"Evidence-supported indication",
+    evidence_refs:["ref_sertraline_label"]
+  },
+
+  {
+    molecule_id:"fluoxetine",
+    indication_id:"mdd",
+    status:"approved",
+    role:"Antidepressant treatment",
+    evidence_refs:["ref_fluoxetine_label"]
+  },
+
+  {
+    molecule_id:"fluoxetine",
+    indication_id:"ocd",
+    status:"approved",
+    role:"Anti-obsessional treatment",
+    evidence_refs:["ref_fluoxetine_label"]
+  },
+
+  {
+    molecule_id:"fluoxetine",
+    indication_id:"bulimia",
+    status:"approved",
+    role:"Evidence-supported pharmacological treatment",
+    evidence_refs:["ref_fluoxetine_label"]
+  },
+
+  {
+    molecule_id:"fluoxetine",
+    indication_id:"panic",
+    status:"evidence",
+    role:"Evidence-supported clinical use",
+    evidence_refs:["ref_ssri_review"]
+  },
+
+  {
+    molecule_id:"olanzapine",
+    indication_id:"schizophrenia",
+    status:"approved",
+    role:"Antipsychotic treatment",
+    evidence_refs:["ref_olanzapine_label"]
+  },
+
+  {
+    molecule_id:"olanzapine",
+    indication_id:"bipolar",
+    status:"approved",
+    role:"Mania and maintenance depending on formulation/label",
+    evidence_refs:["ref_olanzapine_label"]
+  },
+
+  {
+    molecule_id:"olanzapine",
+    indication_id:"bipolar_depression",
+    status:"approved",
+    role:"Product-specific indication",
+    evidence_refs:["ref_olanzapine_label"]
+  },
+
+  {
+    molecule_id:"risperidone",
+    indication_id:"schizophrenia",
+    status:"approved",
+    role:"Antipsychotic treatment",
+    evidence_refs:["ref_risperidone_label"]
+  },
+
+  {
+    molecule_id:"risperidone",
+    indication_id:"bipolar",
+    status:"approved",
+    role:"Acute antimanic treatment",
+    evidence_refs:["ref_risperidone_label"]
+  },
+
+  {
+    molecule_id:"risperidone",
+    indication_id:"autism_irritability",
+    status:"approved",
+    role:"Product- and age-specific indication",
+    evidence_refs:["ref_risperidone_label"]
+  }
+
+];
+
+
+/* =========================================================
+   8. DOSING RECORDS
+========================================================= */
+
+const DOSING_RECORDS = [
+
+  {
+    molecule_id:"escitalopram",
+    population:"adult",
+    indication_id:null,
+    starting:"10 mg once daily",
+    usual:"10–20 mg/day",
+    maximum:"20 mg/day",
+    frequency:"Once daily",
+    titration:"Adjust according to response and tolerability.",
+    source_refs:["ref_escitalopram_label"]
+  },
+
+  {
+    molecule_id:"escitalopram",
+    population:"elderly",
+    indication_id:null,
+    starting:"5–10 mg/day",
+    usual:"10 mg/day commonly used",
+    maximum:"20 mg/day labelled adult maximum",
+    frequency:"Once daily",
+    titration:"Use lower exposure when clinically appropriate.",
+    source_refs:["ref_escitalopram_label"]
+  },
+
+  {
+    molecule_id:"escitalopram",
+    population:"hepatic",
+    indication_id:null,
+    starting:"Lower starting exposure may be appropriate.",
+    usual:"Individualized",
+    maximum:"Product information dependent",
+    frequency:"Usually once daily",
+    titration:"Cautious adjustment.",
+    source_refs:["ref_escitalopram_label"]
+  },
+
+  {
+    molecule_id:"sertraline",
+    population:"adult",
+    indication_id:null,
+    starting:"25–50 mg/day depending on indication",
+    usual:"50–200 mg/day",
+    maximum:"200 mg/day",
+    frequency:"Once daily",
+    titration:"Increase gradually according to response and tolerability.",
+    source_refs:["ref_sertraline_label"]
+  },
+
+  {
+    molecule_id:"fluoxetine",
+    population:"adult",
+    indication_id:null,
+    starting:"10–20 mg/day",
+    usual:"20–60 mg/day depending on indication",
+    maximum:"Indication/product dependent",
+    frequency:"Usually once daily",
+    titration:"Gradual adjustment.",
+    source_refs:["ref_fluoxetine_label"]
+  },
+
+  {
+    molecule_id:"olanzapine",
+    population:"adult",
+    indication_id:null,
+    starting:"5–10 mg/day",
+    usual:"5–20 mg/day",
+    maximum:"20 mg/day for many oral adult indications",
+    frequency:"Once daily",
+    titration:"Gradual adjustment according to response and tolerability.",
+    source_refs:["ref_olanzapine_label"]
+  },
+
+  {
+    molecule_id:"risperidone",
+    population:"adult",
+    indication_id:null,
+    starting:"1–2 mg/day",
+    usual:"Approximately 2–6 mg/day for many adult indications",
+    maximum:"Indication/product dependent",
+    frequency:"Once or twice daily",
+    titration:"Gradual titration.",
+    source_refs:["ref_risperidone_label"]
+  }
+
+];
+
+
+/* =========================================================
+   9. PHARMACOLOGY
+========================================================= */
+
+const PHARMACOLOGY = {
+
+  escitalopram:{
+    mechanism_summary:
+      "Selective inhibition of the serotonin transporter (SERT), reducing serotonin reuptake and increasing serotonergic neurotransmission.",
+
+    target:"Serotonin transporter (SERT)",
+    primary_effect:"Reduced serotonin reuptake",
+    downstream_effect:"Increased serotonergic signalling",
+    clinical_effect:"Antidepressant and anxiolytic effects",
+
+    targets:[
+      {
+        name:"SERT",
+        note:"Primary pharmacological target"
+      }
+    ]
+  },
+
+  sertraline:{
+    mechanism_summary:
+      "Selective inhibition of the serotonin transporter, increasing extracellular serotonin and serotonergic neurotransmission.",
+
+    target:"Serotonin transporter (SERT)",
+    primary_effect:"Reduced serotonin reuptake",
+    downstream_effect:"Enhanced serotonergic neurotransmission",
+    clinical_effect:"Antidepressant and anxiolytic effects",
+
+    targets:[
+      {
+        name:"SERT",
+        note:"Primary pharmacological target"
+      }
+    ]
+  },
+
+  fluoxetine:{
+    mechanism_summary:
+      "Selective serotonin transporter inhibition resulting in reduced serotonin reuptake and enhanced serotonergic neurotransmission.",
+
+    target:"Serotonin transporter (SERT)",
+    primary_effect:"Reduced serotonin reuptake",
+    downstream_effect:"Enhanced serotonergic signalling",
+    clinical_effect:"Antidepressant and anti-obsessional effects",
+
+    targets:[
+      {
+        name:"SERT",
+        note:"Primary target"
+      }
+    ]
+  },
+
+  olanzapine:{
+    mechanism_summary:
+      "Multireceptor antipsychotic activity involving dopamine D2 and serotonin 5-HT2A receptors, with additional histaminergic, muscarinic and adrenergic receptor effects.",
+
+    target:"D2 / 5-HT2A and multiple additional receptors",
+    primary_effect:"Dopamine and serotonin receptor antagonism",
+    downstream_effect:"Modulation of dopaminergic and serotonergic signalling",
+    clinical_effect:"Antipsychotic effects with sedative and metabolic receptor-mediated effects",
+
+    targets:[
+      {
+        name:"D2",
+        note:"Antipsychotic pharmacology"
+      },
+      {
+        name:"5-HT2A",
+        note:"Serotonergic receptor antagonism"
+      },
+      {
+        name:"H1",
+        note:"Sedation/appetite effects"
+      },
+      {
+        name:"M1",
+        note:"Anticholinergic effects"
+      },
+      {
+        name:"α1",
+        note:"Orthostatic effects"
+      }
+    ]
+  },
+
+  risperidone:{
+    mechanism_summary:
+      "Antagonism of dopamine D2 and serotonin 5-HT2A receptors with additional adrenergic and histaminergic receptor activity.",
+
+    target:"D2 / 5-HT2A",
+    primary_effect:"Dopamine and serotonin receptor antagonism",
+    downstream_effect:"Modulation of dopaminergic and serotonergic neurotransmission",
+    clinical_effect:"Antipsychotic effects",
+
+    targets:[
+      {
+        name:"D2",
+        note:"Antipsychotic target"
+      },
+      {
+        name:"5-HT2A",
+        note:"Serotonergic receptor target"
+      },
+      {
+        name:"α1",
+        note:"Orthostatic effects"
+      },
+      {
+        name:"H1",
+        note:"Histamine receptor antagonism"
+      }
+    ]
+  }
+
+};
+
+
+/* =========================================================
+   10. PHARMACOKINETICS
+========================================================= */
+
+const PHARMACOKINETICS = {
+
+  escitalopram:{
+    bioavailability:"High oral bioavailability",
+    tmax:"~4–5 hours",
+    half_life:"~27–32 hours",
+    protein_binding:"~56%",
+    metabolism:"Predominantly hepatic",
+    enzymes:["CYP2C19","CYP3A4","CYP2D6"],
+    active_metabolites:"Desmethyl- and didesmethyl-escitalopram have substantially lower pharmacological activity.",
+    elimination:"Renal and hepatic routes",
+    steady_state:"~1 week"
+  },
+
+  sertraline:{
+    bioavailability:"Substantial oral absorption",
+    tmax:"~4.5–8.4 hours",
+    half_life:"~26 hours",
+    protein_binding:"~98%",
+    metabolism:"Extensive hepatic metabolism",
+    enzymes:["CYP2B6","CYP2C19","CYP2D6","CYP3A4"],
+    active_metabolites:"Desmethylsertraline has substantially lower pharmacological activity.",
+    elimination:"Urine and faeces",
+    steady_state:"~1 week"
+  },
+
+  fluoxetine:{
+    bioavailability:"Well absorbed orally",
+    tmax:"~6–8 hours",
+    half_life:"Fluoxetine ~2–4 days; norfluoxetine ~7–15 days",
+    protein_binding:"~95%",
+    metabolism:"Hepatic",
+    enzymes:["CYP2D6"],
+    active_metabolites:"Norfluoxetine is pharmacologically active.",
+    elimination:"Hepatic metabolism followed by renal/faecal elimination",
+    steady_state:"Slow relative to many SSRIs"
+  },
+
+  olanzapine:{
+    bioavailability:"~60% orally due to first-pass metabolism",
+    tmax:"~5–8 hours",
+    half_life:"~21–54 hours",
+    protein_binding:"~93%",
+    metabolism:"Hepatic",
+    enzymes:["CYP1A2","CYP2D6"],
+    active_metabolites:"Metabolites have substantially lower pharmacological activity.",
+    elimination:"Predominantly hepatic metabolism",
+    steady_state:"~1 week"
+  },
+
+  risperidone:{
+    bioavailability:"Good oral absorption",
+    tmax:"~1–2 hours",
+    half_life:"Risperidone ~3 hours; active moiety longer due to 9-hydroxyrisperidone",
+    protein_binding:"~90%",
+    metabolism:"Hepatic",
+    enzymes:["CYP2D6","CYP3A4"],
+    active_metabolites:"9-hydroxyrisperidone is pharmacologically active.",
+    elimination:"Predominantly renal elimination of active moiety/metabolites",
+    steady_state:"Several days for oral active moiety"
+  }
+
+};
+
+
+/* =========================================================
+   11. RECEPTOR PROFILES
+========================================================= */
+
+const RECEPTOR_PROFILES = {
+
+  escitalopram:[
+    ["SERT","Primary target"],
+    ["5-HT receptors","Downstream serotonergic adaptation"]
+  ],
+
+  sertraline:[
+    ["SERT","Primary target"]
+  ],
+
+  fluoxetine:[
+    ["SERT","Primary target"],
+    ["5-HT2C","Additional pharmacological interaction described"]
+  ],
+
+  olanzapine:[
+    ["5-HT2A","High-affinity antagonism"],
+    ["D2","Dopamine receptor antagonism"],
+    ["H1","Histamine receptor antagonism"],
+    ["M1","Muscarinic antagonism"],
+    ["α1","Adrenergic antagonism"]
+  ],
+
+  risperidone:[
+    ["5-HT2A","High-affinity antagonism"],
+    ["D2","Dopamine receptor antagonism"],
+    ["α1","Adrenergic antagonism"],
+    ["H1","Histamine receptor antagonism"]
+  ]
+
+};
+
+
+/* =========================================================
+   12. ADVERSE EFFECTS
+========================================================= */
+
+const ADVERSE_EFFECTS = {
+
+  escitalopram:{
+    common:[
+      "Nausea",
+      "Headache",
+      "Somnolence",
+      "Insomnia",
+      "Dry mouth",
+      "Increased sweating",
+      "Sexual dysfunction"
+    ],
+    important:[
+      "GI adverse effects",
+      "Sexual dysfunction",
+      "Activation/anxiety early in treatment",
+      "Discontinuation symptoms"
+    ],
+    serious:[
+      "Serotonin syndrome",
+      "Hyponatraemia",
+      "QT prolongation",
+      "Mania/hypomania",
+      "Abnormal bleeding",
+      "Suicidal thoughts/behaviour warning in younger patients"
+    ],
+    rare:[
+      "Seizures",
+      "Severe hypersensitivity",
+      "Serious cardiac arrhythmia"
+    ]
+  },
+
+  sertraline:{
+    common:[
+      "Nausea",
+      "Diarrhoea",
+      "Headache",
+      "Insomnia",
+      "Somnolence",
+      "Sexual dysfunction",
+      "Dry mouth"
+    ],
+    important:[
+      "GI effects",
+      "Sexual dysfunction",
+      "Activation",
+      "Sleep disturbance"
+    ],
+    serious:[
+      "Serotonin syndrome",
+      "Hyponatraemia",
+      "Abnormal bleeding",
+      "Mania/hypomania",
+      "Seizures",
+      "Suicidal thoughts/behaviour warning in younger patients"
+    ],
+    rare:[
+      "Severe hypersensitivity",
+      "Serious cardiac events in predisposed patients"
+    ]
+  },
+
+  fluoxetine:{
+    common:[
+      "Nausea",
+      "Headache",
+      "Insomnia",
+      "Anxiety/activation",
+      "GI disturbance",
+      "Sexual dysfunction"
+    ],
+    important:[
+      "Activation",
+      "Sleep disturbance",
+      "Sexual dysfunction",
+      "Appetite changes"
+    ],
+    serious:[
+      "Serotonin syndrome",
+      "Hyponatraemia",
+      "Bleeding",
+      "Mania/hypomania",
+      "Seizures",
+      "Suicidal thoughts/behaviour warning in younger patients"
+    ],
+    rare:[
+      "Severe hypersensitivity"
+    ]
+  },
+
+  olanzapine:{
+    common:[
+      "Weight gain",
+      "Somnolence",
+      "Increased appetite",
+      "Dry mouth",
+      "Constipation",
+      "Dizziness"
+    ],
+    important:[
+      "Metabolic changes",
+      "Sedation",
+      "Orthostatic hypotension",
+      "Anticholinergic effects"
+    ],
+    serious:[
+      "Hyperglycaemia / diabetes-related complications",
+      "Dyslipidaemia",
+      "Neuroleptic malignant syndrome",
+      "Tardive dyskinesia",
+      "Severe neutropenia",
+      "Seizures"
+    ],
+    rare:[
+      "Severe hypersensitivity",
+      "Severe hepatic reactions"
+    ]
+  },
+
+  risperidone:{
+    common:[
+      "Somnolence",
+      "Dizziness",
+      "Hyperprolactinaemia",
+      "Weight gain",
+      "Extrapyramidal symptoms",
+      "Orthostatic hypotension"
+    ],
+    important:[
+      "Prolactin elevation",
+      "EPS",
+      "Metabolic effects",
+      "Sexual dysfunction"
+    ],
+    serious:[
+      "Neuroleptic malignant syndrome",
+      "Tardive dyskinesia",
+      "Seizures",
+      "Severe orthostatic hypotension",
+      "Metabolic complications"
+    ],
+    rare:[
+      "Severe hypersensitivity",
+      "Serious arrhythmia"
+    ]
+  }
+
+};
+
+
+/* =========================================================
+   13. WARNINGS / CONTRAINDICATIONS
+========================================================= */
+
+const WARNINGS = {
+
+  escitalopram:{
+    warnings:[
+      {
+        title:"Serotonergic toxicity",
+        type:"warning",
+        text:"Risk increases when combined with other serotonergic medicines."
+      },
+      {
+        title:"QT prolongation",
+        type:"warning",
+        text:"Escitalopram can prolong QT in a dose-related manner; consider cardiac and electrolyte risk factors."
+      },
+      {
+        title:"Discontinuation",
+        type:"warning",
+        text:"Abrupt cessation can produce discontinuation symptoms."
+      },
+      {
+        title:"Suicidality warning",
+        type:"red",
+        text:"Antidepressants carry regulatory warnings regarding suicidal thoughts and behaviour in younger patients."
+      }
+    ],
+    contraindications:[
+      "Hypersensitivity to escitalopram/citalopram or formulation components",
+      "Concomitant MAOI treatment",
+      "Concomitant pimozide according to product information"
+    ]
+  },
+
+  sertraline:{
+    warnings:[
+      {
+        title:"Serotonin syndrome",
+        type:"warning",
+        text:"Risk increases with concomitant serotonergic medicines."
+      },
+      {
+        title:"Bleeding",
+        type:"warning",
+        text:"SSRIs may increase bleeding tendency, particularly with NSAIDs or anticoagulants."
+      },
+      {
+        title:"Hyponatraemia",
+        type:"warning",
+        text:"Risk is increased in older adults and patients receiving other hyponatraemia-associated medicines."
+      }
+    ],
+    contraindications:[
+      "Hypersensitivity to sertraline or formulation components",
+      "Concomitant MAOI treatment",
+      "Concomitant pimozide according to product information"
+    ]
+  },
+
+  fluoxetine:{
+    warnings:[
+      {
+        title:"Long elimination half-life",
+        type:"warning",
+        text:"Fluoxetine and norfluoxetine persist for prolonged periods, affecting switching and interaction planning."
+      },
+      {
+        title:"CYP2D6 inhibition",
+        type:"warning",
+        text:"Fluoxetine can produce clinically important CYP2D6-mediated interactions."
+      },
+      {
+        title:"Serotonergic combinations",
+        type:"warning",
+        text:"Concomitant serotonergic medicines may increase serotonin toxicity risk."
+      }
+    ],
+    contraindications:[
+      "MAOI combinations according to product-specific washout requirements",
+      "Hypersensitivity to fluoxetine or formulation components",
+      "Concomitant thioridazine or pimozide according to product information"
+    ]
+  },
+
+  olanzapine:{
+    warnings:[
+      {
+        title:"Metabolic effects",
+        type:"warning",
+        text:"Weight, glucose and lipid changes are important considerations during treatment."
+      },
+      {
+        title:"Sedation",
+        type:"warning",
+        text:"Somnolence may impair driving or operating machinery."
+      },
+      {
+        title:"Orthostatic hypotension",
+        type:"warning",
+        text:"Risk is relevant during initiation and dose escalation."
+      },
+      {
+        title:"Antipsychotic class warnings",
+        type:"red",
+        text:"Antipsychotic medicines carry important class warnings that should be reviewed for the relevant population."
+      }
+    ],
+    contraindications:[
+      "Hypersensitivity to olanzapine or formulation components"
+    ]
+  },
+
+  risperidone:{
+    warnings:[
+      {
+        title:"Hyperprolactinaemia",
+        type:"warning",
+        text:"Risperidone can raise prolactin substantially; monitor clinically relevant endocrine or sexual adverse effects."
+      },
+      {
+        title:"Extrapyramidal symptoms",
+        type:"warning",
+        text:"EPS risk increases with dose and individual susceptibility."
+      },
+      {
+        title:"Orthostatic hypotension",
+        type:"warning",
+        text:"Risk is relevant during initiation and dose escalation."
+      },
+      {
+        title:"Antipsychotic class warnings",
+        type:"red",
+        text:"Important class-specific warnings should be reviewed according to indication and patient population."
+      }
+    ],
+    contraindications:[
+      "Hypersensitivity to risperidone or formulation components"
+    ]
+  }
+
+};
+
+
+/* =========================================================
+   14. INTERACTIONS
+========================================================= */
+
+const INTERACTIONS = {
+
+  escitalopram:[
+    {
+      substance:"MAO inhibitors",
+      type:"Pharmacodynamic",
+      note:"Contraindicated combination because of potentially serious serotonergic toxicity."
+    },
+    {
+      substance:"Other serotonergic medicines",
+      type:"Serotonergic",
+      note:"May increase risk of serotonin syndrome."
+    },
+    {
+      substance:"NSAIDs / anticoagulants",
+      type:"Bleeding",
+      note:"SSRIs may increase bleeding tendency."
+    },
+    {
+      substance:"QT-prolonging medicines",
+      type:"QT",
+      note:"Additive QT effects may increase arrhythmia risk."
+    }
+  ],
+
+  sertraline:[
+    {
+      substance:"MAO inhibitors",
+      type:"Serotonergic",
+      note:"Contraindicated because of serious serotonin toxicity risk."
+    },
+    {
+      substance:"NSAIDs / anticoagulants",
+      type:"Bleeding",
+      note:"May increase bleeding tendency."
+    },
+    {
+      substance:"Other serotonergic medicines",
+      type:"Serotonergic",
+      note:"Monitor for serotonin toxicity."
+    },
+    {
+      substance:"CYP inhibitors",
+      type:"PK",
+      note:"May alter sertraline exposure depending on the interacting medicine."
+    }
+  ],
+
+  fluoxetine:[
+    {
+      substance:"MAO inhibitors",
+      type:"Serotonergic",
+      note:"Requires appropriate washout because fluoxetine has a long persistence."
+    },
+    {
+      substance:"CYP2D6 substrates",
+      type:"PK",
+      note:"Fluoxetine can inhibit CYP2D6 and alter exposure of susceptible medicines."
+    },
+    {
+      substance:"Other serotonergic medicines",
+      type:"Serotonergic",
+      note:"May increase serotonin toxicity risk."
+    }
+  ],
+
+  olanzapine:[
+    {
+      substance:"CYP1A2 inducers such as tobacco smoke",
+      type:"PK",
+      note:"Smoking can increase olanzapine clearance and lower exposure."
+    },
+    {
+      substance:"CYP1A2 inhibitors",
+      type:"PK",
+      note:"May increase olanzapine exposure."
+    },
+    {
+      substance:"CNS depressants",
+      type:"Sedation",
+      note:"May produce additive CNS depression."
+    }
+  ],
+
+  risperidone:[
+    {
+      substance:"Strong CYP2D6 inhibitors",
+      type:"PK",
+      note:"May increase risperidone exposure."
+    },
+    {
+      substance:"CNS depressants",
+      type:"Sedation",
+      note:"Potential additive CNS depression."
+    },
+    {
+      substance:"Dopamine agonists",
+      type:"PD",
+      note:"Dopamine antagonism may reduce dopaminergic treatment effects."
+    }
+  ]
+
+};
+
+
+/* =========================================================
+   15. MONITORING
+========================================================= */
+
+const MONITORING = {
+
+  escitalopram:[
+    ["Baseline","Clinical risk assessment","Assess indication, suicidality, bipolar history, interacting medicines and relevant cardiac risk."],
+    ["Titration","Response & tolerability","Monitor activation, GI effects, sleep and emerging suicidal ideation."],
+    ["Maintenance","Clinical response","Review efficacy, adverse effects, adherence and ongoing indication."],
+    ["Risk-based","ECG / electrolytes","Consider when cardiac, QT or electrolyte risk is clinically relevant."]
+  ],
+
+  sertraline:[
+    ["Baseline","Clinical assessment","Assess indication, suicidality, bipolar history and interactions."],
+    ["Titration","Response & adverse effects","Monitor GI effects, sleep, anxiety and activation."],
+    ["Maintenance","Clinical response","Review benefit, tolerability and ongoing need."]
+  ],
+
+  fluoxetine:[
+    ["Baseline","Clinical assessment","Assess indication, bipolarity, suicidality and interaction burden."],
+    ["Titration","Activation / sleep","Monitor agitation, anxiety, insomnia and GI effects."],
+    ["Maintenance","Response","Assess efficacy and tolerability."]
+  ],
+
+  olanzapine:[
+    ["Baseline","Weight / BMI","Establish baseline anthropometry."],
+    ["Baseline","Glucose / lipids","Assess metabolic risk and baseline parameters."],
+    ["Titration","BP / sedation","Monitor orthostasis and CNS effects."],
+    ["Maintenance","Metabolic monitoring","Periodic weight, glucose and lipid assessment is clinically relevant."]
+  ],
+
+  risperidone:[
+    ["Baseline","Weight / metabolic profile","Establish baseline metabolic parameters."],
+    ["Titration","EPS / prolactin symptoms","Assess akathisia, parkinsonism, sexual dysfunction and endocrine symptoms."],
+    ["Maintenance","Metabolic monitoring","Continue periodic weight, glucose and lipid assessment as clinically indicated."],
+    ["Clinical","Movement disorder assessment","Assess for tardive dyskinesia and other abnormal movements."]
+  ]
+
+};
+
+
+/* =========================================================
+   16. SPECIAL POPULATIONS
+========================================================= */
+
+const SPECIAL_POPULATIONS = {
+
+  escitalopram:{
+    Pregnancy:"Use requires an individual risk-benefit assessment.",
+    Lactation:"Passes into breast milk; infant exposure and clinical context should be considered.",
+    Elderly:"Consider increased sensitivity, hyponatraemia risk, falls and polypharmacy.",
+    Paediatrics:"Use depends on indication, age and regulatory status."
+  },
+
+  sertraline:{
+    Pregnancy:"Individualized risk-benefit assessment is required.",
+    Lactation:"Infant exposure is generally considered low, but individual assessment remains necessary.",
+    Elderly:"Monitor sodium, falls, polypharmacy and tolerability.",
+    Paediatrics:"Regulatory approvals vary by indication and age."
+  },
+
+  fluoxetine:{
+    Pregnancy:"Use requires individualized risk-benefit assessment.",
+    Lactation:"Long half-life and active metabolite are relevant when assessing exposure.",
+    Elderly:"Monitor sodium, falls, polypharmacy and tolerability.",
+    Paediatrics:"Regulatory indications vary; specialist assessment is required."
+  },
+
+  olanzapine:{
+    Pregnancy:"Use only after individualized assessment of maternal benefit and fetal/neonatal considerations.",
+    Lactation:"Enters breast milk; infant monitoring may be appropriate depending on exposure.",
+    Elderly:"Higher vulnerability to sedation, orthostasis and antipsychotic-related adverse outcomes.",
+    Paediatrics:"Use is indication- and age-specific."
+  },
+
+  risperidone:{
+    Pregnancy:"Individualized assessment is required based on maternal psychiatric risk and available pregnancy data.",
+    Lactation:"Risperidone and active metabolite can enter breast milk.",
+    Elderly:"Higher sensitivity to orthostasis, sedation and antipsychotic adverse outcomes.",
+    Paediatrics:"Indication- and age-specific regulatory considerations apply."
+  }
+
+};
+
+
+/* =========================================================
+   17. CLINICAL RATIONALE
+========================================================= */
+
+const CLINICAL_RATIONALE = {
+
+  escitalopram:[
+    "Once-daily administration can simplify treatment.",
+    "Relatively selective serotonergic pharmacology limits some off-target receptor effects seen with less selective agents.",
+    "Long half-life provides relatively stable exposure but also means adverse effects and discontinuation changes may evolve over time.",
+    "Sexual adverse effects remain an important SSRI-class consideration."
+  ],
+
+  sertraline:[
+    "Broad evidence base across depressive and several anxiety-spectrum disorders.",
+    "Once-daily dosing supports straightforward administration.",
+    "GI adverse effects can be prominent, particularly early in treatment.",
+    "Sexual adverse effects remain a class consideration."
+  ],
+
+  fluoxetine:[
+    "Long half-life can reduce the impact of occasional missed doses.",
+    "Long persistence can complicate switching and interaction management.",
+    "Fluoxetine is relatively activating compared with some other SSRIs.",
+    "CYP2D6 inhibition is an important interaction characteristic."
+  ],
+
+  olanzapine:[
+    "Broad receptor profile contributes to antipsychotic activity as well as sedation and metabolic effects.",
+    "Once-daily oral administration is generally practical.",
+    "Metabolic liability is an important characteristic when selecting and monitoring therapy.",
+    "Smoking status can affect exposure through CYP1A2 induction."
+  ],
+
+  risperidone:[
+    "Strong dopamine and serotonin receptor antagonism provides antipsychotic efficacy.",
+    "Prolactin elevation is an important distinguishing pharmacological consideration.",
+    "Dose-related EPS can become clinically important as exposure increases.",
+    "Renal function matters because active moiety/metabolites are substantially renally eliminated."
+  ]
+
+};
+
+
+/* =========================================================
+   18. CLINICAL PEARLS
+========================================================= */
+
+const CLINICAL_PEARLS = {
+
+  escitalopram:[
+    "Early nausea or activation may improve with continued treatment.",
+    "Clinical response generally develops over weeks rather than immediately.",
+    "Assess for bipolarity before initiating an antidepressant.",
+    "QT risk becomes more relevant with higher exposure and additional patient-specific risk factors.",
+    "Do not confuse pharmacological onset with clinical antidepressant response."
+  ],
+
+  sertraline:[
+    "Titration should be indication- and tolerability-driven.",
+    "GI adverse effects may be more prominent early in therapy.",
+    "Assess for bipolar disorder before antidepressant initiation.",
+    "Clinical response develops over weeks."
+  ],
+
+  fluoxetine:[
+    "Do not treat fluoxetine like a short half-life SSRI when planning switches.",
+    "Check for clinically important CYP2D6 substrates.",
+    "Activation and insomnia may occur, particularly early in treatment.",
+    "Norfluoxetine contributes to the long pharmacokinetic tail."
+  ],
+
+  olanzapine:[
+    "Document baseline weight and metabolic parameters.",
+    "Smoking status is pharmacokinetically relevant.",
+    "Sedation and metabolic adverse effects may occur independently.",
+    "Monitor for extrapyramidal symptoms and tardive dyskinesia."
+  ],
+
+  risperidone:[
+    "Ask specifically about menstrual, sexual and endocrine symptoms when clinically relevant.",
+    "Akathisia can be mistaken for worsening anxiety or agitation.",
+    "Renal impairment can materially affect exposure.",
+    "Monitor both metabolic effects and movement symptoms."
+  ]
+
+};
+
+
+/* =========================================================
+   19. REFERENCES
+========================================================= */
+
+const REFERENCES = {
+
+  ref_escitalopram_label:{
+    id:"ref_escitalopram_label",
+    title:"Escitalopram — official prescribing information",
+    type:"Regulatory / official product information",
+    year:"Current label",
+    tier:"Tier 1",
+    url:null
+  },
+
+  ref_sertraline_label:{
+    id:"ref_sertraline_label",
+    title:"Sertraline — official prescribing information",
+    type:"Regulatory / official product information",
+    year:"Current label",
+    tier:"Tier 1",
+    url:null
+  },
+
+  ref_fluoxetine_label:{
+    id:"ref_fluoxetine_label",
+    title:"Fluoxetine — official prescribing information",
+    type:"Regulatory / official product information",
+    year:"Current label",
+    tier:"Tier 1",
+    url:null
+  },
+
+  ref_olanzapine_label:{
+    id:"ref_olanzapine_label",
+    title:"Olanzapine — official prescribing information",
+    type:"Regulatory / official product information",
+    year:"Current label",
+    tier:"Tier 1",
+    url:null
+  },
+
+  ref_risperidone_label:{
+    id:"ref_risperidone_label",
+    title:"Risperidone — official prescribing information",
+    type:"Regulatory / official product information",
+    year:"Current label",
+    tier:"Tier 1",
+    url:null
+  },
+
+  ref_ssri_review:{
+    id:"ref_ssri_review",
+    title:"Peer-reviewed SSRI pharmacology and clinical evidence",
+    type:"Review / peer-reviewed literature",
+    year:"Production source record required",
+    tier:"Tier 3–4",
+    url:null
+  },
+
+  ref_guidelines:{
+    id:"ref_guidelines",
+    title:"Relevant national and international clinical guidelines",
+    type:"Clinical guideline",
+    year:"Production source record required",
+    tier:"Tier 2",
+    url:null
+  },
+
+  ref_dailymed:{
+    id:"ref_dailymed",
+    title:"DailyMed official drug labeling repository",
+    type:"Official drug labeling repository",
+    year:"Current database",
+    tier:"Tier 1",
+    url:null
+  }
+
+};
+
+
+/* =========================================================
+   20. COMMERCIAL SOURCES
+========================================================= */
+
+const COMMERCIAL_SOURCES = {
+
+  demo:{
+    id:"demo",
+    name:"DEMO / placeholder",
+    type:"Placeholder",
+    reliability:"Not a live commercial source"
+  },
+
+  t1mg:{
+    id:"t1mg",
+    name:"1mg",
+    type:"Indian medicine catalogue",
+    reliability:"Commercial availability/price source"
+  },
+
+  apollo:{
+    id:"apollo",
+    name:"Apollo Pharmacy",
+    type:"Indian pharmacy catalogue",
+    reliability:"Commercial availability/price source"
+  },
+
+  netmeds:{
+    id:"netmeds",
+    name:"Netmeds",
+    type:"Indian pharmacy catalogue",
+    reliability:"Commercial availability/price source"
+  },
+
+  pharmeasy:{
+    id:"pharmeasy",
+    name:"PharmEasy",
+    type:"Indian pharmacy catalogue",
+    reliability:"Commercial availability/price source"
+  }
+
+};
+
+
+/* =========================================================
+   APPLICATION STATE
+========================================================= */
+
+const state = {
+
+  selectedDrug:"escitalopram",
+
+  filter:"all",
+
+  search:"",
+
+  favourites:new Set(),
+
+  comparison:[]
+
+};
+
+
+/* =========================================================
+   NORMALIZED DATA ACCESS FUNCTIONS
+========================================================= */
+
+function getMolecule(id){
+  return MOLECULES[id] || null;
+}
+
+function getFormulation(id){
+  return FORMULATIONS[id] || null;
+}
+
+function getManufacturer(id){
+  return MANUFACTURERS[id] || null;
+}
+
+function getBrands(moleculeId){
+
+  return BRANDS.filter(
+    brand => brand.molecule_id === moleculeId
+  );
+
+}
+
+function getPriceRecordsForBrand(brandId){
+
+  return PRICE_RECORDS.filter(
+    price => price.brand_id === brandId
+  );
+
+}
+
+function getCommercialRecords(moleculeId){
+
+  return getBrands(moleculeId).map(brand => ({
+    brand,
+    manufacturer:getManufacturer(brand.manufacturer_id),
+    prices:getPriceRecordsForBrand(brand.id)
+  }));
+
+}
+
+function getIndications(moleculeId){
+
+  return DRUG_INDICATIONS
+    .filter(x => x.molecule_id === moleculeId)
+    .map(x => ({
+      ...x,
+      indication:INDICATIONS.find(
+        indication => indication.id === x.indication_id
+      )
+    }));
+
+}
+
+function getDosing(moleculeId){
+
+  return DOSING_RECORDS.filter(
+    x => x.molecule_id === moleculeId
+  );
+
+}
+
+function getPharmacology(id){
+  return PHARMACOLOGY[id] || {};
+}
+
+function getPK(id){
+  return PHARMACOKINETICS[id] || {};
+}
+
+function getAdverseEffects(id){
+  return ADVERSE_EFFECTS[id] || {};
+}
+
+function getWarnings(id){
+  return WARNINGS[id] || {};
+}
+
+function getInteractions(id){
+  return INTERACTIONS[id] || [];
+}
+
+function getMonitoring(id){
+  return MONITORING[id] || [];
+}
+
+function getSpecialPopulations(id){
+  return SPECIAL_POPULATIONS[id] || {};
+}
+
+function getRationale(id){
+  return CLINICAL_RATIONALE[id] || [];
+}
+
+function getPearls(id){
+  return CLINICAL_PEARLS[id] || [];
+}
+
+
+/* =========================================================
+   VALIDATION LAYER
+========================================================= */
+
+function validateDatabase(){
+
+  const errors=[];
+
+  Object.values(MOLECULES).forEach(drug => {
+
+    if(!drug.id)
+      errors.push("Molecule missing id");
+
+    if(!drug.name)
+      errors.push(`${drug.id}: missing name`);
+
+    if(!FORMULATIONS[drug.id])
+      errors.push(`${drug.id}: missing formulation`);
+
+    if(!PHARMACOLOGY[drug.id])
+      errors.push(`${drug.id}: missing pharmacology`);
+
+    if(!PHARMACOKINETICS[drug.id])
+      errors.push(`${drug.id}: missing PK`);
+
+    if(!REFERENCES)
+      errors.push(`${drug.id}: references unavailable`);
+
+  });
+
+  BRANDS.forEach(brand => {
+
+    if(!MOLECULES[brand.molecule_id])
+      errors.push(
+        `Brand ${brand.id}: invalid molecule_id`
+      );
+
+    if(!MANUFACTURERS[brand.manufacturer_id])
+      errors.push(
+        `Brand ${brand.id}: invalid manufacturer_id`
+      );
+
+  });
+
+  return {
+    valid:errors.length === 0,
+    errors
+  };
+
+}
+
+
+/* =========================================================
+   SEARCH INDEX
+========================================================= */
+
+function buildSearchIndex(){
+
+  return Object.values(MOLECULES).map(drug => {
+
+    const brandTerms = getBrands(drug.id)
+      .flatMap(brand => [
+        brand.name,
+        brand.composition,
+        getManufacturer(brand.manufacturer_id)?.name || ""
+      ]);
+
+    const indicationTerms = getIndications(drug.id)
+      .map(x => x.indication?.name || "");
+
+    const formulation = getFormulation(drug.id);
+
+    return {
+
+      molecule_id:drug.id,
+
+      terms:[
+        drug.name,
+        ...drug.synonyms,
+        ...drug.aliases,
+        ...drug.departments,
+        ...drug.drugClasses,
+        ...drug.therapeuticClasses,
+        ...(formulation?.dosage_forms || []),
+        ...(formulation?.strengths || []),
+        ...brandTerms,
+        ...indicationTerms
+      ].map(normalize)
+
+    };
+
+  });
+
+}
+
+const SEARCH_INDEX = buildSearchIndex();
+
+
+/* =========================================================
+   SEARCH ENGINE
+========================================================= */
+
+function normalize(value){
+
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim();
+
+}
+
+function scoreSearchRecord(record,query){
+
+  const q=normalize(query);
+
+  if(!q)
+    return 0;
+
+  const molecule=getMolecule(record.molecule_id);
+
+  let score=0;
+
+  record.terms.forEach(term => {
+
+    if(term===q)
+      score=Math.max(score,100);
+
+    else if(term.startsWith(q))
+      score=Math.max(score,90);
+
+    else if(term.includes(q))
+      score=Math.max(score,75);
+
+    const words=term.split(/\s+/);
+
+    if(words.some(word=>word.startsWith(q)))
+      score=Math.max(score,65);
+
+  });
+
+  if(
+    normalize(molecule.name)===q
+  ){
+    score=120;
+  }
+
+  return score;
+
+}
+
+function searchDrugs(query){
+
+  if(!query.trim())
+    return Object.values(MOLECULES);
+
+  return SEARCH_INDEX
+    .map(record => ({
+      id:record.molecule_id,
+      score:scoreSearchRecord(record,query)
+    }))
+    .filter(x=>x.score>0)
+    .sort((a,b)=>b.score-a.score)
+    .map(x=>getMolecule(x.id));
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filterDrugs(filter){
+
+  if(filter==="all")
+    return Object.values(MOLECULES);
+
+  return Object.values(MOLECULES).filter(drug =>
+    drug.departments.includes(filter) ||
+    drug.drugClasses.includes(filter) ||
+    drug.therapeuticClasses.includes(filter)
+  );
+
+}
+
+
+/* =========================================================
+   LIBRARY RENDER
+========================================================= */
+
+function renderLibrary(){
+
+  const list=document.getElementById("libraryList");
+
+  let drugs=state.search
+    ? searchDrugs(state.search)
+    : filterDrugs(state.filter);
+
+  document.getElementById("drugCount").textContent=drugs.length;
+
+  if(!drugs.length){
+
+    list.innerHTML=`
+      <div class="empty">
+        No medicines match this search.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  list.innerHTML=drugs.map(drug=>{
+
+    const active=
+      drug.id===state.selectedDrug;
+
+    const favourite=
+      state.favourites.has(drug.id);
+
+    return `
+
+      <div
+        class="drug-item ${active ? "active":""}"
+        data-drug="${drug.id}"
+      >
+
+        <div class="drug-item-top">
+
+          <div class="drug-item-name">
+            ${drug.name}
+          </div>
+
+          <div class="fav">
+            ${favourite ? "★":"☆"}
+          </div>
+
+        </div>
+
+        <div class="item-meta">
+
+          <span class="chip blue">
+            ${drug.drugClasses[0]}
+          </span>
+
+          <span class="chip purple">
+            ${drug.therapeuticClasses[0]}
+          </span>
+
+          <span class="chip">
+            ${(getFormulation(drug.id)?.strengths || []).slice(0,2).join(" / ")}
+          </span>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  list.querySelectorAll(".drug-item").forEach(item=>{
+
+    item.addEventListener("click",event=>{
+
+      const id=item.dataset.drug;
+
+      if(event.target.classList.contains("fav")){
+
+        toggleFavourite(id);
+
+      }else{
+
+        selectDrug(id);
+
+      }
+
+    });
+
+  });
+
+}
+
+
+/* =========================================================
+   COMMERCIAL RENDER
+========================================================= */
+
+function renderCommercial(molecule){
+
+  const formulation=getFormulation(molecule.id);
+  const records=getCommercialRecords(molecule.id);
+
+  document.getElementById("commercialAvatar")
+    .textContent=molecule.name.slice(0,2).toUpperCase();
+
+  document.getElementById("commercialName")
+    .textContent=molecule.name;
+
+  document.getElementById("commercialMeta")
+    .textContent=
+      `${molecule.drugClasses.join(" · ")} · ${molecule.therapeuticClasses[0]}`;
+
+  document.getElementById("summaryForms")
+    .textContent=
+      formulation?.dosage_forms?.join(", ") || "—";
+
+  document.getElementById("summaryStrengths")
+    .textContent=
+      formulation?.strengths?.join(", ") || "—";
+
+  document.getElementById("summaryBrands")
+    .textContent=
+      records.length;
+
+  const container=document.getElementById("brandList");
+
+  if(!records.length){
+
+    container.innerHTML=`
+      <div class="empty">
+        No commercial records available.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  container.innerHTML=records.map(record=>{
+
+    const brand=record.brand;
+    const manufacturer=record.manufacturer;
+
+    const price=
+      record.prices[0] || null;
+
+    return `
+
+      <div class="brand-card">
+
+        <div class="brand-top">
+
+          <div class="brand-main">
+
+            <div class="brand-name">
+              ${brand.name}
+            </div>
+
+            <div class="brand-composition">
+              ${brand.composition}
+            </div>
+
+            <div class="manufacturer">
+              ${manufacturer?.name || "Unknown manufacturer"}
+            </div>
+
+          </div>
+
+          <div class="brand-price">
+
+            <div class="price">
+              ${price?.listed_price || "—"}
+            </div>
+
+            ${
+              price?.is_demo
+              ? `<div class="demo">DEMO</div>`
+              :""
+            }
+
+          </div>
+
+        </div>
+
+        <div class="brand-grid">
+
+          <div class="brand-detail">
+            <span>Strength</span>
+            ${brand.strength}
+          </div>
+
+          <div class="brand-detail">
+            <span>Dosage form</span>
+            ${brand.dosage_form}
+          </div>
+
+          <div class="brand-detail">
+            <span>Pack</span>
+            ${price?.pack_size || "—"}
+          </div>
+
+          <div class="brand-detail">
+            <span>MRP</span>
+            ${price?.mrp || "—"}
+          </div>
+
+          <div class="brand-detail">
+            <span>Unit price</span>
+            ${price?.unit_price || "—"}
+          </div>
+
+          <div class="brand-detail">
+            <span>Availability</span>
+            ${price?.availability || "—"}
+          </div>
+
+        </div>
+
+        <div class="source-line">
+
+          <span class="source">
+            ${
+              COMMERCIAL_SOURCES[
+                price?.source_id || "demo"
+              ]?.name || "Unknown source"
+            }
+          </span>
+
+          <span>
+            ${
+              price?.is_demo
+              ? "Not live / placeholder"
+              : (price?.checked_at || "—")
+            }
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusHTML(status){
+
+  if(status==="approved")
+    return `<span class="status approved">Approved / labelled</span>`;
+
+  if(status==="evidence")
+    return `<span class="status evidence">Evidence-supported</span>`;
+
+  return `<span class="status offlabel">Off-label</span>`;
+
+}
+
+
+/* =========================================================
+   MECHANISM RENDER
+========================================================= */
+
+function renderMechanism(molecule){
+
+  const p=getPharmacology(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Mechanism of Action
+          </div>
+
+          <div class="card-sub">
+            Structured pharmacological pathway
+          </div>
+        </div>
+
+        <span class="hero-chip primary">
+          ${molecule.drugClasses[0]}
+        </span>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid2">
+
+          <div>
+
+            <div class="flow">
+
+              <div class="flow-node">
+                <div class="flow-label">Target</div>
+                <div class="flow-value">${p.target}</div>
+              </div>
+
+              <div class="arrow">→</div>
+
+              <div class="flow-node">
+                <div class="flow-label">Primary effect</div>
+                <div class="flow-value">${p.primary_effect}</div>
+              </div>
+
+              <div class="arrow">→</div>
+
+              <div class="flow-node">
+                <div class="flow-label">Downstream</div>
+                <div class="flow-value">${p.downstream_effect}</div>
+              </div>
+
+              <div class="arrow">→</div>
+
+              <div class="flow-node">
+                <div class="flow-label">Clinical effect</div>
+                <div class="flow-value">${p.clinical_effect}</div>
+              </div>
+
+            </div>
+
+            <p class="explanation">
+              ${p.mechanism_summary}
+            </p>
+
+          </div>
+
+          <div>
+
+            <div class="card-sub" style="margin-bottom:6px">
+              Target / receptor profile
+            </div>
+
+            <div class="target-list">
+
+              ${p.targets.map(t=>`
+                <span class="target">
+                  ${t.name}
+                </span>
+              `).join("")}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   CLINICAL USES
+========================================================= */
+
+function renderIndications(molecule){
+
+  const records=getIndications(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Clinical Uses
+          </div>
+
+          <div class="card-sub">
+            Regulatory status and evidence context are separated
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        ${
+          records.length
+          ? records.map(x=>`
+
+            <div class="indication">
+
+              <div class="ind-name">
+                ${x.indication.name}
+              </div>
+
+              <div>
+                ${statusHTML(x.status)}
+              </div>
+
+              <div class="ind-role">
+                ${x.role}
+              </div>
+
+            </div>
+
+          `).join("")
+          : `
+            <div class="empty">
+              No indication records available.
+            </div>
+          `
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   DOSING
+========================================================= */
+
+function renderDosing(molecule){
+
+  const records=getDosing(molecule.id);
+
+  const adult=
+    records.find(x=>x.population==="adult");
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Dosing Dashboard
+          </div>
+
+          <div class="card-sub">
+            Population-specific structured dosing records
+          </div>
+        </div>
+
+        <span class="hero-chip">
+          ${adult?.frequency || "—"}
+        </span>
+
+      </div>
+
+      <div class="card-body">
+
+        ${
+          adult
+          ? `
+
+          <div class="dose-bar">
+
+            <div class="dose-line"></div>
+
+            <div class="dose-points">
+
+              <div class="dose-point">
+                <div class="point"></div>
+                <div class="dose-value">
+                  ${adult.starting}
+                </div>
+                <div class="dose-label">
+                  Starting
+                </div>
+              </div>
+
+              <div class="dose-point">
+                <div class="point"></div>
+                <div class="dose-value">
+                  ${adult.usual}
+                </div>
+                <div class="dose-label">
+                  Usual range
+                </div>
+              </div>
+
+              <div class="dose-point">
+                <div class="point"></div>
+                <div class="dose-value">
+                  ${adult.maximum}
+                </div>
+                <div class="dose-label">
+                  Maximum
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          `
+          :""
+        }
+
+        <table class="dose-table">
+
+          <thead>
+
+            <tr>
+              <th>Population</th>
+              <th>Starting</th>
+              <th>Usual</th>
+              <th>Maximum</th>
+              <th>Titration / notes</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            ${
+              records.map(record=>`
+
+                <tr>
+
+                  <td>
+                    ${capitalize(record.population)}
+                  </td>
+
+                  <td>
+                    ${record.starting}
+                  </td>
+
+                  <td>
+                    ${record.usual}
+                  </td>
+
+                  <td>
+                    ${record.maximum}
+                  </td>
+
+                  <td>
+                    ${record.titration}
+                  </td>
+
+                </tr>
+
+              `).join("")
+            }
+
+          </tbody>
+
+        </table>
+
+        <div class="data-note">
+          Phase 2 separates dosing records from molecule identity.
+          Production clinical deployment requires source-level verification
+          of every dose, population and indication-specific record.
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   PK
+========================================================= */
+
+function renderPK(molecule){
+
+  const pk=getPK(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Pharmacokinetics
+          </div>
+
+          <div class="card-sub">
+            ADME and exposure characteristics
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid4">
+
+          ${[
+            ["Bioavailability",pk.bioavailability],
+            ["Tmax",pk.tmax],
+            ["Half-life",pk.half_life],
+            ["Protein binding",pk.protein_binding]
+          ].map(x=>`
+
+            <div class="fact">
+
+              <div class="fact-label">
+                ${x[0]}
+              </div>
+
+              <div class="fact-value">
+                ${x[1]}
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-line"></div>
+
+          <div class="timeline-items">
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">
+                Administration
+              </div>
+              <div class="timeline-value">
+                Oral / labelled route
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">
+                Absorption
+              </div>
+              <div class="timeline-value">
+                ${pk.tmax}
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">
+                Distribution
+              </div>
+              <div class="timeline-value">
+                ${pk.protein_binding}
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">
+                Metabolism
+              </div>
+              <div class="timeline-value">
+                ${pk.enzymes.join(" · ")}
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">
+                Steady state
+              </div>
+              <div class="timeline-value">
+                ${pk.steady_state}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="grid3">
+
+          <div class="fact">
+            <div class="fact-label">Metabolism</div>
+            <div class="fact-value">
+              ${pk.metabolism}
+            </div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Active metabolites</div>
+            <div class="fact-value">
+              ${pk.active_metabolites}
+            </div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Elimination</div>
+            <div class="fact-value">
+              ${pk.elimination}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   ADVERSE EFFECTS
+========================================================= */
+
+function renderAdverseEffects(molecule){
+
+  const effects=getAdverseEffects(molecule.id);
+
+  const groups=[
+    ["COMMON","common","common"],
+    ["IMPORTANT","important","important"],
+    ["SERIOUS","serious","serious"],
+    ["RARE","rare","rare"]
+  ];
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Adverse Effects
+          </div>
+
+          <div class="card-sub">
+            Clinical grouping without arbitrary safety scoring
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid2">
+
+          ${groups.map(group=>`
+
+            <div class="effect">
+
+              <div class="effect-head">
+                ${group[0]}
+              </div>
+
+              <div class="effect-body">
+
+                ${(effects[group[1]] || []).map(effect=>`
+
+                  <span class="effect-chip ${group[2]}">
+                    ${effect}
+                  </span>
+
+                `).join("")}
+
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   WARNINGS
+========================================================= */
+
+function renderWarnings(molecule){
+
+  const data=getWarnings(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Warnings, Contraindications & Precautions
+          </div>
+
+          <div class="card-sub">
+            High-value risk information
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        ${data.warnings.map(w=>`
+
+          <div class="warning ${w.type==="red" ? "red":""}">
+
+            <div class="warning-title">
+              ${w.title}
+            </div>
+
+            <div class="warning-text">
+              ${w.text}
+            </div>
+
+          </div>
+
+        `).join("")}
+
+        <div
+          style="
+            margin-top:12px;
+            font-size:8px;
+            font-weight:850;
+            color:#64748b;
+            text-transform:uppercase;
+            letter-spacing:.06em;
+          "
+        >
+          Contraindications
+        </div>
+
+        <div style="margin-top:5px">
+
+          ${data.contraindications.map(item=>`
+
+            <div
+              style="
+                padding:6px 0;
+                border-bottom:1px solid #f1f5f9;
+                font-size:8px;
+                color:#475569;
+              "
+            >
+              • ${item}
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   INTERACTIONS
+========================================================= */
+
+function renderInteractions(molecule){
+
+  const interactions=getInteractions(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Important Drug Interactions
+          </div>
+
+          <div class="card-sub">
+            Mechanism and interaction category are retained separately
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        ${
+          interactions.length
+          ? interactions.map(x=>`
+
+            <div class="interaction">
+
+              <div class="interaction-name">
+                ${x.substance}
+              </div>
+
+              <div>
+                <span class="interaction-type">
+                  ${x.type}
+                </span>
+              </div>
+
+              <div class="interaction-note">
+                ${x.note}
+              </div>
+
+            </div>
+
+          `).join("")
+          : `
+            <div class="empty">
+              No interaction records available.
+            </div>
+          `
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   MONITORING
+========================================================= */
+
+function renderMonitoring(molecule){
+
+  const monitoring=getMonitoring(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Monitoring
+          </div>
+
+          <div class="card-sub">
+            Baseline → titration → maintenance
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid4">
+
+          ${monitoring.map(item=>`
+
+            <div class="monitor">
+
+              <div class="monitor-stage">
+                ${item[0]}
+              </div>
+
+              <div class="monitor-name">
+                ${item[1]}
+              </div>
+
+              <div class="monitor-note">
+                ${item[2]}
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   SPECIAL POPULATIONS
+========================================================= */
+
+function renderSpecialPopulations(molecule){
+
+  const data=getSpecialPopulations(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Special Populations
+          </div>
+
+          <div class="card-sub">
+            Population-specific evidence context
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="grid2">
+
+          ${Object.entries(data).map(([key,value])=>`
+
+            <div class="fact">
+
+              <div class="fact-label">
+                ${key}
+              </div>
+
+              <div
+                class="fact-value"
+                style="
+                  font-size:9px;
+                  font-weight:550;
+                  line-height:1.55;
+                  color:#475569;
+                "
+              >
+                ${value}
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   CLINICAL RATIONALE
+========================================================= */
+
+function renderRationale(molecule){
+
+  const data=getRationale(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Clinical Rationale
+          </div>
+
+          <div class="card-sub">
+            Drug characteristics and trade-offs — not a ranking
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        ${data.map((item,index)=>`
+
+          <div class="rationale">
+
+            <div class="rationale-number">
+              ${index+1}
+            </div>
+
+            <div class="rationale-text">
+              ${item}
+            </div>
+
+          </div>
+
+        `).join("")}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   CLINICAL PEARLS
+========================================================= */
+
+function renderPearls(molecule){
+
+  const data=getPearls(molecule.id);
+
+  return `
+
+    <div class="card">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Clinical Pearls
+          </div>
+
+          <div class="card-sub">
+            High-yield factual teaching points
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        ${data.map(item=>`
+
+          <div class="pearl">
+            ${item}
+          </div>
+
+        `).join("")}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   REFERENCES
+========================================================= */
+
+function collectReferences(molecule){
+
+  const ids=new Set();
+
+  getIndications(molecule.id)
+    .forEach(record =>
+      (record.evidence_refs || [])
+        .forEach(id=>ids.add(id))
+    );
+
+  getDosing(molecule.id)
+    .forEach(record =>
+      (record.source_refs || [])
+        .forEach(id=>ids.add(id))
+    );
+
+  /*
+   * Add general sources relevant to the drug.
+   */
+  ids.add(
+    molecule.id==="escitalopram"
+      ? "ref_escitalopram_label"
+      : molecule.id==="sertraline"
+      ? "ref_sertraline_label"
+      : molecule.id==="fluoxetine"
+      ? "ref_fluoxetine_label"
+      : molecule.id==="olanzapine"
+      ? "ref_olanzapine_label"
+      : "ref_risperidone_label"
+  );
+
+  ids.add("ref_dailymed");
+
+  return [...ids]
+    .map(id=>REFERENCES[id])
+    .filter(Boolean);
+
+}
+
+function renderReferences(molecule){
+
+  const references=collectReferences(molecule);
+
+  return `
+
+    <div class="card" id="references">
+
+      <div class="card-head">
+
+        <div>
+          <div class="card-title">
+            Evidence & Sources
+          </div>
+
+          <div class="card-sub">
+            Provenance is attached to structured clinical records
+          </div>
+        </div>
+
+        <span class="hero-chip primary">
+          ${references.length} sources
+        </span>
+
+      </div>
+
+      <div class="card-body">
+
+        ${references.map((ref,index)=>`
+
+          <div class="reference">
+
+            <div class="ref-number">
+              ${index+1}
+            </div>
+
+            <div>
+
+              <div class="ref-title">
+                ${ref.title}
+              </div>
+
+              <div class="ref-meta">
+                ${ref.type} · ${ref.year}
+              </div>
+
+            </div>
+
+            <div class="tier">
+              ${ref.tier}
+            </div>
+
+          </div>
+
+        `).join("")}
+
+        <div class="data-note">
+
+          <strong>Evidence architecture:</strong>
+          regulatory/official documents and authoritative guidelines
+          should supply the primary clinical facts. Systematic reviews
+          and high-quality primary literature should support evidence
+          questions. Commercial sources should be restricted primarily
+          to brand, pack, price and availability metadata.
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   MAIN DETAIL RENDER
+========================================================= */
+
+function renderDetails(molecule){
+
+  const container=document.getElementById("detail");
+
+  const formulation=getFormulation(molecule.id);
+
+  const favourite=
+    state.favourites.has(molecule.id);
+
+  container.innerHTML=`
+
+    <div class="hero">
+
+      <div>
+
+        <div class="hero-kicker">
+          ${molecule.departments.join(" · ")}
+        </div>
+
+        <div class="hero-title">
+          ${molecule.name}
+        </div>
+
+        <div class="hero-sub">
+          ${molecule.drugClasses.join(" · ")}
+        </div>
+
+        <div class="hero-chips">
+
+          ${molecule.therapeuticClasses.map(x=>`
+            <span class="hero-chip primary">
+              ${x}
+            </span>
+          `).join("")}
+
+          ${(formulation?.dosage_forms || []).map(x=>`
+            <span class="hero-chip">
+              ${x}
+            </span>
+          `).join("")}
+
+          ${(formulation?.routes || []).map(x=>`
+            <span class="hero-chip">
+              ${capitalize(x)}
+            </span>
+          `).join("")}
+
+        </div>
+
+      </div>
+
+      <div class="hero-actions">
+
+        <button
+          class="icon-btn"
+          id="favouriteButton"
+          title="Favourite"
+        >
+          ${favourite ? "★":"☆"}
+        </button>
+
+        <button
+          class="icon-btn"
+          id="compareDrugButton"
+          title="Add to comparison"
+        >
+          ⇄
+        </button>
+
+      </div>
+
+    </div>
+
+
+    ${renderMechanism(molecule)}
+
+    ${renderIndications(molecule)}
+
+    ${renderDosing(molecule)}
+
+    ${renderPK(molecule)}
+
+    ${renderAdverseEffects(molecule)}
+
+    ${renderWarnings(molecule)}
+
+    ${renderInteractions(molecule)}
+
+    ${renderMonitoring(molecule)}
+
+    ${renderSpecialPopulations(molecule)}
+
+    ${renderRationale(molecule)}
+
+    ${renderPearls(molecule)}
+
+    ${renderReferences(molecule)}
+
+  `;
+
+
+  document
+    .getElementById("favouriteButton")
+    .addEventListener("click",()=>{
+      toggleFavourite(molecule.id);
+    });
+
+
+  document
+    .getElementById("compareDrugButton")
+    .addEventListener("click",()=>{
+      addToComparison(molecule.id);
+    });
+
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+function selectDrug(id){
+
+  const molecule=getMolecule(id);
+
+  if(!molecule)
+    return;
+
+  state.selectedDrug=id;
+
+  renderLibrary();
+  renderCommercial(molecule);
+  renderDetails(molecule);
+
+  document.getElementById("intelligencePane")
+    .scrollTop=0;
+
+}
+
+
+/* =========================================================
+   FAVOURITES
+========================================================= */
+
+function toggleFavourite(id){
+
+  if(state.favourites.has(id)){
+
+    state.favourites.delete(id);
+    showToast("Removed from favourites");
+
+  }else{
+
+    state.favourites.add(id);
+    showToast("Added to favourites");
+
+  }
+
+  renderLibrary();
+  renderDetails(getMolecule(state.selectedDrug));
+
+}
+
+
+/* =========================================================
+   COMPARISON STATE
+========================================================= */
+
+function addToComparison(id){
+
+  if(!state.comparison.includes(id)){
+
+    if(state.comparison.length>=4){
+
+      showToast(
+        "Comparison workspace supports up to 4 medicines."
+      );
+
+      return;
+
+    }
+
+    state.comparison.push(id);
+
+    showToast(
+      `${getMolecule(id).name} added to comparison`
+    );
+
+  }else{
+
+    state.comparison=
+      state.comparison.filter(x=>x!==id);
+
+    showToast(
+      `${getMolecule(id).name} removed from comparison`
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SEARCH RESULTS
+========================================================= */
+
+function renderSearchResults(query){
+
+  const box=document.getElementById("searchResults");
+
+  if(!query.trim()){
+
+    box.classList.remove("show");
+    box.innerHTML="";
+
+    return;
+
+  }
+
+  const results=searchDrugs(query).slice(0,7);
+
+  if(!results.length){
+
+    box.innerHTML=`
+      <div class="empty">
+        No matching medicine, brand, class or indication.
+      </div>
+    `;
+
+    box.classList.add("show");
+
+    return;
+
+  }
+
+  box.innerHTML=results.map(drug=>`
+
+    <div
+      class="result"
+      data-result="${drug.id}"
+    >
+
+      <div class="result-icon">
+        ${drug.name.slice(0,2).toUpperCase()}
+      </div>
+
+      <div class="result-main">
+
+        <div class="result-title">
+          ${drug.name}
+        </div>
+
+        <div class="result-meta">
+          ${drug.drugClasses.join(" · ")}
+        </div>
+
+      </div>
+
+      <div class="result-tag">
+        Molecule
+      </div>
+
+    </div>
+
+  `).join("");
+
+  box.classList.add("show");
+
+  box.querySelectorAll(".result")
+    .forEach(item=>{
+
+      item.addEventListener("click",()=>{
+
+        const id=item.dataset.result;
+
+        state.search="";
+        document.getElementById("searchInput").value="";
+
+        box.classList.remove("show");
+
+        selectDrug(id);
+
+      });
+
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH EVENT
+========================================================= */
+
+document
+  .getElementById("searchInput")
+  .addEventListener("input",event=>{
+
+    state.search=event.target.value;
+
+    renderLibrary();
+    renderSearchResults(state.search);
+
+  });
+
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keydown",event=>{
+
+    if(event.key==="Escape"){
+
+      event.target.value="";
+      state.search="";
+
+      document
+        .getElementById("searchResults")
+        .classList.remove("show");
+
+      renderLibrary();
+
+    }
+
+  });
+
+
+document.addEventListener("click",event=>{
+
+  const searchWrap=
+    document.querySelector(".search-wrap");
+
+  if(!searchWrap.contains(event.target)){
+
+    document
+      .getElementById("searchResults")
+      .classList.remove("show");
+
+  }
+
+});
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+document
+  .querySelectorAll(".filter")
+  .forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+      document
+        .querySelectorAll(".filter")
+        .forEach(x=>x.classList.remove("active"));
+
+      button.classList.add("active");
+
+      state.filter=button.dataset.filter;
+      state.search="";
+
+      document.getElementById("searchInput").value="";
+
+      renderLibrary();
+
+    });
+
+  });
+
+
+/* =========================================================
+   TOP ACTIONS
+========================================================= */
+
+document
+  .getElementById("compareButton")
+  .addEventListener("click",()=>{
+
+    showToast(
+      state.comparison.length
+        ? `${state.comparison.length} medicine(s) selected for comparison`
+        : "Add medicines using ⇄ to build a comparison"
+    );
+
+  });
+
+
+document
+  .getElementById("evidenceButton")
+  .addEventListener("click",()=>{
+
+    document
+      .getElementById("references")
+      ?.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  });
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+========================================================= */
+
+document.addEventListener("keydown",event=>{
+
+  if(
+    (event.metaKey || event.ctrlKey) &&
+    event.key.toLowerCase()==="k"
+  ){
+
+    event.preventDefault();
+
+    document
+      .getElementById("searchInput")
+      .focus();
+
+  }
+
+});
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+document
+  .querySelectorAll(".mobile-tab")
+  .forEach(tab=>{
+
+    tab.addEventListener("click",()=>{
+
+      document
+        .querySelectorAll(".mobile-tab")
+        .forEach(x=>x.classList.remove("active"));
+
+      document
+        .querySelectorAll(".pane")
+        .forEach(x=>x.classList.remove("mobile-active"));
+
+      tab.classList.add("active");
+
+      document
+        .getElementById(tab.dataset.pane)
+        .classList.add("mobile-active");
+
+    });
+
+  });
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function capitalize(value){
+
+  if(!value)
+    return "";
+
+  return value.charAt(0).toUpperCase()+value.slice(1);
+
+}
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast=document.getElementById("toast");
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
+
+}
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+function initialise(){
+
+  const validation=validateDatabase();
+
+  if(!validation.valid){
+
+    console.error(
+      "DoctorJet database validation errors:",
+      validation.errors
+    );
+
+  }
+
+  renderLibrary();
+
+  const initial=getMolecule(state.selectedDrug);
+
+  renderCommercial(initial);
+  renderDetails(initial);
+
+}
+
+initialise();
+
+</script>
+
+</body>
+</html>
