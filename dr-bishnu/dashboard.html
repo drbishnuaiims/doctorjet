@@ -1487,23 +1487,90 @@
     if (!Array.isArray(list)) return [];
 
     return list.map(item => ({
-      appointmentId: item.appointmentId || item["Appointment ID"] || "",
-      createdAt: item.createdAt || item["Created At"] || "",
-      patientName: item.patientName || item["Patient Name"] || "",
-      age: item.age || item["Age"] || "",
-      gender: item.gender || item["Gender"] || "",
-      phone: item.phone || item["Phone"] || "",
-      email: item.email || item["Email"] || "",
-      appointmentDate: item.appointmentDate || item["Appointment Date"] || "",
-      appointmentTime: item.appointmentTime || item["Appointment Time"] || "",
-      doctor: item.doctor || item["Doctor"] || "Dr Bishnu Prasad Sahoo",
-      department: item.department || item["Department"] || "Psychiatry",
-      consultationMode: item.consultationMode || item["Consultation Mode"] || "",
-      reason: item.reason || item["Reason"] || "",
-      additionalNotes: item.additionalNotes || item["Additional Notes"] || "",
-      status: item.status || item["Status"] || "Pending",
-      lastUpdated: item.lastUpdated || item["Last Updated"] || ""
+      appointmentId: getField(item, [
+        "appointmentId", "Appointment ID", "appointment_id", "id"
+      ]),
+      createdAt: getField(item, [
+        "createdAt", "Created At", "created_at"
+      ]),
+      patientName: getField(item, [
+        "patientName", "Patient Name", "patient_name", "name"
+      ]),
+      age: getField(item, [
+        "age", "Age", "patientAge", "Patient Age"
+      ]),
+      gender: getField(item, [
+        "gender", "Gender", "patientGender", "Patient Gender"
+      ]),
+      phone: getField(item, [
+        "phone", "Phone", "mobile", "Mobile", "phoneNumber", "Phone Number"
+      ]),
+      email: getField(item, [
+        "email", "Email", "emailAddress", "Email Address"
+      ]),
+
+      // Support every likely date key returned by Apps Script / Sheets.
+      appointmentDate: getField(item, [
+        "appointmentDate",
+        "Appointment Date",
+        "appointment_date",
+        "appointment_date_value",
+        "date",
+        "Date"
+      ]),
+
+      // Support every likely time key returned by Apps Script / Sheets.
+      appointmentTime: getField(item, [
+        "appointmentTime",
+        "Appointment Time",
+        "appointment_time",
+        "time",
+        "Time"
+      ]),
+
+      doctor: getField(item, [
+        "doctor", "Doctor"
+      ]) || "Dr Bishnu Prasad Sahoo",
+
+      department: getField(item, [
+        "department", "Department"
+      ]) || "Psychiatry",
+
+      consultationMode: getField(item, [
+        "consultationMode", "Consultation Mode", "consultation_mode", "mode", "Mode"
+      ]),
+
+      reason: getField(item, [
+        "reason", "Reason", "reasonForAppointment", "Reason for Appointment"
+      ]),
+
+      additionalNotes: getField(item, [
+        "additionalNotes", "Additional Notes", "additional_notes", "notes", "Notes"
+      ]),
+
+      status: getField(item, [
+        "status", "Status"
+      ]) || "Pending",
+
+      lastUpdated: getField(item, [
+        "lastUpdated", "Last Updated", "last_updated"
+      ])
     }));
+  }
+
+
+  function getField(item, keys) {
+    for (const key of keys) {
+      if (
+        Object.prototype.hasOwnProperty.call(item, key) &&
+        item[key] !== null &&
+        item[key] !== undefined &&
+        String(item[key]).trim() !== ""
+      ) {
+        return item[key];
+      }
+    }
+    return "";
   }
 
 
@@ -2054,17 +2121,36 @@
   }
 
   function normalizeDate(value) {
-    if (!value) return "";
+    if (value === null || value === undefined || value === "") return "";
+
+    // Apps Script may return a Date object or an ISO string.
+    if (Object.prototype.toString.call(value) === "[object Date]") {
+      if (!isNaN(value.getTime())) return localDateISO(value);
+    }
 
     const s = String(value).trim();
 
     // YYYY-MM-DD
     if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
 
-    // DD/MM/YYYY
+    // YYYY-MM-DD with a time component
+    const isoDate = s.match(/^(\d{4}-\d{2}-\d{2})[T ]/);
+    if (isoDate) return isoDate[1];
+
+    // DD/MM/YYYY or DD-MM-YYYY
     const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
     if (m) {
       return `${m[3]}-${String(m[2]).padStart(2, "0")}-${String(m[1]).padStart(2, "0")}`;
+    }
+
+    // MM/DD/YYYY
+    const us = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (us) {
+      const first = Number(us[1]);
+      const second = Number(us[2]);
+      if (first > 12 && second <= 12) {
+        return `${us[3]}-${String(second).padStart(2, "0")}-${String(first).padStart(2, "0")}`;
+      }
     }
 
     const d = new Date(s);
@@ -2098,11 +2184,23 @@
   }
 
   function formatTimeValue(value) {
-    if (!value) return "Time not set";
+    if (value === null || value === undefined || value === "") {
+      return "Time not set";
+    }
+
+    // Google Sheets can represent a time as a fraction of a day.
+    if (typeof value === "number" && value >= 0 && value < 1) {
+      const totalMinutes = Math.round(value * 24 * 60);
+      let h = Math.floor(totalMinutes / 60) % 24;
+      const min = String(totalMinutes % 60).padStart(2, "0");
+      const suffix = h >= 12 ? "PM" : "AM";
+      h = h % 12 || 12;
+      return `${h}:${min} ${suffix}`;
+    }
 
     const s = String(value).trim();
 
-    // Already HH:MM or HH:MM:SS
+    // HH:MM or HH:MM:SS
     const m = s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
 
     if (m) {
@@ -2113,6 +2211,7 @@
       return `${h}:${min} ${suffix}`;
     }
 
+    // ISO datetime or other browser-readable date/time value.
     const d = new Date(s);
 
     if (!isNaN(d.getTime())) {
