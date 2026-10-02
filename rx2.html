@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rx Intelligence — Standalone Prescription Generator</title>
+
+<!-- PDF engine. For completely offline deployment, download this file and self-host it. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+:root{
+  --bg:#f4f7fb; --panel:#fff; --ink:#172033; --muted:#687386;
+  --line:#dfe5ee; --accent:#1769e0; --accent2:#0b4da2;
+  --danger:#c62828; --warn:#a15c00; --ok:#18794e;
+  --shadow:0 10px 30px rgba(20,35,60,.08); --radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:300px minmax(0,1fr) 370px;min-height:100vh}
+.sidebar,.inspector{background:#fff;border-right:1px solid var(--line)}
+.sidebar{padding:20px;position:sticky;top:0;height:100vh;overflow:auto}
+.inspector{border-left:1px solid var(--line);border-right:0;padding:20px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.3px;margin-bottom:4px}
+.sub{color:var(--muted);font-size:12px;margin-bottom:20px}
+.search{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(23,105,224,.1)}
+.section-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:800;margin:20px 0 9px}
+.drug-list{display:flex;flex-direction:column;gap:7px}
+.drug-btn{border:1px solid transparent;background:#f6f8fb;text-align:left;padding:10px 12px;border-radius:12px}
+.drug-btn:hover,.drug-btn.active{border-color:#b9d1f7;background:#eef5ff}
+.drug-btn strong{display:block;font-size:13px}
+.drug-btn span{font-size:11px;color:var(--muted)}
+.main{padding:22px;min-width:0}
+.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+.topbar h1{font-size:22px;margin:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 13px;font-weight:700}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.danger{color:var(--danger)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.card h2{font-size:15px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:11px}
+.field{grid-column:span 4}
+.field.wide{grid-column:span 8}
+.field.full{grid-column:1/-1}
+.field label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fff;outline:none}
+.field textarea{min-height:90px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.dx-row,.med-row{display:grid;gap:8px;align-items:center}
+.dx-row{grid-template-columns:1fr auto}
+.med-row{grid-template-columns:2.2fr 1.1fr 1.1fr 1fr 1.7fr auto}
+.med-wrap{overflow-x:auto}
+.med-row.header{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:7px}
+.med-item{margin-bottom:8px}
+.med-item input,.med-item select{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px;background:#fff}
+.icon-btn{border:0;background:#f1f4f8;width:34px;height:34px;border-radius:9px;font-weight:900}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#f7f9fc;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700}
+.chip:hover{border-color:#a8c5f2;background:#eef5ff}
+.helper{font-size:11px;color:var(--muted);margin-top:7px}
+.inspector h2{font-size:18px;margin:0}
+.badge{display:inline-flex;padding:5px 8px;border-radius:999px;background:#eef5ff;color:#1257b7;font-size:10px;font-weight:800}
+.info-block{padding:13px 0;border-bottom:1px solid var(--line)}
+.info-block:last-child{border-bottom:0}
+.info-block h3{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:0 0 6px}
+.info-block p{font-size:12px;line-height:1.55;margin:0}
+.info-block ul{padding-left:18px;margin:5px 0;font-size:12px;line-height:1.55}
+.alert{padding:11px 12px;border-radius:11px;font-size:12px;line-height:1.45;margin:8px 0}
+.alert.red{background:#fff0f0;border:1px solid #f3c5c5;color:#8c1d1d}
+.alert.amber{background:#fff8e9;border:1px solid #efd59a;color:#795000}
+.alert.green{background:#edf9f2;border:1px solid #bfe5cf;color:#17633f}
+.source{font-size:10px;color:var(--muted);line-height:1.4}
+.profile-preview{display:flex;gap:12px;align-items:center}
+.sig-box{border:1px dashed #bdc6d4;border-radius:10px;padding:7px;text-align:center;background:#fafbfc}
+.sig-box img{max-width:140px;max-height:55px;object-fit:contain}
+.print-area{background:#fff;color:#111}
+.print-header{border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:12px}
+.print-header h1{font-size:20px;margin:0}
+.print-header p{margin:3px 0;font-size:11px}
+.print-patient{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:11px;margin-bottom:14px}
+.print-section{margin:12px 0}
+.print-section h3{font-size:12px;border-bottom:1px solid #aaa;padding-bottom:4px}
+.rx-table{width:100%;border-collapse:collapse;font-size:10px}
+.rx-table th,.rx-table td{border:1px solid #bbb;padding:6px;text-align:left;vertical-align:top}
+.rx-table th{background:#f1f1f1}
+.print-footer{margin-top:25px;display:flex;justify-content:space-between;align-items:flex-end;font-size:10px}
+.print-sign img{max-width:150px;max-height:65px}
+.print-stamp img{max-width:100px;max-height:100px}
+.disclaimer{font-size:8px;color:#555;border-top:1px solid #bbb;padding-top:6px;margin-top:14px;line-height:1.4}
+.modal{position:fixed;inset:0;background:rgba(12,20,35,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:18px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.file-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hidden{display:none!important}
+@media(max-width:1100px){
+  .app{grid-template-columns:240px minmax(0,1fr)}
+  .inspector{display:none}
+}
+@media(max-width:760px){
+  .app{display:block}.sidebar{position:static;height:auto}.main{padding:12px}
+  .field{grid-column:1/-1}.topbar{align-items:flex-start;flex-direction:column}
+  .med-row{grid-template-columns:1.8fr 1fr 1fr 1fr 1.4fr auto;min-width:850px}
+}
+@media print{
+  body{background:#fff}.sidebar,.main>*,.inspector{display:none!important}
+  #printRoot{display:block!important}
+  .app{display:block}
+}
+#printRoot{display:none}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">Rx Intelligence</div>
+    <div class="sub">Prescription composer + point-of-prescribing drug intelligence</div>
+
+    <input id="drugSearch" class="search" placeholder="Search medication…">
+
+    <div class="section-title">Alphabetical drug library</div>
+    <div id="drugList" class="drug-list"></div>
+
+    <div class="section-title">Quick actions</div>
+    <div class="actions" style="flex-direction:column">
+      <button class="btn" onclick="openSettings()">Doctor / clinic settings</button>
+      <button class="btn" onclick="exportLibrary()">Export drug library JSON</button>
+      <button class="btn" onclick="document.getElementById('importFile').click()">Import drug library JSON</button>
+      <input id="importFile" type="file" accept=".json" class="hidden" onchange="importLibrary(event)">
+    </div>
+
+    <div class="helper" style="margin-top:18px">
+      The library is designed to grow from 3 drugs to 100–200+. Keep the drug knowledge separate from the prescription form so the interface remains fast.
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Prescription</h1>
+        <div class="helper">Select a drug from the left to inspect it, or type directly in the prescription.</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="newRx()">New</button>
+        <button class="btn" onclick="previewRx()">Preview</button>
+        <button class="btn primary" onclick="generatePDF()">Download PDF</button>
+        <button class="btn primary" onclick="sharePDF()">Share PDF</button>
+      </div>
+    </div>
+
+    <section class="card">
+      <h2>Patient & consultation</h2>
+      <div class="grid">
+        <div class="field wide"><label>Patient name</label><input id="patientName"></div>
+        <div class="field"><label>Age</label><input id="patientAge" type="number" min="0"></div>
+        <div class="field"><label>Sex</label><select id="patientSex"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+        <div class="field"><label>Phone</label><input id="patientPhone" inputmode="tel"></div>
+        <div class="field"><label>Patient ID / UHID</label><input id="patientId"></div>
+        <div class="field"><label>Consultation</label><select id="consultType"><option>In-person</option><option>Video</option></select></div>
+        <div class="field"><label>Date & time</label><input id="rxTime" readonly></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Diagnosis</h2>
+      <div id="dxContainer"></div>
+      <button class="btn" onclick="addDiagnosis()">+ Add diagnosis</button>
+      <div class="helper">Keep diagnosis separate from medication templates. A diagnosis shortcut should never lock the doctor into a medication choice.</div>
+    </section>
+
+    <section class="card">
+      <h2>Medication</h2>
+      <div class="chips" id="suggestedChips"></div>
+      <div class="helper">Tap a drug above to open its knowledge card. Use “Add to Rx” from the knowledge card to create a prescription row.</div>
+
+      <div class="med-wrap" style="margin-top:15px">
+        <div class="med-row header">
+          <div>Medicine</div><div>Dose</div><div>Frequency</div><div>Duration</div><div>Instructions</div><div></div>
+        </div>
+        <div id="medContainer"></div>
+      </div>
+      <button class="btn" onclick="addMedicine()">+ Add medicine</button>
+    </section>
+
+    <section class="card">
+      <h2>Advice & follow-up</h2>
+      <div class="grid">
+        <div class="field full"><label>General advice</label><textarea id="advice" placeholder="Lifestyle advice, precautions, therapy advice, investigations, etc."></textarea></div>
+        <div class="field wide"><label>Follow-up</label><input id="followup" placeholder="e.g. Review after 2 weeks"></div>
+        <div class="field"><label>Prescription status</label><select id="rxStatus"><option>Routine</option><option>Follow-up</option><option>Urgent review advised</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Live prescription preview</h2>
+      <div id="miniPreview" style="font-size:12px;color:#4f596a"></div>
+    </section>
+  </main>
+
+  <aside class="inspector">
+    <div id="inspectorEmpty">
+      <span class="badge">DRUG INTELLIGENCE</span>
+      <h2 style="margin-top:10px">Select a medication</h2>
+      <p class="helper" style="font-size:12px;line-height:1.6">
+        This panel is intentionally separate from the prescription itself. It is a point-of-prescribing reference: indication, dose range, important adverse effects, warnings, monitoring, interactions and practical pearls.
+      </p>
+    </div>
+    <div id="drugInspector" class="hidden"></div>
+  </aside>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><h2 style="margin:0">Doctor / clinic settings</h2><div class="helper">Saved locally in this browser.</div></div>
+      <button class="icon-btn" onclick="closeSettings()">×</button>
+    </div>
+    <div class="grid">
+      <div class="field wide"><label>Clinic name</label><input id="clinicName" placeholder="Enter clinic name"></div>
+      <div class="field"><label>Doctor name</label><input id="doctorName"></div>
+      <div class="field"><label>Qualification</label><input id="doctorQual" placeholder="MBBS, MD Psychiatry"></div>
+      <div class="field"><label>Registration no.</label><input id="doctorReg"></div>
+      <div class="field wide"><label>Clinic address / contact</label><input id="clinicAddress"></div>
+      <div class="field full"><label>Disclaimer</label><textarea id="disclaimer">This prescription is issued following a clinical consultation. It is intended for the named patient only and should not be shared or reused by another person. Medication changes should be made only after review by the treating clinician.</textarea></div>
+    </div>
+
+    <div class="file-row" style="margin-top:12px">
+      <div>
+        <label style="font-size:11px;font-weight:800;color:var(--muted)">DOCTOR SIGNATURE</label>
+        <input id="signatureFile" type="file" accept="image/*" style="margin-top:6px">
+        <div class="sig-box" style="margin-top:8px"><img id="signaturePreview" class="hidden"></div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;color:var(--muted)">DOCTOR STAMP</label>
+        <input id="stampFile" type="file" accept="image/*" style="margin-top:6px">
+        <div class="sig-box" style="margin-top:8px"><img id="stampPreview" class="hidden"></div>
+      </div>
+    </div>
+
+    <div class="actions" style="margin-top:18px;justify-content:flex-end">
+      <button class="btn" onclick="closeSettings()">Cancel</button>
+      <button class="btn primary" onclick="saveSettings()">Save settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRINT / PDF ROOT -->
+<div id="printRoot">
+  <div class="print-area">
+    <div class="print-header">
+      <h1 id="pClinic"></h1>
+      <p id="pDoctor"></p>
+      <p id="pAddress"></p>
+    </div>
+
+    <div class="print-patient">
+      <div><b>Patient:</b> <span id="pPatient"></span></div>
+      <div><b>Age/Sex:</b> <span id="pAgeSex"></span></div>
+      <div><b>Phone:</b> <span id="pPhone"></span></div>
+      <div><b>UHID:</b> <span id="pId"></span></div>
+      <div><b>Consultation:</b> <span id="pConsult"></span></div>
+      <div><b>Date:</b> <span id="pDate"></span></div>
+      <div><b>Time:</b> <span id="pOnlyTime"></span></div>
+      <div><b>Status:</b> <span id="pStatus"></span></div>
+    </div>
+
+    <div class="print-section">
+      <h3>Diagnosis</h3>
+      <div id="pDiagnosis"></div>
+    </div>
+
+    <div class="print-section">
+      <h3>Rx</h3>
+      <table class="rx-table">
+        <thead><tr><th>#</th><th>Medicine</th><th>Dose</th><th>Frequency</th><th>Duration</th><th>Instructions</th></tr></thead>
+        <tbody id="pMeds"></tbody>
+      </table>
+    </div>
+
+    <div class="print-section">
+      <h3>Advice</h3>
+      <div id="pAdvice"></div>
+    </div>
+
+    <div class="print-section">
+      <h3>Follow-up</h3>
+      <div id="pFollowup"></div>
+    </div>
+
+    <div class="print-footer">
+      <div>
+        <div id="pGenerated" style="margin-bottom:5px"></div>
+        <div id="pDisclaimer" class="disclaimer"></div>
+      </div>
+      <div class="print-sign">
+        <img id="pSignature" class="hidden">
+        <br>
+        <b id="pDoctorBottom"></b><br>
+        <span id="pRegBottom"></span>
+      </div>
+      <div class="print-stamp">
+        <img id="pStamp" class="hidden">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*
+  RX INTELLIGENCE — DATA ARCHITECTURE
+
+  The drug library is deliberately independent of the prescription UI.
+  When you reach 100–200 drugs, move this array to Google Sheets / Apps Script
+  and fetch it as JSON. The UI can remain unchanged.
+
+  IMPORTANT:
+  The first three entries below are concise source-derived knowledge cards
+  based on the uploaded extract. They are intentionally summarized rather
+  than copied verbatim.
+*/
+
+const DRUG_LIBRARY = [
+{
+  id:"acamprosate",
+  generic:"Acamprosate calcium",
+  brands:["Campral EC"],
+  className:"Alcohol dependence treatment",
+  category:"Addiction",
+  indications:["Maintenance of abstinence in alcohol dependence with psychosocial intervention"],
+  mechanism:"Glutamatergic modulation; the extract describes effects involving glutamate/NMDA signalling and GABA balance after alcohol withdrawal.",
+  onset:"Evidence in trials over 13–52 weeks; treatment longer than 6 months is suggested in the extract.",
+  dose:"<60 kg: 666 mg morning + 333 mg midday + 333 mg night. ≥60 kg: 666 mg three times daily.",
+  maxDose:"666 mg three times daily in the cited adult regimen.",
+  forms:"333 mg tablet",
+  monitoring:["Baseline renal function/urea & electrolytes","Baseline liver function; follow-up liver function as clinically indicated"],
+  adverse:["Diarrhoea","Nausea","Abdominal/GI symptoms","Sexual dysfunction","Skin reactions"],
+  serious:["Suicidal ideation/behaviour"],
+  warnings:["Monitor for depressed mood or suicidality.","Avoid in severe renal impairment.","Avoid in severe hepatic impairment.","Adherence and continued alcohol use affect treatment success."],
+  interactions:["No major hepatic-enzyme interaction is expected; the extract notes no clinically important dose adjustment with naltrexone."],
+  renal:"Moderate impairment: 333 mg three times daily in the extract. Severe impairment: contraindicated.",
+  hepatic:"Dose adjustment generally not required, but avoid severe hepatic impairment.",
+  pregnancy:"Not generally recommended, particularly in the first trimester; balance alcohol-related risk and medication-related risk.",
+  stopping:"Taper not required.",
+  pearls:["Best considered in an abstinence-oriented treatment plan.","Combine with psychosocial intervention.","If drinking persists 4–6 weeks after initiation, reassess treatment strategy."],
+  source:"Uploaded Cambridge Prescriber's Guide extract, Acamprosate calcium, pp. 1–4."
+},
+{
+  id:"agomelatine",
+  generic:"Agomelatine",
+  brands:["Valdoxan"],
+  className:"Antidepressant — melatonergic / 5-HT2C activity",
+  category:"Antidepressants",
+  indications:["Major depression","Generalised anxiety disorder"],
+  mechanism:"Melatonin MT1/MT2 agonism with 5-HT2B/5-HT2C antagonism; the extract describes possible circadian and prefrontal monoaminergic effects.",
+  onset:"Sleep/daytime function may improve early; full antidepressant benefit commonly develops over 2–4 weeks.",
+  dose:"Major depression: 25 mg at bedtime initially; may increase to 50 mg at bedtime after 2 weeks.",
+  maxDose:"50 mg/day in the cited regimen.",
+  forms:"25 mg tablet",
+  monitoring:["Liver function before treatment and periodically thereafter","Repeat testing promptly if transaminases rise or hepatic symptoms develop"],
+  adverse:["Nausea","Dizziness","Drowsiness","Headache","Fatigue","GI symptoms","Weight changes"],
+  serious:["Rare hepatitis/hepatic failure","Possible activation/mania","Suicidal ideation/behaviour"],
+  warnings:["Stop if transaminases reach 3× ULN.","Avoid with hepatic impairment or baseline transaminases >3× ULN.","Contraindicated with potent CYP1A2 inhibitors such as fluvoxamine.","Warn about symptoms of liver injury.","Use caution in bipolar disorder/activation.","The extract specifies avoidance in patients ≥75 years."],
+  interactions:["Potent CYP1A2 inhibitors are contraindicated in the extract; smoking may increase hepatic metabolism."],
+  renal:"Use with caution in moderate–severe impairment.",
+  hepatic:"Avoid in hepatic impairment or when transaminases exceed 3× ULN.",
+  pregnancy:"Not generally recommended, particularly in first trimester; individualized risk–benefit assessment is required.",
+  stopping:"No taper required according to the extract.",
+  pearls:["The extract emphasizes liver safety as the key prescribing issue.","Potentially useful when sleep-wake disturbance and anhedonia are prominent.","Check for activation or emerging bipolarity."],
+  source:"Uploaded Cambridge Prescriber's Guide extract, Agomelatine, pp. 5–9."
+},
+{
+  id:"alprazolam",
+  generic:"Alprazolam",
+  brands:["Xanax"],
+  className:"Benzodiazepine — anxiolytic",
+  category:"Anxiolytics",
+  indications:["Short-term anxiety","Generalised anxiety disorder","Panic disorder","Other anxiety disorders","Adjunctive use in selected acute psychiatric states"],
+  mechanism:"Positive allosteric modulation of GABA-A receptor activity at benzodiazepine sites, increasing inhibitory signalling.",
+  onset:"Some relief can occur after the first dose; maximal benefit with regular dosing may take longer.",
+  dose:"Short-term anxiety: 250–500 micrograms three times daily; increase according to response, with the cited adult range up to 3 mg/day.",
+  maxDose:"3 mg/day in the cited adult anxiety regimen.",
+  forms:"250 microgram and 500 microgram tablets",
+  monitoring:["Review ongoing need regularly","Assess sedation, cognition, misuse/dependence risk","Consider liver tests/blood counts in selected patients with comorbidity or multiple long-term medicines"],
+  adverse:["Sedation","Fatigue","Dizziness","Ataxia","Memory/concentration impairment","Confusion","Tolerance and dependence"],
+  serious:["Respiratory depression, especially with CNS depressants/overdose","Withdrawal seizures","Misuse/dependence"],
+  warnings:["Use the lowest effective dose for the shortest practical duration.","Avoid abrupt cessation after regular use.","Extra caution with opioids and other CNS depressants.","Higher dependence risk with substance-use history.","Use caution in respiratory disease, myasthenia gravis and elderly/debilitated patients.","Avoid in significant respiratory depression/sleep apnoea and certain neuromuscular respiratory conditions."],
+  interactions:["CNS depressants can increase sedation/respiratory risk.","CYP3A inhibitors such as fluvoxamine/fluoxetine and some anti-infectives can raise alprazolam exposure.","CYP3A inducers such as carbamazepine can lower exposure."],
+  renal:"The extract advises considering dose reduction because of increased cerebral sensitivity.",
+  hepatic:"Caution in mild–moderate impairment; avoid severe impairment; shorter-acting benzodiazepines may be preferred when treatment is necessary.",
+  pregnancy:"Not generally recommended for anxiety, especially in the first trimester; neonatal withdrawal/flaccidity and other risks are described.",
+  stopping:"Taper rather than abrupt cessation; the extract describes slower tapering for difficult withdrawal cases.",
+  pearls:["High dependence/tolerance/misuse potential.","Clinical duration may be shorter than plasma half-life.","Distinguish rebound anxiety/recurrence from withdrawal symptoms.","If used for insomnia, assess the underlying disorder rather than treating insomnia in isolation."],
+  source:"Uploaded Cambridge Prescriber's Guide extract, Alprazolam, pp. 11–15."
+}
+];
+
+let selectedDrug = null;
+let medCounter = 0;
+let settings = JSON.parse(localStorage.getItem("rx_settings") || "{}");
+
+const $ = id => document.getElementById(id);
+
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function nowString(){
+  return new Date().toLocaleString([], {year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+
+function renderDrugList(){
+  const q = $("drugSearch").value.toLowerCase().trim();
+  const list = DRUG_LIBRARY
+    .filter(d => (d.generic+" "+d.className+" "+d.category).toLowerCase().includes(q))
+    .sort((a,b)=>a.generic.localeCompare(b.generic));
+
+  $("drugList").innerHTML = list.map(d=>`
+    <button class="drug-btn ${selectedDrug?.id===d.id?"active":""}" onclick="selectDrug('${d.id}')">
+      <strong>${esc(d.generic)}</strong>
+      <span>${esc(d.className)}</span>
+    </button>
+  `).join("");
+}
+
+function selectDrug(id){
+  selectedDrug = DRUG_LIBRARY.find(d=>d.id===id);
+  renderDrugList();
+  renderInspector();
+}
+
+function renderInspector(){
+  if(!selectedDrug){
+    $("inspectorEmpty").classList.remove("hidden");
+    $("drugInspector").classList.add("hidden");
+    return;
+  }
+  $("inspectorEmpty").classList.add("hidden");
+  $("drugInspector").classList.remove("hidden");
+  const d = selectedDrug;
+
+  $("drugInspector").innerHTML = `
+    <span class="badge">${esc(d.category)}</span>
+    <h2 style="margin-top:9px">${esc(d.generic)}</h2>
+    <div class="helper">${esc(d.className)}${d.brands?.length ? " · "+esc(d.brands.join(", ")) : ""}</div>
+
+    <button class="btn primary" style="width:100%;margin-top:14px" onclick="addMedicineFromDrug('${d.id}')">+ Add to prescription</button>
+
+    <div class="info-block">
+      <h3>Commonly prescribed for</h3>
+      <ul>${d.indications.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    </div>
+
+    <div class="info-block"><h3>How it works</h3><p>${esc(d.mechanism)}</p></div>
+    <div class="info-block"><h3>Usual dose</h3><p><b>${esc(d.dose)}</b></p><p class="helper">Maximum / cited upper range: ${esc(d.maxDose)}</p></div>
+
+    <div class="alert red"><b>High-priority warnings</b><ul>${d.warnings.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+
+    <div class="info-block"><h3>Important adverse effects</h3><ul>${d.adverse.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div class="alert amber"><b>Serious / dangerous effects</b><ul>${d.serious.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+
+    <div class="info-block"><h3>Monitoring</h3><ul>${d.monitoring.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div class="info-block"><h3>Interactions</h3><ul>${d.interactions.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+
+    <div class="info-block"><h3>Renal</h3><p>${esc(d.renal)}</p></div>
+    <div class="info-block"><h3>Hepatic</h3><p>${esc(d.hepatic)}</p></div>
+    <div class="info-block"><h3>Pregnancy / breastfeeding</h3><p>${esc(d.pregnancy)}</p></div>
+    <div class="info-block"><h3>Stopping</h3><p>${esc(d.stopping)}</p></div>
+
+    <div class="alert green"><b>Clinical pearls</b><ul>${d.pearls.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div class="source">${esc(d.source)}</div>
+  `;
+}
+
+function addDiagnosis(value=""){
+  const row=document.createElement("div");
+  row.className="dx-row";
+  row.innerHTML=`<input class="dx-input" value="${esc(value)}" placeholder="Diagnosis / clinical impression">
+                 <button class="icon-btn" onclick="this.parentElement.remove();updatePreview()">×</button>`;
+  $("dxContainer").appendChild(row);
+}
+
+function addMedicineFromDrug(id){
+  const d=DRUG_LIBRARY.find(x=>x.id===id);
+  addMedicine(d);
+}
+
+function addMedicine(d=null){
+  medCounter++;
+  const id="med_"+medCounter;
+  const row=document.createElement("div");
+  row.className="med-item";
+  row.dataset.id=id;
+
+  const suggestedDose = d ? d.dose.split(";")[0] : "";
+  const suggestedInstruction = d ? "As directed; review medication-specific precautions." : "";
+
+  row.innerHTML=`
+    <div class="med-row">
+      <div><input class="med-name" list="drugDatalist" value="${esc(d?.generic||"")}" placeholder="Type medicine name" oninput="medicineTyped(this)"></div>
+      <div><input class="med-dose" value="${esc(suggestedDose)}" placeholder="e.g. 25 mg"></div>
+      <div>
+        <select class="med-freq">
+          <option value="">Frequency</option>
+          <option>1-0-0-0</option><option>0-0-1-0</option><option>0-0-0-1</option>
+          <option>1-0-1-0</option><option>1-1-1-0</option><option>1-1-1-1</option>
+          <option>HS</option><option>SOS</option><option>STAT</option><option>Weekly</option>
+        </select>
+      </div>
+      <div>
+        <select class="med-duration">
+          <option value="">Duration</option><option>1 day</option><option>3 days</option><option>5 days</option>
+          <option>7 days</option><option>10 days</option><option>14 days</option><option>21 days</option>
+          <option>30 days</option><option>60 days</option><option>90 days</option><option>Continue</option>
+        </select>
+      </div>
+      <div><input class="med-inst" value="${esc(suggestedInstruction)}" placeholder="After food / bedtime / etc."></div>
+      <button class="icon-btn" onclick="this.closest('.med-item').remove();updatePreview()">×</button>
+    </div>
+  `;
+  $("medContainer").appendChild(row);
+
+  if(d){
+    row.querySelector(".med-freq").value = inferFreq(d);
+    row.querySelector(".med-duration").value = d.id==="alprazolam" ? "5 days" : "30 days";
+    row.querySelector(".med-name").addEventListener("dblclick",()=>selectDrug(d.id));
+    selectDrug(d.id);
+  }
+  updatePreview();
+}
+
+function inferFreq(d){
+  if(d.id==="acamprosate") return "1-1-1-0";
+  if(d.id==="agomelatine") return "HS";
+  if(d.id==="alprazolam") return "1-1-1-0";
+  return "";
+}
+
+function medicineTyped(input){
+  const val=input.value.toLowerCase().trim();
+  const d=DRUG_LIBRARY.find(x=>x.generic.toLowerCase()===val);
+  if(d) selectDrug(d.id);
+  updatePreview();
+}
+
+function buildDatalist(){
+  const old=document.getElementById("drugDatalist");
+  if(old) old.remove();
+  const dl=document.createElement("datalist");
+  dl.id="drugDatalist";
+  DRUG_LIBRARY.sort((a,b)=>a.generic.localeCompare(b.generic)).forEach(d=>{
+    const o=document.createElement("option");
+    o.value=d.generic; dl.appendChild(o);
+  });
+  document.body.appendChild(dl);
+}
+
+function collectRx(){
+  const meds=[...document.querySelectorAll(".med-item")].map(r=>({
+    name:r.querySelector(".med-name").value.trim(),
+    dose:r.querySelector(".med-dose").value.trim(),
+    freq:r.querySelector(".med-freq").value,
+    duration:r.querySelector(".med-duration").value,
+    instruction:r.querySelector(".med-inst").value.trim()
+  })).filter(x=>x.name);
+
+  const dx=[...document.querySelectorAll(".dx-input")].map(x=>x.value.trim()).filter(Boolean);
+
+  return {
+    patientName:$("patientName").value.trim(),
+    age:$("patientAge").value,
+    sex:$("patientSex").value,
+    phone:$("patientPhone").value.trim(),
+    patientId:$("patientId").value.trim(),
+    consult:$("consultType").value,
+    time:$("rxTime").value,
+    diagnosis:dx,
+    meds,
+    advice:$("advice").value.trim(),
+    followup:$("followup").value.trim(),
+    status:$("rxStatus").value
+  };
+}
+
+function updatePreview(){
+  const r=collectRx();
+  $("miniPreview").innerHTML=`
+    <b>${esc(r.patientName||"Unnamed patient")}</b> · ${esc(r.age||"")} ${esc(r.sex||"")} · ${esc(r.consult)}
+    <br><br>
+    <b>Dx:</b> ${r.diagnosis.length?esc(r.diagnosis.join(", ")):"—"}
+    <br>
+    <b>Medicines:</b> ${r.meds.length?r.meds.map(m=>esc(m.name)+" "+esc(m.dose)+" "+esc(m.freq)+" × "+esc(m.duration)).join(" · "):"—"}
+  `;
+}
+
+function populatePrint(){
+  const r=collectRx();
+  const dt=new Date();
+
+  $("pClinic").textContent=settings.clinicName||"Clinic Name";
+  $("pDoctor").textContent=[settings.doctorName,settings.doctorQual,settings.doctorReg?("Regd. No. "+settings.doctorReg):""].filter(Boolean).join(" · ");
+  $("pAddress").textContent=settings.clinicAddress||"";
+  $("pPatient").textContent=r.patientName||"—";
+  $("pAgeSex").textContent=[r.age,r.sex].filter(Boolean).join(" / ")||"—";
+  $("pPhone").textContent=r.phone||"—";
+  $("pId").textContent=r.patientId||"—";
+  $("pConsult").textContent=r.consult;
+  $("pDate").textContent=dt.toLocaleDateString();
+  $("pOnlyTime").textContent=dt.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  $("pStatus").textContent=r.status;
+
+  $("pDiagnosis").innerHTML=r.diagnosis.length ? r.diagnosis.map((x,i)=>`${i+1}. ${esc(x)}`).join("<br>") : "—";
+  $("pMeds").innerHTML=r.meds.length ? r.meds.map((m,i)=>`
+    <tr><td>${i+1}</td><td>${esc(m.name)}</td><td>${esc(m.dose)}</td><td>${esc(m.freq)}</td><td>${esc(m.duration)}</td><td>${esc(m.instruction)}</td></tr>
+  `).join("") : `<tr><td colspan="6">No medicines entered.</td></tr>`;
+
+  $("pAdvice").textContent=r.advice||"—";
+  $("pFollowup").textContent=r.followup||"—";
+  $("pGenerated").textContent="Generated: "+nowString();
+  $("pDisclaimer").textContent=settings.disclaimer||"This prescription is intended for the named patient and should be interpreted in the context of the clinical consultation.";
+
+  $("pDoctorBottom").textContent=settings.doctorName||"Doctor";
+  $("pRegBottom").textContent=settings.doctorReg?("Regd. No. "+settings.doctorReg):"";
+
+  $("pSignature").src=settings.signature||"";
+  $("pSignature").classList.toggle("hidden",!settings.signature);
+  $("pStamp").src=settings.stamp||"";
+  $("pStamp").classList.toggle("hidden",!settings.stamp);
+}
+
+function previewRx(){
+  populatePrint();
+  const root=$("printRoot");
+  root.style.display="block";
+  root.style.position="fixed";
+  root.style.inset="10px";
+  root.style.zIndex="30";
+  root.style.overflow="auto";
+  root.style.background="#fff";
+  root.style.padding="20px";
+  root.onclick=(e)=>{ if(e.target===root){root.style.display="none";root.style.position="static"} };
+}
+
+async function generatePDF(){
+  populatePrint();
+  const root=$("printRoot");
+  root.style.display="block";
+  root.style.position="static";
+
+  const opt={
+    margin:8,
+    filename:`Prescription_${(collectRx().patientName||"Patient").replace(/[^a-z0-9_-]+/gi,"_")}.pdf`,
+    image:{type:"jpeg",quality:.96},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:"#fff"},
+    jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+  };
+  await html2pdf().set(opt).from(root.querySelector(".print-area")).save();
+  root.style.display="none";
+}
+
+async function sharePDF(){
+  if(!navigator.share){
+    alert("Native sharing is not supported in this browser. Use Download PDF, then share the PDF through WhatsApp, Telegram or email.");
+    return;
+  }
+  populatePrint();
+  const root=$("printRoot");
+  root.style.display="block";
+  root.style.position="static";
+
+  try{
+    const blob=await html2pdf().set({
+      margin:8,
+      image:{type:"jpeg",quality:.96},
+      html2canvas:{scale:2,useCORS:true,backgroundColor:"#fff"},
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+    }).from(root.querySelector(".print-area")).outputPdf("blob");
+
+    const name=`Prescription_${(collectRx().patientName||"Patient").replace(/[^a-z0-9_-]+/gi,"_")}.pdf`;
+    const file=new File([blob],name,{type:"application/pdf"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({title:"Prescription",text:"Prescription PDF",files:[file]});
+    }else{
+      alert("This browser supports sharing but not file sharing. Download the PDF and attach it manually.");
+    }
+  }catch(e){
+    console.error(e);
+    alert("PDF sharing failed. Use Download PDF.");
+  }finally{
+    root.style.display="none";
+  }
+}
+
+function openSettings(){
+  $("clinicName").value=settings.clinicName||"";
+  $("doctorName").value=settings.doctorName||"";
+  $("doctorQual").value=settings.doctorQual||"";
+  $("doctorReg").value=settings.doctorReg||"";
+  $("clinicAddress").value=settings.clinicAddress||"";
+  $("disclaimer").value=settings.disclaimer||"";
+  $("signaturePreview").src=settings.signature||"";
+  $("signaturePreview").classList.toggle("hidden",!settings.signature);
+  $("stampPreview").src=settings.stamp||"";
+  $("stampPreview").classList.toggle("hidden",!settings.stamp);
+  $("settingsModal").classList.add("open");
+}
+
+function closeSettings(){ $("settingsModal").classList.remove("open"); }
+
+function fileToDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const fr=new FileReader();
+    fr.onload=()=>resolve(fr.result); fr.onerror=reject; fr.readAsDataURL(file);
+  });
+}
+
+async function saveSettings(){
+  settings={
+    clinicName:$("clinicName").value.trim(),
+    doctorName:$("doctorName").value.trim(),
+    doctorQual:$("doctorQual").value.trim(),
+    doctorReg:$("doctorReg").value.trim(),
+    clinicAddress:$("clinicAddress").value.trim(),
+    disclaimer:$("disclaimer").value.trim(),
+    signature:settings.signature||"",
+    stamp:settings.stamp||""
+  };
+
+  if($("signatureFile").files[0]) settings.signature=await fileToDataURL($("signatureFile").files[0]);
+  if($("stampFile").files[0]) settings.stamp=await fileToDataURL($("stampFile").files[0]);
+
+  localStorage.setItem("rx_settings",JSON.stringify(settings));
+  closeSettings();
+  alert("Doctor / clinic settings saved locally.");
+}
+
+function newRx(){
+  if(!confirm("Start a new prescription? Current unsaved entries will be cleared.")) return;
+  document.querySelectorAll("input,textarea").forEach(el=>{
+    if(!["rxTime","drugSearch","signatureFile","stampFile"].includes(el.id)) el.value="";
+  });
+  $("patientSex").value="";
+  $("consultType").value="In-person";
+  $("rxStatus").value="Routine";
+  $("dxContainer").innerHTML="";
+  $("medContainer").innerHTML="";
+  addDiagnosis();
+  $("rxTime").value=nowString();
+  updatePreview();
+}
+
+function exportLibrary(){
+  const blob=new Blob([JSON.stringify(DRUG_LIBRARY,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="rx-drug-library.json";a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function importLibrary(event){
+  const file=event.target.files[0]; if(!file)return;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    try{
+      const incoming=JSON.parse(fr.result);
+      if(!Array.isArray(incoming)) throw new Error("Invalid format");
+      DRUG_LIBRARY.splice(0,DRUG_LIBRARY.length,...incoming);
+      buildDatalist();renderDrugList();alert("Drug library imported.");
+    }catch(e){alert("Invalid drug library JSON.");}
+  };
+  fr.readAsText(file);
+}
+
+$("drugSearch").addEventListener("input",renderDrugList);
+["patientName","patientAge","patientSex","patientPhone","patientId","consultType","advice","followup","rxStatus"]
+.forEach(id=>$(id).addEventListener("input",updatePreview));
+
+/* Future Google Apps Script hook.
+   Expected response:
+   { "drugs": [ ...same objects as DRUG_LIBRARY... ] }
+
+   Example:
+   async function loadFromGoogleSheet(apiUrl){
+     const res=await fetch(apiUrl);
+     const data=await res.json();
+     DRUG_LIBRARY.splice(0,DRUG_LIBRARY.length,...data.drugs);
+     buildDatalist(); renderDrugList();
+   }
+*/
+
+function init(){
+  $("rxTime").value=nowString();
+  addDiagnosis();
+  renderDrugList();
+  buildDatalist();
+  updatePreview();
+}
+init();
+</script>
+</body>
+</html>
