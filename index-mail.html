@@ -7111,52 +7111,90 @@ document
 /* ============================================================
    SERVICE ENQUIRY MODAL
 ============================================================ */
-const leadModal = document.getElementById("leadModal");
-const leadClose = document.getElementById("leadModalClose");
-const leadForm = document.getElementById("leadForm");
-const leadStatus = document.getElementById("leadStatus");
-const leadFrame = document.getElementById("leadSubmitFrame");
-let leadLastFocused = null;
+document.addEventListener("DOMContentLoaded", function(){
+    const leadModal = document.getElementById("leadModal");
+    const leadClose = document.getElementById("leadModalClose");
+    const leadForm = document.getElementById("leadForm");
+    const leadStatus = document.getElementById("leadStatus");
+    const leadFrame = document.getElementById("leadSubmitFrame");
+    let leadLastFocused = null;
+    let leadSubmitting = false;
 
-function openLeadModal(e){
-    if(e) e.preventDefault();
-    leadLastFocused = document.activeElement;
-    leadModal.classList.add("open");
-    leadModal.setAttribute("aria-hidden","false");
-    document.body.style.overflow = "hidden";
-    setTimeout(() => document.getElementById("leadName")?.focus(), 120);
-}
-function closeLeadModal(){
-    leadModal.classList.remove("open");
-    leadModal.setAttribute("aria-hidden","true");
-    document.body.style.overflow = "";
-    if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
-}
-document.querySelectorAll(".open-lead-modal").forEach(el => el.addEventListener("click", openLeadModal));
-leadClose?.addEventListener("click", closeLeadModal);
-leadModal?.addEventListener("click", e => { if(e.target === leadModal) closeLeadModal(); });
-document.addEventListener("keydown", e => { if(e.key === "Escape" && leadModal.classList.contains("open")) closeLeadModal(); });
+    if(!leadModal || !leadForm) return;
 
-leadForm?.addEventListener("submit", () => {
-    const services = [...leadForm.querySelectorAll('input[name="Services"]:checked')];
-    if(!services.length){
-        leadStatus.textContent = "Please select at least one service.";
-        leadStatus.className = "dj-lead-status error";
-        event?.preventDefault?.();
-        return false;
+    function openLeadModal(e){
+        if(e) e.preventDefault();
+        leadLastFocused = document.activeElement;
+        leadModal.classList.add("open");
+        leadModal.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+        setTimeout(function(){
+            const name = document.getElementById("leadName");
+            if(name) name.focus();
+        }, 120);
     }
-    leadStatus.textContent = "Sending your enquiry…";
-    leadStatus.className = "dj-lead-status";
-    setTimeout(() => {
-        leadStatus.textContent = "Enquiry sent. We’ll contact you shortly.";
-        leadStatus.className = "dj-lead-status success";
-        leadForm.reset();
-    }, 900);
-});
-leadFrame?.addEventListener("load", () => {
-    if(leadStatus && leadStatus.textContent === "Sending your enquiry…"){
-        leadStatus.textContent = "Enquiry sent. We’ll contact you shortly.";
-        leadStatus.className = "dj-lead-status success";
+
+    function closeLeadModal(){
+        if(leadSubmitting) return;
+        leadModal.classList.remove("open");
+        leadModal.setAttribute("aria-hidden","true");
+        document.body.style.overflow = "";
+        if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
+    }
+
+    document.querySelectorAll(".open-lead-modal").forEach(function(el){
+        el.addEventListener("click", openLeadModal);
+    });
+
+    if(leadClose) leadClose.addEventListener("click", closeLeadModal);
+
+    leadModal.addEventListener("click", function(e){
+        if(e.target === leadModal) closeLeadModal();
+    });
+
+    document.addEventListener("keydown", function(e){
+        if(e.key === "Escape" && leadModal.classList.contains("open")) closeLeadModal();
+    });
+
+    leadForm.addEventListener("submit", function(e){
+        const services = Array.from(leadForm.querySelectorAll('input[name="Services"]:checked'));
+
+        if(!services.length){
+            e.preventDefault();
+            leadStatus.textContent = "Please select at least one service.";
+            leadStatus.className = "dj-lead-status error";
+            return;
+        }
+
+        leadSubmitting = true;
+        leadStatus.textContent = "Sending your enquiry…";
+        leadStatus.className = "dj-lead-status";
+
+        const submit = leadForm.querySelector(".dj-lead-submit");
+        if(submit){
+            submit.disabled = true;
+            submit.style.opacity = ".65";
+            submit.style.pointerEvents = "none";
+        }
+    });
+
+    if(leadFrame){
+        leadFrame.addEventListener("load", function(){
+            if(!leadSubmitting) return;
+
+            leadSubmitting = false;
+            leadStatus.textContent = "Enquiry sent. We’ll contact you shortly.";
+            leadStatus.className = "dj-lead-status success";
+
+            const submit = leadForm.querySelector(".dj-lead-submit");
+            if(submit){
+                submit.disabled = false;
+                submit.style.opacity = "";
+                submit.style.pointerEvents = "";
+            }
+
+            leadForm.reset();
+        });
     }
 });
 
