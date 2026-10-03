@@ -4476,6 +4476,55 @@ html[data-theme="dark"] .dj-med-row input{background:#1c1c1e}
     .dj-med-row{grid-template-columns:1fr 1fr 1fr 1fr 32px}
     .dj-med-row input{font-size:9px;padding:8px 6px}
 }
+
+
+/* ============================================================
+   DOCTORJET REFINEMENT — COMPACT SERVICE CARDS
+============================================================ */
+.services{gap:12px}
+.service{min-height:255px;padding:25px;border-radius:24px}
+.service-number{margin-bottom:38px;font-size:9px}
+.service h3{font-size:21px;margin-bottom:10px}
+.service p{font-size:12px;line-height:1.55;max-width:300px}
+
+/* ============================================================
+   DOCTORJET PRACTICE TOOLS — ANIMATED PRODUCT WINDOWS
+   Visual product demonstrations only; no extra buttons/modals.
+============================================================ */
+.dj-tools-section{padding-top:95px;padding-bottom:125px}
+.dj-tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.dj-practice-card{min-height:505px;padding:28px;position:relative;overflow:hidden}
+.dj-practice-card h3{font-size:27px;max-width:380px}
+.dj-practice-card>p{max-width:390px;font-size:12px;line-height:1.55}
+.dj-practice-card::after{content:"";position:absolute;inset:auto -100px -180px auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,.11),transparent 68%);pointer-events:none}
+
+.dj-floating-window{position:absolute;left:50%;bottom:20px;width:calc(100% - 50px);height:275px;transform:translateX(-50%) translateY(10px);border:1px solid rgba(0,0,0,.10);border-radius:20px;background:#fff;color:#17202a;box-shadow:0 24px 70px rgba(0,0,0,.14);overflow:hidden;animation:djWindowFloat 5.5s ease-in-out infinite}
+.dj-practice-card:hover .dj-floating-window{animation-play-state:paused;transform:translateX(-50%) translateY(0)}
+@keyframes djWindowFloat{0%,100%{transform:translateX(-50%) translateY(8px)}50%{transform:translateX(-50%) translateY(-2px)}}
+.dj-window-top{height:31px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #e8eaed;background:#f5f6f7;color:#68747c;font-size:8px}
+.dj-window-top>b{font-size:9px;letter-spacing:1px;color:#9aa0a6}
+.dj-window-dots{display:flex;gap:5px}.dj-window-dots i{width:6px;height:6px;border-radius:50%;background:#c7c9cc}
+.dj-window-body{padding:14px 15px;position:relative;height:calc(100% - 31px)}
+.dj-popup-title{display:flex;align-items:center;gap:8px;margin-bottom:11px}.dj-popup-avatar{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#e0f6ff,#b8e6f8);color:#17628a;font-size:8px;font-weight:900}.dj-popup-title strong{display:block;font-size:10px}.dj-popup-title small{display:block;margin-top:2px;font-size:7px;color:#78838b}
+.dj-form-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.dj-demo-field{border:1px solid #e5e8eb;border-radius:9px;padding:7px 8px;background:#fafbfc}.dj-demo-field span{display:block;color:#8a949c;font-size:6px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}.dj-demo-field b{font-size:8px;font-weight:700;white-space:nowrap}
+.dj-mode-demo{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:7px;color:#68747c}.dj-mode-demo span{margin-right:auto}.dj-mode-demo b{padding:5px 8px;border-radius:7px;background:#071b26;color:#fff;font-size:7px}.dj-mode-demo .muted-choice{background:#f1f3f5;color:#77818a}
+.dj-booking-submit{height:27px;margin-top:9px;border-radius:8px;background:linear-gradient(100deg,#0071e3,#30d5c8);display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:#031017;font-size:8px;font-weight:800}.dj-booking-submit b{font-size:11px}
+.dj-whatsapp-toast{position:absolute;right:14px;bottom:12px;display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:10px;background:#f4fbf7;border:1px solid #d8eee3;box-shadow:0 8px 24px rgba(0,0,0,.08);animation:djToast 3.8s ease-in-out infinite}.dj-wa-pulse{font-size:14px;color:#16a66a;animation:djWaPulse 1.7s infinite}.dj-whatsapp-toast strong{display:block;font-size:7px}.dj-whatsapp-toast small{display:block;font-size:6px;color:#748079;margin-top:2px}.dj-whatsapp-toast>b{font-size:9px;color:#16a66a}
+@keyframes djToast{0%,15%,100%{opacity:.2;transform:translateY(6px)}25%,80%{opacity:1;transform:none}}@keyframes djWaPulse{50%{transform:scale(1.18);filter:drop-shadow(0 0 5px rgba(22,166,106,.35))}}
+.dj-rx-demo-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e7eaee;padding-bottom:8px;margin-bottom:8px}.dj-rx-demo-head strong{display:block;font-size:10px}.dj-rx-demo-head small{display:block;font-size:6.5px;color:#758089;margin-top:2px}.dj-rx-demo-head>span{font-size:6px;color:#758089}
+.dj-patient-strip{display:flex;align-items:center;gap:7px;padding:6px 7px;border-radius:7px;background:#f5f7f8;margin-bottom:8px;font-size:7px}.dj-patient-strip span:first-child{color:#7d878e;text-transform:uppercase;font-size:6px;letter-spacing:.05em}.dj-patient-strip span:last-child{margin-left:auto;color:#7d878e}
+.dj-rx-table-head,.dj-rx-demo-line{display:grid;grid-template-columns:1.45fr .55fr .65fr .65fr;gap:6px;align-items:center}.dj-rx-table-head{padding:0 5px 4px;color:#8b949b;font-size:5.5px;letter-spacing:.05em}.dj-rx-demo-line{padding:7px 5px;border-top:1px solid #edf0f2;font-size:6.5px}.dj-rx-demo-line b{font-size:7.5px}.dj-rx-advice{display:flex;gap:8px;padding:7px 6px;margin-top:5px;border-top:1px solid #e7eaee;font-size:6.5px}.dj-rx-advice span{color:#7b858c}.dj-rx-actions{display:flex;align-items:center;gap:6px;margin-top:9px}.dj-rx-actions span{margin-right:auto;font-size:6.5px;color:#16a66a}.dj-rx-actions b{font-size:6px;padding:5px 7px;border-radius:6px;border:1px solid #dfe4e8;background:#fff;color:#56616a}.dj-rx-actions b:last-child{background:#071b26;color:#fff;border-color:#071b26}
+
+html[data-theme="dark"] .dj-floating-window{background:#1c1c1e;color:#f5f5f7;border-color:rgba(255,255,255,.12);box-shadow:0 28px 80px rgba(0,0,0,.42)}
+html[data-theme="dark"] .dj-window-top{background:#29292b;border-color:#3a3a3c;color:#a1a1a6}.dj-dark-fix{}
+html[data-theme="dark"] .dj-demo-field{background:#222224;border-color:#3a3a3c}.dj-demo-field span{color:#8e9398}
+html[data-theme="dark"] .dj-mode-demo .muted-choice{background:#29292b;color:#9a9a9f}.dj-mode-demo b{background:#f5f5f7;color:#171719}
+html[data-theme="dark"] .dj-whatsapp-toast{background:#202823;border-color:#31503e}.dj-whatsapp-toast small{color:#a0aaa4}
+html[data-theme="dark"] .dj-rx-demo-head{border-color:#3a3a3c}.dj-rx-demo-head small,.dj-rx-demo-head>span{color:#9a9a9f}.dj-patient-strip{background:#252527}.dj-rx-table-head,.dj-rx-demo-line,.dj-rx-advice{border-color:#3a3a3c}.dj-rx-table-head{color:#8e9398}.dj-rx-advice span{color:#9a9a9f}.dj-rx-actions b{background:#242426;border-color:#3a3a3c;color:#d0d0d3}.dj-rx-actions b:last-child{background:#f5f5f7;color:#171719}
+
+@media(max-width:900px){.dj-tools-grid{grid-template-columns:1fr}.dj-practice-card{min-height:475px}}
+@media(max-width:680px){.service{min-height:235px;padding:23px}.service-number{margin-bottom:30px}.service h3{font-size:20px}.dj-tools-section{padding-top:75px}.dj-practice-card{min-height:455px;padding:24px}.dj-practice-card h3{font-size:25px}.dj-floating-window{width:calc(100% - 34px);height:255px;bottom:17px}.dj-window-body{padding:12px}.dj-form-demo-grid{gap:5px}.dj-demo-field{padding:6px}.dj-demo-field b{font-size:7px}.dj-rx-demo-line{grid-template-columns:1.35fr .55fr .7fr .65fr;font-size:6px}}
+
 </style>
 
 
@@ -5076,179 +5125,74 @@ html[data-theme="dark"] .dj-med-row input{background:#1c1c1e}
     <div class="container">
         <div class="section-heading reveal">
             <div>
-                <div class="eyebrow">PATIENT EXPERIENCE</div>
+                <div class="eyebrow">PRACTICE TOOLS</div>
                 <h2>Turn your website into a practice tool.</h2>
             </div>
-            <p>Give patients a simple path from discovery to appointment — and give doctors a lightweight digital prescription workflow.</p>
+            <p>Not just a landing page. DoctorJet can place useful practice workflows directly inside the patient journey.</p>
         </div>
 
         <div class="dj-tools-grid">
-            <article class="dj-tool-card reveal">
+
+            <!-- APPOINTMENT TOOL -->
+            <article class="dj-tool-card dj-practice-card reveal">
                 <div class="dj-tool-kicker">01 / APPOINTMENTS</div>
-                <h3>Personalised booking. Straight to WhatsApp.</h3>
-                <p>A branded appointment form captures the patient’s details, preferred slot and consultation mode, then prepares a structured WhatsApp message for the clinic.</p>
-                <div class="dj-tool-action-row">
-                    <button class="dj-tool-action primary" type="button" data-open-modal="bookingModal">Book an appointment →</button>
-                </div>
-                <div class="dj-tool-preview" aria-hidden="true">
-                    <div class="dj-mini-bar"><span class="dj-mini-dot"></span><span class="dj-mini-dot"></span><span class="dj-mini-dot"></span><span class="dj-mini-url">doctorjet.in / appointment</span></div>
-                    <div class="dj-booking-preview">
-                        <div>
-                            <div class="dj-doctor-chip"><div class="dj-avatar">DR</div><div><strong>Dr. Your Name</strong><span>Consultant Specialist</span></div></div>
-                            <div class="dj-slot-row"><span class="dj-slot active">10:00 AM</span><span class="dj-slot">11:30 AM</span><span class="dj-slot">5:00 PM</span></div>
+                <h3>Personalised appointment booking.</h3>
+                <p>A real booking interface can sit inside your website and hand the completed request to your clinic WhatsApp.</p>
+
+                <div class="dj-floating-window dj-booking-window" aria-hidden="true">
+                    <div class="dj-window-top">
+                        <div class="dj-window-dots"><i></i><i></i><i></i></div>
+                        <span>Appointment</span>
+                        <b>•••</b>
+                    </div>
+                    <div class="dj-window-body">
+                        <div class="dj-popup-title">
+                            <div class="dj-popup-avatar">DR</div>
+                            <div><strong>Dr. Your Name</strong><small>Consultant Specialist</small></div>
                         </div>
-                        <div class="dj-wa-line"><div><strong>WhatsApp</strong><span>Appointment request ready</span></div><div class="dj-wa-icon">◉</div></div>
+                        <div class="dj-form-demo-grid">
+                            <div class="dj-demo-field"><span>Patient name</span><b class="dj-typing">Rahul Sharma</b></div>
+                            <div class="dj-demo-field"><span>Mobile number</span><b>+91 98765 43210</b></div>
+                            <div class="dj-demo-field"><span>Date</span><b>06 Oct 2026</b></div>
+                            <div class="dj-demo-field"><span>Time</span><b>06:00 PM</b></div>
+                        </div>
+                        <div class="dj-mode-demo"><span>Consultation</span><b>In-person</b><b class="muted-choice">Online</b></div>
+                        <div class="dj-booking-submit"><span>Confirm appointment</span><b>→</b></div>
+                        <div class="dj-whatsapp-toast"><span class="dj-wa-pulse">◉</span><div><strong>WhatsApp ready</strong><small>Appointment request prepared</small></div><b>✓</b></div>
                     </div>
                 </div>
             </article>
 
-            <article class="dj-tool-card reveal">
+            <!-- PRESCRIPTION TOOL -->
+            <article class="dj-tool-card dj-practice-card reveal">
                 <div class="dj-tool-kicker">02 / DIGITAL RX</div>
-                <h3>Write once. Generate a shareable prescription.</h3>
-                <p>Enter the doctor and patient details, add medicines dynamically, generate a professional PDF prescription and share it from the browser.</p>
-                <div class="dj-tool-action-row">
-                    <button class="dj-tool-action primary" type="button" data-open-modal="rxModal">Open digital prescription →</button>
-                </div>
-                <div class="dj-tool-preview" aria-hidden="true">
-                    <div class="dj-mini-bar"><span class="dj-mini-dot"></span><span class="dj-mini-dot"></span><span class="dj-mini-dot"></span><span class="dj-mini-url">doctorjet.in / digital-rx</span></div>
-                    <div class="dj-rx-preview">
-                        <div class="dj-rx-head"><strong>Digital Prescription</strong><span>03 Oct 2026</span></div>
-                        <div class="dj-rx-line"><b>Sertraline 50 mg</b><span>1-0-0</span><span>30 days</span></div>
-                        <div class="dj-rx-line"><b>Clonazepam 0.25 mg</b><span>0-0-1</span><span>7 days</span></div>
-                        <div class="dj-rx-sign">Digitally prepared by Dr. Your Name</div>
+                <h3>Personalised digital prescription.</h3>
+                <p>A browser-based prescription workspace can turn the consultation into a clean, shareable digital prescription.</p>
+
+                <div class="dj-floating-window dj-rx-window" aria-hidden="true">
+                    <div class="dj-window-top">
+                        <div class="dj-window-dots"><i></i><i></i><i></i></div>
+                        <span>Digital Prescription</span>
+                        <b>•••</b>
+                    </div>
+                    <div class="dj-window-body dj-rx-demo-body">
+                        <div class="dj-rx-demo-head">
+                            <div><strong>Dr. Your Name</strong><small>Consultant Specialist · DoctorJet Clinic</small></div>
+                            <span>03 OCT 2026</span>
+                        </div>
+                        <div class="dj-patient-strip"><span>Patient</span><strong>Ananya Das</strong><span>32 / F</span></div>
+                        <div class="dj-rx-table-head"><span>MEDICINE</span><span>DOSE</span><span>FREQUENCY</span><span>DURATION</span></div>
+                        <div class="dj-rx-demo-line"><b>Sertraline 50 mg</b><span>1 tab</span><span>1-0-0</span><span>30 days</span></div>
+                        <div class="dj-rx-demo-line"><b>Clonazepam 0.25 mg</b><span>1 tab</span><span>0-0-1</span><span>7 days</span></div>
+                        <div class="dj-rx-advice"><span>Advice</span><b>Review after 4 weeks · Continue regular follow-up</b></div>
+                        <div class="dj-rx-actions"><span>Prescription ready</span><b>PDF</b><b>Share ↗</b></div>
                     </div>
                 </div>
             </article>
+
         </div>
     </div>
 </section>
-
-<!-- APPOINTMENT MODAL -->
-<div class="dj-modal" id="bookingModal" aria-hidden="true">
-    <div class="dj-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
-        <div class="dj-modal-head">
-            <div>
-                <small>DoctorJet appointment system</small>
-                <h3 id="bookingTitle">Book an appointment</h3>
-                <p>Personalise the form for your practice. Submission opens WhatsApp with the appointment request already formatted.</p>
-            </div>
-            <button class="dj-close" type="button" data-close-modal aria-label="Close">×</button>
-        </div>
-
-        <div class="dj-form-grid">
-            <div class="dj-field">
-                <label>Doctor name</label>
-                <input id="apptDoctor" value="Dr. Your Name" placeholder="Dr. Your Name">
-            </div>
-            <div class="dj-field">
-                <label>Clinic / practice</label>
-                <input id="apptClinic" value="DoctorJet Clinic" placeholder="Clinic name">
-            </div>
-            <div class="dj-field">
-                <label>Patient name *</label>
-                <input id="apptPatient" placeholder="Patient full name" autocomplete="name">
-            </div>
-            <div class="dj-field">
-                <label>Patient phone *</label>
-                <input id="apptPatientPhone" inputmode="tel" placeholder="Patient mobile number" autocomplete="tel">
-            </div>
-            <div class="dj-field">
-                <label>Clinic WhatsApp *</label>
-                <input id="apptClinicWhatsApp" inputmode="tel" placeholder="Clinic WhatsApp, e.g. 919876543210">
-            </div>
-            <div class="dj-field">
-                <label>Preferred date *</label>
-                <input id="apptDate" type="date">
-            </div>
-            <div class="dj-field">
-                <label>Preferred time</label>
-                <input id="apptTime" type="time" value="18:00">
-            </div>
-            <div class="dj-field full">
-                <label>Consultation mode</label>
-                <div class="dj-toggle" id="apptMode">
-                    <button type="button" class="active" data-value="In-person">In-person</button>
-                    <button type="button" data-value="Online / Video">Online / Video</button>
-                </div>
-            </div>
-            <div class="dj-field full">
-                <label>Reason / brief note</label>
-                <textarea id="apptReason" placeholder="Optional: reason for consultation"></textarea>
-            </div>
-        </div>
-
-        <div class="dj-form-actions">
-            <button class="dj-tool-action" type="button" data-close-modal>Cancel</button>
-            <button class="dj-tool-action primary" type="button" id="sendAppointment">Continue to WhatsApp →</button>
-        </div>
-        <div class="dj-status" id="apptStatus"></div>
-    </div>
-</div>
-
-<!-- DIGITAL RX MODAL -->
-<div class="dj-modal" id="rxModal" aria-hidden="true">
-    <div class="dj-modal-panel" role="dialog" aria-modal="true" aria-labelledby="rxTitle">
-        <div class="dj-modal-head">
-            <div>
-                <small>DoctorJet digital prescription</small>
-                <h3 id="rxTitle">Create a prescription</h3>
-                <p>Browser-based prescription builder. Generate a PDF, download it, or use your device's native share sheet when supported.</p>
-            </div>
-            <button class="dj-close" type="button" data-close-modal aria-label="Close">×</button>
-        </div>
-
-        <div class="dj-form-grid">
-            <div class="dj-field">
-                <label>Doctor name *</label>
-                <input id="rxDoctor" value="Dr. Your Name">
-            </div>
-            <div class="dj-field">
-                <label>Qualification / specialty</label>
-                <input id="rxQualification" value="Consultant Specialist">
-            </div>
-            <div class="dj-field">
-                <label>Clinic name</label>
-                <input id="rxClinic" value="DoctorJet Clinic">
-            </div>
-            <div class="dj-field">
-                <label>Prescription date</label>
-                <input id="rxDate" type="date">
-            </div>
-            <div class="dj-field">
-                <label>Patient name *</label>
-                <input id="rxPatient" placeholder="Patient full name">
-            </div>
-            <div class="dj-field">
-                <label>Patient age / sex</label>
-                <input id="rxAgeSex" placeholder="e.g. 32 / M">
-            </div>
-            <div class="dj-field full">
-                <label>Diagnosis / clinical impression</label>
-                <input id="rxDiagnosis" placeholder="Optional diagnosis or clinical impression">
-            </div>
-        </div>
-
-        <div class="dj-rx-toolbar" style="margin-top:20px">
-            <span>Medicines</span>
-            <button class="dj-add-med" type="button" id="addMedicine">+ Add medicine</button>
-        </div>
-        <div class="dj-medicine-list" id="medicineList"></div>
-
-        <div class="dj-field full" style="margin-top:12px">
-            <label>Advice / follow-up</label>
-            <textarea id="rxAdvice" placeholder="General advice, investigations, follow-up date, etc."></textarea>
-        </div>
-
-        <div class="dj-rx-preview-box" id="rxPreview"></div>
-
-        <div class="dj-form-actions">
-            <button class="dj-tool-action" type="button" data-close-modal>Close</button>
-            <button class="dj-tool-action" type="button" id="sharePrescription">Share PDF</button>
-            <button class="dj-tool-action primary" type="button" id="downloadPrescription">Generate PDF →</button>
-        </div>
-        <div class="dj-status" id="rxStatus"></div>
-    </div>
-</div>
 
 
 <!-- ============================================================
@@ -6920,328 +6864,6 @@ document
 );
 
 
-
-
-/* ============================================================
-   PATIENT TOOLS — APPOINTMENT + DIGITAL PRESCRIPTION
-============================================================ */
-
-(function(){
-    const $ = (id) => document.getElementById(id);
-
-    /* ---------- Modal system ---------- */
-    function openModal(id){
-        const modal = $(id);
-        if(!modal) return;
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden','false');
-        document.body.style.overflow='hidden';
-        const first = modal.querySelector('input,button,textarea,select');
-        if(first) setTimeout(()=>first.focus(),120);
-    }
-
-    function closeModal(modal){
-        if(!modal) return;
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden','true');
-        if(!document.querySelector('.dj-modal.open')) document.body.style.overflow='';
-    }
-
-    document.querySelectorAll('[data-open-modal]').forEach(btn=>{
-        btn.addEventListener('click',()=>openModal(btn.getAttribute('data-open-modal')));
-    });
-
-    document.querySelectorAll('[data-close-modal]').forEach(btn=>{
-        btn.addEventListener('click',()=>closeModal(btn.closest('.dj-modal')));
-    });
-
-    document.querySelectorAll('.dj-modal').forEach(modal=>{
-        modal.addEventListener('click',e=>{
-            if(e.target===modal) closeModal(modal);
-        });
-    });
-
-    document.addEventListener('keydown',e=>{
-        if(e.key==='Escape') document.querySelectorAll('.dj-modal.open').forEach(closeModal);
-    });
-
-    /* ---------- Appointment booking ---------- */
-    const apptDate = $('apptDate');
-    if(apptDate){
-        const today = new Date();
-        const localToday = new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
-        apptDate.min=localToday;
-        apptDate.value=localToday;
-    }
-
-    let appointmentMode='In-person';
-    document.querySelectorAll('#apptMode button').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-            document.querySelectorAll('#apptMode button').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active');
-            appointmentMode=btn.dataset.value;
-        });
-    });
-
-    function cleanPhone(value){
-        let phone=(value||'').replace(/[^0-9]/g,'');
-        if(phone.startsWith('00')) phone=phone.slice(2);
-        if(phone.length===10) phone='91'+phone;
-        return phone;
-    }
-
-    $('sendAppointment')?.addEventListener('click',()=>{
-        const doctor=$('apptDoctor').value.trim()||'Doctor';
-        const clinic=$('apptClinic').value.trim()||'Clinic';
-        const patient=$('apptPatient').value.trim();
-        const patientPhone=$('apptPatientPhone').value.trim();
-        const clinicPhone=cleanPhone($('apptClinicWhatsApp').value);
-        const date=$('apptDate').value;
-        const time=$('apptTime').value||'Not specified';
-        const reason=$('apptReason').value.trim()||'Not specified';
-        const status=$('apptStatus');
-
-        if(!patient || !date){
-            status.textContent='Please enter the patient name and preferred date.';
-            status.classList.add('show');
-            return;
-        }
-        if(patientPhone.replace(/[^0-9]/g,'').length<10){
-            status.textContent='Please enter a valid patient mobile number.';
-            status.classList.add('show');
-            return;
-        }
-        if(clinicPhone.length<10){
-            status.textContent='Please enter the clinic WhatsApp number, including country code if needed.';
-            status.classList.add('show');
-            return;
-        }
-
-        const formattedDate=new Date(date+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-        const formattedTime=new Date('1970-01-01T'+time).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-        const message=[
-            `*Appointment Request — ${clinic}*`,
-            `Doctor: ${doctor}`,
-            `Patient: ${patient}`,
-            `Patient mobile: ${patientPhone}`,
-            `Date: ${formattedDate}`,
-            `Preferred time: ${formattedTime}`,
-            `Mode: ${appointmentMode}`,
-            `Reason: ${reason}`,
-            '',
-            'Please confirm the appointment.'
-        ].join('\n');
-
-        const url='https://wa.me/'+clinicPhone+'?text='+encodeURIComponent(message);
-        status.textContent='Opening WhatsApp with your appointment request…';
-        status.classList.add('show');
-        setTimeout(()=>window.open(url,'_blank','noopener,noreferrer'),180);
-    });
-
-    /* ---------- Prescription builder ---------- */
-    const rxDate=$('rxDate');
-    if(rxDate){
-        const d=new Date();
-        rxDate.value=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
-    }
-
-    const list=$('medicineList');
-    let medicineCount=0;
-
-    function addMedicine(data={}){
-        medicineCount++;
-        const row=document.createElement('div');
-        row.className='dj-med-row';
-        row.dataset.id=medicineCount;
-        row.innerHTML=`
-            <input class="med-name" placeholder="Medicine / strength" value="${escapeHtml(data.name||'')}">
-            <input class="med-dose" placeholder="Dose" value="${escapeHtml(data.dose||'')}">
-            <input class="med-frequency" placeholder="Frequency" value="${escapeHtml(data.frequency||'')}">
-            <input class="med-duration" placeholder="Duration" value="${escapeHtml(data.duration||'')}">
-            <button class="dj-remove-med" type="button" title="Remove medicine">×</button>
-        `;
-        list.appendChild(row);
-        row.querySelectorAll('input').forEach(input=>input.addEventListener('input',updateRxPreview));
-        row.querySelector('.dj-remove-med').addEventListener('click',()=>{
-            row.remove();
-            updateRxPreview();
-        });
-        updateRxPreview();
-    }
-
-    function escapeHtml(value){
-        return String(value).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-    }
-
-    function medicines(){
-        return [...list.querySelectorAll('.dj-med-row')].map(row=>({
-            name:row.querySelector('.med-name').value.trim(),
-            dose:row.querySelector('.med-dose').value.trim(),
-            frequency:row.querySelector('.med-frequency').value.trim(),
-            duration:row.querySelector('.med-duration').value.trim()
-        })).filter(m=>m.name);
-    }
-
-    function updateRxPreview(){
-        const doctor=$('rxDoctor').value.trim()||'Dr. Your Name';
-        const clinic=$('rxClinic').value.trim()||'DoctorJet Clinic';
-        const patient=$('rxPatient').value.trim()||'Patient name';
-        const ageSex=$('rxAgeSex').value.trim();
-        const diagnosis=$('rxDiagnosis').value.trim();
-        const date=$('rxDate').value ? new Date($('rxDate').value+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '';
-        const meds=medicines();
-        $('rxPreview').innerHTML=`
-            <div class="rx-preview-head"><div><strong>${escapeHtml(doctor)}</strong><div class="rx-meta">${escapeHtml(clinic)}</div></div><div class="rx-meta">${escapeHtml(date)}</div></div>
-            <div class="rx-meta" style="margin-bottom:7px">Patient: <b>${escapeHtml(patient)}</b>${ageSex?' · '+escapeHtml(ageSex):''}</div>
-            ${diagnosis?`<div class="rx-meta" style="margin-bottom:8px">Clinical impression: ${escapeHtml(diagnosis)}</div>`:''}
-            ${meds.length?meds.map(m=>`<div class="dj-rx-preview-med"><b>${escapeHtml(m.name)}</b><span>${escapeHtml(m.dose||'—')} · ${escapeHtml(m.frequency||'—')}</span><span>${escapeHtml(m.duration||'—')}</span></div>`).join(''):'<div class="rx-meta">Add medicines above to preview the prescription.</div>'}
-            <div class="dj-rx-preview-foot"><span>Digitally prepared</span><span>${meds.length} medicine${meds.length===1?'':'s'}</span></div>
-        `;
-    }
-
-    ['rxDoctor','rxQualification','rxClinic','rxDate','rxPatient','rxAgeSex','rxDiagnosis','rxAdvice'].forEach(id=>{
-        $(id)?.addEventListener('input',updateRxPreview);
-        $(id)?.addEventListener('change',updateRxPreview);
-    });
-
-    $('addMedicine')?.addEventListener('click',()=>addMedicine());
-    addMedicine({name:'',dose:'',frequency:'',duration:''});
-
-    function prescriptionData(){
-        return {
-            doctor:$('rxDoctor').value.trim()||'Dr. Your Name',
-            qualification:$('rxQualification').value.trim(),
-            clinic:$('rxClinic').value.trim()||'DoctorJet Clinic',
-            date:$('rxDate').value,
-            patient:$('rxPatient').value.trim(),
-            ageSex:$('rxAgeSex').value.trim(),
-            diagnosis:$('rxDiagnosis').value.trim(),
-            advice:$('rxAdvice').value.trim(),
-            medicines:medicines()
-        };
-    }
-
-    function loadJsPdf(){
-        return new Promise((resolve,reject)=>{
-            if(window.jspdf?.jsPDF){resolve(window.jspdf.jsPDF);return;}
-            const existing=document.querySelector('script[data-doctorjet-jspdf]');
-            if(existing){existing.addEventListener('load',()=>resolve(window.jspdf.jsPDF));existing.addEventListener('error',reject);return;}
-            const script=document.createElement('script');
-            script.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-            script.async=true;
-            script.dataset.doctorjetJspdf='true';
-            script.onload=()=>window.jspdf?.jsPDF?resolve(window.jspdf.jsPDF):reject(new Error('PDF engine unavailable'));
-            script.onerror=()=>reject(new Error('Could not load PDF engine'));
-            document.head.appendChild(script);
-        });
-    }
-
-    function safeFilePart(value){
-        return (value||'prescription').replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').slice(0,60)||'prescription';
-    }
-
-    async function buildPrescriptionPdf(){
-        const data=prescriptionData();
-        if(!data.patient){
-            throw new Error('Please enter the patient name.');
-        }
-        if(!data.medicines.length){
-            throw new Error('Please add at least one medicine.');
-        }
-        const JsPDF=await loadJsPdf();
-        const doc=new JsPDF({unit:'mm',format:'a4'});
-        const pageW=210,pageH=297,left=18,right=192;
-        let y=18;
-
-        // Clean clinical document, independent of the landing-page theme.
-        doc.setDrawColor(225,229,234);
-        doc.setFillColor(247,250,252);
-        doc.roundedRect(left-3,y-3,right-left+6,34,4,4,'FD');
-        doc.setTextColor(15,31,42);
-        doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text(data.doctor,left,y+6);
-        doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(83,98,110);doc.text(data.qualification,left,y+12);
-        doc.text(data.clinic,left,y+18);
-        doc.text('PRESCRIPTION',right,y+6,{align:'right'});
-        doc.setFontSize(8);doc.text(data.date?new Date(data.date+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'',right,y+12,{align:'right'});
-        y+=43;
-
-        doc.setTextColor(35,48,58);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('PATIENT',left,y);
-        doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text(data.patient,left,y+7);
-        if(data.ageSex) doc.text(data.ageSex,right,y+7,{align:'right'});
-        y+=17;
-
-        if(data.diagnosis){
-            doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(83,98,110);doc.text('CLINICAL IMPRESSION',left,y);
-            doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(35,48,58);
-            const lines=doc.splitTextToSize(data.diagnosis,right-left,9);doc.text(lines,left,y+6);y+=7+lines.length*5;
-        }
-
-        y+=5;
-        doc.setFillColor(15,31,42);doc.setTextColor(255,255,255);doc.rect(left,y-5,right-left,9,'F');
-        doc.setFont('helvetica','bold');doc.setFontSize(8);
-        doc.text('MEDICINE',left+3,y+1);doc.text('DOSE',105,y+1);doc.text('FREQUENCY',135,y+1);doc.text('DURATION',right-3,y+1,{align:'right'});
-        y+=10;
-
-        doc.setTextColor(35,48,58);doc.setFont('helvetica','normal');doc.setFontSize(9);
-        data.medicines.forEach((m,i)=>{
-            if(y>pageH-45){doc.addPage();y=22;}
-            if(i%2===0){doc.setFillColor(248,250,252);doc.rect(left,y-5,right-left,11,'F');}
-            doc.text(m.name.slice(0,42),left+3,y+1);
-            doc.text((m.dose||'—').slice(0,18),105,y+1);
-            doc.text((m.frequency||'—').slice(0,20),135,y+1);
-            doc.text((m.duration||'—').slice(0,16),right-3,y+1,{align:'right'});
-            y+=11;
-        });
-
-        if(data.advice){
-            y+=10;doc.setDrawColor(225,229,234);doc.line(left,y-3,right,y-3);
-            doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(83,98,110);doc.text('ADVICE / FOLLOW-UP',left,y+4);
-            doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(35,48,58);
-            const lines=doc.splitTextToSize(data.advice,right-left,9);doc.text(lines,left,y+11);y+=12+lines.length*5;
-        }
-
-        y=Math.min(Math.max(y+24,240),258);
-        doc.setDrawColor(210,216,221);doc.line(right-55,y,right,y);
-        doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(95,105,112);doc.text(data.doctor,right,y+6,{align:'right'});
-        doc.text('DoctorJet digital prescription',right,y+11,{align:'right'});
-        doc.setFontSize(7);doc.text('Generated electronically in the browser. Verify all clinical details before issuing.',left,pageH-12);
-        return doc;
-    }
-
-    $('downloadPrescription')?.addEventListener('click',async()=>{
-        const status=$('rxStatus');
-        status.textContent='Preparing your prescription PDF…';status.classList.add('show');
-        try{
-            const data=prescriptionData();
-            const doc=await buildPrescriptionPdf();
-            const filename=`${safeFilePart(data.patient)}-prescription-${data.date||'today'}.pdf`;
-            doc.save(filename);
-            status.textContent='PDF generated successfully. You can now send the downloaded file to the patient.';
-        }catch(err){status.textContent=err.message||'Unable to generate the PDF.';}
-    });
-
-    $('sharePrescription')?.addEventListener('click',async()=>{
-        const status=$('rxStatus');
-        status.textContent='Preparing shareable PDF…';status.classList.add('show');
-        try{
-            const data=prescriptionData();
-            const doc=await buildPrescriptionPdf();
-            const blob=doc.output('blob');
-            const filename=`${safeFilePart(data.patient)}-prescription-${data.date||'today'}.pdf`;
-            const file=new File([blob],filename,{type:'application/pdf'});
-            if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
-                await navigator.share({title:'Digital Prescription',text:`Prescription for ${data.patient}`,files:[file]});
-                status.textContent='Prescription shared successfully.';
-            }else{
-                doc.save(filename);
-                status.textContent='Your browser does not support file sharing. The PDF was downloaded instead.';
-            }
-        }catch(err){
-            if(err.name==='AbortError'){status.textContent='Share cancelled.';return;}
-            status.textContent=err.message||'Unable to share the PDF.';
-        }
-    });
-})();
 
 
 /* ============================================================
