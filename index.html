@@ -7298,6 +7298,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(!leadModal || !leadForm) return;
 
+    /* Always start closed, even if a browser restores DOM state. */
+    leadModal.classList.remove("open");
+    leadModal.setAttribute("aria-hidden", "true");
+
     function openLeadModal(e){
         if(e) e.preventDefault();
         leadLastFocused = document.activeElement;
@@ -7318,11 +7322,25 @@ document.addEventListener("DOMContentLoaded", function(){
         if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
     }
 
-    document.querySelectorAll(".open-lead-modal").forEach(function(el){
-        el.addEventListener("click", openLeadModal);
+    /*
+       Use delegated click handling for CTA buttons.
+       This is intentionally more robust than binding only to the
+       elements present at initialization, because the landing page
+       may be rearranged by the site editor/Codex later.
+    */
+    document.addEventListener("click", function(e){
+        const trigger = e.target.closest && e.target.closest(".open-lead-modal");
+        if(!trigger) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        openLeadModal(e);
     });
 
-    if(leadClose) leadClose.addEventListener("click", closeLeadModal);
+    if(leadClose) leadClose.addEventListener("click", function(e){
+        e.preventDefault();
+        closeLeadModal();
+    });
 
     leadModal.addEventListener("click", function(e){
         if(e.target === leadModal) closeLeadModal();
