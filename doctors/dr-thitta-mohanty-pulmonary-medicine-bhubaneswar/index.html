@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Appointments | Dr. Thitta Mohanty</title>
+<meta name="description" content="Book an appointment with Dr. Thitta Mohanty, Professor & HOD, Pulmonary Medicine, PGIMER & Capital Hospital, Bhubaneswar.">
+<style>
+:root{
+ --cream:#f7f4ee;--paper:#fffdfa;--sage:#6f8174;--sage2:#50675a;--sage-soft:#e9efe9;
+ --plum:#72566f;--plum-soft:#f1e9f0;--ink:#252925;--muted:#737a75;--line:#e5e4df;
+ --danger:#a34f45;--danger-soft:#fbefec;--shadow:0 24px 70px rgba(54,58,50,.11);
+ --r:26px
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 0%,#e9eee8 0,#f7f4ee 34%,#f5f2ed 100%);
+color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;
+-webkit-font-smoothing:antialiased}
+.page{max-width:760px;margin:auto;padding:18px 14px 50px}
+.top{padding:20px 4px 18px}
+.brand{display:flex;align-items:center;gap:13px}
+.mark{width:46px;height:46px;border-radius:15px;background:var(--sage);color:white;display:grid;place-items:center;font-size:20px;font-weight:800;box-shadow:0 8px 20px rgba(80,103,90,.2)}
+.kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage2);font-weight:800}
+.doctor{font-size:18px;font-weight:760;margin-top:2px}
+.hero{background:var(--paper);border:1px solid rgba(0,0,0,.035);border-radius:var(--r);padding:28px;box-shadow:var(--shadow)}
+h1{font-size:31px;letter-spacing:-.8px;line-height:1.1;margin:0 0 9px}
+.hero p{margin:0;color:var(--muted);line-height:1.55;font-size:14px}
+.credentials{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{background:var(--sage-soft);color:var(--sage2);padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.chip.plum{background:var(--plum-soft);color:var(--plum)}
+.card{margin-top:14px;background:var(--paper);border:1px solid rgba(0,0,0,.035);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.progress{height:4px;background:#eeece7}.bar{height:100%;width:25%;background:linear-gradient(90deg,var(--sage),var(--plum));transition:.25s}
+.step{display:none;padding:28px}.step.active{display:block}
+.stepno{font-size:12px;color:var(--plum);font-weight:800;margin-bottom:6px}
+.title{font-size:23px;font-weight:780;letter-spacing:-.3px;margin:0 0 5px}.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:760;margin:0 0 7px;color:#4d554f}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fffefa;color:var(--ink);font:inherit;font-size:15px;outline:none;transition:.18s}
+input:focus,select:focus,textarea:focus{border-color:var(--sage);box-shadow:0 0 0 4px rgba(111,129,116,.10)}
+textarea{min-height:105px;resize:vertical}
+.req{color:var(--plum)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice input{display:none}.choice label{border:1px solid var(--line);padding:15px;border-radius:16px;text-align:center;cursor:pointer;background:#fffefa;transition:.18s}
+.choice input:checked+label{border-color:var(--sage);background:var(--sage-soft);color:var(--sage2);box-shadow:inset 0 0 0 1px var(--sage)}
+.timegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.time input{display:none}.time label{border:1px solid var(--line);padding:12px 8px;border-radius:13px;text-align:center;cursor:pointer;background:#fffefa;font-size:13px}.time input:checked+label{background:var(--plum-soft);border-color:#b89db5;color:var(--plum);font-weight:750}
+.note{background:#f8f7f2;border:1px solid var(--line);border-radius:16px;padding:14px;font-size:12px;line-height:1.55;color:var(--muted);margin-top:16px}
+.urgent{background:var(--danger-soft);border:1px solid #efd0ca;color:#774039;border-radius:16px;padding:14px;font-size:12px;line-height:1.55;margin-top:15px}
+.summary{background:#f8f7f2;border-radius:18px;padding:15px;margin-top:16px}.sumrow{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid #e9e7e1;font-size:13px}.sumrow:last-child{border:0}.sumrow span{color:var(--muted)}
+.consent{display:flex;gap:9px;align-items:flex-start;margin-top:15px;font-size:12px;color:var(--muted);line-height:1.45}.consent input{width:auto;margin-top:3px}
+.nav{display:flex;justify-content:space-between;gap:10px;padding:16px 28px;border-top:1px solid #eeece8;background:#fffefa}
+button{border:0;border-radius:14px;padding:13px 18px;font:inherit;font-weight:760;cursor:pointer}.primary{background:var(--sage);color:white}.primary:hover{background:var(--sage2)}.secondary{background:#eeece7;color:#4c534e}button:disabled{opacity:.45;cursor:not-allowed}
+.success{display:none;text-align:center;padding:54px 26px}.success.show{display:block}.check{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 17px;background:var(--sage-soft);color:var(--sage2);font-size:30px;font-weight:800}.success h2{margin:0 0 7px;font-size:25px}.success p{color:var(--muted);font-size:13px;line-height:1.6}.id{color:var(--plum);font-weight:800}
+.footer{text-align:center;color:#8b908c;font-size:11px;margin-top:14px}
+@media(max-width:620px){.page{padding:8px 9px 35px}.hero{padding:23px}.step{padding:22px}.grid{grid-template-columns:1fr}.full{grid-column:auto}h1{font-size:27px}.nav{padding:14px 20px}.timegrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div class="brand">
+      <div class="mark">TM</div>
+      <div>
+        <div class="kicker">Pulmonary Medicine</div>
+        <div class="doctor">Dr. Thitta Mohanty</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Plan your consultation.</h1>
+    <p>A simple, guided appointment request for pulmonary and respiratory concerns. It takes about 2–3 minutes.</p>
+    <div class="credentials">
+      <span class="chip">Professor &amp; HOD</span>
+      <span class="chip">PGIMER &amp; Capital Hospital</span>
+      <span class="chip plum">Founder, eNiswas</span>
+      <span class="chip">Bhubaneswar</span>
+    </div>
+  </section>
+
+  <main class="card">
+    <div class="progress"><div class="bar" id="bar"></div></div>
+
+    <form id="form">
+      <section class="step active" data-step="1">
+        <div class="stepno">01 · ABOUT YOU</div>
+        <h2 class="title">Let’s start with the patient.</h2>
+        <p class="sub">Only the essentials first. We’ll ask about the respiratory concern next.</p>
+        <div class="grid">
+          <div class="full"><label>Patient name <span class="req">*</span></label><input id="name" required placeholder="Full name"></div>
+          <div><label>Age <span class="req">*</span></label><input id="age" type="number" min="0" max="120" required placeholder="Years"></div>
+          <div><label>Gender <span class="req">*</span></label><select id="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+          <div><label>Mobile <span class="req">*</span></label><input id="phone" type="tel" inputmode="tel" required placeholder="+91 98765 43210"></div>
+          <div><label>Email <span style="font-weight:500;color:#8a8f8b">(optional)</span></label><input id="email" type="email" placeholder="you@example.com"></div>
+          <div class="full"><label>City</label><input id="city" placeholder="e.g. Bhubaneswar"></div>
+        </div>
+      </section>
+
+      <section class="step" data-step="2">
+        <div class="stepno">02 · YOUR CONCERN</div>
+        <h2 class="title">What brings you in?</h2>
+        <p class="sub">Choose the closest match. You can add details in your own words.</p>
+        <div class="grid">
+          <div class="full"><label>Main concern <span class="req">*</span></label><select id="reason" required><option value="">Choose one</option><option>Persistent cough</option><option>Breathlessness / shortness of breath</option><option>Wheezing</option><option>Asthma</option><option>COPD</option><option>Sleep-related breathing problem</option><option>Snoring / suspected sleep apnoea</option><option>Abnormal chest X-ray / CT</option><option>Tuberculosis / post-TB evaluation</option><option>Interstitial lung disease</option><option>Smoking-related respiratory problem</option><option>Chest symptoms / recurrent infections</option><option>Second opinion</option><option>Other respiratory concern</option></select></div>
+          <div><label>Duration</label><select id="duration"><option value="">Select</option><option>&lt; 1 week</option><option>1–4 weeks</option><option>1–3 months</option><option>3–12 months</option><option>&gt; 1 year</option><option>Not applicable</option></select></div>
+          <div><label>Current severity</label><select id="severity"><option value="">Select</option><option>Mild</option><option>Moderate</option><option>Severe</option><option>Not sure</option></select></div>
+          <div class="full"><label>Tell us briefly</label><textarea id="symptoms" placeholder="What symptoms are you having? When did they start? What makes them better or worse?"></textarea></div>
+          <div class="full"><label>Known respiratory condition</label><input id="diagnosis" placeholder="e.g. asthma, COPD, ILD, previous TB — or “none known”"></div>
+        </div>
+        <div class="urgent"><strong>Need urgent care?</strong><br>If there is severe or rapidly worsening breathlessness, blue/grey lips, severe chest pain, fainting/confusion, or significant coughing of blood, seek emergency medical care rather than waiting for an appointment.</div>
+      </section>
+
+      <section class="step" data-step="3">
+        <div class="stepno">03 · MEDICAL CONTEXT</div>
+        <h2 class="title">Help the doctor prepare.</h2>
+        <p class="sub">These fields are optional, but useful for a respiratory consultation.</p>
+        <div class="grid">
+          <div class="full"><label>Current medicines / inhalers</label><textarea id="medicines" placeholder="Names of inhalers, tablets, oxygen, nebulisation, etc."></textarea></div>
+          <div class="full"><label>Previous tests or reports</label><textarea id="investigations" placeholder="Chest X-ray/CT, spirometry/PFT, bronchoscopy, blood tests, sleep study, previous prescriptions, etc."></textarea></div>
+          <div class="full"><label>Anything else the doctor should know?</label><textarea id="notes" placeholder="Referral details, previous treatment response, important allergies, accessibility requirements, etc."></textarea></div>
+        </div>
+        <div class="note">If you already have reports, please keep them ready for the consultation. The appointment request does not itself constitute a diagnosis or treatment recommendation.</div>
+      </section>
+
+      <section class="step" data-step="4">
+        <div class="stepno">04 · FIND A TIME</div>
+        <h2 class="title">Choose your preferred slot.</h2>
+        <p class="sub">This is a request. The clinic will confirm the final date and time.</p>
+        <div class="grid">
+          <div><label>Preferred date <span class="req">*</span></label><input id="date" type="date" required></div>
+          <div><label>Preferred time <span class="req">*</span></label>
+            <div class="timegrid">
+              <div class="time"><input id="t1" name="time" type="radio" value="09:00–10:00 AM"><label for="t1">9–10 AM</label></div>
+              <div class="time"><input id="t2" name="time" type="radio" value="10:00–11:00 AM"><label for="t2">10–11 AM</label></div>
+              <div class="time"><input id="t3" name="time" type="radio" value="11:00 AM–12:00 PM"><label for="t3">11 AM–12 PM</label></div>
+              <div class="time"><input id="t4" name="time" type="radio" value="02:00–03:00 PM"><label for="t4">2–3 PM</label></div>
+              <div class="time"><input id="t5" name="time" type="radio" value="03:00–04:00 PM"><label for="t5">3–4 PM</label></div>
+              <div class="time"><input id="t6" name="time" type="radio" value="04:00–05:00 PM"><label for="t6">4–5 PM</label></div>
+              <div class="time" style="grid-column:1/-1"><input id="t7" name="time" type="radio" value="Any available slot"><label for="t7">Any available slot</label></div>
+            </div>
+          </div>
+          <div class="full"><label>Consultation mode <span class="req">*</span></label>
+            <div class="choices">
+              <div class="choice"><input id="inperson" name="mode" type="radio" value="In-person" checked><label for="inperson">In-person<br><small>At clinic</small></label></div>
+              <div class="choice"><input id="online" name="mode" type="radio" value="Online / video"><label for="online">Online / video<br><small>Remote consultation</small></label></div>
+            </div>
+          </div>
+        </div>
+        <div class="summary" id="summary"></div>
+        <label class="consent"><input id="consent" type="checkbox" required><span>I confirm that the information provided is accurate to the best of my knowledge and agree to be contacted about this appointment request.</span></label>
+      </section>
+    </form>
+
+    <div class="success" id="success">
+      <div class="check">✓</div>
+      <h2>Request received.</h2>
+      <p>Your appointment request has been sent to the clinic.</p>
+      <p>Reference: <span class="id" id="apptId"></span></p>
+      <p>Please keep this reference available when the clinic contacts you.</p>
+    </div>
+
+    <div class="nav" id="nav">
+      <button class="secondary" type="button" id="back" onclick="back()" disabled>Back</button>
+      <button class="primary" type="button" id="next" onclick="next()">Continue</button>
+    </div>
+  </main>
+  <div class="footer">Appointment request · Dr. Thitta Mohanty · Pulmonary Medicine · Bhubaneswar</div>
+</div>
+
+<script>
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbygW0ao3SWeb6ePBWZURwQagbt6VWDh6L2KNwD3rDb-L8X24g-nMh7ht3c_uPjHuC_S/exec";
+let step=1;
+const $=id=>document.getElementById(id);
+const val=id=>$(id).value.trim();
+
+function update(){
+ document.querySelectorAll(".step").forEach(x=>x.classList.toggle("active",+x.dataset.step===step));
+ $("bar").style.width=(step/4*100)+"%";
+ $("back").disabled=step===1;
+ $("next").textContent=step===4?"Submit request":"Continue";
+ if(step===4) summary();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function validate(){
+ const s=document.querySelector(`.step[data-step="${step}"]`);
+ for(const x of s.querySelectorAll("input[required],select[required],textarea[required]")){
+   if(!x.checkValidity()){x.reportValidity();return false}
+ }
+ if(step===4&&!document.querySelector('input[name="time"]:checked')){
+   alert("Please choose a preferred time.");return false
+ }
+ if(step===1&&val("phone").replace(/\D/g,"").length<10){
+   alert("Please enter a valid mobile number.");$("phone").focus();return false
+ }
+ return true
+}
+function next(){if(!validate())return;if(step<4){step++;update()}else submit()}
+function back(){if(step>1){step--;update()}}
+function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function summary(){
+ const time=document.querySelector('input[name="time"]:checked')?.value||"";
+ const mode=document.querySelector('input[name="mode"]:checked')?.value||"";
+ $("summary").innerHTML=
+ `<div class="sumrow"><span>Patient</span><strong>${esc(val("name"))}</strong></div>
+  <div class="sumrow"><span>Concern</span><strong>${esc(val("reason"))}</strong></div>
+  <div class="sumrow"><span>Date</span><strong>${esc(val("date"))}</strong></div>
+  <div class="sumrow"><span>Time</span><strong>${esc(time)}</strong></div>
+  <div class="sumrow"><span>Mode</span><strong>${esc(mode)}</strong></div>`;
+}
+async function submit(){
+ if(!validate())return;
+ const b=$("next");b.disabled=true;b.textContent="Submitting…";
+ const payload={
+  name:val("name"),age:val("age"),gender:val("gender"),phone:val("phone"),email:val("email"),city:val("city"),
+  reason:val("reason"),duration:val("duration"),severity:val("severity"),symptoms:val("symptoms"),diagnosis:val("diagnosis"),
+  medicines:val("medicines"),investigations:val("investigations"),date:val("date"),
+  time:document.querySelector('input[name="time"]:checked')?.value||"",
+  mode:document.querySelector('input[name="mode"]:checked')?.value||"",notes:val("notes"),
+  source:location.href
+ };
+ if(SCRIPT_URL.includes("PASTE_YOUR")){
+  alert("The design is ready. Add your deployed Google Apps Script Web App URL to SCRIPT_URL before submitting.");
+  b.disabled=false;b.textContent="Submit request";return
+ }
+ try{
+  const r=await fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  const j=await r.json();if(!j.ok)throw new Error(j.error||"Submission failed");
+  $("apptId").textContent=j.appointmentId;$("form").style.display="none";$("nav").style.display="none";$("success").classList.add("show");
+ }catch(e){console.error(e);alert("Unable to submit right now. Please try again.");b.disabled=false;b.textContent="Submit request"}
+}
+$("date").min=new Date().toISOString().split("T")[0];
+update();
+</script>
+</body>
+</html>
