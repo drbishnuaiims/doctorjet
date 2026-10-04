@@ -53,16 +53,23 @@ const doctor = {
 </title>
 
 
+<!-- =========================================================
+     QR CODE LIBRARY
+
+     The QR image itself is generated locally in the browser
+     from the doctor's current profile URL.
+     ========================================================= -->
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+></script>
+
+
 <style>
 
 /* =========================================================
    DOCTOR PROFILE
    STANDALONE APPLE-INSPIRED UI
-   ========================================================= */
-
-
-/* =========================================================
-   VARIABLES
    ========================================================= */
 
 :root {
@@ -202,39 +209,50 @@ a {
 
 
 /* =========================================================
-   TOP PLATFORM INDICATOR
+   TOP DOCTORJET PLATFORM INDICATOR
    ========================================================= */
 
 .platform-bar {
 
-    position: fixed;
+    position:
+        fixed;
 
-    top: 10px;
+    top:
+        10px;
 
-    right: 12px;
+    right:
+        12px;
 
-    z-index: 500;
+    z-index:
+        500;
 
 }
 
 
-/* clickable container */
+/* clickable attribution */
 
 .platform-trigger {
 
-    position: relative;
+    position:
+        relative;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    min-width: 31px;
+    min-width:
+        31px;
 
-    min-height: 31px;
+    min-height:
+        31px;
 
-    padding: 0;
+    padding:
+        0;
 
     border:
         1px solid
@@ -270,7 +288,7 @@ a {
 }
 
 
-/* expanded */
+/* expanded attribution */
 
 .platform-bar.expanded
 .platform-trigger {
@@ -285,8 +303,7 @@ a {
         flex-start;
 
     padding:
-        5px
-        9px;
+        5px 9px;
 
     background:
         rgba(255,255,255,.96);
@@ -322,6 +339,7 @@ a {
 
 }
 
+
 .security-icon svg {
 
     width:
@@ -336,8 +354,6 @@ a {
 }
 
 
-/* expanded security icon */
-
 .platform-bar.expanded
 .security-icon {
 
@@ -347,7 +363,7 @@ a {
 }
 
 
-/* attribution */
+/* attribution content */
 
 .platform-attribution {
 
@@ -519,7 +535,9 @@ a {
 }
 
 
-/* photo container */
+/* =========================================================
+   DOCTOR PHOTO
+   ========================================================= */
 
 .photo-container {
 
@@ -528,8 +546,6 @@ a {
 
 }
 
-
-/* doctor image */
 
 .doctor-photo {
 
@@ -595,6 +611,7 @@ a {
 
 }
 
+
 .verified-badge svg {
 
     width:
@@ -605,6 +622,107 @@ a {
 
     display:
         block;
+
+}
+
+
+/* =========================================================
+   QR CODE BLOCK
+   ========================================================= */
+
+.profile-qr {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        8px;
+
+    background:
+        rgba(255,255,255,.78);
+
+    border:
+        1px solid
+        rgba(0,0,0,.065);
+
+    border-radius:
+        14px;
+
+    min-width:
+        92px;
+
+}
+
+
+.qr-code {
+
+    width:
+        70px;
+
+    height:
+        70px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        white;
+
+    border-radius:
+        7px;
+
+}
+
+
+.qr-code img,
+.qr-code canvas {
+
+    width:
+        70px !important;
+
+    height:
+        70px !important;
+
+    display:
+        block;
+
+}
+
+
+.qr-label {
+
+    margin-top:
+        6px;
+
+    color:
+        var(--text-tertiary);
+
+    font-size:
+        8px;
+
+    font-weight:
+        650;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
 
 }
 
@@ -883,7 +1001,7 @@ a {
 
 
 /* =========================================================
-   MAIN CONTENT GRID
+   CONTENT
    ========================================================= */
 
 .content {
@@ -1189,7 +1307,7 @@ a {
 
 
 /* =========================================================
-   PRACTICE LOCATIONS
+   LOCATIONS
    ========================================================= */
 
 .location-selector {
@@ -1317,7 +1435,7 @@ a {
 
 
 /* =========================================================
-   LOCATION DETAILS
+   LOCATION DETAIL
    ========================================================= */
 
 .location-detail {
@@ -1834,7 +1952,7 @@ a {
 
 
 /* =========================================================
-   MODAL
+   APPOINTMENT MODAL
    ========================================================= */
 
 .modal-backdrop {
@@ -2202,7 +2320,7 @@ a {
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   TABLET
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -2261,7 +2379,7 @@ a {
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   MOBILE
    ========================================================= */
 
 @media (max-width: 650px) {
@@ -2285,7 +2403,7 @@ a {
     }
 
 
-    /* top attribution */
+    /* attribution */
 
     .platform-bar {
 
@@ -2324,7 +2442,7 @@ a {
     }
 
 
-    /* doctor hero */
+    /* hero */
 
     .doctor-intro {
 
@@ -2433,6 +2551,45 @@ a {
     }
 
 
+    /* QR */
+
+    .profile-qr {
+
+        grid-column:
+            1 / -1;
+
+        width:
+            100%;
+
+        flex-direction:
+            row;
+
+        justify-content:
+            flex-start;
+
+        gap:
+            10px;
+
+        padding:
+            8px 11px;
+
+    }
+
+
+    .qr-label {
+
+        margin-top:
+            0;
+
+        text-align:
+            left;
+
+        white-space:
+            normal;
+
+    }
+
+
     /* quick information */
 
     .quick-info {
@@ -2532,7 +2689,7 @@ a {
     }
 
 
-    /* bottom booking */
+    /* mobile booking */
 
     .mobile-book {
 
@@ -2592,7 +2749,9 @@ a {
 
 
 <!-- =========================================================
-     TOP-RIGHT DOCTORJET SECURITY / ATTRIBUTION
+     TOP-RIGHT DOCTORJET ATTRIBUTION
+
+     Entire expanded section is a link to DoctorJet.in
      ========================================================= -->
 
 <div
@@ -2600,16 +2759,17 @@ a {
     id="platformBar"
 >
 
-    <button
+    <a
         class="platform-trigger"
         id="platformTrigger"
-        type="button"
-        aria-label="Powered by DoctorJet"
-        onclick="togglePlatformBar()"
+        href="https://doctorjet.in"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Powered by DoctorJet.in"
     >
 
 
-        <!-- Security / verified platform icon -->
+        <!-- Security icon -->
 
         <span class="security-icon">
 
@@ -2667,13 +2827,13 @@ a {
 
         </span>
 
-    </button>
+    </a>
 
 </div>
 
 
 <!-- =========================================================
-     MAIN PAGE
+     PAGE
      ========================================================= -->
 
 <main class="page">
@@ -2686,7 +2846,7 @@ a {
 <section class="doctor-intro">
 
 
-    <!-- Doctor photograph -->
+    <!-- Doctor photo -->
 
     <div class="photo-container">
 
@@ -2698,7 +2858,7 @@ a {
         >
 
 
-        <!-- Instagram-inspired verification -->
+        <!-- Instagram-style verification -->
 
         <span
             class="verified-badge"
@@ -2756,7 +2916,7 @@ a {
     </div>
 
 
-    <!-- Doctor identity -->
+    <!-- Doctor information -->
 
     <div>
 
@@ -2808,7 +2968,26 @@ a {
     </div>
 
 
-    <!-- Desktop booking button -->
+    <!-- QR code -->
+
+    <div class="profile-qr">
+
+        <div
+            class="qr-code"
+            id="doctorQR"
+            aria-label="QR code for this doctor profile"
+        >
+        </div>
+
+        <div class="qr-label">
+            Scan to open<br>
+            this profile
+        </div>
+
+    </div>
+
+
+    <!-- Booking -->
 
     <button
         class="primary-button"
@@ -3411,7 +3590,7 @@ a {
                 <div class="form-grid">
 
 
-                    <!-- NAME -->
+                    <!-- PATIENT NAME -->
 
                     <div class="form-group">
 
@@ -3630,12 +3809,13 @@ a {
 <script>
 
 /* =========================================================
-   DOCTOR DATA
+   DOCTOR CONFIGURATION
    =========================================================
 
-   CHANGE THIS SECTION FOR EACH DOCTOR.
+   CHANGE THIS OBJECT FOR EACH DOCTOR.
 
-   The UI does not need to be changed.
+   The QR code automatically uses the current page URL,
+   so every doctor's profile gets its own QR code.
    ========================================================= */
 
 const doctor = {
@@ -3843,6 +4023,116 @@ document
 
 
 /* =========================================================
+   LOCAL QR GENERATION
+   =========================================================
+
+   Uses the actual URL of the current doctor profile.
+
+   Example:
+
+   https://doctorjet.in/doctor/dr-ananya-mehta
+
+   becomes the QR payload automatically.
+
+   Therefore you do NOT need to manually change the QR
+   whenever you duplicate the profile page.
+   ========================================================= */
+
+function generateDoctorQR() {
+
+    const qrContainer =
+        document.getElementById(
+            "doctorQR"
+        );
+
+
+    if (!qrContainer) {
+        return;
+    }
+
+
+    qrContainer.innerHTML = "";
+
+
+    /*
+       The current profile URL is used.
+
+       If the page is opened locally while developing,
+       the QR will encode the local URL.
+
+       Once uploaded to DoctorJet.in, it will automatically
+       encode the production doctor profile URL.
+    */
+
+    const profileURL =
+        window.location.href;
+
+
+    new QRCode(
+        qrContainer,
+        {
+
+            text:
+                profileURL,
+
+            width:
+                70,
+
+            height:
+                70,
+
+            colorDark:
+                "#171717",
+
+            colorLight:
+                "#ffffff",
+
+            correctLevel:
+                QRCode.CorrectLevel.M
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   WAIT FOR QR LIBRARY
+   ========================================================= */
+
+function initialiseQR() {
+
+    if (
+        typeof QRCode !==
+        "undefined"
+    ) {
+
+        generateDoctorQR();
+
+    } else {
+
+        /*
+           If the external QR library has not finished loading,
+           try again shortly.
+        */
+
+        setTimeout(
+            initialiseQR,
+            100
+        );
+
+    }
+
+}
+
+
+window.addEventListener(
+    "load",
+    initialiseQR
+);
+
+
+/* =========================================================
    LOCATION STATE
    ========================================================= */
 
@@ -3861,7 +4151,8 @@ function renderLocations() {
         );
 
 
-    selector.innerHTML = "";
+    selector.innerHTML =
+        "";
 
 
     doctor.locations.forEach(
@@ -3881,7 +4172,8 @@ function renderLocations() {
             button.className =
                 "location-button" +
                 (
-                    index === selectedLocation
+                    index ===
+                    selectedLocation
                         ? " active"
                         : ""
                 );
@@ -3931,7 +4223,7 @@ function renderLocations() {
 
 
 /* =========================================================
-   RENDER LOCATION DETAIL
+   LOCATION DETAIL
    ========================================================= */
 
 function renderLocationDetail() {
@@ -4053,7 +4345,7 @@ function renderLocationDetail() {
 
 
 /* =========================================================
-   INITIAL LOCATION
+   INITIALISE LOCATIONS
    ========================================================= */
 
 renderLocations();
@@ -4062,7 +4354,7 @@ renderLocationDetail();
 
 
 /* =========================================================
-   BOOKING MODAL
+   OPEN BOOKING MODAL
    ========================================================= */
 
 function openBooking() {
@@ -4085,6 +4377,10 @@ function openBooking() {
 }
 
 
+/* =========================================================
+   CLOSE BOOKING MODAL
+   ========================================================= */
+
 function closeBooking() {
 
     document
@@ -4102,6 +4398,10 @@ function closeBooking() {
 }
 
 
+/* =========================================================
+   CLOSE WHEN CLICKING BACKDROP
+   ========================================================= */
+
 function outsideModal(event) {
 
     if (
@@ -4117,7 +4417,7 @@ function outsideModal(event) {
 
 
 /* =========================================================
-   BOOKING LOCATION
+   SYNC BOOKING LOCATION
    ========================================================= */
 
 function syncBookingLocation() {
@@ -4156,7 +4456,7 @@ function syncBookingLocation() {
 
 
 /* =========================================================
-   BOOKING LOCATION CHANGE
+   CHANGE BOOKING LOCATION
    ========================================================= */
 
 function bookingLocationChanged() {
@@ -4283,7 +4583,7 @@ function renderSlots() {
 
 
 /* =========================================================
-   MINIMUM DATE = TODAY
+   DATE
    ========================================================= */
 
 const dateInput =
@@ -4391,11 +4691,10 @@ function submitAppointment(event) {
 
 
     /*
-       -------------------------------------------------------
+       =====================================================
        DEMO MODE
-       -------------------------------------------------------
 
-       Replace this section with your DoctorJet backend.
+       Connect this to your DoctorJet Apps Script/API.
 
        Example:
 
@@ -4407,7 +4706,7 @@ function submitAppointment(event) {
            body: JSON.stringify(appointment)
        });
 
-       -------------------------------------------------------
+       =====================================================
     */
 
 
@@ -4491,7 +4790,7 @@ document
 
 
 /* =========================================================
-   ESCAPE KEY
+   ESC KEY
    ========================================================= */
 
 document.addEventListener(
@@ -4512,20 +4811,25 @@ document.addEventListener(
 
 
 /* =========================================================
-   DOCTORJET TOP INDICATOR
+   DOCTORJET ATTRIBUTION
    =========================================================
 
-   Initial state:
-   Expanded.
+   Expanded:
+       Powered by DoctorJet.in
 
    After 10 seconds:
-   Collapsed to security icon.
+       Security icon only
 
-   Click:
-   Expands for another 10 seconds.
+   Clicking security icon:
+       Expands again for 10 seconds
+
+   Important:
+   The entire expanded/collapsed element is an <a>,
+   therefore clicking anywhere on it opens DoctorJet.in.
    ========================================================= */
 
-let platformHideTimer = null;
+let platformHideTimer =
+    null;
 
 
 function expandPlatformBar() {
@@ -4570,38 +4874,32 @@ function collapsePlatformBar() {
 }
 
 
-function togglePlatformBar() {
+/*
+   The secure icon is technically inside the link.
 
-    const bar =
-        document.getElementById(
-            "platformBar"
-        );
+   When the bar is collapsed, clicking it opens DoctorJet.in
+   and the page also expands visually when pointer interaction
+   occurs.
 
+   We use this handler to reveal the attribution before navigation.
+*/
 
-    if (
-        bar.classList.contains(
-            "expanded"
-        )
-    ) {
+document
+    .getElementById(
+        "platformTrigger"
+    )
+    .addEventListener(
+        "click",
+        () => {
 
-        /*
-           If already open, clicking again
-           simply gives it another 10 seconds.
-        */
+            expandPlatformBar();
 
-        expandPlatformBar();
-
-    } else {
-
-        expandPlatformBar();
-
-    }
-
-}
+        }
+    );
 
 
 /* =========================================================
-   SHOW ON INITIAL PAGE LOAD
+   INITIAL PLATFORM ATTRIBUTION
    ========================================================= */
 
 window.addEventListener(
