@@ -7268,25 +7268,6 @@ document
    SERVICE ENQUIRY MODAL
 ============================================================ */
 document.addEventListener("DOMContentLoaded", function(){
-
-    const phone=document.querySelector('.dj-chat-phone');
-    const rows=document.querySelectorAll('.dj-chat-headrow');
-    if(phone && rows.length){
-        const data={
-            priya:{name:'Priya Sharma',status:'online · patient',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=85',msg:"Hello doctor, I'd like a video consultation for today.",title:'Video consultation',time:'Today · 06:30 PM',mode:'Video call',fee:'₹800 consultation'},
-            rahul:{name:'Rahul Das',status:'online · patient',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=85',msg:'Can I book Monday evening for a consultation?',title:'Clinic consultation',time:'Monday · 05:00 PM',mode:'In-person',fee:'₹600 consultation'},
-            meera:{name:'Meera Nair',status:'last seen recently · patient',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=85',msg:'I need a follow-up consultation after my last visit.',title:'Follow-up consultation',time:'Tomorrow · 11:30 AM',mode:'Video call',fee:'₹700 consultation'}
-        };
-        const name=document.getElementById('djConvName'), status=document.getElementById('djConvStatus'), avatar=document.getElementById('djConvAvatar'), msg=document.getElementById('djMsgText'), title=document.getElementById('djApptTitle'), time=document.getElementById('djApptTime'), mode=document.getElementById('djApptMode'), fee=document.getElementById('djApptFee');
-        rows.forEach(row=>row.addEventListener('click',()=>{
-            rows.forEach(r=>r.classList.remove('active')); row.classList.add('active');
-            const d=data[row.dataset.chat]||data.priya;
-            name.textContent=d.name; status.textContent=d.status; avatar.style.backgroundImage=`url(${d.avatar})`; msg.textContent=d.msg; title.textContent=d.title; time.textContent=d.time; mode.textContent=d.mode; fee.textContent=d.fee;
-            phone.classList.add('chat-open');
-        }));
-        phone.addEventListener('mouseleave',()=>phone.classList.remove('chat-open'));
-    }
-
     const leadModal = document.getElementById("leadModal");
     const leadClose = document.getElementById("leadModalClose");
     const leadForm = document.getElementById("leadForm");
@@ -7297,10 +7278,6 @@ document.addEventListener("DOMContentLoaded", function(){
     let leadSubmitting = false;
 
     if(!leadModal || !leadForm) return;
-
-    /* Always start closed, even if a browser restores DOM state. */
-    leadModal.classList.remove("open");
-    leadModal.setAttribute("aria-hidden", "true");
 
     function openLeadModal(e){
         if(e) e.preventDefault();
@@ -7322,25 +7299,11 @@ document.addEventListener("DOMContentLoaded", function(){
         if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
     }
 
-    /*
-       Use delegated click handling for CTA buttons.
-       This is intentionally more robust than binding only to the
-       elements present at initialization, because the landing page
-       may be rearranged by the site editor/Codex later.
-    */
-    document.addEventListener("click", function(e){
-        const trigger = e.target.closest && e.target.closest(".open-lead-modal");
-        if(!trigger) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-        openLeadModal(e);
+    document.querySelectorAll(".open-lead-modal").forEach(function(el){
+        el.addEventListener("click", openLeadModal);
     });
 
-    if(leadClose) leadClose.addEventListener("click", function(e){
-        e.preventDefault();
-        closeLeadModal();
-    });
+    if(leadClose) leadClose.addEventListener("click", closeLeadModal);
 
     leadModal.addEventListener("click", function(e){
         if(e.target === leadModal) closeLeadModal();
