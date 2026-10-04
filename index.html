@@ -4557,6 +4557,108 @@ html[data-theme="dark"] .dj-rx-demo-head{border-color:#3a3a3c}.dj-rx-demo-head s
 html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mobile-field,.dj-mobile-medicine{background:#252527;border-color:#3a3a3c}.dj-mobile-field span,.dj-mobile-medicine small,.dj-ios-patient small,.dj-ios-rx-row small,.dj-app-header small,.dj-ios-header small{color:#9a9a9f}.dj-ios-header,.dj-app-header,.dj-ios-rx-row{border-color:#3a3a3c}.dj-mobile-share b,.dj-ios-bottom b{background:#242426;border-color:#3a3a3c;color:#d0d0d3}.dj-mobile-share b:last-child,.dj-ios-bottom strong{background:#f5f5f7;color:#171719}.dj-app-float-chip{background:rgba(36,36,38,.94);border-color:#3a3a3c;color:#f5f5f7}.dj-ios-advice{background:#29292b}.dj-phone{box-shadow:0 25px 65px rgba(0,0,0,.48)}
 @media(max-width:900px){.dj-app-card{min-height:475px}}
 @media(max-width:680px){.dj-app-card{min-height:455px}.dj-phone-stage{height:300px}.dj-phone{width:150px;height:268px}.dj-android-chip{left:calc(50% + 55px)}.dj-ios-chip{right:calc(50% + 53px)}}
+
+/* ============================================================
+   DOCTORJET HERO — SUBTLE DIGITAL HEALTH ECOSYSTEM
+   Replaces the large planet + rocket composition only.
+============================================================ */
+.dj-ecosystem-stage{height:650px;position:relative;isolation:isolate;overflow:visible;perspective:1200px}
+.dj-stage-grid{position:absolute;inset:8% 3% 7%;border:1px solid rgba(0,113,227,.055);border-radius:38px;background:linear-gradient(rgba(0,113,227,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,113,227,.035) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(to bottom,transparent,black 18%,black 78%,transparent);opacity:.55;animation:djGridDrift 18s linear infinite}
+.dj-stage-grid:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(0,113,227,.075),transparent 34%),linear-gradient(90deg,transparent 49.8%,rgba(0,113,227,.055) 50%,transparent 50.2%);}
+.dj-stage-glow{position:absolute;border-radius:50%;filter:blur(42px);pointer-events:none;opacity:.5}
+.dj-stage-glow-a{width:250px;height:250px;left:31%;top:26%;background:rgba(0,113,227,.08);animation:djGlow 8s ease-in-out infinite}
+.dj-stage-glow-b{width:190px;height:190px;right:6%;bottom:13%;background:rgba(48,213,200,.07);animation:djGlow 10s ease-in-out infinite reverse}
+.dj-stage-core{position:absolute;left:50%;top:49%;width:42px;height:42px;transform:translate(-50%,-50%);border:1px solid rgba(0,113,227,.14);border-radius:50%;background:rgba(255,255,255,.68);box-shadow:0 0 0 10px rgba(0,113,227,.025),0 0 45px rgba(0,113,227,.09);backdrop-filter:blur(14px);z-index:1}
+.dj-stage-core:before,.dj-stage-core:after{content:"";position:absolute;inset:-10px;border:1px solid rgba(0,113,227,.08);border-radius:50%;animation:djCorePulse 4s ease-out infinite}
+.dj-stage-core:after{animation-delay:2s}
+.dj-stage-core span{position:absolute;left:50%;top:50%;width:7px;height:7px;transform:translate(-50%,-50%);border-radius:50%;background:var(--blue);box-shadow:0 0 16px rgba(0,113,227,.45)}
+.dj-network-lines{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55}
+.dj-network-lines i{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(0,113,227,.16),transparent);transform-origin:left center}
+.dj-network-lines .line-a{width:240px;left:17%;top:34%;transform:rotate(17deg);animation:djLine 5s ease-in-out infinite}
+.dj-network-lines .line-b{width:300px;right:12%;top:43%;transform:rotate(-21deg);animation:djLine 6s ease-in-out infinite reverse}
+.dj-network-lines .line-c{width:220px;left:31%;bottom:18%;transform:rotate(-12deg);animation:djLine 7s ease-in-out infinite}
+.dj-float-card,.dj-phone-card{position:absolute;z-index:12;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.78);color:#1d1d1f;box-shadow:0 22px 65px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.04);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px)}
+html[data-theme="dark"] .dj-float-card,html[data-theme="dark"] .dj-phone-card{background:rgba(28,28,30,.76);border-color:rgba(255,255,255,.11);color:#f5f5f7;box-shadow:0 28px 75px rgba(0,0,0,.46)}
+.dj-float-card{border-radius:17px;padding:13px 14px}
+.dj-card-topline{display:flex;align-items:center;gap:6px;font-size:7px;color:#7b8188;text-transform:uppercase;letter-spacing:.1em;margin-bottom:11px}
+.dj-card-topline b{margin-left:auto;color:#188038;font-size:6px;background:rgba(52,168,83,.09);padding:4px 6px;border-radius:20px}
+.dj-status-dot{width:5px;height:5px;border-radius:50%;background:#34a853;box-shadow:0 0 8px rgba(52,168,83,.45)}
+.dj-doctor-card{left:1%;top:12%;width:245px;animation:djCardFloat 7s ease-in-out infinite}
+.dj-doctor-main{display:flex;align-items:center;gap:10px}
+.dj-avatar,.dj-mini-avatar{display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#d8f0ff,#8bc8ec);color:#075b8d;font-weight:800}
+.dj-avatar{width:42px;height:42px;font-size:10px}
+.dj-doctor-main strong{display:block;font-size:11px;letter-spacing:-.02em}.dj-doctor-main span,.dj-doctor-main small{display:block;color:#747b82;font-size:7px;margin-top:2px}.dj-doctor-main small{font-size:6px}
+.dj-doctor-stats{display:flex;gap:8px;margin-top:12px;padding-top:9px;border-top:1px solid rgba(0,0,0,.07);font-size:6px;color:#7a8188}.dj-doctor-stats b{color:#1d1d1f;font-size:8px}html[data-theme="dark"] .dj-doctor-stats{border-color:rgba(255,255,255,.08)}html[data-theme="dark"] .dj-doctor-stats b{color:#fff}
+.dj-phone-card{right:2%;top:5%;width:154px;height:282px;border-radius:25px;padding:14px 11px;overflow:hidden;transform:rotate(3deg);animation:djPhoneFloat 8s ease-in-out infinite;box-shadow:0 30px 75px rgba(0,0,0,.16)}
+.dj-phone-card:before{content:"";position:absolute;inset:4px;border:1px solid rgba(0,0,0,.055);border-radius:21px;pointer-events:none}.dj-phone-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:52px;height:10px;border-radius:0 0 9px 9px;background:#111}.dj-phone-head{display:flex;justify-content:space-between;font-size:6px;color:#7b8188;padding:2px 4px 15px}.dj-phone-head span:first-child{font-weight:800;color:var(--blue);font-size:8px}.dj-phone-profile{display:flex;gap:7px;align-items:center;padding:10px 7px;border-radius:13px;background:rgba(0,113,227,.055)}.dj-mini-avatar{width:29px;height:29px;border-radius:9px;font-size:7px}.dj-phone-profile b,.dj-phone-profile small{display:block}.dj-phone-profile b{font-size:7px}.dj-phone-profile small{font-size:5.5px;color:#7c838a;margin-top:3px}.dj-phone-metric{display:flex;align-items:end;justify-content:space-between;margin:16px 5px 8px}.dj-phone-metric span{font-size:6px;color:#888}.dj-phone-metric b{display:block;font-size:12px;margin-top:3px}.dj-phone-metric em{font-style:normal;font-size:6px;color:#188038}.dj-phone-bars{height:78px;display:flex;align-items:end;gap:6px;padding:8px 8px 10px;border-bottom:1px solid rgba(0,0,0,.07)}.dj-phone-bars i{flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--blue),#b8e5ff);animation:djBar 2.7s ease-in-out infinite}.dj-phone-bars i:nth-child(2n){animation-delay:.25s}.dj-phone-bars i:nth-child(3n){animation-delay:.5s}.dj-phone-nav{position:absolute;left:16px;right:16px;bottom:12px;display:flex;justify-content:space-between;color:#a0a5aa;font-size:9px}.dj-phone-nav .active{color:var(--blue)}
+.dj-appointment-card{right:18%;bottom:12%;width:270px;display:flex;align-items:center;gap:9px;animation:djCardFloat 8s ease-in-out infinite 1s}.dj-appointment-icon{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(52,168,83,.1);color:#188038;font-size:13px}.dj-appointment-copy{min-width:0;flex:1}.dj-appointment-copy span,.dj-appointment-copy strong,.dj-appointment-copy small{display:block}.dj-appointment-copy span{font-size:6px;color:#7b8188}.dj-appointment-copy strong{font-size:9px;margin:2px 0}.dj-appointment-copy small{font-size:6px;color:#7b8188;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dj-appointment-action{font-size:6px;color:#188038;background:rgba(52,168,83,.09);border-radius:20px;padding:5px 7px;white-space:nowrap}
+.dj-notification-card{left:8%;bottom:18%;width:220px;display:flex;align-items:center;gap:8px;padding:10px 12px;animation:djCardFloat 6.5s ease-in-out infinite 1.5s}.dj-notification-icon{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:rgba(0,113,227,.09);color:var(--blue);font-size:11px}.dj-notification-card strong,.dj-notification-card span{display:block}.dj-notification-card strong{font-size:8px}.dj-notification-card span{font-size:6px;color:#7b8188;margin-top:2px}.dj-notification-card>b{margin-left:auto;font-size:5px;color:#92979c;font-weight:500}
+.dj-search-window{z-index:20;right:10%;bottom:25px;width:365px;animation:djSearchFloat 7s cubic-bezier(.45,.05,.55,.95) infinite}
+.dj-micro-signal{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;opacity:.65}.dj-micro-signal span{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px rgba(0,113,227,.055),0 0 18px rgba(0,113,227,.18)}.dj-micro-signal small{font-size:5px;letter-spacing:.13em;text-transform:uppercase;color:#7c8790;white-space:nowrap}
+@keyframes djCardFloat{0%,100%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(0,-7px,0) rotate(.35deg)}}
+@keyframes djPhoneFloat{0%,100%{transform:rotate(3deg) translate3d(0,0,0)}50%{transform:rotate(1.5deg) translate3d(0,-9px,0)}}
+@keyframes djSearchFloat{0%,100%{transform:translate3d(0,0,0) rotateZ(0)}50%{transform:translate3d(0,-8px,0) rotateZ(-.25deg)}}
+@keyframes djGridDrift{to{background-position:58px 58px}}
+@keyframes djGlow{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.12);opacity:.6}}
+@keyframes djCorePulse{0%{transform:scale(.75);opacity:.6}70%,100%{transform:scale(1.8);opacity:0}}
+@keyframes djLine{0%,100%{opacity:.25}50%{opacity:.85}}
+@keyframes djBar{0%,100%{transform:scaleY(.9);transform-origin:bottom}50%{transform:scaleY(1.06);transform-origin:bottom}}
+html[data-theme="dark"] .dj-stage-grid{border-color:rgba(41,151,255,.07);background-image:linear-gradient(rgba(41,151,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(41,151,255,.035) 1px,transparent 1px)}
+html[data-theme="dark"] .dj-stage-core{background:rgba(28,28,30,.7);border-color:rgba(41,151,255,.16)}
+html[data-theme="dark"] .dj-doctor-stats{border-color:rgba(255,255,255,.08)}
+html[data-theme="dark"] .dj-phone-bars{border-color:rgba(255,255,255,.08)}
+/* ============================================================
+   LIVELY DOCTOR PROFILES + MICRO-MOTION
+============================================================ */
+.dj-photo-avatar,.dj-photo-mini,.dj-discovery-avatars span{
+    background-size:cover;background-position:center;
+    background-repeat:no-repeat;
+}
+.dj-photo-avatar{position:relative;overflow:hidden;border-radius:13px!important;box-shadow:0 5px 18px rgba(0,0,0,.12)}
+.dj-photo-avatar::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 55%);}
+.dj-photo-mini{background-size:cover!important;background-position:center!important;}
+.dj-doctor-card-secondary{left:5%;top:58%;width:225px;transform:rotate(-2deg) scale(.92);animation:djSecondaryDoctor 9s ease-in-out infinite 1.2s;z-index:13}
+.dj-doctor-card-secondary .dj-card-topline{margin-bottom:9px}
+.dj-doctor-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:1px solid rgba(0,0,0,.07);font-size:7px;color:#7b8188}
+.dj-doctor-actions b{padding:5px 9px;border-radius:999px;background:var(--blue);color:#fff;font-size:7px}
+html[data-theme="dark"] .dj-doctor-actions{border-top-color:rgba(255,255,255,.08)}
+.dj-discovery-card{left:23%;bottom:7%;width:235px;display:flex;align-items:center;gap:9px;padding:10px 12px!important;animation:djDiscoveryFloat 7s ease-in-out infinite 2s;z-index:15}
+.dj-discovery-card>div:nth-child(2){flex:1}.dj-discovery-card strong,.dj-discovery-card small{display:block}.dj-discovery-card strong{font-size:8px}.dj-discovery-card small{font-size:6px;color:#7b8188;margin-top:2px}.dj-discovery-card>b{font-size:7px;color:#188038}
+.dj-discovery-avatars{display:flex!important;align-items:center;width:49px!important}.dj-discovery-avatars span{width:25px;height:25px;border-radius:50%;border:2px solid #fff;margin-left:-7px;box-shadow:0 2px 7px rgba(0,0,0,.12)}.dj-discovery-avatars span:first-child{margin-left:0}
+html[data-theme="dark"] .dj-discovery-avatars span{border-color:#1c1c1e}
+.dj-ecosystem-stage::after{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,.035),transparent 58%);animation:djStageBreath 6s ease-in-out infinite;pointer-events:none;z-index:-1}
+.dj-float-card:hover,.dj-phone-card:hover{transform:translateY(-6px) scale(1.015)!important;box-shadow:0 30px 80px rgba(0,113,227,.15)}
+@keyframes djSecondaryDoctor{0%,100%{transform:translate3d(0,0,0) rotate(-2deg) scale(.92)}50%{transform:translate3d(10px,-13px,0) rotate(1deg) scale(.94)}}
+@keyframes djDiscoveryFloat{0%,100%{transform:translate3d(0,0,0) rotate(1deg)}50%{transform:translate3d(12px,-9px,0) rotate(-1deg)}}
+@keyframes djStageBreath{0%,100%{transform:scale(.92);opacity:.5}50%{transform:scale(1.08);opacity:1}}
+
+@media(max-width:1000px){.dj-doctor-card{left:0}.dj-phone-card{right:0}.dj-search-window{right:7%}.dj-appointment-card{right:8%}.dj-notification-card{left:2%}}
+@media(max-width:680px){.dj-doctor-card-secondary{left:0;top:45%;width:190px;transform:scale(.78);transform-origin:left top}.dj-discovery-card{left:2%;bottom:2px;width:195px;transform:scale(.75);transform-origin:left bottom}.dj-ecosystem-stage{height:455px;margin-top:5px}.dj-stage-grid{inset:4% 0 5%;background-size:42px 42px}.dj-doctor-card{left:0;top:7%;width:205px;transform:scale(.9);transform-origin:left top}.dj-phone-card{right:-4px;top:1%;width:125px;height:228px;transform:rotate(3deg) scale(.82);transform-origin:right top}.dj-search-window{width:285px;right:50%;bottom:8px;transform:translateX(50%);animation:djMobileSearchFloat 7s ease-in-out infinite}.dj-appointment-card{right:1%;bottom:102px;width:215px;transform:scale(.88);transform-origin:right bottom}.dj-notification-card{left:0;bottom:52px;width:190px;transform:scale(.82);transform-origin:left bottom}.dj-stage-core{top:45%;}.dj-micro-signal{top:45%}}
+@keyframes djMobileSearchFloat{0%,100%{transform:translateX(50%) translateY(0)}50%{transform:translateX(50%) translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){.dj-ecosystem-stage *{animation:none!important}.dj-search-window{transform:none}}
+</style>
+
+
+<style id="doctorjet-chat-styles">
+/* ============================================================
+   HERO APPOINTMENT MOCK — WHATSAPP-STYLE CHAT INBOX
+============================================================ */
+.dj-chat-phone{padding:9px 8px 8px;overflow:hidden;background:#f7faf8!important;color:#17201d!important}
+.dj-chat-phone:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.55),transparent 45%);opacity:.8}
+.dj-chat-head{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:2px 4px 8px}
+.dj-chat-brand{display:flex;align-items:center;gap:6px}.dj-chat-wa{width:20px;height:20px;border-radius:7px;display:grid;place-items:center;background:#19b968;color:white;font-size:11px;font-weight:900;box-shadow:0 4px 12px rgba(25,185,104,.22)}
+.dj-chat-brand b,.dj-chat-brand small{display:block}.dj-chat-brand b{font-size:8px}.dj-chat-brand small{font-size:5px;color:#748079;margin-top:1px}.dj-chat-time{font-size:5.5px;color:#7a8580;font-weight:800}
+.dj-chat-tabs{position:relative;z-index:2;display:flex;align-items:center;gap:10px;padding:4px 4px 7px;border-bottom:1px solid #dfe8e2;font-size:6px;color:#7b8780}.dj-chat-tabs .active{color:#128c58;font-weight:900;border-bottom:1.5px solid #18a866;padding-bottom:4px}.dj-chat-tabs b{margin-left:auto;width:12px;height:12px;border-radius:50%;display:grid;place-items:center;background:#19b968;color:#fff;font-size:5px}
+.dj-chat-list{position:relative;z-index:2;padding:5px 1px 3px}.dj-chat-headrow{width:100%;border:0;background:transparent;display:flex;align-items:center;gap:6px;padding:6px 4px;border-radius:9px;text-align:left;cursor:pointer;transition:.22s}.dj-chat-headrow:hover,.dj-chat-headrow.active{background:rgba(25,185,104,.08)}
+.dj-chat-avatar{width:25px;height:25px;flex:0 0 25px;border-radius:50%;background-size:cover;background-position:center;box-shadow:0 2px 7px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.8)}.dj-chat-avatar.small{width:22px;height:22px;flex-basis:22px}
+.dj-chat-row-copy{min-width:0;flex:1}.dj-chat-row-copy b,.dj-chat-row-copy small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dj-chat-row-copy b{font-size:6.8px}.dj-chat-row-copy small{font-size:5.3px;color:#7b8580;margin-top:2px}.dj-chat-row-meta{align-self:stretch;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}.dj-chat-row-meta>b{font-size:4.7px;color:#7b8580;font-weight:700}.dj-chat-row-meta i{font-style:normal;width:10px;height:10px;border-radius:50%;display:grid;place-items:center;background:#19b968;color:#fff;font-size:4.5px}
+.dj-chat-conversation{position:absolute;z-index:4;inset:58px 5px 7px;border-radius:12px;background:#eaf5ee;box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden;opacity:0;transform:translateY(12px) scale(.98);pointer-events:none;transition:.28s cubic-bezier(.22,1,.36,1)}.dj-chat-phone.chat-open .dj-chat-conversation{opacity:1;transform:none;pointer-events:auto}
+.dj-chat-conv-head{height:38px;display:flex;align-items:center;gap:6px;padding:5px 7px;background:rgba(255,255,255,.92);border-bottom:1px solid #dbe6de}.dj-chat-conv-head>div:nth-child(2){min-width:0;flex:1}.dj-chat-conv-head b,.dj-chat-conv-head small{display:block}.dj-chat-conv-head b{font-size:7px}.dj-chat-conv-head small{font-size:4.8px;color:#6e7d74;margin-top:1px}.dj-chat-call-actions{display:flex!important;gap:3px;flex:none!important}.dj-chat-call-actions button{width:19px;height:19px;border:0;border-radius:50%;background:#edf7f1;color:#15945d;font-size:8px;cursor:pointer}
+.dj-chat-messages{position:absolute;inset:38px 0 28px;padding:8px 7px;overflow:hidden;background:radial-gradient(circle at 20% 10%,rgba(255,255,255,.55),transparent 30%),#e8f3eb}.dj-chat-date{width:max-content;margin:0 auto 7px;padding:3px 6px;border-radius:8px;background:rgba(255,255,255,.72);font-size:4.5px;color:#728077;font-weight:800}.dj-msg{max-width:87%;padding:6px 7px;border-radius:8px;margin-bottom:5px;font-size:5.4px;line-height:1.45;box-shadow:0 1px 2px rgba(0,0,0,.05);position:relative}.dj-msg.incoming{background:#fff;border-top-left-radius:3px;color:#334039}.dj-msg.outgoing{margin-left:auto;background:#d7f8e3;border-top-right-radius:3px;color:#294637}.dj-appointment-bubble{padding:7px!important;width:91%;animation:djApptPulse 4.5s ease-in-out infinite}.dj-appt-label{display:flex;justify-content:space-between;align-items:center;color:#15945d;font-size:4.5px;font-weight:900;margin-bottom:5px}.dj-appt-label b{font-size:6px}.dj-appointment-bubble>strong{display:block;font-size:6.5px;margin-bottom:5px}.dj-appt-detail{display:flex;gap:5px;align-items:center;padding:3px 0;border-top:1px solid #edf2ee}.dj-appt-detail span{color:#15945d;font-size:6px}.dj-appt-detail b{font-size:5px;font-weight:700}.dj-appt-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}.dj-appt-actions button{border:0;border-radius:6px;padding:5px 2px;font-size:4.7px;font-weight:900;background:#15945d;color:#fff}.dj-appt-actions button+button{background:#f0f4f1;color:#426052}.dj-chat-read{display:block;text-align:right;color:#15945d;font-size:6px;margin-top:-3px}.dj-chat-compose{position:absolute;z-index:3;left:5px;right:5px;bottom:4px;height:23px;display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:12px;background:#fff;border:1px solid #dbe5de;box-shadow:0 3px 10px rgba(0,0,0,.05)}.dj-chat-compose span{font-size:10px;color:#6e7c74}.dj-chat-compose div{flex:1;color:#9aa49e;font-size:5.5px}.dj-chat-compose b{width:15px;height:15px;border-radius:50%;display:grid;place-items:center;background:#15945d;color:#fff;font-size:6px}
+@keyframes djApptPulse{0%,75%,100%{transform:translateY(0)}82%{transform:translateY(-2px);box-shadow:0 5px 16px rgba(25,185,104,.12)}}
+html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f7!important}.dj-chat-tabs{border-color:#304137}.dj-chat-tabs,.dj-chat-row-copy small,.dj-chat-row-meta>b{color:#9ba89f}.dj-chat-conversation{background:#17251d}.dj-chat-conv-head,.dj-chat-compose{background:#202a24;border-color:#35453b}.dj-chat-messages{background:#18271e}.dj-msg.incoming{background:#26332b;color:#e8f0eb}.dj-msg.outgoing{background:#173d2b;color:#e6f6eb}.dj-appt-detail{border-color:#34453b}.dj-appt-actions button+button{background:#2c3831;color:#c9d5cd}.dj-chat-call-actions button{background:#29382f;color:#67d89c}
+@media(max-width:680px){.dj-chat-phone{width:125px;height:228px;padding:7px 6px}.dj-chat-phone .dj-chat-head{padding-bottom:5px}.dj-chat-tabs{padding-bottom:5px}.dj-chat-list{padding-top:3px}.dj-chat-headrow{padding:4px 2px;gap:4px}.dj-chat-avatar{width:20px;height:20px;flex-basis:20px}.dj-chat-row-copy b{font-size:5.8px}.dj-chat-row-copy small{font-size:4.4px}.dj-chat-conversation{inset:45px 3px 5px}.dj-chat-conv-head{height:30px}.dj-chat-conv-head b{font-size:5.8px}.dj-chat-messages{inset:30px 0 24px}.dj-msg{font-size:4.5px}.dj-appointment-bubble>strong{font-size:5.5px}.dj-chat-compose{height:19px}.dj-chat-compose div{font-size:4.5px}}
+
 </style>
 
 
@@ -4586,6 +4688,50 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
 .dj-hero-tools .section-heading h2{max-width:720px}
 .dj-hero-tools .dj-tools-grid{position:relative;z-index:2}
 @media(max-width:680px){.dj-hero-tools{margin-top:-18px;padding-top:48px;padding-bottom:70px}.dj-hero-tools::before{height:34px}}
+</style>
+
+<style id="doctorjet-lead-modal">
+.dj-lead-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(9,14,20,.58);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
+.dj-lead-modal.open{opacity:1;visibility:visible;pointer-events:auto}
+.dj-lead-panel{position:relative;width:min(680px,100%);max-height:min(88vh,780px);overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:28px;background:var(--card,#fff);color:var(--text,#17202a);box-shadow:0 35px 100px rgba(0,0,0,.28);transform:translateY(18px) scale(.98);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.dj-lead-modal.open .dj-lead-panel{transform:none}
+.dj-lead-head{padding:28px 30px 18px;border-bottom:1px solid var(--line,#e8ebee);display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.dj-lead-eyebrow{font-size:9px;font-weight:800;letter-spacing:.16em;color:var(--blue,#0071e3);margin-bottom:8px}
+.dj-lead-head h2{margin:0;font-size:30px;letter-spacing:-.04em;line-height:1.08}
+.dj-lead-head p{margin:9px 0 0;color:var(--muted,#68737c);font-size:12px;line-height:1.5;max-width:500px}
+.dj-lead-close{width:36px;height:36px;flex:0 0 36px;border:1px solid var(--line,#e8ebee);border-radius:50%;background:transparent;color:var(--text,#17202a);font-size:20px;line-height:1;cursor:pointer}
+.dj-lead-form{padding:24px 30px 30px}
+.dj-lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dj-lead-field{display:flex;flex-direction:column;gap:7px}
+.dj-lead-field.full{grid-column:1/-1}
+.dj-lead-field label{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#68737c)}
+.dj-lead-field input,.dj-lead-field select,.dj-lead-field textarea{width:100%;box-sizing:border-box;border:1px solid var(--line,#e8ebee);border-radius:11px;background:var(--bg,#fff);color:var(--text,#17202a);padding:12px 13px;font:inherit;font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s}
+.dj-lead-field textarea{min-height:88px;resize:vertical}
+.dj-lead-field input:focus,.dj-lead-field select:focus,.dj-lead-field textarea:focus{border-color:var(--blue,#0071e3);box-shadow:0 0 0 3px rgba(0,113,227,.10)}
+.dj-lead-services{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:2px}
+.dj-lead-check{position:relative}.dj-lead-check input{position:absolute;opacity:0}.dj-lead-check label{display:block;padding:10px 11px;border:1px solid var(--line,#e8ebee);border-radius:10px;font-size:10px;font-weight:700;color:var(--muted,#68737c);cursor:pointer;background:var(--bg,#fff);transition:.2s}.dj-lead-check input:checked+label{border-color:var(--blue,#0071e3);background:rgba(0,113,227,.06);color:var(--blue,#0071e3)}
+.dj-lead-actions{display:flex;align-items:center;gap:12px;margin-top:20px}.dj-lead-submit{border:0;cursor:pointer}.dj-lead-status{font-size:10px;color:var(--muted,#68737c);line-height:1.4}.dj-lead-status.success{color:#138a4b}.dj-lead-status.error{color:#b42318}
+.dj-lead-privacy{font-size:9px;color:var(--muted,#68737c);margin-top:12px}
+@media(max-width:680px){.dj-lead-modal{padding:12px}.dj-lead-panel{border-radius:22px}.dj-lead-head{padding:22px 20px 15px}.dj-lead-head h2{font-size:25px}.dj-lead-form{padding:20px}.dj-lead-grid{grid-template-columns:1fr}.dj-lead-field.full{grid-column:auto}.dj-lead-services{grid-template-columns:1fr}.dj-lead-actions{align-items:flex-start;flex-direction:column}.dj-lead-submit{width:100%}}
+
+/* HERO SOCIAL PROOF */
+.dj-social-proof{display:flex;align-items:center;gap:12px;margin:0 0 18px;min-height:42px;animation:djProofIn .7s cubic-bezier(.2,.8,.2,1) both}
+.dj-proof-avatars{display:flex;align-items:center;padding-left:7px}
+.dj-proof-avatars span{width:30px;height:30px;margin-left:-7px;border-radius:50%;border:2px solid var(--bg);background-size:cover;background-position:center;box-shadow:0 3px 12px rgba(0,0,0,.12);transition:transform .25s ease;position:relative}
+.dj-proof-avatars span:hover{transform:translateY(-4px) scale(1.08);z-index:2}
+.dj-proof-copy{display:flex;flex-direction:column;gap:2px;line-height:1.15}
+.dj-proof-copy strong{font-size:12px;font-weight:750;letter-spacing:-.02em;color:var(--text-strong)}
+.dj-proof-copy span{font-size:9px;color:var(--muted);max-width:250px}
+@keyframes djProofIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:680px){.dj-social-proof{gap:9px;margin-bottom:15px}.dj-proof-avatars span{width:27px;height:27px}.dj-proof-copy strong{font-size:11px}.dj-proof-copy span{font-size:8px;max-width:210px}}
+
+</style>
+
+
+<style>
+/* Keep the doctor social-proof bubble above the Google search animation */
+.dj-discovery-card{z-index:90!important;}
+.dj-search-window{z-index:40!important;}
 </style>
 </head>
 
@@ -4647,8 +4793,8 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
                 Pricing
             </a>
 
-            <a href="#contact"
-               class="nav-button">
+            <a href="#leadModal"
+               class="nav-button open-lead-modal">
 
                 Get started →
 
@@ -4712,6 +4858,20 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
 
         <div class="reveal">
 
+            <div class="dj-social-proof" aria-label="Doctors using DoctorJet">
+                <div class="dj-proof-avatars" aria-hidden="true">
+                    <span style="background-image:url(https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=120&q=85)"></span>
+                    <span style="background-image:url(https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=120&q=85)"></span>
+                    <span style="background-image:url(https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=120&q=85)"></span>
+                    <span style="background-image:url(https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=120&q=85)"></span>
+                    <span style="background-image:url(https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=120&q=85)"></span>
+                </div>
+                <div class="dj-proof-copy">
+                    <strong>100+ doctors</strong>
+                    <span>are building their digital practice with DoctorJet</span>
+                </div>
+            </div>
+
             <div class="badge">
 
                 <span class="pulse"></span>
@@ -4744,8 +4904,8 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
 
             <div class="hero-buttons">
 
-                <a href="#estimate"
-                   class="btn btn-primary">
+                <a href="#leadModal"
+                   class="btn btn-primary open-lead-modal">
 
                     Launch my practice
 
@@ -4772,120 +4932,142 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
              LAUNCH STAGE
         ==================================================== -->
 
-        <div class="launch-stage">
+        <div class="launch-stage dj-ecosystem-stage">
 
+    <!-- Subtle digital-health network instead of the old planet / rocket visual -->
+    <div class="dj-stage-grid" aria-hidden="true"></div>
+    <div class="dj-stage-glow dj-stage-glow-a" aria-hidden="true"></div>
+    <div class="dj-stage-glow dj-stage-glow-b" aria-hidden="true"></div>
+    <div class="dj-stage-core" aria-hidden="true"><span></span></div>
 
-            <!-- PARTICLES -->
+    <div class="dj-network-lines" aria-hidden="true">
+        <i class="line-a"></i><i class="line-b"></i><i class="line-c"></i>
+    </div>
 
-            <div class="particles">
-
-                <span class="particle"
-                      style="left:12%;top:80%;--duration:5s;"></span>
-
-                <span class="particle"
-                      style="left:22%;top:70%;--duration:7s;"></span>
-
-                <span class="particle"
-                      style="left:35%;top:90%;--duration:6s;"></span>
-
-                <span class="particle"
-                      style="left:48%;top:75%;--duration:8s;"></span>
-
-                <span class="particle"
-                      style="left:65%;top:85%;--duration:5.5s;"></span>
-
-                <span class="particle"
-                      style="left:80%;top:65%;--duration:7.5s;"></span>
-
-                <span class="particle"
-                      style="left:90%;top:75%;--duration:6.5s;"></span>
-
-                <span class="particle"
-                      style="left:55%;top:50%;--duration:9s;"></span>
-
+    <!-- Doctor profile -->
+    <article class="dj-float-card dj-doctor-card">
+        <div class="dj-card-topline"><span class="dj-status-dot"></span><span>Doctor profile</span><b>Verified</b></div>
+        <div class="dj-doctor-main">
+            <div class="dj-avatar dj-photo-avatar" style="background-image:url(https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=160&q=85)"></div>
+            <div>
+                <strong>Dr. Arjun Mehta</strong>
+                <span>Consultant Cardiologist</span>
+                <small>AIIMS · 12 yrs experience</small>
             </div>
-
-
-            <!-- ORBITS -->
-
-            <div class="orbit one"></div>
-
-            <div class="orbit two"></div>
-
-            <div class="orbit three"></div>
-
-
-            <!-- PLANET -->
-
-            <div class="planet"></div>
-
-
-            <!-- JET -->
-
-            <div class="jet">
-
-                <div class="flame"></div>
-
-                <div class="jet-body"></div>
-
-                <div class="jet-nose"></div>
-
-                <div class="wing top"></div>
-
-                <div class="wing bottom"></div>
-
-            </div>
-
-
-            <!-- GOOGLE SEARCH -->
-
-            <div class="search-window">
-
-                <div class="browser-chrome">
-                    <span class="browser-dot"></span>
-                    <span class="browser-dot"></span>
-                    <span class="browser-dot"></span>
-                    <div class="browser-tab">Google Search</div>
-                </div>
-
-                <div class="search-top">
-                    <div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
-                    <div class="search-box">
-                        <span class="search-icon">⌕</span>
-                        <span class="search-query">best cardiologist near me</span><span class="search-cursor"></span>
-                        <span class="search-tools">⌕</span>
-                    </div>
-                </div>
-
-                <div class="search-content">
-                    <div class="search-meta">About 1,240 results · 0.42 seconds</div>
-
-                    <div class="search-result">
-                        <div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div>
-                        <div class="result-url">https://www.drmehta.com</div>
-                        <div class="result-title">Dr. Arjun Mehta — Consultant Cardiologist</div>
-                        <div class="result-description">Cardiology consultations, appointments, expertise and clinic information.</div>
-                        <div class="result-stars">★★★★★ · 4.9 · 180 reviews</div>
-                    </div>
-
-                    <div class="search-result">
-                        <div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div>
-                        <div class="result-url">https://www.drmehta.com/about</div>
-                        <div class="result-title">About Dr. Arjun Mehta</div>
-                        <div class="result-description">Experience, qualifications, special interests and approach to cardiac care.</div>
-                    </div>
-
-                    <div class="search-result">
-                        <div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div>
-                        <div class="result-url">https://www.drmehta.com/contact</div>
-                        <div class="result-title">Book an Appointment</div>
-                        <div class="result-description">Find consultation information, clinic location and appointment options.</div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
+        <div class="dj-doctor-stats"><span><b>4.9</b> rating</span><span><b>1.8k</b> patients</span><span><b>98%</b> recommend</span></div>
+    </article>
+
+    <!-- WhatsApp-style appointment inbox -->
+    <article class="dj-phone-card dj-chat-phone">
+        <div class="dj-phone-notch"></div>
+        <div class="dj-chat-head">
+            <div class="dj-chat-brand"><span class="dj-chat-wa">◔</span><div><b>DoctorJet</b><small>Appointment inbox</small></div></div>
+            <span class="dj-chat-time">9:41</span>
+        </div>
+
+        <div class="dj-chat-tabs"><span class="active">Chats</span><span>Requests</span><b>3</b></div>
+
+        <div class="dj-chat-list" id="djChatList">
+            <button class="dj-chat-headrow active" type="button" data-chat="priya">
+                <span class="dj-chat-avatar" style="background-image:url(https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=85)"></span>
+                <span class="dj-chat-row-copy"><b>Priya Sharma</b><small>I'd like a video consultation...</small></span>
+                <span class="dj-chat-row-meta"><b>06:30</b><i>2</i></span>
+            </button>
+            <button class="dj-chat-headrow" type="button" data-chat="rahul">
+                <span class="dj-chat-avatar" style="background-image:url(https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=85)"></span>
+                <span class="dj-chat-row-copy"><b>Rahul Das</b><small>Can I book Monday evening?</small></span>
+                <span class="dj-chat-row-meta"><b>05:12</b></span>
+            </button>
+            <button class="dj-chat-headrow" type="button" data-chat="meera">
+                <span class="dj-chat-avatar" style="background-image:url(https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=85)"></span>
+                <span class="dj-chat-row-copy"><b>Meera Nair</b><small>Follow-up consultation</small></span>
+                <span class="dj-chat-row-meta"><b>Yesterday</b></span>
+            </button>
+        </div>
+
+        <div class="dj-chat-conversation" id="djChatConversation">
+            <div class="dj-chat-conv-head">
+                <span class="dj-chat-avatar small" id="djConvAvatar" style="background-image:url(https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=85)"></span>
+                <div><b id="djConvName">Priya Sharma</b><small id="djConvStatus">online · patient</small></div>
+                <div class="dj-chat-call-actions"><button type="button" aria-label="Voice call">⌕</button><button type="button" aria-label="Video call">▣</button></div>
+            </div>
+
+            <div class="dj-chat-messages">
+                <div class="dj-chat-date">TODAY</div>
+                <div class="dj-msg incoming" id="djMsgText">Hello doctor, I'd like a video consultation for today.</div>
+                <div class="dj-msg incoming dj-appointment-bubble">
+                    <div class="dj-appt-label"><span>APPOINTMENT REQUEST</span><b>●</b></div>
+                    <strong id="djApptTitle">Video consultation</strong>
+                    <div class="dj-appt-detail"><span>◷</span><b id="djApptTime">Today · 06:30 PM</b></div>
+                    <div class="dj-appt-detail"><span>◎</span><b id="djApptMode">Video call</b></div>
+                    <div class="dj-appt-detail"><span>₹</span><b id="djApptFee">₹800 consultation</b></div>
+                    <div class="dj-appt-actions"><button type="button">Accept</button><button type="button">Reschedule</button></div>
+                </div>
+                <div class="dj-msg outgoing">Sure. I can confirm this slot.</div>
+                <span class="dj-chat-read">✓✓</span>
+            </div>
+
+            <div class="dj-chat-compose"><span>＋</span><div>Message</div><b>◉</b></div>
+        </div>
+    </article>
+
+    <!-- Secondary doctor profile -->
+    <article class="dj-float-card dj-doctor-card dj-doctor-card-secondary">
+        <div class="dj-card-topline"><span class="dj-status-dot"></span><span>Available online</span><b>Today</b></div>
+        <div class="dj-doctor-main">
+            <div class="dj-avatar dj-photo-avatar" style="background-image:url(https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=160&q=85)"></div>
+            <div><strong>Dr. Ananya Rao</strong><span>Consultant Psychiatrist</span><small>Online · 4.8 rating</small></div>
+        </div>
+        <div class="dj-doctor-actions"><span>₹800 consultation</span><b>Book</b></div>
+    </article>
+
+    <!-- Appointment workflow -->
+    <article class="dj-float-card dj-appointment-card">
+        <div class="dj-appointment-icon">✓</div>
+        <div class="dj-appointment-copy"><span>New appointment</span><strong>Priya Sharma</strong><small>Today · 06:30 PM · Video consultation</small></div>
+        <div class="dj-appointment-action">Confirmed</div>
+    </article>
+
+    <!-- Small doctor discovery chip -->
+    <article class="dj-float-card dj-discovery-card">
+        <div class="dj-discovery-avatars">
+            <span style="background-image:url(https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=100&q=85)"></span>
+            <span style="background-image:url(https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=100&q=85)"></span>
+            <span style="background-image:url(https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&q=85)"></span>
+        </div>
+        <div><strong>Doctors discovered</strong><small>Profile · Reviews · Booking</small></div>
+        <b>+24%</b>
+    </article>
+
+    <!-- Patient notification -->
+    <article class="dj-float-card dj-notification-card">
+        <div class="dj-notification-icon">↗</div>
+        <div><strong>Appointment confirmed</strong><span>Dr. Mehta · 06:30 PM</span></div>
+        <b>now</b>
+    </article>
+
+    <!-- Search / discovery layer -->
+    <div class="search-window dj-search-window">
+        <div class="browser-chrome">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+            <div class="browser-tab">Google Search</div>
+        </div>
+        <div class="search-top">
+            <div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+            <div class="search-box"><span class="search-icon">⌕</span><span class="search-query">best cardiologist near me</span><span class="search-cursor"></span><span class="search-tools">⌕</span></div>
+        </div>
+        <div class="search-content">
+            <div class="search-meta">About 1,240 results · 0.42 seconds</div>
+            <div class="search-result"><div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div><div class="result-url">https://www.drmehta.com</div><div class="result-title">Dr. Arjun Mehta — Consultant Cardiologist</div><div class="result-description">Cardiology consultations, appointments, expertise and clinic information.</div><div class="result-stars">★★★★★ · 4.9 · 180 reviews</div></div>
+            <div class="search-result"><div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div><div class="result-url">https://www.drmehta.com/about</div><div class="result-title">About Dr. Arjun Mehta</div><div class="result-description">Experience, qualifications, special interests and approach to cardiac care.</div></div>
+            <div class="search-result"><div class="result-site"><span class="result-favicon">D</span><span>drmehta.com</span></div><div class="result-url">https://www.drmehta.com/contact</div><div class="result-title">Book an Appointment</div><div class="result-description">Find consultation information, clinic location and appointment options.</div></div>
+        </div>
+    </div>
+
+    <!-- Small, understated brand signal -->
+    <div class="dj-micro-signal" aria-hidden="true"><span></span><small>digital practice</small></div>
+</div>
 
     </div>
 
@@ -6203,10 +6385,8 @@ html[data-theme="dark"] .dj-phone-screen{background:#1c1c1e;color:#f5f5f7}.dj-mo
             </p>
 
 
-            <a href="https://forms.gle/CHcUhQU9f5QagV9Q7"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn btn-primary">
+            <a href="#leadModal"
+               class="btn btn-primary open-lead-modal">
 
                 Launch my practice
 
@@ -7082,8 +7262,207 @@ document
 
 })();
 
+
+
+/* ============================================================
+   SERVICE ENQUIRY MODAL
+============================================================ */
+document.addEventListener("DOMContentLoaded", function(){
+
+    const phone=document.querySelector('.dj-chat-phone');
+    const rows=document.querySelectorAll('.dj-chat-headrow');
+    if(phone && rows.length){
+        const data={
+            priya:{name:'Priya Sharma',status:'online · patient',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=85',msg:"Hello doctor, I'd like a video consultation for today.",title:'Video consultation',time:'Today · 06:30 PM',mode:'Video call',fee:'₹800 consultation'},
+            rahul:{name:'Rahul Das',status:'online · patient',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=85',msg:'Can I book Monday evening for a consultation?',title:'Clinic consultation',time:'Monday · 05:00 PM',mode:'In-person',fee:'₹600 consultation'},
+            meera:{name:'Meera Nair',status:'last seen recently · patient',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=85',msg:'I need a follow-up consultation after my last visit.',title:'Follow-up consultation',time:'Tomorrow · 11:30 AM',mode:'Video call',fee:'₹700 consultation'}
+        };
+        const name=document.getElementById('djConvName'), status=document.getElementById('djConvStatus'), avatar=document.getElementById('djConvAvatar'), msg=document.getElementById('djMsgText'), title=document.getElementById('djApptTitle'), time=document.getElementById('djApptTime'), mode=document.getElementById('djApptMode'), fee=document.getElementById('djApptFee');
+        rows.forEach(row=>row.addEventListener('click',()=>{
+            rows.forEach(r=>r.classList.remove('active')); row.classList.add('active');
+            const d=data[row.dataset.chat]||data.priya;
+            name.textContent=d.name; status.textContent=d.status; avatar.style.backgroundImage=`url(${d.avatar})`; msg.textContent=d.msg; title.textContent=d.title; time.textContent=d.time; mode.textContent=d.mode; fee.textContent=d.fee;
+            phone.classList.add('chat-open');
+        }));
+        phone.addEventListener('mouseleave',()=>phone.classList.remove('chat-open'));
+    }
+
+    const leadModal = document.getElementById("leadModal");
+    const leadClose = document.getElementById("leadModalClose");
+    const leadForm = document.getElementById("leadForm");
+    const leadStatus = document.getElementById("leadStatus");
+    const leadFrame = document.getElementById("leadSubmitFrame");
+    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJnOKhqH-dr-WAv1qXyABoy_c9OsDunEUYFZjZXUeaWmKrh6-lzp99IZ-TDb_DKN5RQ/exec";
+    let leadLastFocused = null;
+    let leadSubmitting = false;
+
+    if(!leadModal || !leadForm) return;
+
+    function openLeadModal(e){
+        if(e) e.preventDefault();
+        leadLastFocused = document.activeElement;
+        leadModal.classList.add("open");
+        leadModal.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+        setTimeout(function(){
+            const name = document.getElementById("leadName");
+            if(name) name.focus();
+        }, 120);
+    }
+
+    function closeLeadModal(){
+        if(leadSubmitting) return;
+        leadModal.classList.remove("open");
+        leadModal.setAttribute("aria-hidden","true");
+        document.body.style.overflow = "";
+        if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
+    }
+
+    document.querySelectorAll(".open-lead-modal").forEach(function(el){
+        el.addEventListener("click", openLeadModal);
+    });
+
+    if(leadClose) leadClose.addEventListener("click", closeLeadModal);
+
+    leadModal.addEventListener("click", function(e){
+        if(e.target === leadModal) closeLeadModal();
+    });
+
+    document.addEventListener("keydown", function(e){
+        if(e.key === "Escape" && leadModal.classList.contains("open")) closeLeadModal();
+    });
+
+    leadForm.addEventListener("submit", function(e){
+        if(GOOGLE_SCRIPT_WEB_APP_URL.indexOf("PASTE_YOUR_") === 0){
+            e.preventDefault();
+            leadStatus.textContent = "Form is not connected yet. Add your Google Apps Script Web App URL.";
+            leadStatus.className = "dj-lead-status error";
+            return;
+        }
+
+        leadForm.action = GOOGLE_SCRIPT_WEB_APP_URL;
+        const services = Array.from(leadForm.querySelectorAll('input[name="Services"]:checked'));
+
+        if(!services.length){
+            e.preventDefault();
+            leadStatus.textContent = "Please select at least one service.";
+            leadStatus.className = "dj-lead-status error";
+            return;
+        }
+
+        leadSubmitting = true;
+        leadStatus.textContent = "Sending your enquiry…";
+        leadStatus.className = "dj-lead-status";
+
+        const submit = leadForm.querySelector(".dj-lead-submit");
+        if(submit){
+            submit.disabled = true;
+            submit.style.opacity = ".65";
+            submit.style.pointerEvents = "none";
+        }
+    });
+
+    if(leadFrame){
+        leadFrame.addEventListener("load", function(){
+            if(!leadSubmitting) return;
+
+            leadSubmitting = false;
+            leadStatus.textContent = "Enquiry sent. We’ll contact you shortly.";
+            leadStatus.className = "dj-lead-status success";
+
+            const submit = leadForm.querySelector(".dj-lead-submit");
+            if(submit){
+                submit.disabled = false;
+                submit.style.opacity = "";
+                submit.style.pointerEvents = "";
+            }
+
+            leadForm.reset();
+        });
+    }
+});
+
 </script>
 
+
+
+
+<!-- ============================================================
+     DOCTORJET LEAD / SERVICE ENQUIRY MODAL
+============================================================ -->
+<div class="dj-lead-modal" id="leadModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <div class="dj-lead-panel">
+        <div class="dj-lead-head">
+            <div>
+                <div class="dj-lead-eyebrow">START YOUR DIGITAL PRACTICE</div>
+                <h2 id="leadModalTitle">Tell us what you want to build.</h2>
+                <p>Share your details and our team will contact you about the DoctorJet service package that fits your practice.</p>
+            </div>
+            <button type="button" class="dj-lead-close" id="leadModalClose" aria-label="Close form">×</button>
+        </div>
+
+        <form class="dj-lead-form" id="leadForm" action="about:blank" method="POST" target="leadSubmitFrame">
+            <input type="hidden" name="Source" value="DoctorJet Website">
+            <input type="hidden" name="Form Type" value="Service Enquiry">
+            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;padding:0;border:0">
+
+            <div class="dj-lead-grid">
+                <div class="dj-lead-field">
+                    <label for="leadName">Doctor name *</label>
+                    <input id="leadName" name="Doctor Name" type="text" required autocomplete="name" placeholder="Dr. Your Name">
+                </div>
+                <div class="dj-lead-field">
+                    <label for="leadSpecialty">Specialty *</label>
+                    <input id="leadSpecialty" name="Specialty" type="text" required placeholder="e.g. Psychiatry, Cardiology">
+                </div>
+                <div class="dj-lead-field">
+                    <label for="leadPhone">WhatsApp / phone *</label>
+                    <input id="leadPhone" name="Phone / WhatsApp" type="tel" required autocomplete="tel" placeholder="+91 XXXXX XXXXX">
+                </div>
+                <div class="dj-lead-field">
+                    <label for="leadEmail">Email *</label>
+                    <input id="leadEmail" name="Email" type="email" required autocomplete="email" placeholder="doctor@example.com">
+                </div>
+                <div class="dj-lead-field">
+                    <label for="leadCity">City</label>
+                    <input id="leadCity" name="City" type="text" autocomplete="address-level2" placeholder="Bhubaneswar">
+                </div>
+                <div class="dj-lead-field">
+                    <label for="leadBudget">Budget range</label>
+                    <select id="leadBudget" name="Budget Range">
+                        <option value="Not decided">Not decided</option>
+                        <option value="Under ₹25,000">Under ₹25,000</option>
+                        <option value="₹25,000–₹50,000">₹25,000–₹50,000</option>
+                        <option value="₹50,000–₹1,00,000">₹50,000–₹1,00,000</option>
+                        <option value="Above ₹1,00,000">Above ₹1,00,000</option>
+                    </select>
+                </div>
+                <div class="dj-lead-field full">
+                    <label>Services interested in *</label>
+                    <div class="dj-lead-services">
+                        <div class="dj-lead-check"><input id="svcWebsite" type="checkbox" name="Services" value="Professional Website"><label for="svcWebsite">Professional Website</label></div>
+                        <div class="dj-lead-check"><input id="svcGoogle" type="checkbox" name="Services" value="Google Visibility"><label for="svcGoogle">Google Visibility</label></div>
+                        <div class="dj-lead-check"><input id="svcBooking" type="checkbox" name="Services" value="Appointment Booking"><label for="svcBooking">Appointment Booking</label></div>
+                        <div class="dj-lead-check"><input id="svcRx" type="checkbox" name="Services" value="Digital Prescription"><label for="svcRx">Digital Prescription</label></div>
+                        <div class="dj-lead-check"><input id="svcAndroid" type="checkbox" name="Services" value="Doctor Android App"><label for="svcAndroid">Doctor Android App</label></div>
+                        <div class="dj-lead-check"><input id="svcIos" type="checkbox" name="Services" value="Doctor iOS App"><label for="svcIos">Doctor iOS App</label></div>
+                    </div>
+                </div>
+                <div class="dj-lead-field full">
+                    <label for="leadMessage">What do you need?</label>
+                    <textarea id="leadMessage" name="Requirements" placeholder="Tell us briefly about your clinic, current website, or the tools you want. "></textarea>
+                </div>
+            </div>
+
+            <div class="dj-lead-actions">
+                <button type="submit" class="btn btn-primary dj-lead-submit">Request a consultation <span>↗</span></button>
+                <div class="dj-lead-status" id="leadStatus" aria-live="polite">We’ll send your enquiry to the DoctorJet team.</div>
+            </div>
+            <div class="dj-lead-privacy">Your details are used only to respond to your DoctorJet service enquiry.</div>
+        </form>
+        <iframe name="leadSubmitFrame" id="leadSubmitFrame" title="Form submission" style="display:none"></iframe>
+    </div>
+</div>
 
 </body>
 
