@@ -4577,9 +4577,9 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 </style>
 
 <style id="doctorjet-lead-modal">
-.dj-lead-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(9,14,20,.58);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
+.dj-lead-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(9,14,20,.58);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s ease,visibility .12s ease}
 .dj-lead-modal.open{opacity:1;visibility:visible;pointer-events:auto}
-.dj-lead-panel{position:relative;width:min(680px,100%);max-height:min(88vh,780px);overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:28px;background:var(--card,#fff);color:var(--text,#17202a);box-shadow:0 35px 100px rgba(0,0,0,.28);transform:translateY(18px) scale(.98);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.dj-lead-panel{position:relative;width:min(680px,100%);max-height:min(88vh,780px);overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:28px;background:var(--card,#fff);color:var(--text,#17202a);box-shadow:0 35px 100px rgba(0,0,0,.28);transform:translateY(18px) scale(.98);transition:transform .14s cubic-bezier(.2,.8,.2,1)}
 .dj-lead-modal.open .dj-lead-panel{transform:none}
 .dj-lead-head{padding:28px 30px 18px;border-bottom:1px solid var(--line,#e8ebee);display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
 .dj-lead-eyebrow{font-size:9px;font-weight:800;letter-spacing:.16em;color:var(--blue,#0071e3);margin-bottom:8px}
@@ -7043,111 +7043,7 @@ document
     }
 );
 
-
-
-
-/* ============================================================
-   SERVICE ENQUIRY MODAL
-============================================================ */
-document.addEventListener("DOMContentLoaded", function(){
-    const leadModal = document.getElementById("leadModal");
-    const leadClose = document.getElementById("leadModalClose");
-    const leadForm = document.getElementById("leadForm");
-    const leadStatus = document.getElementById("leadStatus");
-    const leadFrame = document.getElementById("leadSubmitFrame");
-    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJnOKhqH-dr-WAv1qXyABoy_c9OsDunEUYFZjZXUeaWmKrh6-lzp99IZ-TDb_DKN5RQ/exec";
-    let leadLastFocused = null;
-    let leadSubmitting = false;
-
-    if(!leadModal || !leadForm) return;
-
-    function openLeadModal(e){
-        if(e) e.preventDefault();
-        leadLastFocused = document.activeElement;
-        leadModal.classList.add("open");
-        leadModal.setAttribute("aria-hidden","false");
-        document.body.style.overflow = "hidden";
-        setTimeout(function(){
-            const name = document.getElementById("leadName");
-            if(name) name.focus();
-        }, 120);
-    }
-
-    function closeLeadModal(){
-        if(leadSubmitting) return;
-        leadModal.classList.remove("open");
-        leadModal.setAttribute("aria-hidden","true");
-        document.body.style.overflow = "";
-        if(leadLastFocused && typeof leadLastFocused.focus === "function") leadLastFocused.focus();
-    }
-
-    document.querySelectorAll(".open-lead-modal").forEach(function(el){
-        el.addEventListener("click", openLeadModal);
-    });
-
-    if(leadClose) leadClose.addEventListener("click", closeLeadModal);
-
-    leadModal.addEventListener("click", function(e){
-        if(e.target === leadModal) closeLeadModal();
-    });
-
-    document.addEventListener("keydown", function(e){
-        if(e.key === "Escape" && leadModal.classList.contains("open")) closeLeadModal();
-    });
-
-    leadForm.addEventListener("submit", function(e){
-        if(GOOGLE_SCRIPT_WEB_APP_URL.indexOf("PASTE_YOUR_") === 0){
-            e.preventDefault();
-            leadStatus.textContent = "Form is not connected yet. Add your Google Apps Script Web App URL.";
-            leadStatus.className = "dj-lead-status error";
-            return;
-        }
-
-        leadForm.action = GOOGLE_SCRIPT_WEB_APP_URL;
-        const services = Array.from(leadForm.querySelectorAll('input[name="Services"]:checked'));
-
-        if(!services.length){
-            e.preventDefault();
-            leadStatus.textContent = "Please select at least one service.";
-            leadStatus.className = "dj-lead-status error";
-            return;
-        }
-
-        leadSubmitting = true;
-        leadStatus.textContent = "Sending your enquiry…";
-        leadStatus.className = "dj-lead-status";
-
-        const submit = leadForm.querySelector(".dj-lead-submit");
-        if(submit){
-            submit.disabled = true;
-            submit.style.opacity = ".65";
-            submit.style.pointerEvents = "none";
-        }
-    });
-
-    if(leadFrame){
-        leadFrame.addEventListener("load", function(){
-            if(!leadSubmitting) return;
-
-            leadSubmitting = false;
-            leadStatus.textContent = "Enquiry sent. We’ll contact you shortly.";
-            leadStatus.className = "dj-lead-status success";
-
-            const submit = leadForm.querySelector(".dj-lead-submit");
-            if(submit){
-                submit.disabled = false;
-                submit.style.opacity = "";
-                submit.style.pointerEvents = "";
-            }
-
-            leadForm.reset();
-        });
-    }
-});
-
 </script>
-
-
 
 
 <!-- ============================================================
@@ -7164,7 +7060,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <button type="button" class="dj-lead-close" id="leadModalClose" aria-label="Close form">×</button>
         </div>
 
-        <form class="dj-lead-form" id="leadForm" action="about:blank" method="POST" target="leadSubmitFrame">
+        <form class="dj-lead-form" id="leadForm" action="https://script.google.com/macros/s/AKfycbzTJnOKhqH-dr-WAv1qXyABoy_c9OsDunEUYFZjZXUeaWmKrh6-lzp99IZ-TDb_DKN5RQ/exec" method="POST" target="leadSubmitFrame">
             <input type="hidden" name="Source" value="DoctorJet Website">
             <input type="hidden" name="Form Type" value="Service Enquiry">
             <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;padding:0;border:0">
@@ -7227,20 +7123,29 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
 </div>
 
+
+
+
 <!-- ============================================================
-     DOCTORJET MODAL FALLBACK / ISOLATED EVENT BINDING
-     Kept separate from all other page JavaScript so an unrelated
-     runtime error cannot prevent the enquiry popup from opening.
+     DOCTORJET — FAST LEAD MODAL + GOOGLE APPS SCRIPT SUBMISSION
 ============================================================ -->
 <script>
-(function(){
-    function initDoctorJetLeadModal(){
-        var modal = document.getElementById("leadModal");
-        var close = document.getElementById("leadModalClose");
-        if(!modal) return;
+(function () {
+    "use strict";
 
-        function openModal(event){
-            if(event){
+    function initLeadModal() {
+        var modal = document.getElementById("leadModal");
+        var form = document.getElementById("leadForm");
+        var close = document.getElementById("leadModalClose");
+        var status = document.getElementById("leadStatus");
+        var frame = document.getElementById("leadSubmitFrame");
+
+        if (!modal || !form) return;
+
+        var submitting = false;
+
+        function openLead(event) {
+            if (event) {
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -7249,59 +7154,112 @@ document.addEventListener("DOMContentLoaded", function(){
             document.body.style.overflow = "hidden";
 
             var name = document.getElementById("leadName");
-            if(name){
-                window.setTimeout(function(){ name.focus(); }, 80);
+            if (name) {
+                requestAnimationFrame(function () {
+                    name.focus();
+                });
             }
         }
 
-        function closeModal(event){
-            if(event){
+        function closeLead(event) {
+            if (event) {
                 event.preventDefault();
                 event.stopPropagation();
             }
+            if (submitting) return;
+
             modal.classList.remove("open");
             modal.setAttribute("aria-hidden", "true");
             document.body.style.overflow = "";
         }
 
-        // Bind every existing CTA.
-        var triggers = document.querySelectorAll(".open-lead-modal");
-        for(var i = 0; i < triggers.length; i++){
-            triggers[i].addEventListener("click", openModal, false);
+        // Direct bindings for all current CTAs.
+        document.querySelectorAll(".open-lead-modal").forEach(function (trigger) {
+            trigger.addEventListener("click", openLead, false);
+        });
+
+        // Delegated fallback for CTAs replaced/added by other scripts.
+        document.addEventListener("click", function (event) {
+            var trigger = event.target && event.target.closest
+                ? event.target.closest(".open-lead-modal")
+                : null;
+
+            if (trigger) openLead(event);
+        }, false);
+
+        if (close) close.addEventListener("click", closeLead, false);
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) closeLead(event);
+        }, false);
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && modal.classList.contains("open")) {
+                closeLead(event);
+            }
+        }, false);
+
+        // Native HTML form submission is intentionally preserved.
+        // The form action already points directly to the Google Apps Script
+        // Web App, and target=leadSubmitFrame keeps the page in place.
+        form.addEventListener("submit", function (event) {
+            var services = form.querySelectorAll('input[name="Services"]:checked');
+
+            if (!services.length) {
+                event.preventDefault();
+                if (status) {
+                    status.textContent = "Please select at least one service.";
+                    status.className = "dj-lead-status error";
+                }
+                return;
+            }
+
+            submitting = true;
+
+            if (status) {
+                status.textContent = "Sending your enquiry…";
+                status.className = "dj-lead-status";
+            }
+
+            var submit = form.querySelector(".dj-lead-submit");
+            if (submit) {
+                submit.disabled = true;
+                submit.style.opacity = ".65";
+                submit.style.pointerEvents = "none";
+            }
+
+            // No preventDefault here: browser performs the real POST to
+            // Google Apps Script using the hidden iframe target.
+        }, false);
+
+        if (frame) {
+            frame.addEventListener("load", function () {
+                if (!submitting) return;
+
+                submitting = false;
+
+                if (status) {
+                    status.textContent = "Enquiry sent. We’ll contact you shortly.";
+                    status.className = "dj-lead-status success";
+                }
+
+                var submit = form.querySelector(".dj-lead-submit");
+                if (submit) {
+                    submit.disabled = false;
+                    submit.style.opacity = "";
+                    submit.style.pointerEvents = "";
+                }
+
+                form.reset();
+            }, false);
         }
-
-        if(close){
-            close.addEventListener("click", closeModal, false);
-        }
-
-        modal.addEventListener("click", function(event){
-            if(event.target === modal){
-                closeModal(event);
-            }
-        }, false);
-
-        document.addEventListener("keydown", function(event){
-            if(event.key === "Escape" && modal.classList.contains("open")){
-                closeModal(event);
-            }
-        }, false);
-
-        // Delegated fallback: this also works if a CTA is dynamically
-        // inserted or replaced later by another page script.
-        document.addEventListener("click", function(event){
-            var target = event.target;
-            if(!target || !target.closest) return;
-            var trigger = target.closest(".open-lead-modal");
-            if(trigger){
-                openModal(event);
-            }
-        }, false);
     }
 
-    if(document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initDoctorJetLeadModal);
+    // Initialise immediately when possible; otherwise wait for DOM ready.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initLeadModal, { once: true });
     } else {
-        initDoctorJetLeadModal();
+        initLeadModal();
     }
 })();
 </script>
