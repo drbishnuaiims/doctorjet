@@ -7117,6 +7117,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const leadForm = document.getElementById("leadForm");
     const leadStatus = document.getElementById("leadStatus");
     const leadFrame = document.getElementById("leadSubmitFrame");
+    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJnOKhqH-dr-WAv1qXyABoy_c9OsDunEUYFZjZXUeaWmKrh6-lzp99IZ-TDb_DKN5RQ/exec";
     let leadLastFocused = null;
     let leadSubmitting = false;
 
@@ -7157,6 +7158,14 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     leadForm.addEventListener("submit", function(e){
+        if(GOOGLE_SCRIPT_WEB_APP_URL.indexOf("PASTE_YOUR_") === 0){
+            e.preventDefault();
+            leadStatus.textContent = "Form is not connected yet. Add your Google Apps Script Web App URL.";
+            leadStatus.className = "dj-lead-status error";
+            return;
+        }
+
+        leadForm.action = GOOGLE_SCRIPT_WEB_APP_URL;
         const services = Array.from(leadForm.querySelectorAll('input[name="Services"]:checked'));
 
         if(!services.length){
@@ -7217,11 +7226,10 @@ document.addEventListener("DOMContentLoaded", function(){
             <button type="button" class="dj-lead-close" id="leadModalClose" aria-label="Close form">×</button>
         </div>
 
-        <form class="dj-lead-form" id="leadForm" action="https://formsubmit.co/088fa4d890dd2d6bfe70c75a58ff02e7" method="POST" target="leadSubmitFrame">
-            <input type="hidden" name="_subject" value="New DoctorJet Service Enquiry">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="source" value="DoctorJet Website">
+        <form class="dj-lead-form" id="leadForm" action="about:blank" method="POST" target="leadSubmitFrame">
+            <input type="hidden" name="Source" value="DoctorJet Website">
+            <input type="hidden" name="Form Type" value="Service Enquiry">
+            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;padding:0;border:0">
 
             <div class="dj-lead-grid">
                 <div class="dj-lead-field">
