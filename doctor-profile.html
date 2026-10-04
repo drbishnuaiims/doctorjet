@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B1724">
+
+<title>Dr. Ananya Mehta | Consultant Psychiatrist | DoctorJet</title>
+
+<style>
+/* =========================================================
+   DOCTORJET — DOCTOR PROFILE
+   Reusable single-doctor template
+   ========================================================= */
+
+:root {
+    --navy: #0b1724;
+    --navy-2: #122436;
+    --teal: #16b8a6;
+    --teal-dark: #0d8f82;
+    --mint: #dff7f3;
+    --cream: #f7f4ed;
+    --white: #ffffff;
+    --ink: #182431;
+    --muted: #667482;
+    --line: #e4e9ed;
+    --soft: #f4f7f8;
+    --gold: #c99a3d;
+    --danger: #d9534f;
+
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 11px;
+
+    --shadow-sm: 0 4px 18px rgba(11, 23, 36, 0.06);
+    --shadow-md: 0 16px 45px rgba(11, 23, 36, 0.10);
+}
+
+/* RESET */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family:
+        Inter,
+        ui-sans-serif,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    line-height: 1.55;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.site-header {
+    height: 72px;
+    background: rgba(255,255,255,.94);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+}
+
+.header-inner {
+    width: min(1180px, calc(100% - 36px));
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: -.4px;
+    color: var(--navy);
+}
+
+.brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: var(--navy);
+    font-size: 15px;
+}
+
+.brand span span {
+    color: var(--teal-dark);
+}
+
+.header-link {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page {
+    width: min(1180px, calc(100% - 36px));
+    margin: 36px auto 90px;
+}
+
+/* =========================================================
+   DOCTOR HERO
+   ========================================================= */
+
+.profile-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-top {
+    padding: 34px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+    align-items: center;
+}
+
+.doctor-photo-wrap {
+    position: relative;
+}
+
+.doctor-photo {
+    width: 148px;
+    height: 148px;
+    object-fit: cover;
+    border-radius: 28px;
+    border: 6px solid var(--mint);
+    background: var(--soft);
+}
+
+.verified {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    border: 4px solid white;
+    border-radius: 999px;
+    padding: 5px 9px;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--teal-dark);
+    margin-bottom: 5px;
+}
+
+.doctor-name {
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -1.3px;
+    margin: 0 0 8px;
+    color: var(--navy);
+}
+
+.doctor-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.doctor-meta {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.badge {
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #43515e;
+}
+
+.profile-action {
+    min-width: 190px;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-weight: 800;
+    font-size: 14px;
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--navy);
+    color: white;
+    box-shadow: 0 8px 22px rgba(11,23,36,.16);
+}
+
+.btn-primary:hover {
+    background: #13283b;
+}
+
+.btn-teal {
+    background: var(--teal);
+    color: white;
+}
+
+.btn-teal:hover {
+    background: var(--teal-dark);
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid var(--line);
+    color: var(--navy);
+}
+
+/* =========================================================
+   QUICK STATS
+   ========================================================= */
+
+.quick-stats {
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.stat {
+    padding: 19px 24px;
+    border-right: 1px solid var(--line);
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    font-weight: 800;
+}
+
+.stat-value {
+    margin-top: 3px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(300px, .8fr);
+    gap: 22px;
+    margin-top: 22px;
+}
+
+.section-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+}
+
+.section-card + .section-card {
+    margin-top: 22px;
+}
+
+.section-title {
+    margin: 0 0 5px;
+    font-size: 20px;
+    letter-spacing: -.4px;
+    color: var(--navy);
+}
+
+.section-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 22px;
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.about-text {
+    color: #455360;
+    font-size: 15px;
+}
+
+.highlight-box {
+    margin-top: 20px;
+    padding: 17px;
+    border-radius: 14px;
+    background: var(--mint);
+    border: 1px solid #c8eee8;
+}
+
+.highlight-box strong {
+    display: block;
+    color: var(--navy);
+    margin-bottom: 3px;
+}
+
+.highlight-box span {
+    color: #45625f;
+    font-size: 13px;
+}
+
+/* =========================================================
+   QUALIFICATIONS
+   ========================================================= */
+
+.qualification-list {
+    display: grid;
+    gap: 11px;
+}
+
+.qualification {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+}
+
+.q-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: var(--navy);
+    color: white;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.q-title {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.q-sub {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   SPECIALTIES
+   ========================================================= */
+
+.specialty-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.specialty {
+    border: 1px solid #d7e7e5;
+    background: #f3fbfa;
+    color: #14665e;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   PRACTICE LOCATIONS
+   ========================================================= */
+
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.location-card {
+    position: relative;
+    border: 1px solid var(--line);
+    background: white;
+    border-radius: 16px;
+    padding: 17px;
+    text-align: left;
+    transition: border .15s ease, box-shadow .15s ease;
+}
+
+.location-card:hover {
+    border-color: #b7d9d5;
+    box-shadow: var(--shadow-sm);
+}
+
+.location-card.active {
+    border: 2px solid var(--teal);
+    background: #f5fcfb;
+}
+
+.location-city {
+    font-weight: 900;
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.location-clinic {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.location-arrow {
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    color: var(--teal-dark);
+    font-weight: 900;
+}
+
+/* =========================================================
+   LOCATION DETAIL
+   ========================================================= */
+
+.location-detail {
+    margin-top: 16px;
+    padding: 20px;
+    background: var(--soft);
+    border-radius: 16px;
+    border: 1px solid var(--line);
+}
+
+.location-detail-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.location-detail h3 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.location-detail p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.mode-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.mode {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   AVAILABILITY
+   ========================================================= */
+
+.availability {
+    margin-top: 18px;
+}
+
+.availability-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 9px;
+}
+
+.days {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.day {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.booking-side {
+    position: sticky;
+    top: 94px;
+    height: fit-content;
+}
+
+.booking-panel {
+    background: var(--navy);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    box-shadow: var(--shadow-md);
+}
+
+.booking-panel .eyebrow {
+    color: #66e2d4;
+}
+
+.booking-panel h2 {
+    margin: 0 0 8px;
+    font-size: 23px;
+    letter-spacing: -.5px;
+}
+
+.booking-panel p {
+    color: #b5c3ce;
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.booking-point {
+    display: flex;
+    gap: 10px;
+    margin: 13px 0;
+    color: #d7e2e8;
+    font-size: 13px;
+}
+
+.booking-point-icon {
+    color: var(--teal);
+    font-weight: 900;
+}
+
+/* =========================================================
+   FEES
+   ========================================================= */
+
+.fee-card {
+    margin-top: 16px;
+    padding: 17px;
+    border-radius: 14px;
+    background: #14293b;
+    border: 1px solid #274052;
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 13px;
+}
+
+.fee-row + .fee-row {
+    margin-top: 8px;
+}
+
+.fee-price {
+    font-weight: 900;
+}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.faq-item {
+    border-top: 1px solid var(--line);
+}
+
+.faq-item:first-child {
+    border-top: none;
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.faq-answer {
+    display: none;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 0 0 16px;
+}
+
+.faq-item.open .faq-answer {
+    display: block;
+}
+
+.faq-plus {
+    color: var(--teal-dark);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+    margin-top: 28px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer strong {
+    color: var(--navy);
+}
+
+/* =========================================================
+   MOBILE BOOK BUTTON
+   ========================================================= */
+
+.mobile-book {
+    display: none;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 15, 24, .68);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal {
+    width: min(620px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.28);
+}
+
+.modal-header {
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 21px;
+    color: var(--navy);
+}
+
+.modal-header p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.close-modal {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 9px;
+    background: var(--soft);
+    color: var(--navy);
+    font-size: 19px;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--navy);
+}
+
+.form-control {
+    width: 100%;
+    border: 1px solid #d9e0e5;
+    border-radius: 11px;
+    padding: 11px 12px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(22,184,166,.10);
+}
+
+.slot-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.slot {
+    border: 1px solid var(--line);
+    background: white;
+    border-radius: 9px;
+    padding: 8px 11px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.slot.selected {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+}
+
+.form-footer {
+    margin-top: 5px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.form-note {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 10px 0 15px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .profile-top {
+        grid-template-columns: auto 1fr;
+    }
+
+    .profile-action {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-side {
+        display: none;
+    }
+
+    .location-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+
+    body {
+        padding-bottom: 76px;
+    }
+
+    .page {
+        width: min(100% - 20px, 1180px);
+        margin-top: 14px;
+    }
+
+    .site-header {
+        height: 62px;
+    }
+
+    .header-inner {
+        width: calc(100% - 24px);
+    }
+
+    .header-link {
+        display: none;
+    }
+
+    .profile-top {
+        padding: 22px;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+    }
+
+    .doctor-photo {
+        width: 92px;
+        height: 92px;
+        border-radius: 20px;
+        border-width: 4px;
+    }
+
+    .verified {
+        font-size: 9px;
+        padding: 4px 6px;
+        bottom: -7px;
+        right: -7px;
+    }
+
+    .doctor-name {
+        font-size: 26px;
+        letter-spacing: -.8px;
+    }
+
+    .doctor-title {
+        font-size: 14px;
+    }
+
+    .doctor-meta {
+        font-size: 12px;
+    }
+
+    .badges {
+        margin-top: 10px;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    .quick-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .stat:nth-child(2) {
+        border-right: none;
+    }
+
+    .section-card {
+        padding: 21px;
+        border-radius: 19px;
+    }
+
+    .location-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .location-detail-head {
+        display: block;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .mobile-book {
+        position: fixed;
+        display: flex;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 12px;
+        background: rgba(255,255,255,.96);
+        border-top: 1px solid var(--line);
+        z-index: 80;
+        backdrop-filter: blur(12px);
+    }
+
+    .mobile-book button {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="#" class="brand">
+            <div class="brand-mark">D</div>
+            <span>Doctor<span>Jet</span></span>
+        </a>
+
+        <div class="header-link">
+            Verified doctor profile
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+<!-- =========================================================
+     PROFILE HEADER
+     ========================================================= -->
+
+<section class="profile-card">
+
+    <div class="profile-top">
+
+        <div class="doctor-photo-wrap">
+
+            <img
+                id="doctorPhoto"
+                class="doctor-photo"
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=85"
+                alt="Doctor"
+            >
+
+            <div class="verified">
+                ✓ VERIFIED
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="eyebrow">
+                DoctorJet Profile
+            </div>
+
+            <h1 class="doctor-name" id="doctorName">
+                Dr. Ananya Mehta
+            </h1>
+
+            <div class="doctor-title" id="doctorTitle">
+                Consultant Psychiatrist
+            </div>
+
+            <div class="doctor-meta" id="doctorMeta">
+                MBBS · MD Psychiatry · 12+ years clinical experience
+            </div>
+
+            <div class="badges">
+
+                <span class="badge">AIIMS Alumni</span>
+                <span class="badge">Teleconsultation</span>
+                <span class="badge">Appointments Available</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-action">
+
+            <button
+                class="btn btn-primary"
+                onclick="openBooking()"
+            >
+                Book Appointment
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-stats">
+
+        <div class="stat">
+            <div class="stat-label">Experience</div>
+            <div class="stat-value" id="experience">12+ Years</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Consultation</div>
+            <div class="stat-value">Online + In-person</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Languages</div>
+            <div class="stat-value">English · Hindi</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Availability</div>
+            <div class="stat-value">By Appointment</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<div class="main-grid">
+
+<div>
+
+<!-- ABOUT -->
+
+<section class="section-card">
+
+    <h2 class="section-title">
+        About the doctor
+    </h2>
+
+    <p class="section-subtitle">
+        Clinical approach and areas of practice
+    </p>
+
+    <p class="about-text" id="aboutText">
+        Dr. Ananya Mehta is a consultant psychiatrist with expertise
+        in adult mental health, anxiety disorders, depression,
+        sleep disorders and addiction psychiatry. Her practice
+        focuses on evidence-based assessment, collaborative
+        treatment planning and long-term recovery.
+    </p>
+
+    <div class="highlight-box">
+
+        <strong>
+            Clinical approach
+        </strong>
+
+        <span>
+            Detailed assessment • Evidence-based treatment •
+            Confidential consultation • Individualised care
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- QUALIFICATIONS -->
+
+<section class="section-card">
+
+    <h2 class="section-title">
+        Qualifications
+    </h2>
+
+    <p class="section-subtitle">
+        Academic and professional credentials
+    </p>
+
+    <div class="qualification-list">
+
+        <div class="qualification">
+
+            <div class="q-icon">
+                MB
+            </div>
+
+            <div>
+                <div class="q-title">
+                    MBBS
+                </div>
+
+                <div class="q-sub">
+                    Bachelor of Medicine and Bachelor of Surgery
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="qualification">
+
+            <div class="q-icon">
+                MD
+            </div>
+
+            <div>
+                <div class="q-title">
+                    MD Psychiatry
+                </div>
+
+                <div class="q-sub">
+                    Postgraduate qualification in Psychiatry
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="qualification">
+
+            <div class="q-icon">
+                CP
+            </div>
+
+            <div>
+                <div class="q-title">
+                    Certified Professional Training
+                </div>
+
+                <div class="q-sub">
+                    Advanced clinical training in mental health
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SPECIALTIES -->
+
+<section class="section-card">
+
+    <h2 class="section-title">
+        Areas of expertise
+    </h2>
+
+    <p class="section-subtitle">
+        Conditions commonly evaluated and treated
+    </p>
+
+    <div class="specialty-grid">
+
+        <span class="specialty">Depression</span>
+        <span class="specialty">Anxiety Disorders</span>
+        <span class="specialty">Panic Disorder</span>
+        <span class="specialty">OCD</span>
+        <span class="specialty">Sleep Disorders</span>
+        <span class="specialty">Addiction Psychiatry</span>
+        <span class="specialty">Stress-related Problems</span>
+        <span class="specialty">Bipolar Disorder</span>
+        <span class="specialty">Psychotic Disorders</span>
+
+    </div>
+
+</section>
+
+
+<!-- PRACTICE LOCATIONS -->
+
+<section class="section-card">
+
+    <h2 class="section-title">
+        Practice locations
+    </h2>
+
+    <p class="section-subtitle">
+        Choose a city to view clinic details and availability
+    </p>
+
+
+    <div class="location-grid" id="locationGrid">
+        <!-- Generated by JavaScript -->
+    </div>
+
+
+    <div class="location-detail" id="locationDetail">
+        <!-- Generated by JavaScript -->
+    </div>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section class="section-card">
+
+    <h2 class="section-title">
+        Frequently asked questions
+    </h2>
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+            Do I need an appointment?
+            <span class="faq-plus">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes. Appointments are recommended so that adequate consultation
+            time can be reserved for you.
+        </div>
+
+    </div>
+
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+            Is online consultation available?
+            <span class="faq-plus">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes. Online consultation is available at selected locations
+            and time slots.
+        </div>
+
+    </div>
+
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+            Can I choose a particular clinic?
+            <span class="faq-plus">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes. Select your preferred city and clinic before submitting
+            your appointment request.
+        </div>
+
+    </div>
+
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+            How will I receive the appointment confirmation?
+            <span class="faq-plus">+</span>
+        </button>
+
+        <div class="faq-answer">
+            After submitting the request, the clinic can confirm the
+            appointment through phone, WhatsApp or the configured
+            DoctorJet notification system.
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="booking-side">
+
+    <div class="booking-panel">
+
+        <div class="eyebrow">
+            DoctorJet appointments
+        </div>
+
+        <h2>
+            Book a consultation
+        </h2>
+
+        <p>
+            Select your preferred location, date and consultation mode.
+        </p>
+
+
+        <div class="booking-point">
+            <span class="booking-point-icon">✓</span>
+            <span>Multiple clinic locations</span>
+        </div>
+
+        <div class="booking-point">
+            <span class="booking-point-icon">✓</span>
+            <span>Online consultation available</span>
+        </div>
+
+        <div class="booking-point">
+            <span class="booking-point-icon">✓</span>
+            <span>Secure appointment request</span>
+        </div>
+
+        <div class="booking-point">
+            <span class="booking-point-icon">✓</span>
+            <span>Confirmation from clinic</span>
+        </div>
+
+
+        <div class="fee-card">
+
+            <div class="fee-row">
+                <span>Consultation fee</span>
+                <span class="fee-price">₹800</span>
+            </div>
+
+            <div class="fee-row">
+                <span>Online consultation</span>
+                <span class="fee-price">₹700</span>
+            </div>
+
+        </div>
+
+
+        <br>
+
+        <button
+            class="btn btn-teal"
+            style="width:100%;"
+            onclick="openBooking()"
+        >
+            Choose appointment
+        </button>
+
+    </div>
+
+</aside>
+
+</div>
+
+
+<div class="footer">
+    Powered by <strong>DoctorJet.in</strong> · Digital healthcare discovery & appointments
+</div>
+
+</main>
+
+
+<!-- =========================================================
+     MOBILE CTA
+     ========================================================= -->
+
+<div class="mobile-book">
+
+    <button
+        class="btn btn-primary"
+        onclick="openBooking()"
+    >
+        Book Appointment
+    </button>
+
+</div>
+
+
+<!-- =========================================================
+     BOOKING MODAL
+     ========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="bookingModal"
+    onclick="closeModalOutside(event)"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Book an appointment</h2>
+
+                <p>
+                    <span id="modalDoctorName">
+                        Dr. Ananya Mehta
+                    </span>
+                </p>
+            </div>
+
+            <button
+                class="close-modal"
+                onclick="closeBooking()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="bookingForm" onsubmit="submitBooking(event)">
+
+                <div class="form-grid">
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Patient name
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="patientName"
+                            placeholder="Enter full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Mobile number
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="tel"
+                            id="patientPhone"
+                            placeholder="10-digit mobile number"
+                            pattern="[0-9]{10}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Practice location
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="bookingLocation"
+                            onchange="updateBookingLocation()"
+                            required
+                        >
+                        </select>
+
+                    </div>
+
+
+                    <!-- MODE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Consultation mode
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="consultationMode"
+                            required
+                        >
+                            <option value="">
+                                Select mode
+                            </option>
+                            <option>
+                                In-person consultation
+                            </option>
+                            <option>
+                                Online consultation
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Preferred date
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="date"
+                            id="appointmentDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- SLOT -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Preferred time
+                        </label>
+
+                        <div
+                            class="slot-grid"
+                            id="slotGrid"
+                        >
+                        </div>
+
+                        <input
+                            type="hidden"
+                            id="selectedSlot"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="form-group full">
+
+                        <label class="form-label">
+                            Reason for consultation
+                            <span style="color:#8a949c;font-weight:500;">
+                                (optional)
+                            </span>
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="patientMessage"
+                            rows="3"
+                            placeholder="Briefly describe your concern"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-footer">
+
+                    <div class="form-note">
+                        Your appointment request will be shared with
+                        the clinic for confirmation. Do not enter
+                        highly sensitive medical information here.
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        style="width:100%;"
+                    >
+                        Submit appointment request
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DOCTOR DATA
+   =========================================================
+
+   THIS IS THE ONLY SECTION YOU NEED TO CHANGE
+   FOR A NEW DOCTOR.
+*/
+
+const doctor = {
+
+    name: "Dr. Ananya Mehta",
+
+    title: "Consultant Psychiatrist",
+
+    photo:
+        "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=85",
+
+    experience: "12+ Years",
+
+    qualifications:
+        "MBBS · MD Psychiatry · 12+ years clinical experience",
+
+    about:
+        "Dr. Ananya Mehta is a consultant psychiatrist with expertise in adult mental health, anxiety disorders, depression, sleep disorders and addiction psychiatry. Her practice focuses on evidence-based assessment, collaborative treatment planning and long-term recovery.",
+
+    locations: [
+
+        {
+            city: "Bhubaneswar",
+
+            clinic: "Thomson Mental Health Centre",
+
+            address:
+                "Saheed Nagar, Bhubaneswar, Odisha",
+
+            modes: [
+                "In-person",
+                "Online"
+            ],
+
+            days: [
+                "Mon",
+                "Wed",
+                "Fri"
+            ],
+
+            hours:
+                "5:00 PM – 8:00 PM",
+
+            fee:
+                "₹800",
+
+            slots: [
+                "5:00 PM",
+                "5:30 PM",
+                "6:00 PM",
+                "6:30 PM",
+                "7:00 PM",
+                "7:30 PM"
+            ]
+        },
+
+        {
+            city: "Cuttack",
+
+            clinic: "City Psychiatry Clinic",
+
+            address:
+                "College Square, Cuttack, Odisha",
+
+            modes: [
+                "In-person"
+            ],
+
+            days: [
+                "Tue",
+                "Thu"
+            ],
+
+            hours:
+                "4:00 PM – 7:00 PM",
+
+            fee:
+                "₹800",
+
+            slots: [
+                "4:00 PM",
+                "4:30 PM",
+                "5:00 PM",
+                "5:30 PM",
+                "6:00 PM",
+                "6:30 PM"
+            ]
+        },
+
+        {
+            city: "Kolkata",
+
+            clinic: "MindCare Centre",
+
+            address:
+                "Salt Lake, Kolkata, West Bengal",
+
+            modes: [
+                "Online",
+                "In-person"
+            ],
+
+            days: [
+                "Sat",
+                "Sun"
+            ],
+
+            hours:
+                "10:00 AM – 2:00 PM",
+
+            fee:
+                "₹1,000",
+
+            slots: [
+                "10:00 AM",
+                "10:30 AM",
+                "11:00 AM",
+                "11:30 AM",
+                "12:00 PM",
+                "12:30 PM"
+            ]
+        }
+
+    ]
+
+};
+
+
+/* =========================================================
+   INITIALISE PROFILE
+   ========================================================= */
+
+document.getElementById("doctorName").textContent =
+    doctor.name;
+
+document.getElementById("modalDoctorName").textContent =
+    doctor.name;
+
+document.getElementById("doctorTitle").textContent =
+    doctor.title;
+
+document.getElementById("doctorMeta").textContent =
+    doctor.qualifications;
+
+document.getElementById("experience").textContent =
+    doctor.experience;
+
+document.getElementById("doctorPhoto").src =
+    doctor.photo;
+
+document.getElementById("aboutText").textContent =
+    doctor.about;
+
+
+/* =========================================================
+   LOCATION SYSTEM
+   ========================================================= */
+
+const locationGrid =
+    document.getElementById("locationGrid");
+
+const locationDetail =
+    document.getElementById("locationDetail");
+
+let selectedLocation = 0;
+
+
+function renderLocations() {
+
+    locationGrid.innerHTML = "";
+
+    doctor.locations.forEach((location, index) => {
+
+        const card = document.createElement("button");
+
+        card.className =
+            "location-card" +
+            (index === selectedLocation
+                ? " active"
+                : "");
+
+        card.innerHTML = `
+
+            <div class="location-city">
+                ${location.city}
+            </div>
+
+            <div class="location-clinic">
+                ${location.clinic}
+            </div>
+
+            <div class="location-arrow">
+                →
+            </div>
+
+        `;
+
+        card.onclick = () => {
+
+            selectedLocation = index;
+
+            renderLocations();
+
+            renderLocationDetail();
+
+            updateBookingLocation();
+
+        };
+
+        locationGrid.appendChild(card);
+
+    });
+
+}
+
+
+function renderLocationDetail() {
+
+    const location =
+        doctor.locations[selectedLocation];
+
+    locationDetail.innerHTML = `
+
+        <div class="location-detail-head">
+
+            <div>
+
+                <h3>
+                    ${location.clinic}
+                </h3>
+
+                <p>
+                    ${location.address}
+                </p>
+
+            </div>
+
+            <button
+                class="btn btn-outline"
+                onclick="openBooking()"
+            >
+                Book here
+            </button>
+
+        </div>
+
+
+        <div class="mode-row">
+
+            ${location.modes
+                .map(mode => `
+                    <span class="mode">
+                        ${mode}
+                    </span>
+                `)
+                .join("")
+            }
+
+        </div>
+
+
+        <div class="availability">
+
+            <div class="availability-label">
+                Regular availability
+            </div>
+
+            <div class="days">
+
+                ${location.days
+                    .map(day => `
+                        <span class="day">
+                            ${day}
+                        </span>
+                    `)
+                    .join("")
+                }
+
+                <span class="day">
+                    ${location.hours}
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+renderLocations();
+
+renderLocationDetail();
+
+
+/* =========================================================
+   BOOKING MODAL
+   ========================================================= */
+
+function openBooking() {
+
+    const modal =
+        document.getElementById("bookingModal");
+
+    modal.classList.add("open");
+
+    updateBookingLocation();
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeBooking() {
+
+    document
+        .getElementById("bookingModal")
+        .classList.remove("open");
+
+    document.body.style.overflow = "";
+
+}
+
+
+function closeModalOutside(event) {
+
+    if (
+        event.target.id === "bookingModal"
+    ) {
+        closeBooking();
+    }
+
+}
+
+
+/* =========================================================
+   BOOKING LOCATION
+   ========================================================= */
+
+function updateBookingLocation() {
+
+    const select =
+        document.getElementById("bookingLocation");
+
+    select.innerHTML = doctor.locations
+        .map(
+            (location, index) =>
+                `<option value="${index}"
+                    ${index === selectedLocation ? "selected" : ""}>
+                    ${location.city} — ${location.clinic}
+                </option>`
+        )
+        .join("");
+
+    renderSlots();
+
+}
+
+
+/* =========================================================
+   TIME SLOTS
+   ========================================================= */
+
+function renderSlots() {
+
+    const index =
+        Number(
+            document.getElementById(
+                "bookingLocation"
+            ).value || selectedLocation
+        );
+
+    const location =
+        doctor.locations[index];
+
+    const slotGrid =
+        document.getElementById("slotGrid");
+
+    const hidden =
+        document.getElementById("selectedSlot");
+
+    hidden.value = "";
+
+    slotGrid.innerHTML = "";
+
+    location.slots.forEach(slot => {
+
+        const button =
+            document.createElement("button");
+
+        button.type = "button";
+
+        button.className = "slot";
+
+        button.textContent = slot;
+
+        button.onclick = () => {
+
+            document
+                .querySelectorAll(".slot")
+                .forEach(
+                    item =>
+                        item.classList.remove(
+                            "selected"
+                        )
+                );
+
+            button.classList.add("selected");
+
+            hidden.value = slot;
+
+        };
+
+        slotGrid.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+const dateInput =
+    document.getElementById("appointmentDate");
+
+const today =
+    new Date().toISOString().split("T")[0];
+
+dateInput.min = today;
+
+
+/* =========================================================
+   FORM SUBMISSION
+   =========================================================
+
+   Replace this section with:
+   - Google Apps Script
+   - DoctorJet API
+   - Google Sheets
+   - Supabase
+   - Firebase
+   - your own backend
+
+*/
+
+function submitBooking(event) {
+
+    event.preventDefault();
+
+    const patientName =
+        document.getElementById(
+            "patientName"
+        ).value.trim();
+
+    const patientPhone =
+        document.getElementById(
+            "patientPhone"
+        ).value.trim();
+
+    const locationIndex =
+        Number(
+            document.getElementById(
+                "bookingLocation"
+            ).value
+        );
+
+    const location =
+        doctor.locations[locationIndex];
+
+    const mode =
+        document.getElementById(
+            "consultationMode"
+        ).value;
+
+    const date =
+        document.getElementById(
+            "appointmentDate"
+        ).value;
+
+    const slot =
+        document.getElementById(
+            "selectedSlot"
+        ).value;
+
+    if (!slot) {
+
+        alert(
+            "Please select a preferred time."
+        );
+
+        return;
+
+    }
+
+    /*
+       DEMO ONLY
+
+       Replace this with an API POST request.
+    */
+
+    console.log({
+
+        doctor:
+            doctor.name,
+
+        patient:
+            patientName,
+
+        phone:
+            patientPhone,
+
+        location:
+            location.city,
+
+        clinic:
+            location.clinic,
+
+        mode:
+            mode,
+
+        date:
+            date,
+
+        time:
+            slot,
+
+        message:
+            document.getElementById(
+                "patientMessage"
+            ).value
+
+    });
+
+
+    alert(
+        "Appointment request submitted successfully. The clinic will contact you for confirmation."
+    );
+
+    closeBooking();
+
+    document
+        .getElementById("bookingForm")
+        .reset();
+
+    document
+        .getElementById("selectedSlot")
+        .value = "";
+
+}
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+document
+    .querySelectorAll(".faq-question")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const item =
+                    button.parentElement;
+
+                item.classList.toggle(
+                    "open"
+                );
+
+                const plus =
+                    button.querySelector(
+                        ".faq-plus"
+                    );
+
+                plus.textContent =
+                    item.classList.contains(
+                        "open"
+                    )
+                        ? "−"
+                        : "+";
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   ESC KEY
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+            closeBooking();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
