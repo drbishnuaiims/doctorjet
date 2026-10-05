@@ -4542,6 +4542,14 @@ html[data-theme="dark"] .dj-discovery-avatars span{border-color:#1c1c1e}
 @media(max-width:680px){.dj-doctor-card-secondary{left:0;top:45%;width:190px;transform:scale(.78);transform-origin:left top}.dj-discovery-card{left:2%;bottom:2px;width:195px;transform:scale(.75);transform-origin:left bottom}.dj-ecosystem-stage{height:455px;margin-top:5px}.dj-stage-grid{inset:4% 0 5%;background-size:42px 42px}.dj-doctor-card{left:0;top:7%;width:205px;transform:scale(.9);transform-origin:left top}.dj-phone-card{right:-4px;top:1%;width:125px;height:228px;transform:rotate(3deg) scale(.82);transform-origin:right top}.dj-search-window{width:285px;right:50%;bottom:8px;transform:translateX(50%);animation:djMobileSearchFloat 7s ease-in-out infinite}.dj-appointment-card{right:1%;bottom:102px;width:215px;transform:scale(.88);transform-origin:right bottom}.dj-notification-card{left:0;bottom:52px;width:190px;transform:scale(.82);transform-origin:left bottom}.dj-stage-core{top:45%;}.dj-micro-signal{top:45%}}
 @keyframes djMobileSearchFloat{0%,100%{transform:translateX(50%) translateY(0)}50%{transform:translateX(50%) translateY(-6px)}}
 @media(prefers-reduced-motion:reduce){.dj-ecosystem-stage *{animation:none!important}.dj-search-window{transform:none}}
+
+/* DoctorJet profile pricing */
+.calc-option[data-name="DoctorJet profile"] .calc-check{
+    color:var(--cyan,#65f2e1);
+    font-weight:800;
+    letter-spacing:.04em;
+}
+
 </style>
 
 
@@ -4619,6 +4627,294 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 .dj-discovery-card{z-index:90!important;}
 .dj-search-window{z-index:40!important;}
 </style>
+
+<style id="doctorjet-profile-request">
+.dj-profile-request-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(9,14,20,.58);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s ease,visibility .12s ease}
+.dj-profile-request-modal.open{opacity:1;visibility:visible;pointer-events:auto}
+.dj-profile-request-panel{position:relative;width:min(700px,100%);max-height:min(90vh,820px);overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:28px;background:var(--card,#fff);color:var(--text,#17202a);box-shadow:0 35px 100px rgba(0,0,0,.28);transform:translateY(18px) scale(.98);transition:transform .14s cubic-bezier(.2,.8,.2,1)}
+.dj-profile-request-modal.open .dj-profile-request-panel{transform:none}
+.dj-profile-request-head{padding:28px 30px 18px;border-bottom:1px solid var(--line,#e8ebee);display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.dj-profile-request-eyebrow{font-size:9px;font-weight:800;letter-spacing:.16em;color:var(--blue,#0071e3);margin-bottom:8px}
+.dj-profile-request-head h2{margin:0;font-size:30px;letter-spacing:-.04em;line-height:1.08}
+.dj-profile-request-head p{margin:9px 0 0;color:var(--muted,#68737c);font-size:12px;line-height:1.5;max-width:530px}
+.dj-profile-request-close{width:36px;height:36px;flex:0 0 36px;border:1px solid var(--line,#e8ebee);border-radius:50%;background:transparent;color:var(--text,#17202a);font-size:20px;line-height:1;cursor:pointer}
+.dj-profile-request-form{padding:24px 30px 30px}
+.dj-profile-request-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dj-profile-request-field{display:flex;flex-direction:column;gap:7px}
+.dj-profile-request-field.full{grid-column:1/-1}
+.dj-profile-request-field label{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#68737c)}
+.dj-profile-request-field input,.dj-profile-request-field select,.dj-profile-request-field textarea{width:100%;box-sizing:border-box;border:1px solid var(--line,#e8ebee);border-radius:11px;background:var(--bg,#fff);color:var(--text,#17202a);padding:12px 13px;font:inherit;font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s}
+.dj-profile-request-field textarea{min-height:88px;resize:vertical}
+.dj-profile-request-field input:focus,.dj-profile-request-field select:focus,.dj-profile-request-field textarea:focus{border-color:var(--blue,#0071e3);box-shadow:0 0 0 3px rgba(0,113,227,.10)}
+.dj-profile-request-services{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dj-profile-request-check{position:relative}
+.dj-profile-request-check input{position:absolute;opacity:0}
+.dj-profile-request-check label{display:block;padding:10px 11px;border:1px solid var(--line,#e8ebee);border-radius:10px;font-size:10px;font-weight:700;color:var(--muted,#68737c);cursor:pointer;background:var(--bg,#fff);transition:.2s}
+.dj-profile-request-check input:checked+label{border-color:var(--blue,#0071e3);background:rgba(0,113,227,.06);color:var(--blue,#0071e3)}
+.dj-profile-request-actions{display:flex;align-items:center;gap:12px;margin-top:20px}
+.dj-profile-request-status{font-size:10px;color:var(--muted,#68737c);line-height:1.4}
+.dj-profile-request-status.success{color:#138a4b}
+.dj-profile-request-status.error{color:#b42318}
+.dj-profile-request-privacy{font-size:9px;color:var(--muted,#68737c);margin-top:12px}
+@media(max-width:680px){
+  .dj-profile-request-modal{padding:12px}
+  .dj-profile-request-panel{border-radius:22px}
+  .dj-profile-request-head{padding:22px 20px 15px}
+  .dj-profile-request-head h2{font-size:25px}
+  .dj-profile-request-form{padding:20px}
+  .dj-profile-request-grid{grid-template-columns:1fr}
+  .dj-profile-request-field.full{grid-column:auto}
+  .dj-profile-request-services{grid-template-columns:1fr}
+  .dj-profile-request-actions{align-items:flex-start;flex-direction:column}
+  .dj-profile-request-submit{width:100%}
+}
+</style>
+
+
+<style id="doctorjet-final-visual-refinement">
+/* ============================================================
+   FINAL VISUAL REFINEMENT
+   Consistent hierarchy, spacing, CTA sizing and responsive fit.
+============================================================ */
+
+html{
+    scroll-padding-top:92px;
+}
+
+img,
+svg,
+video{
+    max-width:100%;
+}
+
+button,
+a,
+input,
+select,
+textarea{
+    -webkit-tap-highlight-color:transparent;
+}
+
+.hero-buttons{
+    align-items:stretch;
+}
+
+.hero-buttons .btn{
+    min-height:48px;
+    line-height:1.2;
+    text-align:center;
+}
+
+.dj-hero-profile-offer{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px 12px;
+    width:max-content;
+    max-width:100%;
+    margin:0 0 16px;
+    padding:9px 13px;
+    border:1px solid rgba(0,113,227,.16);
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(0,113,227,.06),rgba(48,213,200,.055));
+    box-shadow:0 10px 30px rgba(0,0,0,.035);
+}
+
+.dj-offer-kicker{
+    font-size:8px;
+    font-weight:850;
+    letter-spacing:.14em;
+    color:var(--blue);
+}
+
+.dj-hero-profile-offer strong{
+    font-size:14px;
+    letter-spacing:-.025em;
+    color:var(--text-strong);
+}
+
+.dj-offer-detail{
+    font-size:9px;
+    color:var(--muted);
+}
+
+.dj-profile-price-cta{
+    border-color:rgba(48,213,200,.34)!important;
+    background:linear-gradient(135deg,rgba(0,113,227,.08),rgba(48,213,200,.08))!important;
+    color:var(--text-strong)!important;
+    box-shadow:0 10px 28px rgba(0,113,227,.07);
+}
+
+.dj-profile-price-cta strong{
+    color:var(--blue);
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.dj-profile-price-cta:hover{
+    border-color:rgba(48,213,200,.58)!important;
+    background:linear-gradient(135deg,rgba(0,113,227,.13),rgba(48,213,200,.13))!important;
+}
+
+.calc-option{
+    min-height:66px;
+}
+
+.calc-option > div:first-child{
+    min-width:0;
+}
+
+.calc-title{
+    line-height:1.25;
+}
+
+.calc-desc{
+    line-height:1.45;
+}
+
+.calc-check{
+    flex:0 0 auto;
+    min-width:21px;
+}
+
+.calc-option[data-name="DoctorJet profile"]{
+    border-color:rgba(48,213,200,.28);
+    background:linear-gradient(90deg,rgba(48,213,200,.055),transparent);
+}
+
+.calc-option[data-name="DoctorJet profile"] .calc-check{
+    width:auto;
+    min-width:auto;
+    padding:6px 9px;
+    border:1px solid rgba(48,213,200,.28);
+    border-radius:999px;
+    color:var(--blue,#0071e3);
+    background:rgba(48,213,200,.08);
+    font-size:10px;
+    font-weight:850;
+    letter-spacing:.01em;
+}
+
+.calc-result .btn{
+    margin-top:18px;
+    align-self:flex-start;
+}
+
+@media(max-width:1000px){
+    .hero{
+        min-height:auto;
+    }
+
+    .hero-grid{
+        gap:20px;
+    }
+
+    .launch-stage{
+        margin-top:4px;
+    }
+
+    .calc-result{
+        padding-left:0;
+    }
+}
+
+@media(max-width:680px){
+    .hero{
+        padding-top:112px;
+        padding-bottom:54px;
+    }
+
+    .hero h1{
+        line-height:.96;
+        margin-bottom:22px;
+    }
+
+    .hero-description{
+        line-height:1.6;
+        margin-bottom:22px;
+    }
+
+    .dj-hero-profile-offer{
+        width:100%;
+        justify-content:flex-start;
+        gap:6px 9px;
+        margin-bottom:13px;
+    }
+
+    .dj-offer-detail{
+        flex-basis:100%;
+    }
+
+    .hero-buttons{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:9px;
+    }
+
+    .hero-buttons .btn{
+        width:100%;
+        min-height:50px;
+    }
+
+    .dj-profile-price-cta{
+        order:-1;
+    }
+
+    .launch-stage,
+    .dj-ecosystem-stage{
+        height:430px;
+    }
+
+    .calc-options{
+        gap:8px;
+    }
+
+    .calc-option{
+        min-height:70px;
+        padding:14px;
+    }
+
+    .calc-option .calc-desc{
+        font-size:9px;
+    }
+
+    .calc-result{
+        padding-top:28px;
+    }
+
+    .calc-result .btn{
+        width:100%;
+        align-self:stretch;
+    }
+}
+
+@media(max-width:420px){
+    .dj-hero-profile-offer{
+        padding:9px 11px;
+    }
+
+    .dj-offer-kicker{
+        font-size:7px;
+    }
+
+    .dj-hero-profile-offer strong{
+        font-size:13px;
+    }
+
+    .dj-offer-detail{
+        font-size:8px;
+    }
+
+    .hero h1{
+        font-size:clamp(45px,14vw,58px);
+    }
+
+    .container{
+        width:calc(100% - 28px);
+    }
+}
+</style>
+
 </head>
 
 
@@ -4730,7 +5026,7 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
                     <span style="background-image:url(https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=120&q=85)"></span>
                 </div>
                 <div class="dj-proof-copy">
-                    <strong>100+ doctors</strong>
+                    <strong>1000+ doctors, pharmacies, and clinics</strong>
                     <span>are building their digital practice with DoctorJet</span>
                 </div>
             </div>
@@ -4739,7 +5035,7 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 
                 <span class="pulse"></span>
 
-                Digital launch system for doctors
+                Digital launch system for doctors & clinics
 
             </div>
 
@@ -4765,6 +5061,13 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
             </p>
 
 
+            <div class="dj-hero-profile-offer" aria-label="DoctorJet profile pricing">
+                <span class="dj-offer-kicker">DoctorJet PROFILE</span>
+                <strong>₹99/month</strong>
+                <span class="dj-offer-detail">Customisable features · Add-ons available</span>
+            </div>
+
+
             <div class="hero-buttons">
 
                 <a href="#leadModal"
@@ -4783,6 +5086,15 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
                    class="btn btn-secondary">
 
                     Explore DoctorJet
+
+                </a>
+
+                <a href="#doctorProfileRequestModal"
+                   class="btn btn-secondary dj-profile-request-trigger dj-profile-price-cta">
+
+                    <span>Get your DoctorJet profile</span>
+                    <strong>₹99/month</strong>
+                    <span aria-hidden="true">↗</span>
 
                 </a>
 
@@ -4880,7 +5192,7 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
         <div class="dj-card-topline"><span class="dj-status-dot"></span><span>Available online</span><b>Today</b></div>
         <div class="dj-doctor-main">
             <div class="dj-avatar dj-photo-avatar" style="background-image:url(https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=160&q=85)"></div>
-            <div><strong>Dr. Ananya Rao</strong><span>Consultant Psychiatrist</span><small>Online · 4.8 rating</small></div>
+            <div><strong>Dr. Ananya Rao</strong><span>Consultant Dermatologist</span><small>Online · 4.8 rating</small></div>
         </div>
         <div class="dj-doctor-actions"><span>₹800 consultation</span><b>Book</b></div>
     </article>
@@ -5762,6 +6074,35 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
                     <div class="calc-options">
 
 
+                        <div class="calc-option"
+                         data-price="99"
+                         data-name="DoctorJet profile">
+
+                        <div>
+
+                            <div class="calc-title">
+                                DoctorJet profile
+                            </div>
+
+                            <div class="calc-desc">
+                                Doctors · Clinics · Pharmacies · Hospitals · Labs · Nursing officers · Pharmacists & more · Customisable features & add-ons
+                            </div>
+
+                        </div>
+
+                        <div class="calc-check">
+                            ₹99/mo
+                        </div>
+
+                    </div>
+
+                    <div class="calc-check">
+                                FREE
+                            </div>
+
+                        </div>
+
+
                         <div class="calc-option active"
                              data-price="12600"
                              data-name="Professional website">
@@ -5950,7 +6291,7 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 
         </div>
 
-    </div>
+    
 
 </section>
 
@@ -7047,6 +7388,107 @@ document
 
 
 <!-- ============================================================
+     DOCTORJET PROFILE REQUEST MODAL
+============================================================ -->
+<div class="dj-profile-request-modal" id="doctorProfileRequestModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="doctorProfileRequestTitle">
+    <div class="dj-profile-request-panel">
+        <div class="dj-profile-request-head">
+            <div>
+                <div class="dj-profile-request-eyebrow">REQUEST YOUR PROFILE</div>
+                <h2 id="doctorProfileRequestTitle">Get your DoctorJet profile.</h2>
+                <p>Tell us about your healthcare business. The DoctorJet team will review your request and contact you with the next steps.</p>
+            </div>
+            <button type="button" class="dj-profile-request-close" id="doctorProfileRequestClose" aria-label="Close form">×</button>
+        </div>
+
+        <form class="dj-profile-request-form" id="doctorProfileRequestForm" action="about:blank" method="POST" target="doctorProfileRequestSubmitFrame">
+            <input type="hidden" name="Source" value="DoctorJet Website">
+            <input type="hidden" name="Form Type" value="DoctorJet Profile Request">
+            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;padding:0;border:0">
+
+            <div class="dj-profile-request-grid">
+                <div class="dj-profile-request-field full">
+                    <label for="profileEntityType">I am requesting a profile for *</label>
+                    <select id="profileEntityType" name="Profile Type" required>
+                        <option value="" selected disabled>Select one</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Clinic">Clinic</option>
+                        <option value="Pharmacy">Pharmacy</option>
+                        <option value="Hospital">Hospital</option>
+                        <option value="Lab">Lab</option>
+                    </select>
+                </div>
+
+                <div class="dj-profile-request-field">
+                    <label for="profileName">Name / organisation name *</label>
+                    <input id="profileName" name="Name / Organisation" type="text" required autocomplete="name" placeholder="Dr. Your Name / Clinic Name">
+                </div>
+
+                <div class="dj-profile-request-field">
+                    <label for="profileContact">WhatsApp / phone *</label>
+                    <input id="profileContact" name="Phone / WhatsApp" type="tel" required autocomplete="tel" placeholder="+91 XXXXX XXXXX">
+                </div>
+
+                <div class="dj-profile-request-field">
+                    <label for="profileEmail">Email *</label>
+                    <input id="profileEmail" name="Email" type="email" required autocomplete="email" placeholder="you@example.com">
+                </div>
+
+                <div class="dj-profile-request-field">
+                    <label for="profileCity">City *</label>
+                    <input id="profileCity" name="City" type="text" required autocomplete="address-level2" placeholder="Bhubaneswar">
+                </div>
+
+                <div class="dj-profile-request-field" id="profileSpecialtyField">
+                    <label for="profileSpecialty">Specialty / category</label>
+                    <input id="profileSpecialty" name="Specialty / Category" type="text" placeholder="e.g. Neurologist / Retail Pharmacy / Diagnostics">
+                </div>
+
+                <div class="dj-profile-request-field">
+                    <label for="profileWebsite">Existing website</label>
+                    <input id="profileWebsite" name="Existing Website" type="url" placeholder="https://example.com">
+                </div>
+
+                <div class="dj-profile-request-field full">
+                    <label>What would you like? *</label>
+                    <div class="dj-profile-request-services">
+                        <div class="dj-profile-request-check">
+                            <input id="profileServicePage" type="checkbox" name="Services" value="DoctorJet Profile">
+                            <label for="profileServicePage">DoctorJet Profile</label>
+                        </div>
+                        <div class="dj-profile-request-check">
+                            <input id="profileServiceQr" type="checkbox" name="Services" value="QR Code">
+                            <label for="profileServiceQr">QR Code</label>
+                        </div>
+                        <div class="dj-profile-request-check">
+                            <input id="profileServiceBooking" type="checkbox" name="Services" value="Appointment / Booking">
+                            <label for="profileServiceBooking">Appointment / Booking</label>
+                        </div>
+                        <div class="dj-profile-request-check">
+                            <input id="profileServiceWebsite" type="checkbox" name="Services" value="Website">
+                            <label for="profileServiceWebsite">Website</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dj-profile-request-field full">
+                    <label for="profileRequirements">Additional details</label>
+                    <textarea id="profileRequirements" name="Requirements" placeholder="Tell us anything else you want included in the profile."></textarea>
+                </div>
+            </div>
+
+            <div class="dj-profile-request-actions">
+                <button type="submit" class="btn btn-primary dj-profile-request-submit">Request profile <span>↗</span></button>
+                <div class="dj-profile-request-status" id="doctorProfileRequestStatus" aria-live="polite">We’ll send your request to the DoctorJet team.</div>
+            </div>
+            <div class="dj-profile-request-privacy">Your details are used only to process your DoctorJet profile request.</div>
+        </form>
+
+        <iframe name="doctorProfileRequestSubmitFrame" id="doctorProfileRequestSubmitFrame" title="Profile request submission" style="display:none"></iframe>
+    </div>
+</div>
+
+<!-- ============================================================
      DOCTORJET LEAD / SERVICE ENQUIRY MODAL
 ============================================================ -->
 <div class="dj-lead-modal" id="leadModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
@@ -7072,7 +7514,7 @@ document
                 </div>
                 <div class="dj-lead-field">
                     <label for="leadSpecialty">Specialty *</label>
-                    <input id="leadSpecialty" name="Specialty" type="text" required placeholder="e.g. Psychiatry, Cardiology">
+                    <input id="leadSpecialty" name="Specialty" type="text" required placeholder="e.g. Neurology, Dermatology, Cardiology">
                 </div>
                 <div class="dj-lead-field">
                     <label for="leadPhone">WhatsApp / phone *</label>
@@ -7125,6 +7567,143 @@ document
 
 
 
+
+<!-- ============================================================
+     DOCTORJET — DOCTORJET PROFILE REQUEST SUBMISSION
+============================================================ -->
+<script>
+(function () {
+    "use strict";
+
+    var PROFILE_GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJnOKhqH-dr-WAv1qXyABoy_c9OsDunEUYFZjZXUeaWmKrh6-lzp99IZ-TDb_DKN5RQ/exec";
+
+    function initDoctorProfileRequest() {
+        var modal = document.getElementById("doctorProfileRequestModal");
+        var form = document.getElementById("doctorProfileRequestForm");
+        var close = document.getElementById("doctorProfileRequestClose");
+        var status = document.getElementById("doctorProfileRequestStatus");
+        var frame = document.getElementById("doctorProfileRequestSubmitFrame");
+
+        if (!modal || !form) return;
+
+        var submitting = false;
+        var lastFocused = null;
+
+        function openProfileRequest(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            lastFocused = document.activeElement;
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+
+            var entity = document.getElementById("profileEntityType");
+            if (entity) setTimeout(function () { entity.focus(); }, 30);
+        }
+
+        function closeProfileRequest(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            if (submitting) return;
+
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+
+            if (lastFocused && typeof lastFocused.focus === "function") {
+                lastFocused.focus();
+            }
+        }
+
+        document.querySelectorAll(".dj-profile-request-trigger").forEach(function (trigger) {
+            trigger.addEventListener("click", openProfileRequest, false);
+        });
+
+        if (close) close.addEventListener("click", closeProfileRequest, false);
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) closeProfileRequest(event);
+        }, false);
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && modal.classList.contains("open")) {
+                closeProfileRequest(event);
+            }
+        }, false);
+
+        form.addEventListener("submit", function (event) {
+            var services = form.querySelectorAll('input[name="Services"]:checked');
+
+            if (!services.length) {
+                event.preventDefault();
+
+                if (status) {
+                    status.textContent = "Please select at least one requirement.";
+                    status.className = "dj-profile-request-status error";
+                }
+                return;
+            }
+
+            var honeypot = form.querySelector('input[name="website"]');
+            if (honeypot && honeypot.value) {
+                event.preventDefault();
+                return;
+            }
+
+            form.action = PROFILE_GOOGLE_SCRIPT_WEB_APP_URL;
+            submitting = true;
+
+            if (status) {
+                status.textContent = "Submitting your request…";
+                status.className = "dj-profile-request-status";
+            }
+
+            var submit = form.querySelector(".dj-profile-request-submit");
+            if (submit) {
+                submit.disabled = true;
+                submit.style.opacity = ".65";
+                submit.style.pointerEvents = "none";
+            }
+
+            // No preventDefault here: native POST goes to the hidden iframe.
+        }, false);
+
+        if (frame) {
+            frame.addEventListener("load", function () {
+                if (!submitting) return;
+
+                submitting = false;
+
+                if (status) {
+                    status.textContent = "Request submitted successfully. DoctorJet Technical will contact you shortly.";
+                    status.className = "dj-profile-request-status success";
+                }
+
+                var submit = form.querySelector(".dj-profile-request-submit");
+                if (submit) {
+                    submit.disabled = false;
+                    submit.style.opacity = "";
+                    submit.style.pointerEvents = "";
+                }
+
+                form.reset();
+            }, false);
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initDoctorProfileRequest, { once: true });
+    } else {
+        initDoctorProfileRequest();
+    }
+})();
+</script>
 
 <!-- ============================================================
      DOCTORJET — FAST LEAD MODAL + GOOGLE APPS SCRIPT SUBMISSION
