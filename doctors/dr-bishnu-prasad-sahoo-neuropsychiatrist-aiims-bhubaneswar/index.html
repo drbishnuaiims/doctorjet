@@ -2932,7 +2932,7 @@ a {
         <img
             id="doctorPhoto"
             class="doctor-photo"
-            src="./dr-bishnu-prasad-sahoo.png"
+            src="./dr-bishnu-prasad-sahoo.jpeg"
             alt="Doctor"
         >
 
@@ -3928,7 +3928,7 @@ const doctor = {
         "1+ Years",
 
     photo:
-        "./dr-bishnu-prasad-sahoo.png",
+        "./dr-bishnu-prasad-sahoo.jpeg",
 
     about:
         "Dr. Bishnu Prasad Sahoo is a consultant psychiatrist providing evidence-based assessment and treatment for a wide range of mental health conditions. His clinical approach combines careful assessment, personalised treatment planning and long-term follow-up where required.",
@@ -4098,16 +4098,109 @@ document
         doctor.experience;
 
 
-document
-    .getElementById("doctorPhoto")
-    .src =
-        doctor.photo;
+function setDoctorPhotoSource(image, source) {
+
+    const photoPath =
+        source.match(
+            /^(.*)\.(jpg|jpeg|png)$/i
+        );
 
 
-document
-    .getElementById("doctorPhoto")
-    .alt =
-        doctor.name;
+    if (!photoPath) {
+        throw new Error(
+            `Unsupported doctor photo path: ${source}`
+        );
+    }
+
+
+    const basePath =
+        photoPath[1];
+
+    const preferredExtension =
+        photoPath[2].toLowerCase();
+
+    const extensions = [
+        preferredExtension,
+        ...["jpg", "jpeg", "png"].filter(
+            extension =>
+                extension !== preferredExtension
+        )
+    ];
+
+    let nextExtension =
+        1;
+
+
+    function tryNextImageFormat() {
+
+        if (nextExtension >= extensions.length) {
+
+            image.removeEventListener(
+                "error",
+                tryNextImageFormat
+            );
+
+            image.removeEventListener(
+                "load",
+                clearFallback
+            );
+
+            console.error(
+                `Unable to load doctor photo. Tried: ${extensions
+                    .map(extension => `${basePath}.${extension}`)
+                    .join(", ")}`
+            );
+
+            return;
+
+        }
+
+
+        image.src =
+            `${basePath}.${extensions[nextExtension++]}`;
+
+    }
+
+
+    function clearFallback() {
+
+        image.removeEventListener(
+            "error",
+            tryNextImageFormat
+        );
+
+    }
+
+
+    image.addEventListener(
+        "error",
+        tryNextImageFormat
+    );
+
+    image.addEventListener(
+        "load",
+        clearFallback,
+        { once: true }
+    );
+
+    image.src =
+        `${basePath}.${extensions[0]}`;
+
+}
+
+
+const doctorPhoto =
+    document.getElementById("doctorPhoto");
+
+
+doctorPhoto.alt =
+    doctor.name;
+
+
+setDoctorPhotoSource(
+    doctorPhoto,
+    doctor.photo
+);
 
 
 document
