@@ -2825,10 +2825,10 @@ a {
 
 .profile-qr-share-wrap{
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:center;
     gap:14px;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
 }
 
 .profile-share-wrap{
@@ -3005,6 +3005,37 @@ a {
         width:200px;
     }
 }
+
+@media (max-width:900px){
+    .doctor-intro .profile-qr-share-wrap{
+        grid-column:1 / -1;
+        width:100%;
+        align-items:center;
+        justify-content:flex-start;
+        flex-wrap:nowrap;
+    }
+
+    .profile-qr-share-wrap .profile-qr{
+        grid-column:auto;
+        width:auto;
+        flex:0 0 auto;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:0;
+        padding:8px;
+    }
+
+    .profile-qr-share-wrap .qr-label{
+        margin-top:6px;
+        text-align:center;
+    }
+
+    .profile-qr-share-wrap .profile-share-wrap{
+        min-width:0;
+        flex:0 0 auto;
+    }
+}
 </style>
 
 </head>
@@ -3122,7 +3153,7 @@ a {
         <img
             id="doctorPhoto"
             class="doctor-photo"
-            src="./dr-bishnu-prasad-sahoo.png"
+            src="./dr-bishnu-prasad-sahoo.jpeg"
             alt="Doctor"
         >
 
@@ -4177,7 +4208,7 @@ const doctor = {
         "1+ Years",
 
     photo:
-        "./dr-bishnu-prasad-sahoo.png",
+        "./dr-bishnu-prasad-sahoo.jpeg",
 
     about:
         "Dr. Bishnu Prasad Sahoo is a consultant psychiatrist providing evidence-based assessment and treatment for a wide range of mental health conditions. His clinical approach combines careful assessment, personalised treatment planning and long-term follow-up where required.",
@@ -4347,16 +4378,107 @@ document
         doctor.experience;
 
 
-document
-    .getElementById("doctorPhoto")
-    .src =
-        doctor.photo;
+function setDoctorPhotoSource(image, source) {
+
+    const photoPath =
+        source.match(
+            /^(.*)\.(jpg|jpeg|png)$/i
+        );
+
+
+    if (!photoPath) {
+        throw new Error(
+            `Unsupported doctor photo path: ${source}`
+        );
+    }
+
+
+    const basePath =
+        photoPath[1];
+
+    const preferredExtension =
+        photoPath[2].toLowerCase();
+
+    const extensions = [
+        preferredExtension,
+        ...["jpg", "jpeg", "png"].filter(
+            extension =>
+                extension !== preferredExtension
+        )
+    ];
+
+    let nextExtension =
+        1;
+
+
+    function clearFallback() {
+
+        image.removeEventListener(
+            "error",
+            tryNextImageFormat
+        );
+
+    }
+
+
+    function tryNextImageFormat() {
+
+        if (nextExtension >= extensions.length) {
+
+            image.removeEventListener(
+                "error",
+                tryNextImageFormat
+            );
+
+            image.removeEventListener(
+                "load",
+                clearFallback
+            );
+
+            console.error(
+                `Unable to load doctor photo. Tried: ${extensions
+                    .map(extension => `${basePath}.${extension}`)
+                    .join(", ")}`
+            );
+
+            return;
+
+        }
+
+
+        image.src =
+            `${basePath}.${extensions[nextExtension++]}`;
+
+    }
+
+
+    image.addEventListener(
+        "error",
+        tryNextImageFormat
+    );
+
+    image.addEventListener(
+        "load",
+        clearFallback,
+        { once: true }
+    );
+
+    image.src =
+        `${basePath}.${extensions[0]}`;
+
+}
 
 
 document
     .getElementById("doctorPhoto")
     .alt =
         doctor.name;
+
+
+setDoctorPhotoSource(
+    document.getElementById("doctorPhoto"),
+    doctor.photo
+);
 
 
 document
