@@ -4543,8 +4543,8 @@ html[data-theme="dark"] .dj-discovery-avatars span{border-color:#1c1c1e}
 @keyframes djMobileSearchFloat{0%,100%{transform:translateX(50%) translateY(0)}50%{transform:translateX(50%) translateY(-6px)}}
 @media(prefers-reduced-motion:reduce){.dj-ecosystem-stage *{animation:none!important}.dj-search-window{transform:none}}
 
-/* Free DoctorJet profile option */
-.calc-option[data-name="Free DoctorJet profile"] .calc-check{
+/* DoctorJet profile pricing */
+.calc-option[data-name="DoctorJet profile"] .calc-check{
     color:var(--cyan,#65f2e1);
     font-weight:800;
     letter-spacing:.04em;
@@ -4667,6 +4667,251 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
   .dj-profile-request-services{grid-template-columns:1fr}
   .dj-profile-request-actions{align-items:flex-start;flex-direction:column}
   .dj-profile-request-submit{width:100%}
+}
+</style>
+
+
+<style id="doctorjet-final-visual-refinement">
+/* ============================================================
+   FINAL VISUAL REFINEMENT
+   Consistent hierarchy, spacing, CTA sizing and responsive fit.
+============================================================ */
+
+html{
+    scroll-padding-top:92px;
+}
+
+img,
+svg,
+video{
+    max-width:100%;
+}
+
+button,
+a,
+input,
+select,
+textarea{
+    -webkit-tap-highlight-color:transparent;
+}
+
+.hero-buttons{
+    align-items:stretch;
+}
+
+.hero-buttons .btn{
+    min-height:48px;
+    line-height:1.2;
+    text-align:center;
+}
+
+.dj-hero-profile-offer{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px 12px;
+    width:max-content;
+    max-width:100%;
+    margin:0 0 16px;
+    padding:9px 13px;
+    border:1px solid rgba(0,113,227,.16);
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(0,113,227,.06),rgba(48,213,200,.055));
+    box-shadow:0 10px 30px rgba(0,0,0,.035);
+}
+
+.dj-offer-kicker{
+    font-size:8px;
+    font-weight:850;
+    letter-spacing:.14em;
+    color:var(--blue);
+}
+
+.dj-hero-profile-offer strong{
+    font-size:14px;
+    letter-spacing:-.025em;
+    color:var(--text-strong);
+}
+
+.dj-offer-detail{
+    font-size:9px;
+    color:var(--muted);
+}
+
+.dj-profile-price-cta{
+    border-color:rgba(48,213,200,.34)!important;
+    background:linear-gradient(135deg,rgba(0,113,227,.08),rgba(48,213,200,.08))!important;
+    color:var(--text-strong)!important;
+    box-shadow:0 10px 28px rgba(0,113,227,.07);
+}
+
+.dj-profile-price-cta strong{
+    color:var(--blue);
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.dj-profile-price-cta:hover{
+    border-color:rgba(48,213,200,.58)!important;
+    background:linear-gradient(135deg,rgba(0,113,227,.13),rgba(48,213,200,.13))!important;
+}
+
+.calc-option{
+    min-height:66px;
+}
+
+.calc-option > div:first-child{
+    min-width:0;
+}
+
+.calc-title{
+    line-height:1.25;
+}
+
+.calc-desc{
+    line-height:1.45;
+}
+
+.calc-check{
+    flex:0 0 auto;
+    min-width:21px;
+}
+
+.calc-option[data-name="DoctorJet profile"]{
+    border-color:rgba(48,213,200,.28);
+    background:linear-gradient(90deg,rgba(48,213,200,.055),transparent);
+}
+
+.calc-option[data-name="DoctorJet profile"] .calc-check{
+    width:auto;
+    min-width:auto;
+    padding:6px 9px;
+    border:1px solid rgba(48,213,200,.28);
+    border-radius:999px;
+    color:var(--blue,#0071e3);
+    background:rgba(48,213,200,.08);
+    font-size:10px;
+    font-weight:850;
+    letter-spacing:.01em;
+}
+
+.calc-result .btn{
+    margin-top:18px;
+    align-self:flex-start;
+}
+
+@media(max-width:1000px){
+    .hero{
+        min-height:auto;
+    }
+
+    .hero-grid{
+        gap:20px;
+    }
+
+    .launch-stage{
+        margin-top:4px;
+    }
+
+    .calc-result{
+        padding-left:0;
+    }
+}
+
+@media(max-width:680px){
+    .hero{
+        padding-top:112px;
+        padding-bottom:54px;
+    }
+
+    .hero h1{
+        line-height:.96;
+        margin-bottom:22px;
+    }
+
+    .hero-description{
+        line-height:1.6;
+        margin-bottom:22px;
+    }
+
+    .dj-hero-profile-offer{
+        width:100%;
+        justify-content:flex-start;
+        gap:6px 9px;
+        margin-bottom:13px;
+    }
+
+    .dj-offer-detail{
+        flex-basis:100%;
+    }
+
+    .hero-buttons{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:9px;
+    }
+
+    .hero-buttons .btn{
+        width:100%;
+        min-height:50px;
+    }
+
+    .dj-profile-price-cta{
+        order:-1;
+    }
+
+    .launch-stage,
+    .dj-ecosystem-stage{
+        height:430px;
+    }
+
+    .calc-options{
+        gap:8px;
+    }
+
+    .calc-option{
+        min-height:70px;
+        padding:14px;
+    }
+
+    .calc-option .calc-desc{
+        font-size:9px;
+    }
+
+    .calc-result{
+        padding-top:28px;
+    }
+
+    .calc-result .btn{
+        width:100%;
+        align-self:stretch;
+    }
+}
+
+@media(max-width:420px){
+    .dj-hero-profile-offer{
+        padding:9px 11px;
+    }
+
+    .dj-offer-kicker{
+        font-size:7px;
+    }
+
+    .dj-hero-profile-offer strong{
+        font-size:13px;
+    }
+
+    .dj-offer-detail{
+        font-size:8px;
+    }
+
+    .hero h1{
+        font-size:clamp(45px,14vw,58px);
+    }
+
+    .container{
+        width:calc(100% - 28px);
+    }
 }
 </style>
 
@@ -4816,6 +5061,13 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
             </p>
 
 
+            <div class="dj-hero-profile-offer" aria-label="DoctorJet profile pricing">
+                <span class="dj-offer-kicker">DOCTORJET PROFILE</span>
+                <strong>₹99/month</strong>
+                <span class="dj-offer-detail">Customisable features · Add-ons available</span>
+            </div>
+
+
             <div class="hero-buttons">
 
                 <a href="#leadModal"
@@ -4838,11 +5090,11 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
                 </a>
 
                 <a href="#doctorProfileRequestModal"
-                   class="btn btn-secondary dj-profile-request-trigger">
+                   class="btn btn-secondary dj-profile-request-trigger dj-profile-price-cta">
 
-                    Request your DoctorJet profile
-
-                    <span>↗</span>
+                    <span>Get your DoctorJet profile</span>
+                    <strong>₹99/month</strong>
+                    <span aria-hidden="true">↗</span>
 
                 </a>
 
@@ -5823,22 +6075,28 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 
 
                         <div class="calc-option"
-                             data-price="0"
-                             data-name="Free DoctorJet profile">
+                         data-price="99"
+                         data-name="DoctorJet profile">
 
-                            <div>
+                        <div>
 
-                                <div class="calc-title">
-                                    Free DoctorJet profile
-                                </div>
-
-                                <div class="calc-desc">
-                                    Doctors · Clinics · Pharmacies · Hospitals · Labs · Nursing officers · Pharmacists & more
-                                </div>
-
+                            <div class="calc-title">
+                                DoctorJet profile
                             </div>
 
-                            <div class="calc-check">
+                            <div class="calc-desc">
+                                Doctors · Clinics · Pharmacies · Hospitals · Labs · Nursing officers · Pharmacists & more · Customisable features & add-ons
+                            </div>
+
+                        </div>
+
+                        <div class="calc-check">
+                            ₹99/mo
+                        </div>
+
+                    </div>
+
+                    <div class="calc-check">
                                 FREE
                             </div>
 
@@ -6033,7 +6291,7 @@ html[data-theme="dark"] .dj-chat-phone{background:#152019!important;color:#f5f5f
 
         </div>
 
-    </div>
+    
 
 </section>
 
