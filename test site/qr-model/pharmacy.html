@@ -1,0 +1,3973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet | Apollo Pharmacy Bhubaneswar</title>
+
+<style>
+
+/* =========================================================
+   DOCTORJET PHARMACY
+   COMPLETE PATIENT-FACING PHARMACY MOCK
+   ========================================================= */
+
+:root{
+    --bg:#f5f5f7;
+    --white:#ffffff;
+    --black:#111111;
+    --text:#1d1d1f;
+    --muted:#6e6e73;
+    --line:#e5e5e7;
+    --blue:#0071e3;
+    --blue-light:#eaf4ff;
+    --green:#22a447;
+    --green-light:#eaf8ef;
+    --orange:#f59e0b;
+    --red:#d93025;
+    --shadow:0 12px 40px rgba(0,0,0,.07);
+    --radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Segoe UI",
+    sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.45;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    height:70px;
+
+    background:rgba(255,255,255,.86);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.nav-inner{
+    max-width:1180px;
+    height:100%;
+    margin:auto;
+
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:-.5px;
+}
+
+.logo-mark{
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    background:#111;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+    font-weight:800;
+}
+
+.nav-center{
+    display:flex;
+    gap:25px;
+
+    font-size:13px;
+    color:#666;
+}
+
+.nav-center a:hover{
+    color:#111;
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-button{
+    width:38px;
+    height:38px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#f0f0f2;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+}
+
+/* =========================================================
+   COMMON
+   ========================================================= */
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:0 20px;
+}
+
+.btn{
+    border:none;
+    border-radius:999px;
+
+    padding:11px 19px;
+
+    font-size:13px;
+    font-weight:600;
+
+    transition:.2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:#111;
+    color:#fff;
+}
+
+.btn-blue{
+    background:var(--blue);
+    color:white;
+}
+
+.btn-light{
+    background:#f1f1f3;
+    color:#111;
+}
+
+.btn-white{
+    background:white;
+    color:#111;
+}
+
+.section{
+    padding:55px 0;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+
+    margin-bottom:25px;
+}
+
+.section-title{
+    font-size:28px;
+    letter-spacing:-1px;
+}
+
+.section-subtitle{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:5px;
+}
+
+/* =========================================================
+   PHARMACY HERO
+   ========================================================= */
+
+.pharmacy-hero{
+    padding:35px 0 25px;
+}
+
+.pharmacy-card{
+    background:white;
+    border:1px solid var(--line);
+    border-radius:30px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+}
+
+.pharmacy-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    gap:25px;
+}
+
+.pharmacy-identity{
+    display:flex;
+    gap:18px;
+    align-items:center;
+}
+
+.pharmacy-logo{
+    width:82px;
+    height:82px;
+
+    border-radius:24px;
+
+    background:#111;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:29px;
+    font-weight:800;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.pharmacy-name{
+    font-size:29px;
+    font-weight:700;
+    letter-spacing:-1px;
+}
+
+.verified{
+    color:var(--blue);
+    font-size:12px;
+    font-weight:600;
+
+    margin-top:4px;
+}
+
+.location{
+    color:#777;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    background:var(--green-light);
+    color:var(--green);
+
+    border-radius:999px;
+
+    padding:6px 10px;
+
+    font-size:11px;
+    font-weight:600;
+
+    margin-top:10px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    background:var(--green);
+    border-radius:50%;
+}
+
+.qr-box{
+    text-align:center;
+}
+
+.qr{
+    width:100px;
+    height:100px;
+
+    background:
+    linear-gradient(90deg,#111 8px,transparent 8px)
+    0 0/18px 18px,
+
+    linear-gradient(#111 8px,transparent 8px)
+    0 0/18px 18px,
+
+    #fff;
+
+    border:8px solid white;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+    margin:auto;
+}
+
+.qr-label{
+    font-size:10px;
+    color:#888;
+    margin-top:7px;
+}
+
+/* =========================================================
+   HERO SERVICES
+   ========================================================= */
+
+.service-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:28px;
+}
+
+.service-card{
+    border:1px solid var(--line);
+    background:#fafafa;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.service-card:hover{
+    background:#fff;
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+.service-icon{
+    width:45px;
+    height:45px;
+
+    border-radius:14px;
+
+    background:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+
+    margin-bottom:14px;
+}
+
+.service-card h3{
+    font-size:15px;
+}
+
+.service-card p{
+    color:#777;
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-wrapper{
+    margin-top:22px;
+}
+
+.search{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    padding:14px 18px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.search input{
+    border:none;
+    outline:none;
+
+    width:100%;
+
+    background:transparent;
+
+    font-size:14px;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:18px;
+}
+
+.quick{
+    background:white;
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    padding:17px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    cursor:pointer;
+}
+
+.quick-icon{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    background:#f1f1f3;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.quick strong{
+    display:block;
+    font-size:13px;
+}
+
+.quick span{
+    font-size:10px;
+    color:#888;
+}
+
+/* =========================================================
+   PROMOTIONAL BANNER
+   ========================================================= */
+
+.promo{
+    background:#111;
+    color:white;
+
+    border-radius:28px;
+
+    padding:30px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.promo:after{
+    content:"";
+    position:absolute;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    right:-130px;
+    top:-130px;
+
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.promo h2{
+    font-size:25px;
+    letter-spacing:-.7px;
+}
+
+.promo p{
+    color:#aaa;
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* =========================================================
+   DOCTOR SECTION
+   ========================================================= */
+
+.doctor-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.doctor-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:23px;
+
+    padding:21px;
+}
+
+.doctor-header{
+    display:flex;
+    gap:13px;
+}
+
+.doctor-avatar{
+    width:55px;
+    height:55px;
+
+    border-radius:17px;
+
+    background:#e9e9eb;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:700;
+}
+
+.doctor-card h3{
+    font-size:16px;
+}
+
+.doctor-speciality{
+    color:#777;
+    font-size:12px;
+}
+
+.doctor-rating{
+    color:#777;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.doctor-details{
+    margin-top:18px;
+
+    border-top:1px solid var(--line);
+
+    padding-top:15px;
+}
+
+.doctor-row{
+    display:flex;
+    justify-content:space-between;
+
+    font-size:11px;
+
+    margin-bottom:8px;
+}
+
+.doctor-row span:first-child{
+    color:#888;
+}
+
+.doctor-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.doctor-actions button{
+    flex:1;
+}
+
+/* =========================================================
+   LAB SECTION
+   ========================================================= */
+
+.lab-layout{
+    display:grid;
+    grid-template-columns:
+    1.2fr .8fr;
+
+    gap:15px;
+}
+
+.lab-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:24px;
+
+    padding:23px;
+}
+
+.lab-list{
+    margin-top:15px;
+}
+
+.lab-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:14px 0;
+
+    border-bottom:1px solid var(--line);
+}
+
+.lab-row:last-child{
+    border-bottom:none;
+}
+
+.lab-name strong{
+    display:block;
+    font-size:13px;
+}
+
+.lab-name span{
+    color:#888;
+    font-size:10px;
+}
+
+.lab-price{
+    font-weight:600;
+    font-size:13px;
+}
+
+/* =========================================================
+   MEDICINE SECTION
+   ========================================================= */
+
+.medicine-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.medicine-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:22px;
+
+    padding:20px;
+}
+
+.medicine-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.medicine-category{
+    font-size:10px;
+    background:#f1f1f3;
+
+    padding:5px 8px;
+
+    border-radius:999px;
+}
+
+.medicine-card h3{
+    margin-top:15px;
+
+    font-size:15px;
+}
+
+.generic{
+    color:#777;
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+.price-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-top:15px;
+}
+
+.price{
+    font-size:17px;
+    font-weight:700;
+}
+
+.stock{
+    font-size:10px;
+    color:var(--green);
+}
+
+.alt{
+    margin-top:12px;
+
+    color:var(--blue);
+
+    font-size:10px;
+
+    cursor:pointer;
+}
+
+.medicine-card .btn{
+    width:100%;
+    margin-top:15px;
+}
+
+/* =========================================================
+   PRESCRIPTION
+   ========================================================= */
+
+.prescription{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:25px;
+
+    padding:28px;
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:40px;
+
+    align-items:center;
+}
+
+.prescription h2{
+    font-size:26px;
+}
+
+.prescription p{
+    color:#777;
+    font-size:13px;
+
+    margin-top:8px;
+}
+
+.upload-box{
+    border:2px dashed #d5d5d7;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    cursor:pointer;
+}
+
+.upload-icon{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.upload-box strong{
+    display:block;
+    font-size:13px;
+}
+
+.upload-box span{
+    color:#888;
+    font-size:10px;
+}
+
+/* =========================================================
+   DELIVERY
+   ========================================================= */
+
+.delivery-grid{
+    display:grid;
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:15px;
+}
+
+.delivery-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:23px;
+
+    padding:24px;
+
+    display:flex;
+    gap:15px;
+}
+
+.delivery-icon{
+    width:48px;
+    height:48px;
+
+    border-radius:15px;
+
+    background:#f1f1f3;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+}
+
+.delivery-card h3{
+    font-size:15px;
+}
+
+.delivery-card p{
+    color:#777;
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+/* =========================================================
+   PHARMACY INFO
+   ========================================================= */
+
+.info-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:15px;
+}
+
+.info-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:23px;
+
+    padding:23px;
+}
+
+.info-card h3{
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.info-card p{
+    color:#777;
+    font-size:12px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+    margin-top:30px;
+
+    background:#111;
+
+    color:white;
+
+    padding:45px 0;
+}
+
+.footer-inner{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+.footer-logo{
+    font-size:20px;
+    font-weight:700;
+}
+
+.footer p{
+    color:#888;
+    font-size:11px;
+    margin-top:7px;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    backdrop-filter:blur(12px);
+
+    z-index:3000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:520px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:28px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    font-size:23px;
+}
+
+.close{
+    border:none;
+
+    width:34px;
+    height:34px;
+
+    border-radius:50%;
+
+    background:#f1f1f3;
+
+    font-size:18px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+
+    font-size:11px;
+
+    color:#777;
+
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:13px;
+
+    outline:none;
+
+    background:white;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:12px;
+}
+
+.mode-grid{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:10px;
+}
+
+.mode{
+    border:1px solid #ddd;
+
+    border-radius:14px;
+
+    padding:13px;
+
+    text-align:center;
+
+    font-size:12px;
+
+    cursor:pointer;
+}
+
+.mode.selected{
+    background:#111;
+    color:white;
+    border-color:#111;
+}
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+.cart{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:1500;
+
+    background:#111;
+
+    color:white;
+
+    border-radius:999px;
+
+    padding:13px 19px;
+
+    display:none;
+
+    align-items:center;
+
+    gap:12px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+    cursor:pointer;
+}
+
+.cart.show{
+    display:flex;
+}
+
+.cart-count{
+    width:24px;
+    height:24px;
+
+    background:white;
+
+    color:#111;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    transform:
+    translate(-50%,100px);
+
+    background:#111;
+    color:white;
+
+    padding:13px 20px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    opacity:0;
+
+    z-index:5000;
+
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+    translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:900px){
+
+    .nav-center{
+        display:none;
+    }
+
+    .service-grid,
+    .quick-actions{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .doctor-grid,
+    .medicine-grid{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .lab-layout,
+    .prescription,
+    .delivery-grid{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .pharmacy-top{
+        flex-direction:column;
+    }
+
+    .qr-box{
+        margin-left:auto;
+    }
+
+    .service-grid,
+    .quick-actions,
+    .doctor-grid,
+    .medicine-grid,
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .pharmacy-name{
+        font-size:23px;
+    }
+
+    .section{
+        padding:40px 0;
+    }
+
+    .promo{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+     ========================================================= -->
+
+<nav class="navbar">
+
+<div class="nav-inner">
+
+<div class="logo">
+
+<div class="logo-mark">
+    J
+</div>
+
+DoctorJet
+
+</div>
+
+
+<div class="nav-center">
+
+<a href="#services">
+    Services
+</a>
+
+<a href="#doctors">
+    Doctors
+</a>
+
+<a href="#labs">
+    Labs
+</a>
+
+<a href="#medicines">
+    Pharmacy
+</a>
+
+<a href="#about">
+    About
+</a>
+
+</div>
+
+
+<div class="nav-actions">
+
+<button
+class="icon-button"
+onclick="showToast('Share link copied')">
+    ↗
+</button>
+
+<button
+class="icon-button"
+onclick="openCart()">
+    🛒
+</button>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     PHARMACY HERO
+     ========================================================= -->
+
+<main>
+
+<section class="pharmacy-hero">
+
+<div class="container">
+
+<div class="pharmacy-card">
+
+<div class="pharmacy-top">
+
+
+<div class="pharmacy-identity">
+
+<div class="pharmacy-logo">
+    AP
+</div>
+
+
+<div>
+
+<div class="pharmacy-name">
+    Apollo Pharmacy
+</div>
+
+<div class="verified">
+    ✓ Verified DoctorJet Business
+</div>
+
+<div class="location">
+    Patia • Bhubaneswar • Odisha
+</div>
+
+<div class="status">
+
+<span class="status-dot"></span>
+
+Open now • Closes at 10:00 PM
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="qr-box">
+
+<div class="qr"></div>
+
+<div class="qr-label">
+    Scan to access this pharmacy
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     SERVICE CARDS
+     ===================================================== -->
+
+<div class="service-grid" id="services">
+
+
+<div
+class="service-card"
+onclick="scrollToSection('doctors')">
+
+<div class="service-icon">
+    +
+</div>
+
+<h3>
+    Doctor Appointment
+</h3>
+
+<p>
+    Book in-person or online consultation
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="scrollToSection('labs')">
+
+<div class="service-icon">
+    ◉
+</div>
+
+<h3>
+    Lab Tests
+</h3>
+
+<p>
+    Tests, home collection & onsite
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="scrollToSection('medicines')">
+
+<div class="service-icon">
+    Rx
+</div>
+
+<h3>
+    Medicines
+</h3>
+
+<p>
+    Search, compare & request medicines
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="openPrescription()">
+
+<div class="service-icon">
+    ↑
+</div>
+
+<h3>
+    Upload Prescription
+</h3>
+
+<p>
+    Send your prescription to pharmacy
+</p>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     SEARCH
+     ===================================================== -->
+
+<div class="search-wrapper">
+
+<div class="search">
+
+<span>
+    ⌕
+</span>
+
+<input
+id="globalSearch"
+placeholder="Search medicines, doctors, tests or services..."
+onkeyup="globalSearch(this.value)"
+>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     QUICK ACTIONS
+     ===================================================== -->
+
+<div class="quick-actions">
+
+<div
+class="quick"
+onclick="openPrescription()">
+
+<div class="quick-icon">
+    ↑
+</div>
+
+<div>
+
+<strong>
+    Prescription
+</strong>
+
+<span>
+    Upload & order
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="scrollToSection('doctors')">
+
+<div class="quick-icon">
+    +
+</div>
+
+<div>
+
+<strong>
+    Doctors
+</strong>
+
+<span>
+    Book consultation
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="scrollToSection('labs')">
+
+<div class="quick-icon">
+    ◉
+</div>
+
+<div>
+
+<strong>
+    Lab Tests
+</strong>
+
+<span>
+    Book diagnostic test
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="openWhatsApp()">
+
+<div class="quick-icon">
+    ☎
+</div>
+
+<div>
+
+<strong>
+    WhatsApp
+</strong>
+
+<span>
+    Talk to pharmacy
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROMO
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="promo">
+
+<div>
+
+<h2>
+    Upload your prescription.
+    We'll take care of the rest.
+</h2>
+
+<p>
+    Send your prescription, choose delivery or pickup,
+    and receive confirmation from the pharmacy.
+</p>
+
+</div>
+
+<button
+class="btn btn-white"
+onclick="openPrescription()">
+
+Upload Prescription
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DOCTORS
+     ========================================================= -->
+
+<section class="section" id="doctors">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Doctors at this pharmacy
+</h2>
+
+<p class="section-subtitle">
+    Consult specialists available through this location.
+</p>
+
+</div>
+
+<button
+class="btn btn-light"
+onclick="showToast('Showing all doctors')">
+
+View all
+
+</button>
+
+</div>
+
+
+<div class="doctor-grid">
+
+
+<!-- DOCTOR 1 -->
+
+<div class="doctor-card doctor-search-item">
+
+<div class="doctor-header">
+
+<div class="doctor-avatar">
+    RS
+</div>
+
+<div>
+
+<h3>
+    Dr. Rahul Sharma
+</h3>
+
+<div class="doctor-speciality">
+    General Physician
+</div>
+
+<div class="doctor-rating">
+    ★ 4.9 • 10+ years
+</div>
+
+</div>
+
+</div>
+
+
+<div class="doctor-details">
+
+<div class="doctor-row">
+
+<span>
+    Availability
+</span>
+
+<strong>
+    Mon • Wed • Fri
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Time
+</span>
+
+<strong>
+    5 PM – 8 PM
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Consultation
+</span>
+
+<strong>
+    ₹500
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="doctor-actions">
+
+<button
+class="btn btn-primary"
+onclick="openDoctorBooking('Dr. Rahul Sharma')">
+
+Book
+
+</button>
+
+<button
+class="btn btn-light"
+onclick="showToast('Doctor profile opened')">
+
+Profile
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DOCTOR 2 -->
+
+<div class="doctor-card doctor-search-item">
+
+<div class="doctor-header">
+
+<div class="doctor-avatar">
+    AM
+</div>
+
+<div>
+
+<h3>
+    Dr. Ananya Mohanty
+</h3>
+
+<div class="doctor-speciality">
+    Dermatologist
+</div>
+
+<div class="doctor-rating">
+    ★ 4.8 • 8+ years
+</div>
+
+</div>
+
+</div>
+
+
+<div class="doctor-details">
+
+<div class="doctor-row">
+
+<span>
+    Availability
+</span>
+
+<strong>
+    Tue • Thu • Sat
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Time
+</span>
+
+<strong>
+    4 PM – 7 PM
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Consultation
+</span>
+
+<strong>
+    ₹700
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="doctor-actions">
+
+<button
+class="btn btn-primary"
+onclick="openDoctorBooking('Dr. Ananya Mohanty')">
+
+Book
+
+</button>
+
+<button
+class="btn btn-light"
+onclick="showToast('Doctor profile opened')">
+
+Profile
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DOCTOR 3 -->
+
+<div class="doctor-card doctor-search-item">
+
+<div class="doctor-header">
+
+<div class="doctor-avatar">
+    SP
+</div>
+
+<div>
+
+<h3>
+    Dr. S. Pradhan
+</h3>
+
+<div class="doctor-speciality">
+    Psychiatrist
+</div>
+
+<div class="doctor-rating">
+    ★ 4.9 • 12+ years
+</div>
+
+</div>
+
+</div>
+
+
+<div class="doctor-details">
+
+<div class="doctor-row">
+
+<span>
+    Availability
+</span>
+
+<strong>
+    Mon • Thu • Sat
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Time
+</span>
+
+<strong>
+    6 PM – 9 PM
+</strong>
+
+</div>
+
+<div class="doctor-row">
+
+<span>
+    Consultation
+</span>
+
+<strong>
+    ₹800
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="doctor-actions">
+
+<button
+class="btn btn-primary"
+onclick="openDoctorBooking('Dr. S. Pradhan')">
+
+Book
+
+</button>
+
+<button
+class="btn btn-light"
+onclick="showToast('Doctor profile opened')">
+
+Profile
+
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LAB SERVICES
+     ========================================================= -->
+
+<section class="section" id="labs">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Lab services
+</h2>
+
+<p class="section-subtitle">
+    Select tests and choose where your sample is collected.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="lab-layout">
+
+
+<div class="lab-card">
+
+<h3>
+    Popular tests
+</h3>
+
+<div class="lab-list">
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Complete Blood Count
+</strong>
+
+<span>
+    CBC
+</span>
+
+</div>
+
+<div class="lab-price">
+    ₹250
+</div>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    HbA1c
+</strong>
+
+<span>
+    Diabetes monitoring
+</span>
+
+</div>
+
+<div class="lab-price">
+    ₹450
+</div>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Lipid Profile
+</strong>
+
+<span>
+    Cholesterol screening
+</span>
+
+</div>
+
+<div class="lab-price">
+    ₹600
+</div>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Thyroid Profile
+</strong>
+
+<span>
+    T3 + T4 + TSH
+</span>
+
+</div>
+
+<div class="lab-price">
+    ₹650
+</div>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Vitamin D
+</strong>
+
+<span>
+    25-OH Vitamin D
+</span>
+
+</div>
+
+<div class="lab-price">
+    ₹800
+</div>
+
+</div>
+
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="openLabBooking()">
+
+Book Lab Tests
+
+</button>
+
+</div>
+
+
+<div class="lab-card">
+
+<h3>
+    Partner laboratories
+</h3>
+
+<div class="lab-list">
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Dr. Lal PathLabs
+</strong>
+
+<span>
+    Home + onsite collection
+</span>
+
+</div>
+
+<span>
+    ✓
+</span>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Metropolis
+</strong>
+
+<span>
+    Home collection available
+</span>
+
+</div>
+
+<span>
+    ✓
+</span>
+
+</div>
+
+
+<div class="lab-row">
+
+<div class="lab-name">
+
+<strong>
+    Thyrocare
+</strong>
+
+<span>
+    Home collection
+</span>
+
+</div>
+
+<span>
+    ✓
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MEDICINES
+     ========================================================= -->
+
+<section class="section" id="medicines">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Pharmacy
+</h2>
+
+<p class="section-subtitle">
+    Search medicines, compare alternatives and request delivery.
+</p>
+
+</div>
+
+<button
+class="btn btn-light"
+onclick="openPrescription()">
+
+Upload Prescription
+
+</button>
+
+</div>
+
+
+<div class="medicine-grid">
+
+
+<!-- MEDICINE 1 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Antibiotic
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    Augmentin 625 Duo
+</h3>
+
+<div class="generic">
+    Amoxicillin 500 mg + Clavulanic Acid 125 mg
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹212
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('Augmentin 625 Duo')">
+
+View 4 alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('Augmentin 625 Duo',212)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+<!-- MEDICINE 2 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Gastric
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    Pantop 40
+</h3>
+
+<div class="generic">
+    Pantoprazole 40 mg
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹120
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('Pantop 40')">
+
+View 6 alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('Pantop 40',120)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+<!-- MEDICINE 3 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Cardiac
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    Atorva 10
+</h3>
+
+<div class="generic">
+    Atorvastatin 10 mg
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹98
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('Atorva 10')">
+
+View 8 alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('Atorva 10',98)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+<!-- MEDICINE 4 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Diabetes
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    Glycomet GP 1
+</h3>
+
+<div class="generic">
+    Metformin + Glimepiride
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹145
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('Glycomet GP 1')">
+
+View alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('Glycomet GP 1',145)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+<!-- MEDICINE 5 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Vitamin
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    D3 60K
+</h3>
+
+<div class="generic">
+    Cholecalciferol 60,000 IU
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹95
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('D3 60K')">
+
+View alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('D3 60K',95)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+<!-- MEDICINE 6 -->
+
+<div class="medicine-card medicine-search-item">
+
+<div class="medicine-top">
+
+<span class="medicine-category">
+    Allergy
+</span>
+
+<span class="stock">
+    ● In stock
+</span>
+
+</div>
+
+<h3>
+    Levocetirizine 5 mg
+</h3>
+
+<div class="generic">
+    Levocetirizine
+</div>
+
+<div class="price-row">
+
+<div class="price">
+    ₹42
+</div>
+
+</div>
+
+<div
+class="alt"
+onclick="showAlternatives('Levocetirizine')">
+
+View alternate brands →
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addMedicine('Levocetirizine 5 mg',42)">
+
+Add to request
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRESCRIPTION
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="prescription">
+
+<div>
+
+<h2>
+    Have a prescription?
+</h2>
+
+<p>
+    Upload your prescription and the pharmacy can
+    prepare your medicines before you arrive or deliver
+    them to your address.
+</p>
+
+<button
+class="btn btn-primary"
+style="margin-top:20px"
+onclick="openPrescription()">
+
+Upload Prescription
+
+</button>
+
+</div>
+
+
+<div
+class="upload-box"
+onclick="openPrescription()">
+
+<div class="upload-icon">
+    ↑
+</div>
+
+<strong>
+    Upload prescription
+</strong>
+
+<span>
+    JPG, PNG or PDF • Secure request
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DELIVERY
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Get your medicines your way
+</h2>
+
+<p class="section-subtitle">
+    Choose delivery or collect directly from the pharmacy.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="delivery-grid">
+
+
+<div class="delivery-card">
+
+<div class="delivery-icon">
+    ↗
+</div>
+
+<div>
+
+<h3>
+    Home delivery
+</h3>
+
+<p>
+    Request delivery to your registered address.
+    Delivery availability depends on location.
+</p>
+
+<button
+class="btn btn-light"
+style="margin-top:12px"
+onclick="openCheckout('Home delivery')">
+
+Choose delivery
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="delivery-card">
+
+<div class="delivery-icon">
+    ⌂
+</div>
+
+<div>
+
+<h3>
+    Self pickup
+</h3>
+
+<p>
+    Place your request and collect your medicines
+    from this pharmacy.
+</p>
+
+<button
+class="btn btn-light"
+style="margin-top:12px"
+onclick="openCheckout('Self pickup')">
+
+Choose pickup
+
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PHARMACY INFORMATION
+     ========================================================= -->
+
+<section class="section" id="about">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Pharmacy information
+</h2>
+
+</div>
+
+</div>
+
+
+<div class="info-grid">
+
+
+<div class="info-card">
+
+<h3>
+    Opening hours
+</h3>
+
+<p>
+    Monday – Sunday<br>
+    8:00 AM – 10:00 PM
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>
+    Address
+</h3>
+
+<p>
+    Patia Main Road,<br>
+    Bhubaneswar, Odisha
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>
+    Contact
+</h3>
+
+<p>
+    Pharmacy desk<br>
+    WhatsApp enabled<br>
+    +91 XXXXX XXXXX
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-inner">
+
+<div>
+
+<div class="footer-logo">
+    DoctorJet
+</div>
+
+<p>
+    The digital identity layer for healthcare businesses.
+</p>
+
+</div>
+
+
+<div>
+
+<p>
+    DoctorJet Business
+</p>
+
+<p>
+    Powered by DoctorJet
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     CART
+     ========================================================= -->
+
+<div
+class="cart"
+id="cart"
+onclick="openCart()">
+
+<span>
+    Medicine request
+</span>
+
+<div
+class="cart-count"
+id="cartCount">
+    0
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     DOCTOR BOOKING MODAL
+     ========================================================= -->
+
+<div class="modal" id="doctorModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Book appointment
+</h2>
+
+<button
+class="close"
+onclick="closeModal('doctorModal')">
+    ×
+</button>
+
+</div>
+
+
+<p
+id="selectedDoctor"
+style="
+font-size:13px;
+color:#777;
+margin-bottom:20px;
+">
+</p>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+id="doctorPatient"
+placeholder="Enter full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+id="doctorPhone"
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>
+    Date
+</label>
+
+<input type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Time
+</label>
+
+<select>
+
+<option>
+    5:00 PM
+</option>
+
+<option>
+    5:30 PM
+</option>
+
+<option>
+    6:00 PM
+</option>
+
+<option>
+    6:30 PM
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Consultation mode
+</label>
+
+<div class="mode-grid">
+
+<div
+class="mode selected"
+onclick="selectMode(this)">
+
+In-person
+
+</div>
+
+<div
+class="mode"
+onclick="selectMode(this)">
+
+Online
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitDoctorBooking()">
+
+Send appointment request
+
+</button>
+
+
+<p
+style="
+font-size:10px;
+color:#888;
+text-align:center;
+margin-top:12px;
+">
+
+The production version can send the structured
+request directly to the pharmacy/doctor's WhatsApp.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     LAB MODAL
+     ========================================================= -->
+
+<div class="modal" id="labModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Book lab tests
+</h2>
+
+<button
+class="close"
+onclick="closeModal('labModal')">
+    ×
+</button>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Select tests
+</label>
+
+<select multiple style="height:120px">
+
+<option selected>
+    CBC — ₹250
+</option>
+
+<option>
+    HbA1c — ₹450
+</option>
+
+<option>
+    Lipid Profile — ₹600
+</option>
+
+<option>
+    Thyroid Profile — ₹650
+</option>
+
+<option>
+    Vitamin D — ₹800
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Partner laboratory
+</label>
+
+<select>
+
+<option>
+    Dr. Lal PathLabs
+</option>
+
+<option>
+    Metropolis
+</option>
+
+<option>
+    Thyrocare
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Collection method
+</label>
+
+<div class="mode-grid">
+
+<div
+class="mode selected"
+onclick="selectMode(this)">
+    Home collection
+</div>
+
+<div
+class="mode"
+onclick="selectMode(this)">
+    Onsite
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitLab()">
+
+Continue
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     PRESCRIPTION MODAL
+     ========================================================= -->
+
+<div class="modal" id="prescriptionModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Upload prescription
+</h2>
+
+<button
+class="close"
+onclick="closeModal('prescriptionModal')">
+    ×
+</button>
+
+</div>
+
+
+<div
+class="upload-box"
+style="margin-bottom:20px">
+
+<div class="upload-icon">
+    ↑
+</div>
+
+<strong>
+    Choose prescription
+</strong>
+
+<span>
+    JPG, PNG or PDF
+</span>
+
+<input
+type="file"
+style="margin-top:15px;width:100%"
+accept=".jpg,.jpeg,.png,.pdf">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Fulfilment
+</label>
+
+<select>
+
+<option>
+    Home delivery
+</option>
+
+<option>
+    Self pickup
+</option>
+
+</select>
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitPrescription()">
+
+Send prescription request
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CART MODAL
+     ========================================================= -->
+
+<div class="modal" id="cartModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Medicine request
+</h2>
+
+<button
+class="close"
+onclick="closeModal('cartModal')">
+    ×
+</button>
+
+</div>
+
+
+<div id="cartItems">
+
+<p
+style="
+font-size:13px;
+color:#777;
+">
+No medicines added yet.
+</p>
+
+</div>
+
+
+<div
+id="cartTotal"
+style="
+font-size:18px;
+font-weight:700;
+margin:20px 0;
+">
+Total: ₹0
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Fulfilment
+</label>
+
+<select id="fulfilment">
+
+<option>
+    Home delivery
+</option>
+
+<option>
+    Self pickup
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitMedicineRequest()">
+
+Send medicine request
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CHECKOUT MODAL
+     ========================================================= -->
+
+<div class="modal" id="checkoutModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Request medicines
+</h2>
+
+<button
+class="close"
+onclick="closeModal('checkoutModal')">
+    ×
+</button>
+
+</div>
+
+
+<p
+id="checkoutMode"
+style="
+color:#777;
+font-size:13px;
+margin-bottom:20px;
+">
+</p>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Address
+</label>
+
+<input
+placeholder="Delivery address">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitCheckout()">
+
+Send request
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+     ========================================================= -->
+
+<div
+class="toast"
+id="toast">
+    Done
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   DOCTORJET PHARMACY JAVASCRIPT
+   ========================================================= */
+
+
+/* =========================================================
+   SCROLL
+   ========================================================= */
+
+function scrollToSection(id){
+
+    const element =
+    document.getElementById(id);
+
+    if(element){
+
+        element.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   MODAL SYSTEM
+   ========================================================= */
+
+function openModal(id){
+
+    document
+    .getElementById(id)
+    .classList.add("show");
+
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+document
+.querySelectorAll(".modal")
+.forEach(modal => {
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === modal){
+
+                modal.classList.remove("show");
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   DOCTOR BOOKING
+   ========================================================= */
+
+function openDoctorBooking(doctor){
+
+    document
+    .getElementById("selectedDoctor")
+    .innerText =
+    doctor;
+
+    openModal("doctorModal");
+
+}
+
+
+function selectMode(element){
+
+    const parent =
+    element.parentElement;
+
+    parent
+    .querySelectorAll(".mode")
+    .forEach(mode => {
+
+        mode.classList.remove("selected");
+
+    });
+
+    element.classList.add("selected");
+
+}
+
+
+function submitDoctorBooking(){
+
+    const name =
+    document
+    .getElementById("doctorPatient")
+    .value;
+
+    const phone =
+    document
+    .getElementById("doctorPhone")
+    .value;
+
+    if(!name || !phone){
+
+        showToast(
+            "Please enter patient name and WhatsApp number"
+        );
+
+        return;
+
+    }
+
+    closeModal("doctorModal");
+
+    showToast(
+        "Appointment request created"
+    );
+
+}
+
+
+/* =========================================================
+   LAB
+   ========================================================= */
+
+function openLabBooking(){
+
+    openModal("labModal");
+
+}
+
+
+function submitLab(){
+
+    closeModal("labModal");
+
+    showToast(
+        "Lab booking request created"
+    );
+
+}
+
+
+/* =========================================================
+   PRESCRIPTION
+   ========================================================= */
+
+function openPrescription(){
+
+    openModal(
+        "prescriptionModal"
+    );
+
+}
+
+
+function submitPrescription(){
+
+    closeModal(
+        "prescriptionModal"
+    );
+
+    showToast(
+        "Prescription sent to pharmacy"
+    );
+
+}
+
+
+/* =========================================================
+   MEDICINE CART
+   ========================================================= */
+
+let cart = [];
+
+function addMedicine(name,price){
+
+    cart.push({
+        name:name,
+        price:price
+    });
+
+    updateCart();
+
+    showToast(
+        name + " added to request"
+    );
+
+}
+
+
+function updateCart(){
+
+    const cartElement =
+    document.getElementById("cart");
+
+    const count =
+    document.getElementById("cartCount");
+
+    count.innerText =
+    cart.length;
+
+    if(cart.length > 0){
+
+        cartElement.classList.add("show");
+
+    }else{
+
+        cartElement.classList.remove("show");
+
+    }
+
+}
+
+
+function openCart(){
+
+    const items =
+    document.getElementById("cartItems");
+
+    const totalElement =
+    document.getElementById("cartTotal");
+
+    if(cart.length === 0){
+
+        items.innerHTML =
+        `
+        <p style="font-size:13px;color:#777">
+            No medicines added yet.
+        </p>
+        `;
+
+        totalElement.innerText =
+        "Total: ₹0";
+
+    }else{
+
+        let total = 0;
+
+        items.innerHTML =
+        cart.map(
+            item => {
+
+                total +=
+                item.price;
+
+                return `
+                <div style="
+                display:flex;
+                justify-content:space-between;
+                padding:12px 0;
+                border-bottom:1px solid #eee;
+                font-size:13px;
+                ">
+
+                <span>
+                    ${item.name}
+                </span>
+
+                <strong>
+                    ₹${item.price}
+                </strong>
+
+                </div>
+                `;
+
+            }
+        ).join("");
+
+        totalElement.innerText =
+        "Total: ₹" + total;
+
+    }
+
+    openModal("cartModal");
+
+}
+
+
+function submitMedicineRequest(){
+
+    cart = [];
+
+    updateCart();
+
+    closeModal("cartModal");
+
+    showToast(
+        "Medicine request sent to pharmacy"
+    );
+
+}
+
+
+/* =========================================================
+   ALTERNATIVES
+   ========================================================= */
+
+function showAlternatives(medicine){
+
+    showToast(
+        "Showing alternatives for " + medicine
+    );
+
+}
+
+
+/* =========================================================
+   DELIVERY / PICKUP
+   ========================================================= */
+
+function openCheckout(mode){
+
+    document
+    .getElementById("checkoutMode")
+    .innerText =
+    mode;
+
+    openModal("checkoutModal");
+
+}
+
+
+function submitCheckout(){
+
+    closeModal(
+        "checkoutModal"
+    );
+
+    showToast(
+        "Pharmacy request created"
+    );
+
+}
+
+
+/* =========================================================
+   GLOBAL SEARCH
+   ========================================================= */
+
+function globalSearch(query){
+
+    query =
+    query
+    .toLowerCase()
+    .trim();
+
+
+    const medicineCards =
+    document
+    .querySelectorAll(
+        ".medicine-search-item"
+    );
+
+
+    medicineCards.forEach(
+        card => {
+
+            const text =
+            card.innerText
+            .toLowerCase();
+
+            card.style.display =
+            text.includes(query)
+            ? ""
+            : "none";
+
+        }
+    );
+
+
+    const doctorCards =
+    document
+    .querySelectorAll(
+        ".doctor-search-item"
+    );
+
+
+    doctorCards.forEach(
+        card => {
+
+            const text =
+            card.innerText
+            .toLowerCase();
+
+            card.style.display =
+            text.includes(query)
+            ? ""
+            : "none";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+   ========================================================= */
+
+function openWhatsApp(){
+
+    const phone =
+    "919999999999";
+
+    const message =
+    encodeURIComponent(
+        "Hello DoctorJet Pharmacy, I would like to enquire about a service."
+    );
+
+    window.open(
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+    document.getElementById("toast");
+
+    toast.innerText =
+    message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2800
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            document
+            .querySelectorAll(
+                ".modal.show"
+            )
+            .forEach(
+                modal => {
+
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

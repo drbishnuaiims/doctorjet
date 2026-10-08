@@ -1,0 +1,3966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet | Metropolis Diagnostics Bhubaneswar</title>
+
+<style>
+
+/* =========================================================
+   DOCTORJET — LABORATORY PROFILE
+   COMPLETE PATIENT-FACING MOCK
+   ========================================================= */
+
+:root{
+    --bg:#f5f5f7;
+    --white:#ffffff;
+    --black:#111111;
+    --text:#1d1d1f;
+    --muted:#6e6e73;
+    --line:#e5e5e7;
+
+    --blue:#0071e3;
+    --blue-light:#eaf4ff;
+
+    --green:#20a458;
+    --green-light:#eaf8ef;
+
+    --orange:#f59e0b;
+    --red:#d93025;
+
+    --shadow:0 15px 45px rgba(0,0,0,.07);
+
+    --radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Segoe UI",
+    sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+
+    line-height:1.45;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navbar{
+    height:70px;
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    background:rgba(255,255,255,.88);
+
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.nav-inner{
+    height:100%;
+
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:0 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    font-size:20px;
+    font-weight:700;
+
+    letter-spacing:-.5px;
+}
+
+.logo-mark{
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    background:#111;
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+    font-weight:800;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+
+    font-size:13px;
+
+    color:#666;
+}
+
+.nav-links a:hover{
+    color:#111;
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-button{
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f0f0f2;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:16px;
+}
+
+/* =========================================================
+   COMMON
+   ========================================================= */
+
+.container{
+    max-width:1180px;
+
+    margin:auto;
+
+    padding:0 20px;
+}
+
+.section{
+    padding:55px 0;
+}
+
+.section-header{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    margin-bottom:25px;
+}
+
+.section-title{
+    font-size:29px;
+
+    letter-spacing:-1px;
+}
+
+.section-subtitle{
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin-top:5px;
+}
+
+.btn{
+    border:none;
+
+    border-radius:999px;
+
+    padding:11px 19px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    transition:.2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:#111;
+
+    color:#fff;
+}
+
+.btn-blue{
+    background:var(--blue);
+
+    color:white;
+}
+
+.btn-light{
+    background:#f1f1f3;
+
+    color:#111;
+}
+
+.btn-white{
+    background:white;
+
+    color:#111;
+}
+
+/* =========================================================
+   LAB HERO
+   ========================================================= */
+
+.lab-hero{
+    padding:35px 0 25px;
+}
+
+.lab-profile{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:30px;
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+}
+
+.lab-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:25px;
+}
+
+.lab-identity{
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+}
+
+.lab-logo{
+    width:82px;
+    height:82px;
+
+    border-radius:24px;
+
+    background:#111;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:25px;
+
+    font-weight:800;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.lab-name{
+    font-size:29px;
+
+    font-weight:700;
+
+    letter-spacing:-1px;
+}
+
+.verified{
+    color:var(--blue);
+
+    font-size:12px;
+
+    font-weight:600;
+
+    margin-top:4px;
+}
+
+.location{
+    color:#777;
+
+    font-size:13px;
+
+    margin-top:5px;
+}
+
+.status{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    background:var(--green-light);
+
+    color:var(--green);
+
+    border-radius:999px;
+
+    padding:6px 10px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    margin-top:10px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+
+    background:var(--green);
+
+    border-radius:50%;
+}
+
+.qr-area{
+    text-align:center;
+}
+
+.qr{
+    width:100px;
+    height:100px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #111 8px,
+        transparent 8px
+    ) 0 0/18px 18px,
+
+    linear-gradient(
+        #111 8px,
+        transparent 8px
+    ) 0 0/18px 18px,
+
+    #fff;
+
+    border:8px solid white;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.12);
+
+    margin:auto;
+}
+
+.qr-label{
+    font-size:10px;
+
+    color:#888;
+
+    margin-top:7px;
+}
+
+/* =========================================================
+   SERVICE CARDS
+   ========================================================= */
+
+.service-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(5,1fr);
+
+    gap:10px;
+
+    margin-top:28px;
+}
+
+.service-card{
+    background:#fafafa;
+
+    border:1px solid var(--line);
+
+    border-radius:20px;
+
+    padding:18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.service-card:hover{
+    background:white;
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow);
+}
+
+.service-icon{
+    width:43px;
+    height:43px;
+
+    border-radius:13px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:19px;
+
+    margin-bottom:13px;
+}
+
+.service-card h3{
+    font-size:14px;
+}
+
+.service-card p{
+    color:#777;
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search{
+    margin-top:20px;
+
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    padding:14px 18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.search input{
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    font-size:14px;
+
+    background:transparent;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions{
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:15px;
+}
+
+.quick{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    padding:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+}
+
+.quick-icon{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    background:#f1f1f3;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.quick strong{
+    display:block;
+
+    font-size:13px;
+}
+
+.quick span{
+    display:block;
+
+    color:#888;
+
+    font-size:10px;
+}
+
+/* =========================================================
+   OFFER BANNER
+   ========================================================= */
+
+.offer{
+    background:#111;
+
+    color:white;
+
+    border-radius:28px;
+
+    padding:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.offer h2{
+    font-size:25px;
+
+    letter-spacing:-.7px;
+}
+
+.offer p{
+    color:#999;
+
+    font-size:13px;
+
+    margin-top:5px;
+}
+
+/* =========================================================
+   POPULAR TESTS
+   ========================================================= */
+
+.test-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.test-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:22px;
+
+    padding:21px;
+}
+
+.test-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.test-tag{
+    background:#f1f1f3;
+
+    border-radius:999px;
+
+    padding:5px 8px;
+
+    font-size:10px;
+}
+
+.test-card h3{
+    font-size:16px;
+
+    margin-top:14px;
+}
+
+.test-card p{
+    color:#777;
+
+    font-size:11px;
+
+    margin-top:4px;
+
+    min-height:32px;
+}
+
+.test-bottom{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:16px;
+}
+
+.test-price{
+    font-size:18px;
+
+    font-weight:700;
+}
+
+.report-time{
+    font-size:10px;
+
+    color:#888;
+}
+
+.test-card .btn{
+    width:100%;
+
+    margin-top:14px;
+}
+
+/* =========================================================
+   HEALTH PACKAGES
+   ========================================================= */
+
+.package-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.package{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:24px;
+
+    padding:24px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.package.featured{
+    border:1.5px solid #111;
+}
+
+.package-badge{
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    background:#111;
+
+    color:white;
+
+    font-size:9px;
+
+    padding:5px 8px;
+
+    border-radius:999px;
+}
+
+.package h3{
+    font-size:18px;
+}
+
+.package p{
+    color:#777;
+
+    font-size:11px;
+
+    margin-top:5px;
+}
+
+.package-list{
+    margin-top:18px;
+
+    list-style:none;
+}
+
+.package-list li{
+    font-size:11px;
+
+    padding:7px 0;
+
+    border-bottom:1px solid #eee;
+}
+
+.package-price{
+    font-size:23px;
+
+    font-weight:700;
+
+    margin-top:18px;
+}
+
+/* =========================================================
+   COLLECTION
+   ========================================================= */
+
+.collection-layout{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:15px;
+}
+
+.collection-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:24px;
+
+    padding:25px;
+}
+
+.collection-card h3{
+    font-size:18px;
+}
+
+.collection-card p{
+    color:#777;
+
+    font-size:12px;
+
+    margin-top:5px;
+}
+
+.collection-options{
+    margin-top:20px;
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:10px;
+}
+
+.collection-option{
+    border:1px solid #ddd;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    cursor:pointer;
+}
+
+.collection-option:hover{
+    border-color:#111;
+}
+
+.collection-option strong{
+    display:block;
+
+    font-size:13px;
+}
+
+.collection-option span{
+    display:block;
+
+    color:#888;
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+/* =========================================================
+   PARTNER LABS
+   ========================================================= */
+
+.partner-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.partner{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:22px;
+
+    padding:21px;
+}
+
+.partner-logo{
+    width:52px;
+    height:52px;
+
+    border-radius:15px;
+
+    background:#f1f1f3;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+    font-size:14px;
+}
+
+.partner h3{
+    margin-top:14px;
+
+    font-size:15px;
+}
+
+.partner p{
+    color:#777;
+
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+.partner-status{
+    margin-top:13px;
+
+    font-size:10px;
+
+    color:var(--green);
+}
+
+/* =========================================================
+   REPORTS
+   ========================================================= */
+
+.report-section{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:25px;
+
+    padding:27px;
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:35px;
+
+    align-items:center;
+}
+
+.report-section h2{
+    font-size:27px;
+
+    letter-spacing:-1px;
+}
+
+.report-section p{
+    color:#777;
+
+    font-size:13px;
+
+    margin-top:8px;
+}
+
+.report-actions{
+    display:grid;
+
+    gap:10px;
+}
+
+.report-action{
+    border:1px solid var(--line);
+
+    border-radius:17px;
+
+    padding:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+}
+
+.report-action:hover{
+    background:#fafafa;
+}
+
+.report-action-icon{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    background:#f1f1f3;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+/* =========================================================
+   CORPORATE
+   ========================================================= */
+
+.corporate{
+    background:#111;
+
+    color:white;
+
+    border-radius:30px;
+
+    padding:32px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:25px;
+}
+
+.corporate h2{
+    font-size:26px;
+}
+
+.corporate p{
+    color:#999;
+
+    font-size:12px;
+
+    margin-top:6px;
+}
+
+/* =========================================================
+   INFORMATION
+   ========================================================= */
+
+.info-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:14px;
+}
+
+.info-card{
+    background:white;
+
+    border:1px solid var(--line);
+
+    border-radius:22px;
+
+    padding:22px;
+}
+
+.info-card h3{
+    font-size:14px;
+
+    margin-bottom:9px;
+}
+
+.info-card p{
+    color:#777;
+
+    font-size:11px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+    background:#111;
+
+    color:white;
+
+    padding:45px 0;
+
+    margin-top:30px;
+}
+
+.footer-inner{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+.footer-logo{
+    font-size:20px;
+
+    font-weight:700;
+}
+
+.footer p{
+    color:#888;
+
+    font-size:11px;
+
+    margin-top:7px;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:3000;
+
+    background:rgba(0,0,0,.5);
+
+    backdrop-filter:blur(12px);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+
+    max-width:530px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:28px;
+}
+
+.modal-header{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    font-size:23px;
+}
+
+.close{
+    border:none;
+
+    width:34px;
+    height:34px;
+
+    border-radius:50%;
+
+    background:#f1f1f3;
+
+    font-size:18px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+
+    font-size:11px;
+
+    color:#777;
+
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+
+    border:1px solid #ddd;
+
+    border-radius:13px;
+
+    padding:12px;
+
+    background:white;
+
+    outline:none;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:12px;
+}
+
+.mode-grid{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:10px;
+}
+
+.mode{
+    border:1px solid #ddd;
+
+    border-radius:14px;
+
+    padding:13px;
+
+    text-align:center;
+
+    font-size:12px;
+
+    cursor:pointer;
+}
+
+.mode.selected{
+    background:#111;
+
+    color:white;
+
+    border-color:#111;
+}
+
+.success{
+    text-align:center;
+
+    padding:25px 10px;
+}
+
+.success-icon{
+    width:65px;
+    height:65px;
+
+    border-radius:50%;
+
+    background:#111;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    font-size:25px;
+}
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+.test-cart{
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    z-index:1500;
+
+    background:#111;
+
+    color:white;
+
+    border-radius:999px;
+
+    padding:12px 18px;
+
+    display:none;
+
+    align-items:center;
+
+    gap:12px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+    cursor:pointer;
+}
+
+.test-cart.show{
+    display:flex;
+}
+
+.cart-number{
+    width:24px;
+    height:24px;
+
+    border-radius:50%;
+
+    background:white;
+
+    color:#111;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:11px;
+
+    font-weight:700;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    z-index:5000;
+
+    background:#111;
+
+    color:white;
+
+    padding:13px 20px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    opacity:0;
+
+    transform:
+    translate(-50%,100px);
+
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+    translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:950px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .service-grid{
+        grid-template-columns:
+        repeat(3,1fr);
+    }
+
+    .quick-actions{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .test-grid,
+    .package-grid,
+    .partner-grid{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .collection-layout,
+    .report-section{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .lab-top{
+        flex-direction:column;
+    }
+
+    .qr-area{
+        margin-left:auto;
+    }
+
+    .lab-name{
+        font-size:23px;
+    }
+
+    .service-grid,
+    .quick-actions,
+    .test-grid,
+    .package-grid,
+    .partner-grid,
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .offer,
+    .corporate{
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+     ========================================================= -->
+
+<nav class="navbar">
+
+<div class="nav-inner">
+
+<div class="logo">
+
+<div class="logo-mark">
+    J
+</div>
+
+DoctorJet
+
+</div>
+
+
+<div class="nav-links">
+
+<a href="#tests">
+    Tests
+</a>
+
+<a href="#packages">
+    Packages
+</a>
+
+<a href="#collection">
+    Collection
+</a>
+
+<a href="#reports">
+    Reports
+</a>
+
+<a href="#about">
+    About
+</a>
+
+</div>
+
+
+<div class="nav-actions">
+
+<button
+class="icon-button"
+onclick="shareLab()">
+    ↗
+</button>
+
+<button
+class="icon-button"
+onclick="openTestCart()">
+    🧪
+</button>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     LAB HERO
+     ========================================================= -->
+
+<main>
+
+<section class="lab-hero">
+
+<div class="container">
+
+<div class="lab-profile">
+
+
+<div class="lab-top">
+
+
+<div class="lab-identity">
+
+<div class="lab-logo">
+    MD
+</div>
+
+
+<div>
+
+<div class="lab-name">
+    Metropolis Diagnostics
+</div>
+
+<div class="verified">
+    ✓ Verified DoctorJet Business
+</div>
+
+<div class="location">
+    Patia • Bhubaneswar • Odisha
+</div>
+
+<div class="status">
+
+<span class="status-dot"></span>
+
+Open • Sample collection until 7:00 PM
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="qr-area">
+
+<div class="qr"></div>
+
+<div class="qr-label">
+    Scan to access this lab
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     SERVICES
+     ===================================================== -->
+
+<div class="service-grid">
+
+
+<div
+class="service-card"
+onclick="scrollToSection('tests')">
+
+<div class="service-icon">
+    ◉
+</div>
+
+<h3>
+    Book Tests
+</h3>
+
+<p>
+    Individual diagnostic tests
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="scrollToSection('packages')">
+
+<div class="service-icon">
+    ♡
+</div>
+
+<h3>
+    Health Packages
+</h3>
+
+<p>
+    Preventive health checkups
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="scrollToSection('collection')">
+
+<div class="service-icon">
+    ⌂
+</div>
+
+<h3>
+    Home Collection
+</h3>
+
+<p>
+    Sample collected at home
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="openReports()">
+
+<div class="service-icon">
+    ↓
+</div>
+
+<h3>
+    Reports
+</h3>
+
+<p>
+    View or download reports
+</p>
+
+</div>
+
+
+<div
+class="service-card"
+onclick="openReferral()">
+
+<div class="service-icon">
+    ↑
+</div>
+
+<h3>
+    Referral
+</h3>
+
+<p>
+    Upload prescription/referral
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SEARCH
+     ===================================================== -->
+
+<div class="search">
+
+<span>
+    ⌕
+</span>
+
+<input
+id="testSearch"
+placeholder="Search tests, packages or health conditions..."
+onkeyup="searchTests(this.value)"
+>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUICK ACTIONS
+     ===================================================== -->
+
+<div class="quick-actions">
+
+
+<div
+class="quick"
+onclick="openTestBooking()">
+
+<div class="quick-icon">
+    ◉
+</div>
+
+<div>
+
+<strong>
+    Book a test
+</strong>
+
+<span>
+    Choose tests
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="openHomeCollection()">
+
+<div class="quick-icon">
+    ⌂
+</div>
+
+<div>
+
+<strong>
+    Home collection
+</strong>
+
+<span>
+    We come to you
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="openReports()">
+
+<div class="quick-icon">
+    ↓
+</div>
+
+<div>
+
+<strong>
+    My reports
+</strong>
+
+<span>
+    Download results
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="quick"
+onclick="openWhatsApp()">
+
+<div class="quick-icon">
+    ☎
+</div>
+
+<div>
+
+<strong>
+    WhatsApp
+</strong>
+
+<span>
+    Talk to lab
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OFFER
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="offer">
+
+<div>
+
+<h2>
+    Preventive health starts with one checkup.
+</h2>
+
+<p>
+    Explore DoctorJet health packages designed for
+    routine preventive screening.
+</p>
+
+</div>
+
+<button
+class="btn btn-white"
+onclick="scrollToSection('packages')">
+
+Explore packages
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     POPULAR TESTS
+     ========================================================= -->
+
+<section class="section" id="tests">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Popular tests
+</h2>
+
+<p class="section-subtitle">
+    Book individual tests with home or onsite collection.
+</p>
+
+</div>
+
+<button
+class="btn btn-light"
+onclick="showToast('All diagnostic tests opened')">
+
+View all tests
+
+</button>
+
+</div>
+
+
+<div class="test-grid">
+
+
+<!-- TEST 1 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Blood
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    Complete Blood Count
+</h3>
+
+<p>
+    Haemoglobin, RBC, WBC, platelets and other parameters.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹250
+</div>
+
+<div class="report-time">
+    Report: Same day
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('Complete Blood Count',250)">
+
+Select test
+
+</button>
+
+</div>
+
+
+<!-- TEST 2 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Diabetes
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    HbA1c
+</h3>
+
+<p>
+    Long-term blood glucose monitoring.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹450
+</div>
+
+<div class="report-time">
+    Report: Same day
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('HbA1c',450)">
+
+Select test
+
+</button>
+
+</div>
+
+
+<!-- TEST 3 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Cardiac
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    Lipid Profile
+</h3>
+
+<p>
+    Total cholesterol, HDL, LDL and triglycerides.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹600
+</div>
+
+<div class="report-time">
+    Report: Same day
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('Lipid Profile',600)">
+
+Select test
+
+</button>
+
+</div>
+
+
+<!-- TEST 4 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Thyroid
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    Thyroid Profile
+</h3>
+
+<p>
+    T3, T4 and TSH assessment.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹650
+</div>
+
+<div class="report-time">
+    Report: Same day
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('Thyroid Profile',650)">
+
+Select test
+
+</button>
+
+</div>
+
+
+<!-- TEST 5 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Vitamin
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    Vitamin D
+</h3>
+
+<p>
+    25-OH Vitamin D level.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹800
+</div>
+
+<div class="report-time">
+    Report: 24 hours
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('Vitamin D',800)">
+
+Select test
+
+</button>
+
+</div>
+
+
+<!-- TEST 6 -->
+
+<div class="test-card searchable-test">
+
+<div class="test-top">
+
+<span class="test-tag">
+    Kidney
+</span>
+
+<span
+style="
+font-size:10px;
+color:#20a458;
+">
+    Available
+</span>
+
+</div>
+
+<h3>
+    Kidney Function Test
+</h3>
+
+<p>
+    Creatinine, urea, uric acid and related parameters.
+</p>
+
+<div class="test-bottom">
+
+<div class="test-price">
+    ₹550
+</div>
+
+<div class="report-time">
+    Report: Same day
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="addTest('Kidney Function Test',550)">
+
+Select test
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PACKAGES
+     ========================================================= -->
+
+<section class="section" id="packages">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Health packages
+</h2>
+
+<p class="section-subtitle">
+    Preventive screening packages for different needs.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="package-grid">
+
+
+<div class="package">
+
+<h3>
+    Basic Health Check
+</h3>
+
+<p>
+    Essential annual screening
+</p>
+
+<ul class="package-list">
+
+<li>✓ CBC</li>
+<li>✓ Blood glucose</li>
+<li>✓ Liver function</li>
+<li>✓ Kidney function</li>
+<li>✓ Lipid profile</li>
+
+</ul>
+
+<div class="package-price">
+    ₹1,499
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="addTest('Basic Health Check',1499)">
+
+Book package
+
+</button>
+
+</div>
+
+
+
+<div class="package featured">
+
+<div class="package-badge">
+    POPULAR
+</div>
+
+<h3>
+    Comprehensive Health
+</h3>
+
+<p>
+    Full preventive screening
+</p>
+
+<ul class="package-list">
+
+<li>✓ CBC</li>
+<li>✓ HbA1c</li>
+<li>✓ Lipid profile</li>
+<li>✓ Liver function</li>
+<li>✓ Kidney function</li>
+<li>✓ Thyroid profile</li>
+<li>✓ Vitamin D</li>
+
+</ul>
+
+<div class="package-price">
+    ₹2,999
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="addTest('Comprehensive Health Package',2999)">
+
+Book package
+
+</button>
+
+</div>
+
+
+
+<div class="package">
+
+<h3>
+    Senior Health
+</h3>
+
+<p>
+    Preventive screening for seniors
+</p>
+
+<ul class="package-list">
+
+<li>✓ CBC</li>
+<li>✓ HbA1c</li>
+<li>✓ Lipid profile</li>
+<li>✓ Kidney function</li>
+<li>✓ Liver function</li>
+<li>✓ Thyroid profile</li>
+
+</ul>
+
+<div class="package-price">
+    ₹2,499
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="addTest('Senior Health Package',2499)">
+
+Book package
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COLLECTION
+     ========================================================= -->
+
+<section class="section" id="collection">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Choose your collection method
+</h2>
+
+<p class="section-subtitle">
+    Get your sample collected at home or visit the centre.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="collection-layout">
+
+
+<div class="collection-card">
+
+<h3>
+    Home sample collection
+</h3>
+
+<p>
+    A trained phlebotomist visits your preferred
+    location at your selected time.
+</p>
+
+
+<div class="collection-options">
+
+
+<div
+class="collection-option"
+onclick="openHomeCollection()">
+
+<strong>
+    Morning
+</strong>
+
+<span>
+    6:00 AM – 10:00 AM
+</span>
+
+</div>
+
+
+<div
+class="collection-option"
+onclick="openHomeCollection()">
+
+<strong>
+    Afternoon
+</strong>
+
+<span>
+    11:00 AM – 3:00 PM
+</span>
+
+</div>
+
+
+<div
+class="collection-option"
+onclick="openHomeCollection()">
+
+<strong>
+    Evening
+</strong>
+
+<span>
+    4:00 PM – 7:00 PM
+</span>
+
+</div>
+
+
+<div
+class="collection-option"
+onclick="openHomeCollection()">
+
+<strong>
+    Schedule later</strong>
+
+<span>
+    Choose your time
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<div class="collection-card">
+
+<h3>
+    Visit diagnostic centre
+</h3>
+
+<p>
+    Walk in or schedule an onsite sample collection
+    at this DoctorJet location.
+</p>
+
+
+<div
+style="
+margin-top:20px;
+padding:17px;
+background:#f7f7f8;
+border-radius:17px;
+">
+
+<strong style="font-size:13px">
+    Metropolis Diagnostics — Patia
+</strong>
+
+<p style="margin-top:5px">
+    Sample collection available until 7:00 PM
+</p>
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="openTestBooking()">
+
+Book onsite collection
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PARTNER LABS
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Diagnostic network
+</h2>
+
+<p class="section-subtitle">
+    DoctorJet can connect this business with multiple
+    diagnostic providers.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="partner-grid">
+
+
+<div class="partner">
+
+<div class="partner-logo">
+    DL
+</div>
+
+<h3>
+    Dr. Lal PathLabs
+</h3>
+
+<p>
+    Home and onsite sample collection
+</p>
+
+<div class="partner-status">
+    ● Connected
+</div>
+
+</div>
+
+
+<div class="partner">
+
+<div class="partner-logo">
+    M
+</div>
+
+<h3>
+    Metropolis Healthcare
+</h3>
+
+<p>
+    Diagnostic testing and home collection
+</p>
+
+<div class="partner-status">
+    ● Connected
+</div>
+
+</div>
+
+
+<div class="partner">
+
+<div class="partner-logo">
+    TC
+</div>
+
+<h3>
+    Thyrocare
+</h3>
+
+<p>
+    Preventive health and diagnostic testing
+</p>
+
+<div class="partner-status">
+    ● Connected
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     REPORTS
+     ========================================================= -->
+
+<section class="section" id="reports">
+
+<div class="container">
+
+<div class="report-section">
+
+<div>
+
+<h2>
+    Your reports.
+    One place.
+</h2>
+
+<p>
+    DoctorJet can provide patients with a single place
+    to access diagnostic reports from connected laboratories.
+</p>
+
+<button
+class="btn btn-primary"
+style="margin-top:20px"
+onclick="openReports()">
+
+View my reports
+
+</button>
+
+</div>
+
+
+<div class="report-actions">
+
+
+<div
+class="report-action"
+onclick="openReports()">
+
+<div class="report-action-icon">
+    ↓
+</div>
+
+<div>
+
+<strong style="font-size:13px">
+    Download report
+</strong>
+
+<div style="
+font-size:10px;
+color:#888;
+">
+    Access previous results
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="report-action"
+onclick="showToast('Report sharing flow opened')">
+
+<div class="report-action-icon">
+    ↗
+</div>
+
+<div>
+
+<strong style="font-size:13px">
+    Share report
+</strong>
+
+<div style="
+font-size:10px;
+color:#888;
+">
+    Share securely with doctor
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="report-action"
+onclick="showToast('Report history opened')">
+
+<div class="report-action-icon">
+    ◷
+</div>
+
+<div>
+
+<strong style="font-size:13px">
+    Report history
+</strong>
+
+<div style="
+font-size:10px;
+color:#888;
+">
+    View previous reports
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     REFERRAL
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="report-section">
+
+<div>
+
+<h2>
+    Have a doctor's prescription?
+</h2>
+
+<p>
+    Upload your diagnostic referral and DoctorJet
+    can pre-fill the relevant tests.
+</p>
+
+<button
+class="btn btn-primary"
+style="margin-top:20px"
+onclick="openReferral()">
+
+Upload referral
+
+</button>
+
+</div>
+
+
+<div
+style="
+border:2px dashed #d5d5d7;
+border-radius:20px;
+padding:40px;
+text-align:center;
+cursor:pointer;
+"
+onclick="openReferral()">
+
+<div style="
+font-size:30px;
+margin-bottom:10px;
+">
+    ↑
+</div>
+
+<strong style="font-size:13px">
+    Upload prescription / referral
+</strong>
+
+<div style="
+font-size:10px;
+color:#888;
+margin-top:5px;
+">
+    JPG • PNG • PDF
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CORPORATE
+     ========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="corporate">
+
+<div>
+
+<h2>
+    Corporate health programs
+</h2>
+
+<p>
+    Companies can use DoctorJet to arrange employee
+    health checkups, diagnostics and collection drives.
+</p>
+
+</div>
+
+<button
+class="btn btn-white"
+onclick="showToast('Corporate enquiry form opened')">
+
+Corporate enquiry
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     INFORMATION
+     ========================================================= -->
+
+<section class="section" id="about">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title">
+    Laboratory information
+</h2>
+
+</div>
+
+</div>
+
+
+<div class="info-grid">
+
+
+<div class="info-card">
+
+<h3>
+    Address
+</h3>
+
+<p>
+    Patia Main Road<br>
+    Bhubaneswar, Odisha
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>
+    Opening hours
+</h3>
+
+<p>
+    Monday – Sunday<br>
+    6:00 AM – 7:00 PM
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>
+    Contact
+</h3>
+
+<p>
+    +91 XXXXX XXXXX<br>
+    WhatsApp enabled
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-inner">
+
+<div>
+
+<div class="footer-logo">
+    DoctorJet
+</div>
+
+<p>
+    The digital identity layer for healthcare businesses.
+</p>
+
+</div>
+
+
+<div>
+
+<p>
+    DoctorJet Diagnostics
+</p>
+
+<p>
+    Powered by DoctorJet
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     TEST CART
+     ========================================================= -->
+
+<div
+class="test-cart"
+id="testCart"
+onclick="openTestCart()">
+
+<span>
+    Selected tests
+</span>
+
+<div
+class="cart-number"
+id="cartNumber">
+    0
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TEST BOOKING MODAL
+     ========================================================= -->
+
+<div
+class="modal"
+id="testModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Book diagnostic tests
+</h2>
+
+<button
+class="close"
+onclick="closeModal('testModal')">
+    ×
+</button>
+
+</div>
+
+
+<div id="selectedTestsList">
+
+<p style="
+font-size:13px;
+color:#777;
+">
+No tests selected.
+</p>
+
+</div>
+
+
+<div
+id="selectedTotal"
+style="
+font-size:18px;
+font-weight:700;
+margin:20px 0;
+">
+Total: ₹0
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Collection method
+</label>
+
+<div class="mode-grid">
+
+<div
+class="mode selected"
+onclick="selectMode(this)">
+    Home collection
+</div>
+
+<div
+class="mode"
+onclick="selectMode(this)">
+    Visit centre
+</div>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name"
+id="labPatient">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX"
+id="labPhone">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Preferred date
+</label>
+
+<input
+type="date"
+id="labDate">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitTestBooking()">
+
+Continue to booking
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     HOME COLLECTION MODAL
+     ========================================================= -->
+
+<div
+class="modal"
+id="homeModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Home sample collection
+</h2>
+
+<button
+class="close"
+onclick="closeModal('homeModal')">
+    ×
+</button>
+
+</div>
+
+
+<p style="
+font-size:13px;
+color:#777;
+margin-bottom:20px;
+">
+
+A trained phlebotomist will collect the sample
+from your selected location.
+
+</p>
+
+
+<div class="form-group">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Address
+</label>
+
+<input
+placeholder="Complete collection address">
+
+</div>
+
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>
+    Date
+</label>
+
+<input type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Preferred time
+</label>
+
+<select>
+
+<option>
+    6 AM – 8 AM
+</option>
+
+<option>
+    8 AM – 10 AM
+</option>
+
+<option>
+    11 AM – 1 PM
+</option>
+
+<option>
+    4 PM – 6 PM
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitHomeCollection()">
+
+Schedule collection
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     REPORT MODAL
+     ========================================================= -->
+
+<div
+class="modal"
+id="reportModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    My reports
+</h2>
+
+<button
+class="close"
+onclick="closeModal('reportModal')">
+    ×
+</button>
+
+</div>
+
+
+<div style="
+background:#f7f7f8;
+padding:17px;
+border-radius:17px;
+margin-bottom:10px;
+">
+
+<strong style="font-size:13px">
+    CBC Report
+</strong>
+
+<p style="
+font-size:10px;
+color:#888;
+margin-top:4px;
+">
+Collected • 05 Oct 2026
+</p>
+
+<button
+class="btn btn-light"
+style="margin-top:10px"
+onclick="showToast('Demo report downloaded')">
+
+Download
+
+</button>
+
+</div>
+
+
+<div style="
+background:#f7f7f8;
+padding:17px;
+border-radius:17px;
+margin-bottom:10px;
+">
+
+<strong style="font-size:13px">
+    HbA1c Report
+</strong>
+
+<p style="
+font-size:10px;
+color:#888;
+margin-top:4px;
+">
+Collected • 05 Oct 2026
+</p>
+
+<button
+class="btn btn-light"
+style="margin-top:10px"
+onclick="showToast('Demo report downloaded')">
+
+Download
+
+</button>
+
+</div>
+
+
+<p style="
+font-size:10px;
+color:#888;
+margin-top:15px;
+">
+
+Production version can connect to the laboratory's
+LIS/API or DoctorJet patient record system.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     REFERRAL MODAL
+     ========================================================= -->
+
+<div
+class="modal"
+id="referralModal">
+
+<div class="modal-card">
+
+<div class="modal-header">
+
+<h2>
+    Upload referral
+</h2>
+
+<button
+class="close"
+onclick="closeModal('referralModal')">
+    ×
+</button>
+
+</div>
+
+
+<div
+style="
+border:2px dashed #d5d5d7;
+border-radius:20px;
+padding:30px;
+text-align:center;
+">
+
+<div style="
+font-size:30px;
+">
+    ↑
+</div>
+
+<strong style="
+display:block;
+margin-top:8px;
+font-size:13px;
+">
+    Select referral
+</strong>
+
+<input
+type="file"
+accept=".jpg,.jpeg,.png,.pdf"
+style="
+margin-top:15px;
+width:100%;
+">
+
+</div>
+
+
+<div class="form-group"
+style="margin-top:18px">
+
+<label>
+    Patient name
+</label>
+
+<input
+placeholder="Full name">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    WhatsApp number
+</label>
+
+<input
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="submitReferral()">
+
+Send referral
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+     ========================================================= -->
+
+<div
+class="toast"
+id="toast">
+    Done
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   DOCTORJET LAB JAVASCRIPT
+   ========================================================= */
+
+
+/* =========================================================
+   SCROLL
+   ========================================================= */
+
+function scrollToSection(id){
+
+    const element =
+    document.getElementById(id);
+
+    if(element){
+
+        element.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+function openModal(id){
+
+    document
+    .getElementById(id)
+    .classList.add("show");
+
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+document
+.querySelectorAll(".modal")
+.forEach(modal => {
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === modal){
+
+                modal.classList.remove("show");
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   TEST CART
+   ========================================================= */
+
+let selectedTests = [];
+
+
+function addTest(name,price){
+
+    selectedTests.push({
+        name:name,
+        price:price
+    });
+
+    updateTestCart();
+
+    showToast(
+        name + " added"
+    );
+
+}
+
+
+function updateTestCart(){
+
+    const cart =
+    document.getElementById(
+        "testCart"
+    );
+
+    const number =
+    document.getElementById(
+        "cartNumber"
+    );
+
+    number.innerText =
+    selectedTests.length;
+
+    if(selectedTests.length > 0){
+
+        cart.classList.add("show");
+
+    }else{
+
+        cart.classList.remove("show");
+
+    }
+
+}
+
+
+function openTestCart(){
+
+    const list =
+    document.getElementById(
+        "selectedTestsList"
+    );
+
+    const totalElement =
+    document.getElementById(
+        "selectedTotal"
+    );
+
+
+    if(selectedTests.length === 0){
+
+        list.innerHTML = `
+        <p style="
+        font-size:13px;
+        color:#777;
+        ">
+        No tests selected.
+        </p>
+        `;
+
+        totalElement.innerText =
+        "Total: ₹0";
+
+    }else{
+
+        let total = 0;
+
+        list.innerHTML =
+        selectedTests.map(
+            test => {
+
+                total += test.price;
+
+                return `
+                <div style="
+                display:flex;
+                justify-content:space-between;
+                padding:12px 0;
+                border-bottom:1px solid #eee;
+                font-size:13px;
+                ">
+
+                <span>
+                    ${test.name}
+                </span>
+
+                <strong>
+                    ₹${test.price}
+                </strong>
+
+                </div>
+                `;
+
+            }
+        ).join("");
+
+        totalElement.innerText =
+        "Total: ₹" + total;
+
+    }
+
+    openModal("testModal");
+
+}
+
+
+/* =========================================================
+   TEST BOOKING
+   ========================================================= */
+
+function openTestBooking(){
+
+    openTestCart();
+
+}
+
+
+function submitTestBooking(){
+
+    const name =
+    document
+    .getElementById("labPatient")
+    .value;
+
+    const phone =
+    document
+    .getElementById("labPhone")
+    .value;
+
+
+    if(!name || !phone){
+
+        showToast(
+            "Please enter patient details"
+        );
+
+        return;
+
+    }
+
+
+    selectedTests = [];
+
+    updateTestCart();
+
+    closeModal("testModal");
+
+    showToast(
+        "Diagnostic booking request created"
+    );
+
+}
+
+
+/* =========================================================
+   HOME COLLECTION
+   ========================================================= */
+
+function openHomeCollection(){
+
+    openModal(
+        "homeModal"
+    );
+
+}
+
+
+function submitHomeCollection(){
+
+    closeModal(
+        "homeModal"
+    );
+
+    showToast(
+        "Home collection scheduled"
+    );
+
+}
+
+
+/* =========================================================
+   REPORTS
+   ========================================================= */
+
+function openReports(){
+
+    openModal(
+        "reportModal"
+    );
+
+}
+
+
+/* =========================================================
+   REFERRAL
+   ========================================================= */
+
+function openReferral(){
+
+    openModal(
+        "referralModal"
+    );
+
+}
+
+
+function submitReferral(){
+
+    closeModal(
+        "referralModal"
+    );
+
+    showToast(
+        "Referral sent to laboratory"
+    );
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function searchTests(query){
+
+    query =
+    query
+    .toLowerCase()
+    .trim();
+
+
+    document
+    .querySelectorAll(
+        ".searchable-test"
+    )
+    .forEach(card => {
+
+        const text =
+        card.innerText
+        .toLowerCase();
+
+        card.style.display =
+        text.includes(query)
+        ? ""
+        : "none";
+
+    });
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+   ========================================================= */
+
+function openWhatsApp(){
+
+    const phone =
+    "919999999999";
+
+    const message =
+    encodeURIComponent(
+        "Hello DoctorJet Diagnostics, I would like to book a diagnostic test."
+    );
+
+    window.open(
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================================
+   SHARE
+   ========================================================= */
+
+function shareLab(){
+
+    if(
+        navigator.share
+    ){
+
+        navigator.share({
+
+            title:
+            "Metropolis Diagnostics",
+
+            text:
+            "Book diagnostic tests through DoctorJet.",
+
+            url:
+            window.location.href
+
+        });
+
+    }else{
+
+        navigator.clipboard
+        .writeText(
+            window.location.href
+        );
+
+        showToast(
+            "Lab profile link copied"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MODE
+   ========================================================= */
+
+function selectMode(element){
+
+    const parent =
+    element.parentElement;
+
+    parent
+    .querySelectorAll(
+        ".mode"
+    )
+    .forEach(
+        mode =>
+        mode.classList
+        .remove("selected")
+    );
+
+    element.classList.add(
+        "selected"
+    );
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+    toast.innerText =
+    message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2800
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            document
+            .querySelectorAll(
+                ".modal.show"
+            )
+            .forEach(
+                modal =>
+                modal.classList.remove(
+                    "show"
+                )
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
