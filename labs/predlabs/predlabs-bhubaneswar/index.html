@@ -3013,6 +3013,7 @@ textarea.form-control {
 
     body {
         padding-bottom: 74px;
+        overflow-x: hidden;
     }
 
     .page {
@@ -3059,6 +3060,16 @@ textarea.form-control {
         padding: 20px;
 
         border-radius: 22px;
+    }
+
+    .business-intro > .logo-container {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .business-intro > div:nth-child(2) {
+        grid-column: 1 / -1;
+        grid-row: 2;
     }
 
     .lab-logo {
@@ -3115,15 +3126,27 @@ textarea.form-control {
         font-size: 9px;
     }
 
+    .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 13px;
+    }
+
+    .hero-action-button {
+        width: 100%;
+        min-height: 42px;
+        padding: 8px;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
     .business-intro
     .profile-qr-share-wrap {
-
-        grid-column: 1 / -1;
-
-        width: 100%;
-
+        grid-column: 2;
+        grid-row: 1;
+        width: auto;
         align-items: center;
-
         justify-content: flex-start;
     }
 
@@ -3154,7 +3177,7 @@ textarea.form-control {
     }
 
     .profile-share-wrap {
-        min-width: 0;
+        display: none;
     }
 
     .profile-share-button {
@@ -3167,6 +3190,99 @@ textarea.form-control {
 
     .profile-share-options {
         width: 200px;
+    }
+
+
+    /* LAB TESTS */
+
+    .search-wrap {
+        margin-bottom: 11px;
+    }
+
+    .search-input {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .category-scroll {
+        margin-right: -2px;
+    }
+
+    .category-chip {
+        padding: 7px 10px;
+        font-size: 10px;
+    }
+
+    .test-list {
+        gap: 9px;
+        margin-top: 14px;
+    }
+
+    .test-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .test-card-top {
+        display: block;
+    }
+
+    .test-name {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .test-short-name {
+        margin-left: 3px;
+    }
+
+    .test-description {
+        margin: 5px 0 10px;
+        font-size: 10px;
+    }
+
+    .test-add {
+        width: 100%;
+        min-height: 38px;
+        margin-top: 2px;
+        font-size: 11px;
+    }
+
+    .test-meta {
+        gap: 5px;
+    }
+
+    .test-meta-item {
+        font-size: 9px;
+        overflow-wrap: anywhere;
+    }
+
+    .test-price {
+        margin-top: 10px;
+    }
+
+    .selected-summary {
+        margin-top: 14px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .summary-header,
+    .summary-total,
+    .selected-row {
+        align-items: flex-start;
+    }
+
+    .selected-row-name {
+        overflow-wrap: anywhere;
+    }
+
+    .selected-row-right {
+        flex: 0 0 auto;
+    }
+
+    .summary-book-button {
+        min-height: 43px;
     }
 
 
@@ -3231,12 +3347,65 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 
+    .doctor-card {
+        padding: 15px;
+    }
+
+    .doctor-card-bottom {
+        flex-wrap: wrap;
+    }
+
+    .doctor-actions {
+        flex: 1 0 auto;
+        justify-content: flex-end;
+    }
+
+    .secondary-small-button,
+    .doctor-book-button {
+        min-height: 36px;
+        padding: 8px 12px;
+    }
+
 
     /* INFORMATION */
 
     .info-grid {
 
         grid-template-columns: 1fr;
+    }
+
+    .info-mini-card {
+        padding: 16px;
+    }
+
+    .info-list-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .info-list-value {
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* CONTACT */
+
+    .contact-row {
+        align-items: flex-start;
+        padding: 11px;
+    }
+
+    .contact-value {
+        display: block;
+        overflow-wrap: anywhere;
+    }
+
+    .map-button {
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 12px;
     }
 
 
@@ -3259,6 +3428,19 @@ textarea.form-control {
             24px 24px 0 0;
     }
 
+    .modal-header {
+        padding: 18px;
+    }
+
+    .modal-body,
+    .contact-modal-actions {
+        padding: 18px;
+    }
+
+    .modal-title {
+        font-size: 17px;
+    }
+
     .form-grid {
 
         grid-template-columns: 1fr;
@@ -3270,6 +3452,30 @@ textarea.form-control {
 
     .radio-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .form-control {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    textarea.form-control {
+        min-height: 96px;
+    }
+
+    .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .slot {
+        min-height: 39px;
+        padding: 8px 6px;
+        text-align: center;
+    }
+
+    .selected-doctor {
+        align-items: flex-start;
     }
 
 
