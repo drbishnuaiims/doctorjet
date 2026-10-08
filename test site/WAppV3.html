@@ -1,0 +1,4080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>DoctorJet — Appointments</title>
+
+
+<style>
+
+/* =========================================================
+   DOCTORJET APPOINTMENT DASHBOARD
+   Apple-inspired clinical UI
+   Single-file HTML / CSS / JavaScript
+========================================================= */
+
+
+:root {
+
+    --background: #f5f5f7;
+
+    --surface: rgba(255,255,255,.82);
+    --surface-solid: #ffffff;
+    --surface-soft: #f2f2f7;
+
+    --text: #1d1d1f;
+    --secondary: #6e6e73;
+    --tertiary: #8e8e93;
+
+    --blue: #007aff;
+    --blue-soft: rgba(0,122,255,.10);
+
+    --green: #34c759;
+    --green-soft: rgba(52,199,89,.11);
+
+    --orange: #ff9500;
+    --orange-soft: rgba(255,149,0,.12);
+
+    --purple: #af52de;
+    --purple-soft: rgba(175,82,222,.11);
+
+    --red: #ff3b30;
+
+    --border: rgba(0,0,0,.075);
+
+    --shadow-small:
+        0 2px 8px rgba(0,0,0,.045);
+
+    --shadow:
+        0 10px 35px rgba(0,0,0,.075);
+
+    --shadow-large:
+        0 20px 60px rgba(0,0,0,.10);
+
+    --sidebar-width: 390px;
+
+}
+
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+}
+
+
+body {
+
+    font-family:
+
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(0,122,255,.055),
+            transparent 35%
+        ),
+
+        #f5f5f7;
+
+    color: var(--text);
+
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+
+}
+
+
+/* =========================================================
+   SVG ICON SYSTEM
+========================================================= */
+
+svg {
+
+    display: block;
+
+}
+
+
+.icon {
+
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
+}
+
+
+/* =========================================================
+   APPLICATION SHELL
+========================================================= */
+
+.app {
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    gap: 12px;
+
+    padding: 14px;
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    width: var(--sidebar-width);
+
+    min-width: var(--sidebar-width);
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background:
+
+        rgba(255,255,255,.82);
+
+    backdrop-filter:
+        blur(30px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(30px)
+        saturate(180%);
+
+    border:
+        1px solid
+        rgba(255,255,255,.75);
+
+    border-radius: 24px;
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* =========================================================
+   SIDEBAR HEADER
+========================================================= */
+
+.sidebar-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 18px 18px 14px;
+
+}
+
+
+.doctor-profile {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+}
+
+
+.doctor-avatar {
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.35),
+        0 4px 12px rgba(0,122,255,.15);
+
+}
+
+
+.doctor-name {
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    letter-spacing: -.15px;
+
+}
+
+
+.doctor-status {
+
+    margin-top: 3px;
+
+    color: var(--secondary);
+
+    font-size: 11px;
+
+}
+
+
+.header-actions {
+
+    display: flex;
+
+    gap: 3px;
+
+}
+
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.icon-button {
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #55565a;
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+
+}
+
+
+.icon-button:hover {
+
+    background: rgba(0,0,0,.055);
+
+}
+
+
+.icon-button:active {
+
+    transform: scale(.92);
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-container {
+
+    padding:
+        0 14px 10px;
+
+}
+
+
+.search-box {
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        0 11px;
+
+    background:
+        rgba(118,118,128,.10);
+
+    border-radius: 11px;
+
+}
+
+
+.search-box .icon {
+
+    width: 16px;
+    height: 16px;
+
+    color: #7b7b80;
+
+}
+
+
+.search-box input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+}
+
+
+.search-box input::placeholder {
+
+    color: #8e8e93;
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters {
+
+    display: flex;
+
+    gap: 6px;
+
+    padding:
+        0 14px 12px;
+
+    overflow-x: auto;
+
+}
+
+
+.filters::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+
+.filter {
+
+    border: none;
+
+    padding:
+        6px 12px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(118,118,128,.09);
+
+    color: var(--secondary);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 550;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+}
+
+
+.filter.active {
+
+    background:
+        rgba(0,122,255,.10);
+
+    color: var(--blue);
+
+}
+
+
+/* =========================================================
+   CHAT LIST
+========================================================= */
+
+.chat-list {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding:
+        0 7px 8px;
+
+}
+
+
+.chat-list::-webkit-scrollbar,
+.chat-area::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+
+.chat-list::-webkit-scrollbar-thumb,
+.chat-area::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(0,0,0,.12);
+
+    border-radius: 10px;
+
+}
+
+
+.chat {
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding:
+        9px 10px;
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease;
+
+}
+
+
+.chat:hover {
+
+    background:
+        rgba(0,0,0,.035);
+
+}
+
+
+.chat.active {
+
+    background:
+        rgba(0,122,255,.09);
+
+}
+
+
+/* =========================================================
+   AVATARS
+========================================================= */
+
+.patient-avatar {
+
+    width: 48px;
+    height: 48px;
+
+    min-width: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.3);
+
+}
+
+
+.avatar-blue {
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+}
+
+
+.avatar-purple {
+
+    background:
+        linear-gradient(
+            145deg,
+            #af52de,
+            #c77dff
+        );
+
+}
+
+
+.avatar-orange {
+
+    background:
+        linear-gradient(
+            145deg,
+            #ff9500,
+            #ffcc00
+        );
+
+}
+
+
+.avatar-pink {
+
+    background:
+        linear-gradient(
+            145deg,
+            #ff2d55,
+            #ff375f
+        );
+
+}
+
+
+.avatar-green {
+
+    background:
+        linear-gradient(
+            145deg,
+            #34c759,
+            #30d158
+        );
+
+}
+
+
+.avatar-indigo {
+
+    background:
+        linear-gradient(
+            145deg,
+            #5856d6,
+            #5e5ce6
+        );
+
+}
+
+
+/* =========================================================
+   CHAT INFORMATION
+========================================================= */
+
+.chat-info {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.chat-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.patient-name {
+
+    font-size: 13.5px;
+
+    font-weight: 600;
+
+}
+
+
+.chat-time {
+
+    color: var(--tertiary);
+
+    font-size: 10.5px;
+
+}
+
+
+.chat-bottom {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 4px;
+
+}
+
+
+.last-message {
+
+    flex: 1;
+
+    color: var(--secondary);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.unread {
+
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   MAIN PANEL
+========================================================= */
+
+.main {
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,.62);
+
+    backdrop-filter:
+        blur(25px);
+
+    -webkit-backdrop-filter:
+        blur(25px);
+
+    border:
+        1px solid
+        rgba(255,255,255,.75);
+
+    border-radius: 24px;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.chat-header {
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        10px 18px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    backdrop-filter:
+        blur(25px);
+
+    -webkit-backdrop-filter:
+        blur(25px);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    z-index: 5;
+
+}
+
+
+.back-button {
+
+    display: none;
+
+}
+
+
+.current-patient {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+}
+
+
+.current-avatar {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+}
+
+
+.current-details h3 {
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+}
+
+
+.current-details p {
+
+    margin-top: 2px;
+
+    color: var(--secondary);
+
+    font-size: 11px;
+
+}
+
+
+.chat-header-actions {
+
+    margin-left: auto;
+
+    display: flex;
+
+    gap: 3px;
+
+}
+
+
+/* =========================================================
+   CHAT AREA
+========================================================= */
+
+.chat-area {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding:
+        25px
+        clamp(20px, 8vw, 130px)
+        30px;
+
+    background:
+
+        radial-gradient(
+            circle at 70% 15%,
+            rgba(0,122,255,.025),
+            transparent 30%
+        ),
+
+        #f5f5f7;
+
+}
+
+
+/* =========================================================
+   DATE SEPARATOR
+========================================================= */
+
+.date-separator {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin:
+        2px 0 22px;
+
+}
+
+
+.date-separator span {
+
+    padding:
+        5px 11px;
+
+    background:
+        rgba(118,118,128,.09);
+
+    border-radius: 100px;
+
+    color:
+        var(--secondary);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: .2px;
+
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.message {
+
+    max-width: 650px;
+
+    position: relative;
+
+    margin-bottom: 14px;
+
+}
+
+
+.message.incoming {
+
+    margin-right: auto;
+
+}
+
+
+.message.outgoing {
+
+    margin-left: auto;
+
+}
+
+
+.bubble {
+
+    padding:
+        12px 14px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    border:
+        1px solid
+        rgba(0,0,0,.055);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,.045);
+
+}
+
+
+.message.incoming .bubble {
+
+    border-bottom-left-radius: 5px;
+
+}
+
+
+.message.outgoing .bubble {
+
+    background:
+        #e8f5ff;
+
+    border-color:
+        rgba(0,122,255,.08);
+
+    border-bottom-right-radius: 5px;
+
+}
+
+
+.message-text {
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+}
+
+
+.message-time {
+
+    float: right;
+
+    margin:
+        7px 0 0 12px;
+
+    color:
+        #8e8e93;
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   APPOINTMENT CARD
+========================================================= */
+
+.appointment-card {
+
+    min-width: 350px;
+
+}
+
+
+.appointment-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding-bottom: 13px;
+
+    margin-bottom: 8px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+}
+
+
+.calendar-icon {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        rgba(0,122,255,.10);
+
+    color:
+        var(--blue);
+
+}
+
+
+.calendar-icon .icon {
+
+    width: 20px;
+    height: 20px;
+
+}
+
+
+.appointment-title {
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+}
+
+
+.appointment-subtitle {
+
+    margin-top: 2px;
+
+    color:
+        var(--secondary);
+
+    font-size: 10px;
+
+}
+
+
+.appointment-row {
+
+    min-height: 31px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    font-size: 12px;
+
+}
+
+
+.appointment-row span:first-child {
+
+    color:
+        var(--secondary);
+
+}
+
+
+.appointment-row strong {
+
+    font-weight: 600;
+
+    text-align: right;
+
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.paid-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        5px 9px;
+
+    border-radius: 100px;
+
+    background:
+        var(--green-soft);
+
+    color:
+        #248a3d;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.paid-badge .icon {
+
+    width: 12px;
+    height: 12px;
+
+    stroke-width: 2.5;
+
+}
+
+
+.completed-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        5px 9px;
+
+    border-radius: 100px;
+
+    background:
+        var(--green-soft);
+
+    color:
+        #248a3d;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.confirmed-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        5px 9px;
+
+    border-radius: 100px;
+
+    background:
+        var(--blue-soft);
+
+    color:
+        var(--blue);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   ACTION PANEL
+========================================================= */
+
+.action-panel {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 9px;
+
+    padding: 8px;
+
+    background:
+        rgba(255,255,255,.82);
+
+    border:
+        1px solid
+        rgba(0,0,0,.06);
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.05);
+
+    backdrop-filter:
+        blur(20px);
+
+}
+
+
+.action-button {
+
+    min-height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding:
+        7px 11px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 10.5px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+
+}
+
+
+.action-button:hover {
+
+    filter:
+        brightness(.96);
+
+}
+
+
+.action-button:active {
+
+    transform:
+        scale(.96);
+
+}
+
+
+.action-button .icon {
+
+    width: 14px;
+    height: 14px;
+
+}
+
+
+.confirm-btn {
+
+    background:
+        var(--green-soft);
+
+    color:
+        #248a3d;
+
+}
+
+
+.video-btn {
+
+    background:
+        var(--blue-soft);
+
+    color:
+        var(--blue);
+
+}
+
+
+.chat-btn {
+
+    background:
+        rgba(118,118,128,.11);
+
+    color:
+        #515154;
+
+}
+
+
+.complete-btn {
+
+    background:
+        var(--orange-soft);
+
+    color:
+        #9a6700;
+
+}
+
+
+/* =========================================================
+   PRESCRIPTION DOCUMENT
+========================================================= */
+
+.prescription-card {
+
+    width: 370px;
+
+    max-width: 100%;
+
+}
+
+
+.pdf-preview {
+
+    overflow: hidden;
+
+    background:
+        white;
+
+    border:
+        1px solid
+        rgba(0,0,0,.08);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.05);
+
+}
+
+
+.pdf-top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        11px 13px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+}
+
+
+.pdf-icon {
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,59,48,.10);
+
+    color:
+        var(--red);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+}
+
+
+.pdf-name {
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.pdf-size {
+
+    margin-top: 2px;
+
+    color:
+        var(--secondary);
+
+    font-size: 9px;
+
+}
+
+
+.pdf-body {
+
+    padding:
+        18px 20px;
+
+    background:
+        #fff;
+
+}
+
+
+.rx-header {
+
+    text-align: center;
+
+    padding-bottom: 9px;
+
+    margin-bottom: 13px;
+
+    border-bottom:
+        1px solid
+        #dedede;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    letter-spacing: .5px;
+
+}
+
+
+.rx-line {
+
+    height: 6px;
+
+    margin: 8px 0;
+
+    background:
+        #ececf0;
+
+    border-radius: 3px;
+
+}
+
+
+.rx-line.short {
+
+    width: 55%;
+
+}
+
+
+.rx-line.medium {
+
+    width: 78%;
+
+}
+
+
+.pdf-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        9px 12px;
+
+    background:
+        #fafafa;
+
+    border-top:
+        1px solid
+        var(--border);
+
+}
+
+
+.pdf-footer span {
+
+    color:
+        var(--secondary);
+
+    font-size: 9px;
+
+}
+
+
+.open-pdf {
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        var(--blue);
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   SYSTEM STATUS
+========================================================= */
+
+.system-message {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin:
+        17px 0;
+
+}
+
+
+.system-message span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding:
+        6px 11px;
+
+    background:
+        rgba(118,118,128,.09);
+
+    border-radius: 100px;
+
+    color:
+        var(--secondary);
+
+    font-size: 9.5px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================================================
+   COMPOSER
+========================================================= */
+
+.composer {
+
+    min-height: 68px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        10px 16px;
+
+    background:
+        rgba(255,255,255,.78);
+
+    border-top:
+        1px solid
+        var(--border);
+
+    backdrop-filter:
+        blur(25px);
+
+    -webkit-backdrop-filter:
+        blur(25px);
+
+}
+
+
+.composer-input {
+
+    flex: 1;
+
+    min-height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        0 15px;
+
+    background:
+        rgba(118,118,128,.09);
+
+    border-radius: 20px;
+
+}
+
+
+.composer-input input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    color:
+        var(--text);
+
+}
+
+
+.composer-input input::placeholder {
+
+    color:
+        #8e8e93;
+
+}
+
+
+.send-button {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 8px rgba(0,122,255,.2);
+
+    transition:
+        transform .15s ease;
+
+}
+
+
+.send-button:hover {
+
+    transform:
+        scale(1.04);
+
+}
+
+
+.send-button:active {
+
+    transform:
+        scale(.93);
+
+}
+
+
+.send-button .icon {
+
+    width: 17px;
+    height: 17px;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 80px;
+
+    transform:
+        translateX(-50%)
+        translateY(15px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    padding:
+        10px 16px;
+
+    background:
+        rgba(29,29,31,.92);
+
+    color:
+        white;
+
+    border-radius: 100px;
+
+    font-size: 11px;
+
+    font-weight: 550;
+
+    box-shadow:
+        var(--shadow);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+
+    z-index: 100;
+
+}
+
+
+.toast.show {
+
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .app {
+
+        padding: 0;
+
+    }
+
+
+    .sidebar {
+
+        width: 100%;
+
+        min-width: 100%;
+
+        border-radius: 0;
+
+        border: none;
+
+    }
+
+
+    .main {
+
+        display: none;
+
+        border-radius: 0;
+
+    }
+
+
+    .app.chat-open .sidebar {
+
+        display: none;
+
+    }
+
+
+    .app.chat-open .main {
+
+        display: flex;
+
+        width: 100%;
+
+    }
+
+
+    .back-button {
+
+        display: flex;
+
+        margin-right: 3px;
+
+    }
+
+
+    .chat-area {
+
+        padding:
+            20px
+            10px
+            25px;
+
+    }
+
+
+    .message {
+
+        max-width: 94%;
+
+    }
+
+
+    .appointment-card {
+
+        min-width: 0;
+
+    }
+
+
+    .action-button {
+
+        flex: 1;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .sidebar-header {
+
+        padding:
+            15px 14px 11px;
+
+    }
+
+
+    .chat-header {
+
+        padding:
+            9px 10px;
+
+    }
+
+
+    .current-avatar {
+
+        width: 38px;
+        height: 38px;
+
+    }
+
+
+    .chat-area {
+
+        padding-left: 8px;
+        padding-right: 8px;
+
+    }
+
+
+    .bubble {
+
+        padding: 11px;
+
+    }
+
+
+    .appointment-row {
+
+        font-size: 11px;
+
+    }
+
+
+    .composer {
+
+        padding:
+            8px 10px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SVG ICON DEFINITIONS
+========================================================= -->
+
+<svg
+    width="0"
+    height="0"
+    style="position:absolute"
+>
+
+    <symbol id="search" viewBox="0 0 24 24">
+
+        <circle
+            cx="11"
+            cy="11"
+            r="6.5">
+        </circle>
+
+        <path
+            d="M16 16l5 5">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="plus" viewBox="0 0 24 24">
+
+        <path d="M12 5v14"></path>
+
+        <path d="M5 12h14"></path>
+
+    </symbol>
+
+
+    <symbol id="more" viewBox="0 0 24 24">
+
+        <circle
+            cx="12"
+            cy="5"
+            r="1">
+        </circle>
+
+        <circle
+            cx="12"
+            cy="12"
+            r="1">
+        </circle>
+
+        <circle
+            cx="12"
+            cy="19"
+            r="1">
+        </circle>
+
+    </symbol>
+
+
+    <symbol id="video" viewBox="0 0 24 24">
+
+        <rect
+            x="3"
+            y="6"
+            width="13"
+            height="12"
+            rx="3">
+        </rect>
+
+        <path
+            d="M16 10l5-3v10l-5-3z">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="info" viewBox="0 0 24 24">
+
+        <circle
+            cx="12"
+            cy="12"
+            r="9">
+        </circle>
+
+        <path d="M12 10v6"></path>
+
+        <path d="M12 7h.01"></path>
+
+    </symbol>
+
+
+    <symbol id="calendar" viewBox="0 0 24 24">
+
+        <rect
+            x="3"
+            y="5"
+            width="18"
+            height="16"
+            rx="3">
+        </rect>
+
+        <path d="M7 3v4"></path>
+
+        <path d="M17 3v4"></path>
+
+        <path d="M3 9h18"></path>
+
+        <path d="M8 13h3"></path>
+
+        <path d="M8 17h3"></path>
+
+    </symbol>
+
+
+    <symbol id="check" viewBox="0 0 24 24">
+
+        <path
+            d="M5 12l4 4L19 6">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="check-double" viewBox="0 0 24 24">
+
+        <path
+            d="M3 12l4 4L15 8">
+        </path>
+
+        <path
+            d="M9 16l2 2L21 8">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="chat" viewBox="0 0 24 24">
+
+        <path
+            d="M20 11.5a7.5 7.5 0 01-8 7.5 8.4 8.4 0 01-3.2-.6L4 20l1.6-4A7.3 7.3 0 014 11.5 7.5 7.5 0 0112 4a7.5 7.5 0 018 7.5z">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="document" viewBox="0 0 24 24">
+
+        <path d="M6 3h8l4 4v14H6z"></path>
+
+        <path d="M14 3v5h5"></path>
+
+        <path d="M9 13h6"></path>
+
+        <path d="M9 17h5"></path>
+
+    </symbol>
+
+
+    <symbol id="paperclip" viewBox="0 0 24 24">
+
+        <path
+            d="M20 11l-8 8a5 5 0 01-7-7l8-8a3.5 3.5 0 015 5l-8 8a2 2 0 01-3-3l7-7">
+        </path>
+
+    </symbol>
+
+
+    <symbol id="send" viewBox="0 0 24 24">
+
+        <path d="M21 3L10 14"></path>
+
+        <path d="M21 3l-7 18-4-7-7-4z"></path>
+
+    </symbol>
+
+
+    <symbol id="arrow-left" viewBox="0 0 24 24">
+
+        <path d="M15 18l-6-6 6-6"></path>
+
+    </symbol>
+
+
+</svg>
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<div
+    class="app"
+    id="app"
+>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="sidebar-header">
+
+
+            <div class="doctor-profile">
+
+
+                <div class="doctor-avatar">
+                    BS
+                </div>
+
+
+                <div>
+
+                    <div class="doctor-name">
+                        Dr. Bishnu Prasad Sahoo
+                    </div>
+
+                    <div class="doctor-status">
+                        Psychiatry · Online
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="header-actions">
+
+
+                <button
+                    class="icon-button"
+                    onclick="showToast('New appointment')"
+                    title="New appointment"
+                >
+
+                    <svg class="icon">
+                        <use href="#plus"></use>
+                    </svg>
+
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    onclick="showToast('More options')"
+                    title="More"
+                >
+
+                    <svg class="icon">
+                        <use href="#more"></use>
+                    </svg>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-container">
+
+
+            <div class="search-box">
+
+
+                <svg class="icon">
+                    <use href="#search"></use>
+                </svg>
+
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search patients"
+                    oninput="searchChats()"
+                >
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+
+            <button
+                class="filter active"
+                data-filter="all"
+                onclick="filterChats('all', this)"
+            >
+                All
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="pending"
+                onclick="filterChats('pending', this)"
+            >
+                Pending
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="confirmed"
+                onclick="filterChats('confirmed', this)"
+            >
+                Confirmed
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="completed"
+                onclick="filterChats('completed', this)"
+            >
+                Completed
+            </button>
+
+
+        </div>
+
+
+        <!-- CHAT LIST -->
+
+        <div
+            class="chat-list"
+            id="chatList"
+        >
+
+
+            <div
+                class="chat active"
+                data-id="ananya"
+                data-name="Ananya Das"
+                onclick="openChat('ananya')"
+            >
+
+                <div class="patient-avatar avatar-purple">
+                    AD
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Ananya Das
+                        </span>
+
+                        <span class="chat-time">
+                            10:42
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            Appointment request
+                        </span>
+
+                        <span class="unread">
+                            2
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat"
+                data-id="rahul"
+                data-name="Rahul Mehta"
+                onclick="openChat('rahul')"
+            >
+
+                <div class="patient-avatar avatar-blue">
+                    RM
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Rahul Mehta
+                        </span>
+
+                        <span class="chat-time">
+                            09:58
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            Prescription shared
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat"
+                data-id="priya"
+                data-name="Priya Nair"
+                onclick="openChat('priya')"
+            >
+
+                <div class="patient-avatar avatar-orange">
+                    PN
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Priya Nair
+                        </span>
+
+                        <span class="chat-time">
+                            09:21
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            Payment completed
+                        </span>
+
+                        <span class="unread">
+                            1
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat"
+                data-id="arjun"
+                data-name="Arjun Patel"
+                onclick="openChat('arjun')"
+            >
+
+                <div class="patient-avatar avatar-green">
+                    AP
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Arjun Patel
+                        </span>
+
+                        <span class="chat-time">
+                            Yesterday
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            Prescription shared
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat"
+                data-id="sneha"
+                data-name="Sneha Rao"
+                onclick="openChat('sneha')"
+            >
+
+                <div class="patient-avatar avatar-pink">
+                    SR
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Sneha Rao
+                        </span>
+
+                        <span class="chat-time">
+                            Yesterday
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            New appointment request
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat"
+                data-id="vikram"
+                data-name="Vikram Singh"
+                onclick="openChat('vikram')"
+            >
+
+                <div class="patient-avatar avatar-indigo">
+                    VS
+                </div>
+
+
+                <div class="chat-info">
+
+                    <div class="chat-top">
+
+                        <span class="patient-name">
+                            Vikram Singh
+                        </span>
+
+                        <span class="chat-time">
+                            Tue
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-bottom">
+
+                        <span class="last-message">
+                            Appointment confirmed
+                        </span>
+
+                        <span class="unread">
+                            3
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="chat-header">
+
+
+            <button
+                class="icon-button back-button"
+                onclick="closeChat()"
+            >
+
+                <svg class="icon">
+                    <use href="#arrow-left"></use>
+                </svg>
+
+            </button>
+
+
+            <div class="current-patient">
+
+
+                <div
+                    id="currentAvatar"
+                    class="current-avatar avatar-purple"
+                >
+                    AD
+                </div>
+
+
+                <div class="current-details">
+
+                    <h3 id="currentName">
+                        Ananya Das
+                    </h3>
+
+                    <p id="currentStatus">
+                        online
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="chat-header-actions">
+
+
+                <button
+                    class="icon-button"
+                    onclick="startVideo()"
+                    title="Video consultation"
+                >
+
+                    <svg class="icon">
+                        <use href="#video"></use>
+                    </svg>
+
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    onclick="showToast('Patient information')"
+                    title="Patient information"
+                >
+
+                    <svg class="icon">
+                        <use href="#info"></use>
+                    </svg>
+
+                </button>
+
+
+                <button
+                    class="icon-button"
+                    onclick="showToast('More options')"
+                    title="More"
+                >
+
+                    <svg class="icon">
+                        <use href="#more"></use>
+                    </svg>
+
+                </button>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- CHAT CONTENT -->
+
+        <div
+            class="chat-area"
+            id="chatArea"
+        ></div>
+
+
+        <!-- COMPOSER -->
+
+        <div class="composer">
+
+
+            <button
+                class="icon-button"
+                onclick="showToast('Attach document')"
+                title="Attach"
+            >
+
+                <svg class="icon">
+                    <use href="#paperclip"></use>
+                </svg>
+
+            </button>
+
+
+            <div class="composer-input">
+
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Message patient"
+                    onkeydown="handleEnter(event)"
+                >
+
+            </div>
+
+
+            <button
+                class="send-button"
+                onclick="sendMessage()"
+                title="Send"
+            >
+
+                <svg class="icon">
+                    <use href="#send"></use>
+                </svg>
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<script>
+
+/* =========================================================
+   PATIENT DATABASE
+========================================================= */
+
+const patients = {
+
+
+    ananya: {
+
+        name: "Ananya Das",
+
+        initials: "AD",
+
+        avatar: "avatar-purple",
+
+        status: "online",
+
+        state: "pending",
+
+        date: "08 October 2026",
+
+        time: "6:30 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 2
+
+    },
+
+
+    rahul: {
+
+        name: "Rahul Mehta",
+
+        initials: "RM",
+
+        avatar: "avatar-blue",
+
+        status: "last seen today at 9:58 AM",
+
+        state: "completed",
+
+        date: "07 October 2026",
+
+        time: "5:00 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 0
+
+    },
+
+
+    priya: {
+
+        name: "Priya Nair",
+
+        initials: "PN",
+
+        avatar: "avatar-orange",
+
+        status: "online",
+
+        state: "pending",
+
+        date: "08 October 2026",
+
+        time: "7:00 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 1
+
+    },
+
+
+    arjun: {
+
+        name: "Arjun Patel",
+
+        initials: "AP",
+
+        avatar: "avatar-green",
+
+        status: "last seen yesterday",
+
+        state: "completed",
+
+        date: "07 October 2026",
+
+        time: "4:30 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 0
+
+    },
+
+
+    sneha: {
+
+        name: "Sneha Rao",
+
+        initials: "SR",
+
+        avatar: "avatar-pink",
+
+        status: "online",
+
+        state: "pending",
+
+        date: "09 October 2026",
+
+        time: "6:00 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 0
+
+    },
+
+
+    vikram: {
+
+        name: "Vikram Singh",
+
+        initials: "VS",
+
+        avatar: "avatar-indigo",
+
+        status: "online",
+
+        state: "confirmed",
+
+        date: "08 October 2026",
+
+        time: "8:00 PM",
+
+        mode: "Video consultation",
+
+        fee: "₹800",
+
+        unread: 3
+
+    }
+
+};
+
+
+/* =========================================================
+   CURRENT PATIENT
+========================================================= */
+
+let currentPatientId = "ananya";
+
+
+/* =========================================================
+   OPEN CHAT
+========================================================= */
+
+function openChat(id) {
+
+    const patient =
+        patients[id];
+
+
+    if (!patient) return;
+
+
+    currentPatientId =
+        id;
+
+
+    document
+        .querySelectorAll(".chat")
+        .forEach(chat => {
+
+            chat.classList.remove("active");
+
+        });
+
+
+    const selected =
+        document.querySelector(
+            `.chat[data-id="${id}"]`
+        );
+
+
+    if (selected) {
+
+        selected.classList.add("active");
+
+    }
+
+
+    document
+        .getElementById("currentName")
+        .textContent =
+        patient.name;
+
+
+    document
+        .getElementById("currentStatus")
+        .textContent =
+        patient.status;
+
+
+    const avatar =
+        document
+            .getElementById("currentAvatar");
+
+
+    avatar.textContent =
+        patient.initials;
+
+
+    avatar.className =
+        "current-avatar " +
+        patient.avatar;
+
+
+    document
+        .getElementById("app")
+        .classList.add("chat-open");
+
+
+    renderChat(patient);
+
+}
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(patient) {
+
+    const chatArea =
+        document
+            .getElementById("chatArea");
+
+
+    chatArea.innerHTML = "";
+
+
+    /* -----------------------------------------------------
+       DATE
+    ----------------------------------------------------- */
+
+    chatArea.innerHTML += `
+
+        <div class="date-separator">
+
+            <span>
+                TODAY · 08 OCTOBER 2026
+            </span>
+
+        </div>
+
+    `;
+
+
+    /* -----------------------------------------------------
+       PATIENT MESSAGE
+    ----------------------------------------------------- */
+
+    if (
+        patient.state === "pending" ||
+        patient.state === "confirmed"
+    ) {
+
+        chatArea.innerHTML += `
+
+            <div class="message incoming">
+
+                <div class="bubble">
+
+                    <div class="message-text">
+
+                        Hello doctor. I would like to
+                        book an online consultation.
+
+                    </div>
+
+                    <div class="message-time">
+                        10:31
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* -----------------------------------------------------
+       APPOINTMENT MESSAGE
+    ----------------------------------------------------- */
+
+    let appointmentTitle =
+        "Appointment Request";
+
+
+    if (patient.state === "confirmed") {
+
+        appointmentTitle =
+            "Appointment Confirmed";
+
+    }
+
+
+    if (patient.state === "completed") {
+
+        appointmentTitle =
+            "Completed Consultation";
+
+    }
+
+
+    let statusBadge = `
+
+        <span class="paid-badge">
+
+            <svg class="icon">
+                <use href="#check"></use>
+            </svg>
+
+            PAID
+
+        </span>
+
+    `;
+
+
+    if (patient.state === "confirmed") {
+
+        statusBadge = `
+
+            <span class="confirmed-badge">
+
+                <svg class="icon">
+                    <use href="#check"></use>
+                </svg>
+
+                CONFIRMED
+
+            </span>
+
+        `;
+
+    }
+
+
+    if (patient.state === "completed") {
+
+        statusBadge = `
+
+            <span class="completed-badge">
+
+                <svg class="icon">
+                    <use href="#check"></use>
+                </svg>
+
+                COMPLETED
+
+            </span>
+
+        `;
+
+    }
+
+
+    chatArea.innerHTML += `
+
+        <div class="message incoming">
+
+            <div class="bubble">
+
+
+                <div class="appointment-card">
+
+
+                    <div class="appointment-header">
+
+
+                        <div class="calendar-icon">
+
+                            <svg class="icon">
+                                <use href="#calendar"></use>
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="appointment-title">
+
+                                ${appointmentTitle}
+
+                            </div>
+
+
+                            <div class="appointment-subtitle">
+
+                                Thomson Clinic
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Patient
+                        </span>
+
+                        <strong>
+                            ${patient.name}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Consultation
+                        </span>
+
+                        <strong>
+                            Psychiatry
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Date
+                        </span>
+
+                        <strong>
+                            ${patient.date}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Time
+                        </span>
+
+                        <strong>
+                            ${patient.time}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Mode
+                        </span>
+
+                        <strong>
+                            ${patient.mode}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Consultation fee
+                        </span>
+
+                        <strong>
+                            ${patient.fee}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        ${statusBadge}
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="message-time">
+
+                    ${patient.state === "completed"
+                        ? "6:02 PM"
+                        : "10:32"
+                    }
+
+                </div>
+
+
+            </div>
+
+
+            ${
+                patient.state === "pending"
+                ? createPendingActions()
+                : ""
+            }
+
+
+            ${
+                patient.state === "confirmed"
+                ? createConfirmedActions()
+                : ""
+            }
+
+
+        </div>
+
+    `;
+
+
+    /* -----------------------------------------------------
+       COMPLETED CONSULTATION
+       PRESCRIPTION ONLY APPEARS HERE
+    ----------------------------------------------------- */
+
+    if (
+        patient.state === "completed"
+    ) {
+
+        chatArea.innerHTML += `
+
+            <div class="system-message">
+
+                <span>
+
+                    ✓ Consultation completed ·
+                    Prescription shared
+
+                </span>
+
+            </div>
+
+
+            <div class="message outgoing">
+
+
+                <div class="bubble">
+
+
+                    <div class="prescription-card">
+
+
+                        <div class="pdf-preview">
+
+
+                            <div class="pdf-top">
+
+
+                                <div class="pdf-icon">
+                                    PDF
+                                </div>
+
+
+                                <div>
+
+                                    <div class="pdf-name">
+
+                                        Prescription_${patient.name.replace(/\s/g,"_")}.pdf
+
+                                    </div>
+
+
+                                    <div class="pdf-size">
+
+                                        184 KB · PDF document
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="pdf-body">
+
+
+                                <div class="rx-header">
+
+                                    THOMSON CLINIC
+
+                                </div>
+
+
+                                <div class="rx-line medium"></div>
+
+                                <div class="rx-line"></div>
+
+                                <div class="rx-line short"></div>
+
+                                <div class="rx-line medium"></div>
+
+
+                                <br>
+
+
+                                <div class="rx-line"></div>
+
+                                <div class="rx-line short"></div>
+
+
+                            </div>
+
+
+                            <div class="pdf-footer">
+
+
+                                <span>
+                                    Prescription shared
+                                </span>
+
+
+                                <button
+                                    class="open-pdf"
+                                    onclick="openPrescription()"
+                                >
+                                    Open PDF
+                                </button>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="message-time">
+
+                        6:02 PM ✓✓
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+    }
+
+
+    /* -----------------------------------------------------
+       STATUS MESSAGE
+    ----------------------------------------------------- */
+
+    else {
+
+
+        let statusText;
+
+
+        if (
+            patient.state === "pending"
+        ) {
+
+            statusText =
+                "Payment verified · Appointment awaiting confirmation";
+
+        }
+
+
+        if (
+            patient.state === "confirmed"
+        ) {
+
+            statusText =
+                "Appointment confirmed · Payment verified";
+
+        }
+
+
+        chatArea.innerHTML += `
+
+            <div class="system-message">
+
+                <span>
+
+                    ${statusText}
+
+                </span>
+
+            </div>
+
+        `;
+
+    }
+
+
+    scrollChat();
+
+}
+
+
+/* =========================================================
+   PENDING ACTIONS
+========================================================= */
+
+function createPendingActions() {
+
+    return `
+
+        <div class="action-panel">
+
+
+            <button
+                class="action-button confirm-btn"
+                onclick="confirmAppointment()"
+            >
+
+                <svg class="icon">
+                    <use href="#check"></use>
+                </svg>
+
+                Confirm
+
+            </button>
+
+
+            <button
+                class="action-button video-btn"
+                onclick="startVideo()"
+            >
+
+                <svg class="icon">
+                    <use href="#video"></use>
+                </svg>
+
+                Video
+
+            </button>
+
+
+            <button
+                class="action-button chat-btn"
+                onclick="startChat()"
+            >
+
+                <svg class="icon">
+                    <use href="#chat"></use>
+                </svg>
+
+                Chat
+
+            </button>
+
+
+            <button
+                class="action-button complete-btn"
+                onclick="completeAppointment()"
+            >
+
+                <svg class="icon">
+                    <use href="#check-double"></use>
+                </svg>
+
+                Complete
+
+            </button>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CONFIRMED ACTIONS
+========================================================= */
+
+function createConfirmedActions() {
+
+    return `
+
+        <div class="action-panel">
+
+
+            <button
+                class="action-button video-btn"
+                onclick="startVideo()"
+            >
+
+                <svg class="icon">
+                    <use href="#video"></use>
+                </svg>
+
+                Video
+
+            </button>
+
+
+            <button
+                class="action-button chat-btn"
+                onclick="startChat()"
+            >
+
+                <svg class="icon">
+                    <use href="#chat"></use>
+                </svg>
+
+                Chat
+
+            </button>
+
+
+            <button
+                class="action-button complete-btn"
+                onclick="completeAppointment()"
+            >
+
+                <svg class="icon">
+                    <use href="#check-double"></use>
+                </svg>
+
+                Complete
+
+            </button>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CONFIRM APPOINTMENT
+========================================================= */
+
+function confirmAppointment() {
+
+    const patient =
+        patients[currentPatientId];
+
+
+    if (!patient) return;
+
+
+    patient.state =
+        "confirmed";
+
+
+    showToast(
+        "Appointment confirmed"
+    );
+
+
+    renderChat(patient);
+
+}
+
+
+/* =========================================================
+   START VIDEO
+========================================================= */
+
+function startVideo() {
+
+    showToast(
+        "Starting secure video consultation…"
+    );
+
+}
+
+
+/* =========================================================
+   START CHAT
+========================================================= */
+
+function startChat() {
+
+    showToast(
+        "Secure patient chat activated"
+    );
+
+}
+
+
+/* =========================================================
+   COMPLETE APPOINTMENT
+========================================================= */
+
+function completeAppointment() {
+
+    const patient =
+        patients[currentPatientId];
+
+
+    if (!patient) return;
+
+
+    patient.state =
+        "completed";
+
+
+    updateChatPreview(
+        currentPatientId,
+        "Prescription shared"
+    );
+
+
+    showToast(
+        "Consultation completed"
+    );
+
+
+    renderChat(patient);
+
+}
+
+
+/* =========================================================
+   PRESCRIPTION
+========================================================= */
+
+function openPrescription() {
+
+    showToast(
+        "Opening prescription PDF…"
+    );
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+function sendMessage() {
+
+    const input =
+        document
+            .getElementById("messageInput");
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) return;
+
+
+    const chatArea =
+        document
+            .getElementById("chatArea");
+
+
+    const message =
+        document
+            .createElement("div");
+
+
+    message.className =
+        "message outgoing";
+
+
+    message.innerHTML = `
+
+        <div class="bubble">
+
+            <div class="message-text">
+
+                ${escapeHTML(text)}
+
+            </div>
+
+            <div class="message-time">
+
+                Now ✓✓
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    chatArea.appendChild(message);
+
+
+    input.value = "";
+
+
+    scrollChat();
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchChats() {
+
+    const query =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    document
+        .querySelectorAll(".chat")
+        .forEach(chat => {
+
+            const name =
+                chat
+                    .dataset
+                    .name
+                    .toLowerCase();
+
+
+            const matches =
+                name.includes(query);
+
+
+            chat.style.display =
+                matches
+                    ? "flex"
+                    : "none";
+
+        });
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filterChats(
+    filter,
+    clickedButton
+) {
+
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(button => {
+
+            button.classList
+                .remove("active");
+
+        });
+
+
+    clickedButton
+        .classList
+        .add("active");
+
+
+    document
+        .querySelectorAll(".chat")
+        .forEach(chat => {
+
+
+            const id =
+                chat.dataset.id;
+
+
+            const patient =
+                patients[id];
+
+
+            if (
+                filter === "all"
+            ) {
+
+                chat.style.display =
+                    "flex";
+
+                return;
+
+            }
+
+
+            chat.style.display =
+                patient.state === filter
+                    ? "flex"
+                    : "none";
+
+        });
+
+}
+
+
+/* =========================================================
+   UPDATE CHAT PREVIEW
+========================================================= */
+
+function updateChatPreview(
+    id,
+    text
+) {
+
+    const chat =
+        document.querySelector(
+            `.chat[data-id="${id}"]`
+        );
+
+
+    if (!chat) return;
+
+
+    const preview =
+        chat.querySelector(
+            ".last-message"
+        );
+
+
+    if (preview) {
+
+        preview.textContent =
+            text;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE CLOSE
+========================================================= */
+
+function closeChat() {
+
+    document
+        .getElementById("app")
+        .classList
+        .remove("chat-open");
+
+}
+
+
+/* =========================================================
+   ENTER TO SEND
+========================================================= */
+
+function handleEnter(event) {
+
+    if (
+        event.key === "Enter"
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollChat() {
+
+    const chatArea =
+        document
+            .getElementById("chatArea");
+
+
+    requestAnimationFrame(() => {
+
+        chatArea.scrollTop =
+            chatArea.scrollHeight;
+
+    });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document
+            .getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList
+        .add("show");
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(() => {
+
+            toast.classList
+                .remove("show");
+
+        }, 2200);
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(str) {
+
+    return str
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        renderChat(
+            patients.ananya
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
