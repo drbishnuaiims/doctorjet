@@ -1,0 +1,3974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoctorJet — Find a Doctor</title>
+
+<style>
+/* =========================================================
+   DOCTORJET PATIENT APPOINTMENT FRONTEND
+   Apple-inspired UI
+   Single-file HTML / CSS / JS
+========================================================= */
+
+:root {
+    --bg: #f5f5f7;
+    --white: #ffffff;
+    --text: #1d1d1f;
+    --secondary: #6e6e73;
+    --tertiary: #8e8e93;
+
+    --blue: #007aff;
+    --blue-soft: rgba(0,122,255,.10);
+
+    --green: #34c759;
+    --green-soft: rgba(52,199,89,.11);
+
+    --purple: #af52de;
+    --orange: #ff9500;
+    --red: #ff3b30;
+    --indigo: #5856d6;
+    --teal: #30b0c7;
+
+    --border: rgba(0,0,0,.07);
+
+    --shadow:
+        0 10px 35px rgba(0,0,0,.07);
+
+    --shadow-small:
+        0 3px 12px rgba(0,0,0,.055);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(0,122,255,.06),
+            transparent 35%
+        ),
+        var(--bg);
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   SVG ICONS
+========================================================= */
+
+svg {
+    display: block;
+}
+
+.icon {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navbar {
+    height: 68px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 6%;
+
+    background:
+        rgba(255,255,255,.78);
+
+    backdrop-filter:
+        blur(25px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(25px)
+        saturate(180%);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-mark {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    box-shadow:
+        0 4px 12px rgba(0,122,255,.17);
+}
+
+.brand-name {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+}
+
+.nav-links {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.nav-link {
+    border: none;
+    background: transparent;
+
+    padding: 8px 13px;
+
+    border-radius: 10px;
+
+    color: var(--secondary);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 550;
+
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background: rgba(0,0,0,.045);
+}
+
+.profile-button {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    padding:
+        55px 7% 30px;
+
+    max-width: 1250px;
+    width: 100%;
+    margin: auto;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 6px 11px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(0,122,255,.08);
+
+    color:
+        var(--blue);
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.hero-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+}
+
+.hero h1 {
+    max-width: 720px;
+
+    margin-top: 15px;
+
+    font-size:
+        clamp(32px, 5vw, 54px);
+
+    line-height: 1.03;
+
+    letter-spacing: -2px;
+
+    font-weight: 700;
+}
+
+.hero h1 span {
+    color: var(--blue);
+}
+
+.hero p {
+    max-width: 620px;
+
+    margin-top: 15px;
+
+    color: var(--secondary);
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-section {
+    max-width: 1250px;
+    width: 100%;
+
+    margin: 0 auto;
+
+    padding:
+        0 7% 30px;
+}
+
+.search-box {
+    max-width: 720px;
+
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        0 17px;
+
+    background:
+        rgba(255,255,255,.82);
+
+    border:
+        1px solid
+        rgba(0,0,0,.055);
+
+    border-radius: 16px;
+
+    box-shadow:
+        var(--shadow-small);
+
+    backdrop-filter:
+        blur(20px);
+}
+
+.search-box .icon {
+    color: var(--tertiary);
+}
+
+.search-box input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    color: var(--text);
+}
+
+.search-box input::placeholder {
+    color: var(--tertiary);
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.content {
+    max-width: 1250px;
+    width: 100%;
+
+    margin: 0 auto;
+
+    padding:
+        0 7% 70px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: -.4px;
+}
+
+.section-subtitle {
+    margin-top: 4px;
+
+    color: var(--secondary);
+
+    font-size: 12px;
+}
+
+.section-action {
+    border: none;
+    background: transparent;
+
+    color: var(--blue);
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SPECIALITY CARDS
+========================================================= */
+
+.specialities {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(150px, 1fr)
+        );
+
+    gap: 10px;
+
+    margin-bottom: 42px;
+}
+
+.speciality {
+    min-height: 105px;
+
+    padding: 15px;
+
+    border:
+        1px solid
+        rgba(0,0,0,.055);
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.78);
+
+    box-shadow:
+        var(--shadow-small);
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border .18s ease;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.speciality:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.speciality.active {
+    border-color:
+        rgba(0,122,255,.25);
+
+    background:
+        rgba(0,122,255,.055);
+}
+
+.speciality-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 11px;
+}
+
+.speciality-icon .icon {
+    width: 19px;
+    height: 19px;
+}
+
+.speciality-name {
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.speciality-count {
+    margin-top: 3px;
+
+    color: var(--secondary);
+
+    font-size: 10px;
+}
+
+
+/* speciality colors */
+
+.psych {
+    background: rgba(175,82,222,.11);
+    color: var(--purple);
+}
+
+.cardiology {
+    background: rgba(255,59,48,.10);
+    color: var(--red);
+}
+
+.dermatology {
+    background: rgba(255,149,0,.11);
+    color: #d77a00;
+}
+
+.pediatrics {
+    background: rgba(52,199,89,.11);
+    color: #248a3d;
+}
+
+.neurology {
+    background: rgba(88,86,214,.11);
+    color: var(--indigo);
+}
+
+.pulmonary {
+    background: rgba(48,176,199,.11);
+    color: #1d879b;
+}
+
+.orthopedics {
+    background: rgba(0,122,255,.10);
+    color: var(--blue);
+}
+
+.gynecology {
+    background: rgba(255,45,85,.10);
+    color: #d91d43;
+}
+
+
+/* =========================================================
+   DOCTOR SECTION
+========================================================= */
+
+.doctors-section {
+    margin-top: 5px;
+}
+
+.doctor-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 13px;
+}
+
+
+/* =========================================================
+   DOCTOR CHAT HEAD
+========================================================= */
+
+.doctor-card {
+
+    min-height: 178px;
+
+    padding: 16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        rgba(255,255,255,.88);
+
+    border:
+        1px solid
+        rgba(0,0,0,.055);
+
+    border-radius: 20px;
+
+    box-shadow:
+        var(--shadow-small);
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+
+}
+
+.doctor-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+.doctor-top {
+
+    display: flex;
+
+    gap: 12px;
+
+}
+
+
+.doctor-photo {
+
+    width: 58px;
+    height: 58px;
+
+    min-width: 58px;
+
+    border-radius: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e8e8ed,
+            #c9c9d0
+        );
+
+    color: #55565a;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    overflow: hidden;
+
+}
+
+
+.doctor-photo img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+.doctor-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.doctor-name {
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+}
+
+
+.verified {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 14px;
+    height: 14px;
+
+    margin-left: 3px;
+
+    border-radius: 50%;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    font-size: 8px;
+
+    vertical-align: middle;
+
+}
+
+
+.doctor-speciality {
+
+    margin-top: 3px;
+
+    color: var(--secondary);
+
+    font-size: 11px;
+
+}
+
+
+.doctor-hospital {
+
+    margin-top: 3px;
+
+    color: var(--tertiary);
+
+    font-size: 10px;
+
+}
+
+
+.doctor-status {
+
+    margin-top: 8px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 9px;
+
+    color: #248a3d;
+
+}
+
+
+.status-dot {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+}
+
+
+.doctor-bottom {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: auto;
+
+    padding-top: 14px;
+
+}
+
+
+.doctor-meta {
+
+    color: var(--secondary);
+
+    font-size: 10px;
+
+}
+
+
+.doctor-fee {
+
+    font-size: 11px;
+
+    font-weight: 650;
+
+}
+
+
+.book-button {
+
+    border: none;
+
+    padding:
+        8px 13px;
+
+    border-radius: 10px;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 8px rgba(0,122,255,.18);
+
+}
+
+
+.book-button:active {
+
+    transform:
+        scale(.96);
+
+}
+
+
+/* =========================================================
+   DOCTOR DRAWER / PROFILE
+========================================================= */
+
+.overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.22);
+
+    backdrop-filter:
+        blur(5px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .25s ease;
+
+    z-index: 50;
+
+}
+
+
+.overlay.open {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+.doctor-drawer {
+
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width:
+        min(560px, 100%);
+
+    height: 100vh;
+
+    background:
+        rgba(255,255,255,.96);
+
+    backdrop-filter:
+        blur(35px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(35px)
+        saturate(180%);
+
+    box-shadow:
+        -15px 0 50px rgba(0,0,0,.13);
+
+    transform:
+        translateX(100%);
+
+    transition:
+        transform .28s cubic-bezier(.22,.61,.36,1);
+
+    z-index: 60;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow-y: auto;
+
+}
+
+
+.overlay.open .doctor-drawer {
+
+    transform:
+        translateX(0);
+
+}
+
+
+/* =========================================================
+   DRAWER HEADER
+========================================================= */
+
+.drawer-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        18px 20px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    position: sticky;
+
+    top: 0;
+
+    background:
+        rgba(255,255,255,.80);
+
+    backdrop-filter:
+        blur(20px);
+
+    z-index: 5;
+
+}
+
+
+.drawer-title {
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+}
+
+
+.close-button {
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(118,118,128,.10);
+
+    color:
+        var(--secondary);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   DOCTOR PROFILE
+========================================================= */
+
+.drawer-content {
+
+    padding:
+        28px 25px 40px;
+
+}
+
+
+.profile-top {
+
+    display: flex;
+
+    gap: 16px;
+
+    align-items: center;
+
+}
+
+
+.profile-photo {
+
+    width: 86px;
+    height: 86px;
+
+    border-radius: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color: white;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+}
+
+
+.profile-name {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: -.5px;
+
+}
+
+
+.profile-speciality {
+
+    margin-top: 4px;
+
+    color: var(--secondary);
+
+    font-size: 12px;
+
+}
+
+
+.profile-hospital {
+
+    margin-top: 3px;
+
+    color: var(--tertiary);
+
+    font-size: 11px;
+
+}
+
+
+.profile-rating {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.star {
+
+    color: #ff9500;
+
+}
+
+
+/* =========================================================
+   PROFILE INFO CARDS
+========================================================= */
+
+.info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+}
+
+
+.info-card {
+
+    padding:
+        13px 11px;
+
+    border-radius: 14px;
+
+    background:
+        var(--surface-soft);
+
+}
+
+
+.info-label {
+
+    color:
+        var(--secondary);
+
+    font-size: 9px;
+
+}
+
+
+.info-value {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+}
+
+
+/* =========================================================
+   PROFILE DESCRIPTION
+========================================================= */
+
+.profile-section {
+
+    margin-top: 27px;
+
+}
+
+
+.profile-section h3 {
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    margin-bottom: 9px;
+
+}
+
+
+.profile-section p {
+
+    color: var(--secondary);
+
+    font-size: 12px;
+
+    line-height: 1.65;
+
+}
+
+
+/* =========================================================
+   BOOKING SCREEN
+========================================================= */
+
+.booking-card {
+
+    margin-top: 25px;
+
+    padding:
+        16px;
+
+    border:
+        1px solid
+        rgba(0,0,0,.06);
+
+    border-radius: 18px;
+
+    background:
+        #fff;
+
+    box-shadow:
+        var(--shadow-small);
+
+}
+
+
+.booking-title {
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+}
+
+
+.booking-subtitle {
+
+    margin-top: 3px;
+
+    color: var(--secondary);
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   DATE SELECTOR
+========================================================= */
+
+.date-selector {
+
+    display: flex;
+
+    gap: 7px;
+
+    overflow-x: auto;
+
+    margin-top: 15px;
+
+    padding-bottom: 4px;
+
+}
+
+
+.date-selector::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+
+.date-option {
+
+    min-width: 62px;
+
+    padding:
+        9px 7px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    background:
+        white;
+
+    text-align: center;
+
+    cursor: pointer;
+
+}
+
+
+.date-option.active {
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    border-color:
+        var(--blue);
+
+}
+
+
+.date-day {
+
+    font-size: 9px;
+
+    opacity: .75;
+
+}
+
+
+.date-number {
+
+    margin-top: 3px;
+
+    font-size: 16px;
+
+    font-weight: 650;
+
+}
+
+
+.date-month {
+
+    margin-top: 2px;
+
+    font-size: 8px;
+
+    opacity: .75;
+
+}
+
+
+/* =========================================================
+   TIME SLOTS
+========================================================= */
+
+.time-label {
+
+    margin-top: 18px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.time-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 7px;
+
+    margin-top: 9px;
+
+}
+
+
+.time-slot {
+
+    padding:
+        9px 4px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 9px;
+
+    background:
+        white;
+
+    color:
+        var(--secondary);
+
+    text-align: center;
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+}
+
+
+.time-slot:hover {
+
+    border-color:
+        rgba(0,122,255,.25);
+
+}
+
+
+.time-slot.selected {
+
+    background:
+        var(--blue-soft);
+
+    color:
+        var(--blue);
+
+    border-color:
+        rgba(0,122,255,.35);
+
+    font-weight: 600;
+
+}
+
+
+.time-slot.unavailable {
+
+    opacity: .35;
+
+    text-decoration:
+        line-through;
+
+    cursor:
+        not-allowed;
+
+}
+
+
+/* =========================================================
+   CONSULTATION MODE
+========================================================= */
+
+.mode-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap: 8px;
+
+    margin-top: 9px;
+
+}
+
+
+.mode {
+
+    padding:
+        11px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    background:
+        white;
+
+    cursor: pointer;
+
+}
+
+
+.mode.active {
+
+    background:
+        var(--blue-soft);
+
+    border-color:
+        rgba(0,122,255,.30);
+
+}
+
+
+.mode-icon {
+
+    color:
+        var(--blue);
+
+    margin-bottom: 6px;
+
+}
+
+
+.mode-name {
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.mode-description {
+
+    margin-top: 2px;
+
+    color: var(--secondary);
+
+    font-size: 8px;
+
+}
+
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.booking-summary {
+
+    margin-top: 15px;
+
+    padding-top: 13px;
+
+    border-top:
+        1px solid
+        var(--border);
+
+}
+
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 5px 0;
+
+    font-size: 11px;
+
+}
+
+
+.summary-row span:first-child {
+
+    color:
+        var(--secondary);
+
+}
+
+
+.summary-row strong {
+
+    font-weight: 600;
+
+}
+
+
+.total-row {
+
+    padding-top: 10px;
+
+    margin-top: 5px;
+
+    border-top:
+        1px solid
+        var(--border);
+
+    font-size: 14px;
+
+}
+
+
+.pay-button {
+
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 14px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(0,122,255,.20);
+
+}
+
+
+/* =========================================================
+   CONFIRMATION
+========================================================= */
+
+.confirmation {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.22);
+
+    backdrop-filter:
+        blur(7px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .2s ease;
+
+    z-index: 100;
+
+}
+
+
+.confirmation.open {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+.confirmation-card {
+
+    width:
+        min(390px,100%);
+
+    padding:
+        27px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border-radius: 24px;
+
+    box-shadow:
+        var(--shadow-large);
+
+    text-align: center;
+
+}
+
+
+.success-icon {
+
+    width: 60px;
+    height: 60px;
+
+    margin:
+        0 auto 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--green-soft);
+
+    color:
+        var(--green);
+
+}
+
+
+.success-icon .icon {
+
+    width: 28px;
+    height: 28px;
+
+    stroke-width: 2.3;
+
+}
+
+
+.confirmation-card h2 {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.confirmation-card p {
+
+    margin-top: 7px;
+
+    color:
+        var(--secondary);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+
+.confirmation-details {
+
+    margin-top: 18px;
+
+    padding:
+        13px;
+
+    border-radius: 14px;
+
+    background:
+        var(--surface-soft);
+
+    text-align: left;
+
+}
+
+
+.confirmation-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 5px 0;
+
+    font-size: 10px;
+
+}
+
+
+.confirmation-row span:first-child {
+
+    color:
+        var(--secondary);
+
+}
+
+
+.confirmation-row strong {
+
+    font-weight: 600;
+
+}
+
+
+.done-button {
+
+    width: 100%;
+
+    height: 42px;
+
+    margin-top: 17px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        var(--blue);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   NO RESULTS
+========================================================= */
+
+.no-results {
+
+    display: none;
+
+    padding:
+        60px 20px;
+
+    text-align: center;
+
+}
+
+
+.no-results.show {
+
+    display: block;
+
+}
+
+
+.no-results-icon {
+
+    width: 60px;
+    height: 60px;
+
+    margin: auto;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(118,118,128,.09);
+
+    color:
+        var(--secondary);
+
+}
+
+
+.no-results h3 {
+
+    margin-top: 14px;
+
+    font-size: 15px;
+
+}
+
+
+.no-results p {
+
+    margin-top: 5px;
+
+    color:
+        var(--secondary);
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:800px) {
+
+    .navbar {
+
+        padding:
+            0 18px;
+
+    }
+
+    .nav-links .nav-link {
+
+        display: none;
+
+    }
+
+    .hero {
+
+        padding:
+            38px 18px 24px;
+
+    }
+
+    .search-section {
+
+        padding:
+            0 18px 25px;
+
+    }
+
+    .content {
+
+        padding:
+            0 18px 50px;
+
+    }
+
+    .hero h1 {
+
+        letter-spacing:
+            -1.5px;
+
+    }
+
+    .doctor-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .specialities {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .drawer-content {
+
+        padding:
+            22px 18px 35px;
+
+    }
+
+}
+
+
+@media(max-width:420px) {
+
+    .specialities {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .time-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    padding:
+        35px 7%;
+
+    border-top:
+        1px solid
+        var(--border);
+
+    color:
+        var(--tertiary);
+
+    text-align: center;
+
+    font-size: 10px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SVG ICONS
+========================================================= -->
+
+<svg
+    width="0"
+    height="0"
+    style="position:absolute"
+>
+
+    <symbol id="search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="M16 16l5 5"></path>
+    </symbol>
+
+    <symbol id="plus" viewBox="0 0 24 24">
+        <path d="M12 5v14"></path>
+        <path d="M5 12h14"></path>
+    </symbol>
+
+    <symbol id="check" viewBox="0 0 24 24">
+        <path d="M5 12l4 4L19 6"></path>
+    </symbol>
+
+    <symbol id="calendar" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+        <path d="M7 3v4"></path>
+        <path d="M17 3v4"></path>
+        <path d="M3 9h18"></path>
+    </symbol>
+
+    <symbol id="video" viewBox="0 0 24 24">
+        <rect x="3" y="6" width="13" height="12" rx="3"></rect>
+        <path d="M16 10l5-3v10l-5-3z"></path>
+    </symbol>
+
+    <symbol id="hospital" viewBox="0 0 24 24">
+        <path d="M4 21V5a2 2 0 012-2h12a2 2 0 012 2v16"></path>
+        <path d="M2 21h20"></path>
+        <path d="M9 8h6"></path>
+        <path d="M12 5v6"></path>
+        <path d="M8 21v-4h8v4"></path>
+    </symbol>
+
+    <symbol id="heart" viewBox="0 0 24 24">
+        <path d="M20.8 8.8c0 5.5-8.8 10.2-8.8 10.2S3.2 14.3 3.2 8.8A4.8 4.8 0 0112 6a4.8 4.8 0 018.8 2.8z"></path>
+    </symbol>
+
+    <symbol id="brain" viewBox="0 0 24 24">
+        <path d="M9 4a3 3 0 00-3 3v1a3 3 0 00-2 5 3 3 0 003 5h2"></path>
+        <path d="M15 4a3 3 0 013 3v1a3 3 0 012 5 3 3 0 01-3 5h-2"></path>
+        <path d="M12 4v16"></path>
+        <path d="M9 9h3"></path>
+        <path d="M12 14h3"></path>
+    </symbol>
+
+    <symbol id="person" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 21a8 8 0 0116 0"></path>
+    </symbol>
+
+    <symbol id="skin" viewBox="0 0 24 24">
+        <path d="M8 3c-2 3-4 5-4 9a8 8 0 0016 0c0-4-2-6-4-9"></path>
+        <path d="M8 12c1.5 1 2.5 1 4 0s2.5-1 4 0"></path>
+    </symbol>
+
+    <symbol id="bone" viewBox="0 0 24 24">
+        <path d="M8 8l8 8"></path>
+        <path d="M7 9a3 3 0 11-3-3"></path>
+        <path d="M17 15a3 3 0 113 3"></path>
+        <path d="M7 15a3 3 0 013-3"></path>
+        <path d="M17 9a3 3 0 01-3 3"></path>
+    </symbol>
+
+    <symbol id="lungs" viewBox="0 0 24 24">
+        <path d="M12 4v16"></path>
+        <path d="M11 9C8 5 5 6 4 10v7a3 3 0 003 3c2 0 4-2 4-5"></path>
+        <path d="M13 9c3-4 6-3 7 1v7a3 3 0 01-3 3c-2 0-4-2-4-5"></path>
+    </symbol>
+
+    <symbol id="female" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M12 12v9"></path>
+        <path d="M8 17h8"></path>
+    </symbol>
+
+    <symbol id="close" viewBox="0 0 24 24">
+        <path d="M6 6l12 12"></path>
+        <path d="M18 6L6 18"></path>
+    </symbol>
+
+    <symbol id="arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14"></path>
+        <path d="M13 6l6 6-6 6"></path>
+    </symbol>
+
+</svg>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div class="app">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                D
+            </div>
+
+            <div class="brand-name">
+                DoctorJet
+            </div>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <button class="nav-link">
+                Find a Doctor
+            </button>
+
+            <button class="nav-link">
+                My Appointments
+            </button>
+
+            <button class="nav-link">
+                Prescriptions
+            </button>
+
+            <button class="profile-button">
+                BS
+            </button>
+
+        </div>
+
+
+    </nav>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-eyebrow">
+
+            <span class="hero-eyebrow-dot"></span>
+
+            Healthcare, simplified
+
+        </div>
+
+
+        <h1>
+
+            Find the right
+            <span>doctor</span>
+            for you.
+
+        </h1>
+
+
+        <p>
+
+            Explore specialists, compare doctors, choose a
+            convenient appointment time and connect with your
+            doctor — all in one place.
+
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEARCH
+    ====================================================== -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <svg class="icon">
+                <use href="#search"></use>
+            </svg>
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search doctors, specialities or hospitals"
+                oninput="searchDoctors()"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <main class="content">
+
+
+        <!-- SPECIALITIES -->
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    Browse by speciality
+                </div>
+
+                <div class="section-subtitle">
+                    Choose the type of care you need
+                </div>
+
+            </div>
+
+            <button
+                class="section-action"
+                onclick="showAllSpecialities()"
+            >
+                See all
+            </button>
+
+        </div>
+
+
+        <div
+            class="specialities"
+            id="specialities"
+        >
+
+
+            <div
+                class="speciality active"
+                data-speciality="Psychiatry"
+                onclick="selectSpeciality('Psychiatry', this)"
+            >
+
+                <div class="speciality-icon psych">
+
+                    <svg class="icon">
+                        <use href="#brain"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Psychiatry
+                </div>
+
+                <div class="speciality-count">
+                    12 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Cardiology"
+                onclick="selectSpeciality('Cardiology', this)"
+            >
+
+                <div class="speciality-icon cardiology">
+
+                    <svg class="icon">
+                        <use href="#heart"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Cardiology
+                </div>
+
+                <div class="speciality-count">
+                    9 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Dermatology"
+                onclick="selectSpeciality('Dermatology', this)"
+            >
+
+                <div class="speciality-icon dermatology">
+
+                    <svg class="icon">
+                        <use href="#skin"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Dermatology
+                </div>
+
+                <div class="speciality-count">
+                    15 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Pediatrics"
+                onclick="selectSpeciality('Pediatrics', this)"
+            >
+
+                <div class="speciality-icon pediatrics">
+
+                    <svg class="icon">
+                        <use href="#person"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Pediatrics
+                </div>
+
+                <div class="speciality-count">
+                    11 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Neurology"
+                onclick="selectSpeciality('Neurology', this)"
+            >
+
+                <div class="speciality-icon neurology">
+
+                    <svg class="icon">
+                        <use href="#brain"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Neurology
+                </div>
+
+                <div class="speciality-count">
+                    8 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Pulmonary Medicine"
+                onclick="selectSpeciality('Pulmonary Medicine', this)"
+            >
+
+                <div class="speciality-icon pulmonary">
+
+                    <svg class="icon">
+                        <use href="#lungs"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Pulmonary Medicine
+                </div>
+
+                <div class="speciality-count">
+                    7 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Orthopedics"
+                onclick="selectSpeciality('Orthopedics', this)"
+            >
+
+                <div class="speciality-icon orthopedics">
+
+                    <svg class="icon">
+                        <use href="#bone"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Orthopedics
+                </div>
+
+                <div class="speciality-count">
+                    10 doctors
+                </div>
+
+            </div>
+
+
+            <div
+                class="speciality"
+                data-speciality="Gynecology"
+                onclick="selectSpeciality('Gynecology', this)"
+            >
+
+                <div class="speciality-icon gynecology">
+
+                    <svg class="icon">
+                        <use href="#female"></use>
+                    </svg>
+
+                </div>
+
+                <div class="speciality-name">
+                    Gynecology
+                </div>
+
+                <div class="speciality-count">
+                    13 doctors
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- DOCTORS -->
+
+        <section class="doctors-section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <div
+                        class="section-title"
+                        id="doctorSectionTitle"
+                    >
+                        Psychiatry
+                    </div>
+
+                    <div
+                        class="section-subtitle"
+                        id="doctorSectionSubtitle"
+                    >
+                        Specialists available for consultation
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="section-action"
+                    onclick="clearSpeciality()"
+                >
+                    View all doctors
+                </button>
+
+
+            </div>
+
+
+            <div
+                class="doctor-grid"
+                id="doctorGrid"
+            ></div>
+
+
+            <div
+                class="no-results"
+                id="noResults"
+            >
+
+                <div class="no-results-icon">
+
+                    <svg class="icon">
+                        <use href="#search"></use>
+                    </svg>
+
+                </div>
+
+                <h3>
+                    No doctors found
+                </h3>
+
+                <p>
+                    Try another doctor, speciality or hospital.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer class="footer">
+
+        DoctorJet · Connecting patients with trusted healthcare professionals
+
+    </footer>
+
+
+</div>
+
+
+<!-- =========================================================
+     DOCTOR DRAWER
+========================================================= -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeDoctor(event)"
+>
+
+
+    <aside
+        class="doctor-drawer"
+        id="doctorDrawer"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <div class="drawer-header">
+
+            <div class="drawer-title">
+                Doctor profile
+            </div>
+
+
+            <button
+                class="close-button"
+                onclick="closeDoctor()"
+            >
+
+                <svg class="icon">
+                    <use href="#close"></use>
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="drawer-content"
+            id="drawerContent"
+        ></div>
+
+
+    </aside>
+
+</div>
+
+
+<!-- =========================================================
+     CONFIRMATION
+========================================================= -->
+
+<div
+    class="confirmation"
+    id="confirmation"
+>
+
+
+    <div class="confirmation-card">
+
+
+        <div class="success-icon">
+
+            <svg class="icon">
+                <use href="#check"></use>
+            </svg>
+
+        </div>
+
+
+        <h2>
+            Appointment booked
+        </h2>
+
+
+        <p>
+
+            Your consultation has been successfully scheduled.
+            A confirmation will also be available under
+            My Appointments.
+
+        </p>
+
+
+        <div
+            class="confirmation-details"
+            id="confirmationDetails"
+        ></div>
+
+
+        <button
+            class="done-button"
+            onclick="closeConfirmation()"
+        >
+            Done
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   DOCTOR DATABASE
+========================================================= */
+
+const doctors = [
+
+    {
+        id: 1,
+        name: "Dr. Bishnu Prasad Sahoo",
+        initials: "BS",
+        speciality: "Psychiatry",
+        hospital: "Thomson Clinic · Bhubaneswar",
+        experience: "6+ years",
+        rating: "4.9",
+        consultations: "2,100+",
+        fee: 800,
+        available: true,
+        description:
+            "Consultant Psychiatrist providing evidence-based care for mood disorders, anxiety disorders, sleep problems, addiction and neuropsychiatric conditions.",
+        slots: [
+            "10:00 AM",
+            "11:30 AM",
+            "2:00 PM",
+            "4:30 PM",
+            "6:30 PM",
+            "8:00 PM"
+        ]
+    },
+
+    {
+        id: 2,
+        name: "Dr. Meera Sharma",
+        initials: "MS",
+        speciality: "Psychiatry",
+        hospital: "Thomson Clinic · Bhubaneswar",
+        experience: "12+ years",
+        rating: "4.8",
+        consultations: "4,500+",
+        fee: 1000,
+        available: true,
+        description:
+            "Psychiatrist specialising in adult mental health, anxiety, depression, women's mental health and psychotherapy.",
+        slots: [
+            "9:30 AM",
+            "11:00 AM",
+            "1:30 PM",
+            "3:30 PM",
+            "5:30 PM"
+        ]
+    },
+
+    {
+        id: 3,
+        name: "Dr. Rohan Kapoor",
+        initials: "RK",
+        speciality: "Cardiology",
+        hospital: "Capital Hospital · Bhubaneswar",
+        experience: "15+ years",
+        rating: "4.9",
+        consultations: "6,800+",
+        fee: 1200,
+        available: true,
+        description:
+            "Interventional cardiologist with expertise in coronary artery disease, hypertension, heart failure and preventive cardiology.",
+        slots: [
+            "9:00 AM",
+            "10:30 AM",
+            "12:00 PM",
+            "4:00 PM",
+            "6:00 PM"
+        ]
+    },
+
+    {
+        id: 4,
+        name: "Dr. Ananya Mohanty",
+        initials: "AM",
+        speciality: "Dermatology",
+        hospital: "Skin & Laser Centre · Bhubaneswar",
+        experience: "9+ years",
+        rating: "4.8",
+        consultations: "3,700+",
+        fee: 700,
+        available: true,
+        description:
+            "Dermatologist specialising in acne, pigmentation, hair disorders, eczema and cosmetic dermatology.",
+        slots: [
+            "10:00 AM",
+            "11:00 AM",
+            "2:30 PM",
+            "5:00 PM",
+            "7:00 PM"
+        ]
+    },
+
+    {
+        id: 5,
+        name: "Dr. Sandeep Rao",
+        initials: "SR",
+        speciality: "Pediatrics",
+        hospital: "Children's Care Hospital · Bhubaneswar",
+        experience: "11+ years",
+        rating: "4.9",
+        consultations: "5,100+",
+        fee: 650,
+        available: true,
+        description:
+            "Paediatrician providing comprehensive child healthcare, developmental assessment and adolescent health services.",
+        slots: [
+            "9:00 AM",
+            "10:30 AM",
+            "1:00 PM",
+            "4:00 PM",
+            "6:30 PM"
+        ]
+    },
+
+    {
+        id: 6,
+        name: "Dr. Priyanka Das",
+        initials: "PD",
+        speciality: "Neurology",
+        hospital: "NeuroCare Institute · Bhubaneswar",
+        experience: "13+ years",
+        rating: "4.8",
+        consultations: "4,200+",
+        fee: 1100,
+        available: true,
+        description:
+            "Neurologist specialising in headache disorders, epilepsy, stroke, movement disorders and cognitive neurology.",
+        slots: [
+            "10:00 AM",
+            "12:00 PM",
+            "3:00 PM",
+            "5:00 PM"
+        ]
+    },
+
+    {
+        id: 7,
+        name: "Dr. Thitta Mohanty",
+        initials: "TM",
+        speciality: "Pulmonary Medicine",
+        hospital: "PGIMER & Capital Hospital · Bhubaneswar",
+        experience: "18+ years",
+        rating: "4.9",
+        consultations: "8,200+",
+        fee: 1200,
+        available: true,
+        description:
+            "Professor and Head of Pulmonary Medicine with expertise in respiratory disorders, asthma, COPD, sleep medicine and lung cancer.",
+        slots: [
+            "9:30 AM",
+            "11:30 AM",
+            "2:30 PM",
+            "5:30 PM"
+        ]
+    },
+
+    {
+        id: 8,
+        name: "Dr. Vikash Patnaik",
+        initials: "VP",
+        speciality: "Orthopedics",
+        hospital: "OrthoCare Hospital · Bhubaneswar",
+        experience: "14+ years",
+        rating: "4.8",
+        consultations: "5,600+",
+        fee: 900,
+        available: true,
+        description:
+            "Orthopaedic surgeon specialising in joint disorders, sports injuries, spine conditions and minimally invasive procedures.",
+        slots: [
+            "10:00 AM",
+            "12:30 PM",
+            "4:00 PM",
+            "6:00 PM"
+        ]
+    },
+
+    {
+        id: 9,
+        name: "Dr. Nandini Rao",
+        initials: "NR",
+        speciality: "Gynecology",
+        hospital: "Women's Health Centre · Bhubaneswar",
+        experience: "16+ years",
+        rating: "4.9",
+        consultations: "7,100+",
+        fee: 900,
+        available: true,
+        description:
+            "Consultant obstetrician and gynaecologist providing women's health, reproductive medicine and pregnancy care.",
+        slots: [
+            "9:00 AM",
+            "11:00 AM",
+            "2:00 PM",
+            "5:00 PM",
+            "7:00 PM"
+        ]
+    }
+
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let selectedSpeciality =
+    "Psychiatry";
+
+let selectedDoctor = null;
+
+let selectedDate =
+    "10 October 2026";
+
+let selectedTime = null;
+
+let selectedMode =
+    "Video consultation";
+
+
+/* =========================================================
+   RENDER DOCTORS
+========================================================= */
+
+function renderDoctors() {
+
+    const grid =
+        document.getElementById("doctorGrid");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    const query =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    let filtered =
+        doctors.filter(doctor => {
+
+            const matchesSpeciality =
+                !selectedSpeciality ||
+                doctor.speciality === selectedSpeciality;
+
+            const searchable =
+                (
+                    doctor.name +
+                    " " +
+                    doctor.speciality +
+                    " " +
+                    doctor.hospital
+                ).toLowerCase();
+
+            const matchesSearch =
+                searchable.includes(query);
+
+            return (
+                matchesSpeciality &&
+                matchesSearch
+            );
+
+        });
+
+
+    /*
+       If searching, show doctors from all
+       specialities instead of restricting
+       the search to the selected speciality.
+    */
+
+    if (query) {
+
+        filtered =
+            doctors.filter(doctor => {
+
+                const searchable =
+                    (
+                        doctor.name +
+                        " " +
+                        doctor.speciality +
+                        " " +
+                        doctor.hospital
+                    ).toLowerCase();
+
+                return searchable.includes(query);
+
+            });
+
+    }
+
+
+    grid.innerHTML = "";
+
+
+    if (!filtered.length) {
+
+        noResults.classList.add("show");
+
+        return;
+
+    }
+
+
+    noResults.classList.remove("show");
+
+
+    filtered.forEach(doctor => {
+
+        grid.innerHTML += createDoctorCard(doctor);
+
+    });
+
+}
+
+
+/* =========================================================
+   DOCTOR CARD
+========================================================= */
+
+function createDoctorCard(doctor) {
+
+    return `
+
+        <article
+            class="doctor-card"
+            onclick="openDoctor(${doctor.id})"
+        >
+
+            <div class="doctor-top">
+
+
+                <div class="doctor-photo">
+
+                    ${doctor.initials}
+
+                </div>
+
+
+                <div class="doctor-info">
+
+
+                    <div class="doctor-name">
+
+                        ${doctor.name}
+
+                        <span class="verified">
+                            ✓
+                        </span>
+
+                    </div>
+
+
+                    <div class="doctor-speciality">
+
+                        ${doctor.speciality}
+
+                    </div>
+
+
+                    <div class="doctor-hospital">
+
+                        ${doctor.hospital}
+
+                    </div>
+
+
+                    ${
+                        doctor.available
+                        ? `
+                            <div class="doctor-status">
+
+                                <span class="status-dot"></span>
+
+                                Available today
+
+                            </div>
+                        `
+                        : ""
+                    }
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="doctor-bottom">
+
+
+                <div>
+
+                    <div class="doctor-meta">
+
+                        ★ ${doctor.rating}
+                        · ${doctor.experience}
+
+                    </div>
+
+
+                    <div class="doctor-fee">
+
+                        ₹${doctor.fee}
+                        <span style="
+                            color:#8e8e93;
+                            font-size:9px;
+                            font-weight:400;
+                        ">
+                            / consultation
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="book-button"
+                    onclick="event.stopPropagation(); openDoctor(${doctor.id})"
+                >
+                    Book
+                </button>
+
+
+            </div>
+
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SELECT SPECIALITY
+========================================================= */
+
+function selectSpeciality(
+    speciality,
+    element
+) {
+
+    selectedSpeciality =
+        speciality;
+
+
+    document
+        .querySelectorAll(".speciality")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+    element.classList.add("active");
+
+
+    document
+        .getElementById("doctorSectionTitle")
+        .textContent =
+        speciality;
+
+
+    document
+        .getElementById("doctorSectionSubtitle")
+        .textContent =
+        "Specialists available for consultation";
+
+
+    renderDoctors();
+
+
+    window.scrollTo({
+        top:
+            document
+                .querySelector(".doctors-section")
+                .offsetTop - 80,
+
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   CLEAR SPECIALITY
+========================================================= */
+
+function clearSpeciality() {
+
+    selectedSpeciality =
+        null;
+
+
+    document
+        .querySelectorAll(".speciality")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+    document
+        .getElementById("doctorSectionTitle")
+        .textContent =
+        "All doctors";
+
+
+    document
+        .getElementById("doctorSectionSubtitle")
+        .textContent =
+        "Browse specialists across all specialities";
+
+
+    renderDoctors();
+
+}
+
+
+/* =========================================================
+   SEE ALL SPECIALITIES
+========================================================= */
+
+function showAllSpecialities() {
+
+    selectedSpeciality =
+        null;
+
+
+    document
+        .querySelectorAll(".speciality")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+    document
+        .getElementById("doctorSectionTitle")
+        .textContent =
+        "All doctors";
+
+
+    document
+        .getElementById("doctorSectionSubtitle")
+        .textContent =
+        "Browse specialists across all specialities";
+
+
+    renderDoctors();
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchDoctors() {
+
+    renderDoctors();
+
+}
+
+
+/* =========================================================
+   OPEN DOCTOR
+========================================================= */
+
+function openDoctor(id) {
+
+    const doctor =
+        doctors.find(
+            item => item.id === id
+        );
+
+
+    if (!doctor) return;
+
+
+    selectedDoctor =
+        doctor;
+
+
+    selectedTime =
+        null;
+
+
+    selectedDate =
+        "10 October 2026";
+
+
+    selectedMode =
+        "Video consultation";
+
+
+    renderDoctorDrawer();
+
+
+    document
+        .getElementById("overlay")
+        .classList.add("open");
+
+}
+
+
+/* =========================================================
+   CLOSE DOCTOR
+========================================================= */
+
+function closeDoctor(event) {
+
+    if (
+        event &&
+        event.target !==
+        document.getElementById("overlay")
+    ) {
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("overlay")
+        .classList.remove("open");
+
+}
+
+
+/* =========================================================
+   RENDER DOCTOR DRAWER
+========================================================= */
+
+function renderDoctorDrawer() {
+
+    const doctor =
+        selectedDoctor;
+
+
+    const drawer =
+        document
+            .getElementById("drawerContent");
+
+
+    drawer.innerHTML = `
+
+        <div class="profile-top">
+
+
+            <div class="profile-photo">
+
+                ${doctor.initials}
+
+            </div>
+
+
+            <div>
+
+
+                <div class="profile-name">
+
+                    ${doctor.name}
+
+                    <span class="verified">
+                        ✓
+                    </span>
+
+                </div>
+
+
+                <div class="profile-speciality">
+
+                    ${doctor.speciality}
+
+                </div>
+
+
+                <div class="profile-hospital">
+
+                    ${doctor.hospital}
+
+                </div>
+
+
+                <div class="profile-rating">
+
+                    <span class="star">
+                        ★
+                    </span>
+
+                    ${doctor.rating}
+
+                    · ${doctor.consultations} consultations
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="info-grid">
+
+
+            <div class="info-card">
+
+                <div class="info-label">
+                    Experience
+                </div>
+
+                <div class="info-value">
+                    ${doctor.experience}
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-label">
+                    Consultation
+                </div>
+
+                <div class="info-value">
+                    ₹${doctor.fee}
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-label">
+                    Availability
+                </div>
+
+                <div class="info-value">
+                    Today
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="profile-section">
+
+
+            <h3>
+                About the doctor
+            </h3>
+
+
+            <p>
+                ${doctor.description}
+            </p>
+
+
+        </div>
+
+
+        <div class="booking-card">
+
+
+            <div class="booking-title">
+                Book an appointment
+            </div>
+
+
+            <div class="booking-subtitle">
+                Select a date and convenient time
+            </div>
+
+
+            <div class="date-selector">
+
+
+                ${createDates()}
+
+
+            </div>
+
+
+            <div class="time-label">
+                Available times
+            </div>
+
+
+            <div class="time-grid">
+
+                ${createTimeSlots(doctor)}
+
+
+            </div>
+
+
+            <div class="time-label">
+                Consultation mode
+            </div>
+
+
+            <div class="mode-options">
+
+
+                <div
+                    class="mode active"
+                    id="videoMode"
+                    onclick="selectMode('Video consultation')"
+                >
+
+                    <div class="mode-icon">
+
+                        <svg class="icon">
+                            <use href="#video"></use>
+                        </svg>
+
+                    </div>
+
+                    <div class="mode-name">
+                        Video consultation
+                    </div>
+
+                    <div class="mode-description">
+                        Consult from anywhere
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="mode"
+                    id="clinicMode"
+                    onclick="selectMode('In-person consultation')"
+                >
+
+                    <div class="mode-icon">
+
+                        <svg class="icon">
+                            <use href="#hospital"></use>
+                        </svg>
+
+                    </div>
+
+                    <div class="mode-name">
+                        In-person
+                    </div>
+
+                    <div class="mode-description">
+                        Visit the clinic
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="booking-summary">
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Doctor
+                    </span>
+
+                    <strong>
+                        ${doctor.name}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong id="summaryDate">
+                        ${selectedDate}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Time
+                    </span>
+
+                    <strong id="summaryTime">
+                        Select time
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Mode
+                    </span>
+
+                    <strong id="summaryMode">
+                        Video consultation
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row total-row">
+
+                    <span>
+                        Consultation fee
+                    </span>
+
+                    <strong>
+                        ₹${doctor.fee}
+                    </strong>
+
+                </div>
+
+
+                <button
+                    class="pay-button"
+                    onclick="bookAppointment()"
+                >
+
+                    Continue to payment · ₹${doctor.fee}
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CREATE DATES
+========================================================= */
+
+function createDates() {
+
+    const dates = [
+
+        {
+            day: "TODAY",
+            number: "10",
+            month: "OCT",
+            value: "10 October 2026"
+        },
+
+        {
+            day: "SUN",
+            number: "11",
+            month: "OCT",
+            value: "11 October 2026"
+        },
+
+        {
+            day: "MON",
+            number: "12",
+            month: "OCT",
+            value: "12 October 2026"
+        },
+
+        {
+            day: "TUE",
+            number: "13",
+            month: "OCT",
+            value: "13 October 2026"
+        },
+
+        {
+            day: "WED",
+            number: "14",
+            month: "OCT",
+            value: "14 October 2026"
+        }
+
+    ];
+
+
+    return dates.map(
+        (date, index) => `
+
+            <div
+                class="date-option ${
+                    index === 0
+                        ? "active"
+                        : ""
+                }"
+                onclick="selectDate(
+                    '${date.value}',
+                    this
+                )"
+            >
+
+                <div class="date-day">
+                    ${date.day}
+                </div>
+
+                <div class="date-number">
+                    ${date.number}
+                </div>
+
+                <div class="date-month">
+                    ${date.month}
+                </div>
+
+            </div>
+
+        `
+    ).join("");
+
+}
+
+
+/* =========================================================
+   SELECT DATE
+========================================================= */
+
+function selectDate(
+    date,
+    element
+) {
+
+    selectedDate =
+        date;
+
+
+    document
+        .querySelectorAll(".date-option")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+    element.classList.add("active");
+
+
+    const summary =
+        document
+            .getElementById("summaryDate");
+
+
+    if (summary) {
+
+        summary.textContent =
+            date;
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE TIME SLOTS
+========================================================= */
+
+function createTimeSlots(doctor) {
+
+    return doctor.slots.map(
+        (slot, index) => `
+
+            <div
+                class="time-slot ${
+                    index === 2
+                        ? "unavailable"
+                        : ""
+                }"
+                ${
+                    index === 2
+                    ? ""
+                    : `onclick="selectTime(
+                        '${slot}',
+                        this
+                    )"`
+                }
+            >
+
+                ${slot}
+
+            </div>
+
+        `
+    ).join("");
+
+}
+
+
+/* =========================================================
+   SELECT TIME
+========================================================= */
+
+function selectTime(
+    time,
+    element
+) {
+
+    if (
+        element.classList.contains(
+            "unavailable"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    selectedTime =
+        time;
+
+
+    document
+        .querySelectorAll(".time-slot")
+        .forEach(item =>
+            item.classList.remove("selected")
+        );
+
+
+    element.classList.add("selected");
+
+
+    const summary =
+        document
+            .getElementById("summaryTime");
+
+
+    if (summary) {
+
+        summary.textContent =
+            time;
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECT MODE
+========================================================= */
+
+function selectMode(mode) {
+
+    selectedMode =
+        mode;
+
+
+    document
+        .getElementById("videoMode")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("clinicMode")
+        .classList.remove("active");
+
+
+    if (
+        mode ===
+        "Video consultation"
+    ) {
+
+        document
+            .getElementById("videoMode")
+            .classList.add("active");
+
+    } else {
+
+        document
+            .getElementById("clinicMode")
+            .classList.add("active");
+
+    }
+
+
+    const summary =
+        document
+            .getElementById("summaryMode");
+
+
+    if (summary) {
+
+        summary.textContent =
+            mode;
+
+    }
+
+}
+
+
+/* =========================================================
+   BOOK APPOINTMENT
+========================================================= */
+
+function bookAppointment() {
+
+    if (!selectedTime) {
+
+        alert(
+            "Please select an appointment time."
+        );
+
+        return;
+
+    }
+
+
+    const doctor =
+        selectedDoctor;
+
+
+    document
+        .getElementById("confirmationDetails")
+        .innerHTML = `
+
+            <div class="confirmation-row">
+
+                <span>
+                    Doctor
+                </span>
+
+                <strong>
+                    ${doctor.name}
+                </strong>
+
+            </div>
+
+
+            <div class="confirmation-row">
+
+                <span>
+                    Speciality
+                </span>
+
+                <strong>
+                    ${doctor.speciality}
+                </strong>
+
+            </div>
+
+
+            <div class="confirmation-row">
+
+                <span>
+                    Date
+                </span>
+
+                <strong>
+                    ${selectedDate}
+                </strong>
+
+            </div>
+
+
+            <div class="confirmation-row">
+
+                <span>
+                    Time
+                </span>
+
+                <strong>
+                    ${selectedTime}
+                </strong>
+
+            </div>
+
+
+            <div class="confirmation-row">
+
+                <span>
+                    Mode
+                </span>
+
+                <strong>
+                    ${selectedMode}
+                </strong>
+
+            </div>
+
+
+            <div class="confirmation-row">
+
+                <span>
+                    Amount
+                </span>
+
+                <strong>
+                    ₹${doctor.fee}
+                </strong>
+
+            </div>
+
+        `;
+
+
+    document
+        .getElementById("overlay")
+        .classList.remove("open");
+
+
+    document
+        .getElementById("confirmation")
+        .classList.add("open");
+
+}
+
+
+/* =========================================================
+   CLOSE CONFIRMATION
+========================================================= */
+
+function closeConfirmation() {
+
+    document
+        .getElementById("confirmation")
+        .classList.remove("open");
+
+}
+
+
+/* =========================================================
+   INITIAL RENDER
+========================================================= */
+
+renderDoctors();
+
+</script>
+
+</body>
+</html>

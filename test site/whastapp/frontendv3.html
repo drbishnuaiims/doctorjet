@@ -1,0 +1,3022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoctorJet — Appointments</title>
+
+<style>
+:root{
+    --bg:#f5f5f7;
+    --white:#fff;
+    --text:#1d1d1f;
+    --secondary:#6e6e73;
+    --muted:#8e8e93;
+
+    --blue:#007aff;
+    --blue-soft:rgba(0,122,255,.10);
+
+    --green:#34c759;
+    --green-soft:rgba(52,199,89,.11);
+
+    --orange:#ff9500;
+    --orange-soft:rgba(255,149,0,.11);
+
+    --red:#ff3b30;
+    --red-soft:rgba(255,59,48,.10);
+
+    --purple:#af52de;
+    --purple-soft:rgba(175,82,222,.10);
+
+    --border:rgba(0,0,0,.07);
+
+    --shadow:0 12px 35px rgba(0,0,0,.07);
+    --small-shadow:0 3px 14px rgba(0,0,0,.055);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(0,122,255,.055),
+            transparent 32%
+        ),
+        var(--bg);
+
+    -webkit-font-smoothing:antialiased;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+
+/* =====================================================
+   ICONS
+===================================================== */
+
+.icon{
+    width:18px;
+    height:18px;
+
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar{
+    height:68px;
+
+    position:sticky;
+    top:0;
+    z-index:30;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 5%;
+
+    background:
+        rgba(255,255,255,.82);
+
+    backdrop-filter:
+        blur(25px)
+        saturate(180%);
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand-mark{
+    width:35px;
+    height:35px;
+
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:800;
+}
+
+.brand-name{
+    font-size:17px;
+    font-weight:700;
+    letter-spacing:-.3px;
+}
+
+.nav-right{
+    margin-left:auto;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-link{
+    border:none;
+    background:transparent;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    color:var(--secondary);
+
+    font-size:11px;
+    font-weight:550;
+
+    cursor:pointer;
+}
+
+.nav-link:hover{
+    background:rgba(0,0,0,.045);
+}
+
+.profile{
+    width:36px;
+    height:36px;
+
+    border:none;
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color:#fff;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page{
+    width:min(1120px,100%);
+
+    margin:auto;
+
+    padding:
+        38px 25px 70px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    padding:6px 10px;
+
+    border-radius:100px;
+
+    background:var(--blue-soft);
+
+    color:var(--blue);
+
+    font-size:9px;
+    font-weight:650;
+}
+
+.eyebrow-dot{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--green);
+}
+
+.header h1{
+    margin-top:12px;
+
+    font-size:
+        clamp(28px,4vw,42px);
+
+    line-height:1.05;
+
+    letter-spacing:-1.6px;
+
+    font-weight:700;
+}
+
+.header p{
+    margin-top:8px;
+
+    color:var(--secondary);
+
+    font-size:12px;
+}
+
+
+/* =====================================================
+   NEW APPOINTMENT
+===================================================== */
+
+.new-button{
+    height:42px;
+
+    padding:0 16px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--blue);
+
+    color:#fff;
+
+    font-size:10px;
+    font-weight:650;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 14px
+        rgba(0,122,255,.18);
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search{
+    height:50px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 15px;
+
+    background:
+        rgba(255,255,255,.86);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:15px;
+
+    box-shadow:var(--small-shadow);
+
+    margin-bottom:12px;
+}
+
+.search .icon{
+    color:var(--muted);
+}
+
+.search input{
+    flex:1;
+
+    border:none;
+    outline:none;
+
+    background:transparent;
+
+    color:var(--text);
+
+    font-size:12px;
+}
+
+.search input::placeholder{
+    color:var(--muted);
+}
+
+
+/* =====================================================
+   WHATSAPP STYLE FILTER BAR
+===================================================== */
+
+.filter-wrapper{
+    position:relative;
+
+    margin-bottom:24px;
+}
+
+.filters{
+    display:flex;
+
+    gap:7px;
+
+    overflow-x:auto;
+
+    padding-bottom:3px;
+}
+
+.filters::-webkit-scrollbar{
+    display:none;
+}
+
+.filter{
+    flex:none;
+
+    border:none;
+
+    padding:
+        8px 12px;
+
+    border-radius:100px;
+
+    background:
+        rgba(118,118,128,.08);
+
+    color:var(--secondary);
+
+    font-size:9px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:.18s;
+}
+
+.filter:hover{
+    background:
+        rgba(118,118,128,.14);
+}
+
+.filter.active{
+    background:var(--blue);
+    color:#fff;
+}
+
+.filter .count{
+    margin-left:4px;
+    opacity:.65;
+}
+
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.result-title{
+    font-size:15px;
+    font-weight:650;
+}
+
+.result-count{
+    color:var(--secondary);
+    font-size:9px;
+}
+
+.sort{
+    border:none;
+
+    background:transparent;
+
+    color:var(--blue);
+
+    font-size:9px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   APPOINTMENT INBOX
+===================================================== */
+
+.appointments{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+}
+
+
+/* =====================================================
+   CHAT HEAD
+===================================================== */
+
+.chat{
+    min-height:78px;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:
+        11px 13px;
+
+    background:
+        rgba(255,255,255,.91);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:17px;
+
+    box-shadow:
+        0 2px 9px rgba(0,0,0,.035);
+
+    cursor:pointer;
+
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        background .16s ease;
+}
+
+.chat:hover{
+    transform:translateY(-1px);
+
+    box-shadow:var(--small-shadow);
+
+    background:#fff;
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.avatar{
+    width:51px;
+    height:51px;
+
+    min-width:51px;
+
+    border-radius:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:13px;
+    font-weight:700;
+
+    color:#fff;
+
+    position:relative;
+}
+
+.avatar.blue{
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+}
+
+.avatar.green{
+    background:
+        linear-gradient(
+            145deg,
+            #34c759,
+            #7bdc96
+        );
+}
+
+.avatar.purple{
+    background:
+        linear-gradient(
+            145deg,
+            #af52de,
+            #dc91eb
+        );
+}
+
+.avatar.orange{
+    background:
+        linear-gradient(
+            145deg,
+            #ff9500,
+            #ffbd5a
+        );
+}
+
+.avatar.red{
+    background:
+        linear-gradient(
+            145deg,
+            #ff3b30,
+            #ff7b73
+        );
+}
+
+.online{
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    right:-1px;
+    bottom:-1px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    border:
+        2px solid #fff;
+}
+
+
+/* =====================================================
+   CHAT BODY
+===================================================== */
+
+.chat-body{
+    flex:1;
+    min-width:0;
+}
+
+.chat-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+}
+
+.doctor-name{
+    font-size:12px;
+    font-weight:650;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.chat-time{
+    color:var(--muted);
+
+    font-size:8px;
+
+    white-space:nowrap;
+}
+
+.speciality{
+    margin-top:3px;
+
+    color:var(--secondary);
+
+    font-size:9px;
+}
+
+.preview{
+    margin-top:4px;
+
+    color:var(--muted);
+
+    font-size:8px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+/* =====================================================
+   RIGHT META
+===================================================== */
+
+.chat-right{
+    min-width:105px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+}
+
+.date{
+    font-size:9px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+.mode{
+    margin-top:3px;
+
+    color:var(--secondary);
+
+    font-size:8px;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+
+    margin-top:5px;
+
+    padding:
+        4px 7px;
+
+    border-radius:100px;
+
+    font-size:7px;
+
+    font-weight:650;
+}
+
+.status-dot{
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+}
+
+.status.pending{
+    color:#bd6800;
+    background:var(--orange-soft);
+}
+
+.status.pending .status-dot{
+    background:var(--orange);
+}
+
+.status.confirmed{
+    color:var(--blue);
+    background:var(--blue-soft);
+}
+
+.status.confirmed .status-dot{
+    background:var(--blue);
+}
+
+.status.completed{
+    color:#248a3d;
+    background:var(--green-soft);
+}
+
+.status.completed .status-dot{
+    background:var(--green);
+}
+
+.status.cancelled{
+    color:var(--red);
+    background:var(--red-soft);
+}
+
+.status.cancelled .status-dot{
+    background:var(--red);
+}
+
+
+/* =====================================================
+   PRESCRIPTION BADGE
+===================================================== */
+
+.prescription-badge{
+    margin-top:4px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    color:#248a3d;
+
+    font-size:7px;
+
+    font-weight:600;
+}
+
+.prescription-badge .icon{
+    width:10px;
+    height:10px;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    display:none;
+
+    padding:
+        65px 20px;
+
+    text-align:center;
+
+    background:
+        rgba(255,255,255,.72);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:18px;
+}
+
+.empty.show{
+    display:block;
+}
+
+.empty-icon{
+    width:55px;
+    height:55px;
+
+    margin:auto;
+
+    border-radius:17px;
+
+    background:
+        rgba(118,118,128,.08);
+
+    color:var(--secondary);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.empty h3{
+    margin-top:13px;
+
+    font-size:14px;
+}
+
+.empty p{
+    margin-top:5px;
+
+    color:var(--secondary);
+
+    font-size:10px;
+}
+
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+.overlay{
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    background:
+        rgba(0,0,0,.23);
+
+    backdrop-filter:blur(6px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.25s;
+}
+
+.overlay.open{
+    opacity:1;
+
+    pointer-events:auto;
+}
+
+.drawer{
+    position:absolute;
+
+    right:0;
+    top:0;
+
+    width:min(500px,100%);
+
+    height:100%;
+
+    background:
+        rgba(255,255,255,.97);
+
+    backdrop-filter:
+        blur(30px);
+
+    transform:translateX(100%);
+
+    transition:
+        transform .28s
+        cubic-bezier(.22,.61,.36,1);
+
+    overflow-y:auto;
+}
+
+.overlay.open .drawer{
+    transform:translateX(0);
+}
+
+.drawer-header{
+    height:62px;
+
+    position:sticky;
+    top:0;
+
+    z-index:5;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 18px;
+
+    background:
+        rgba(255,255,255,.84);
+
+    backdrop-filter:blur(20px);
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.drawer-title{
+    font-size:12px;
+    font-weight:650;
+}
+
+.close{
+    width:31px;
+    height:31px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+        rgba(118,118,128,.10);
+
+    color:var(--secondary);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+}
+
+.drawer-content{
+    padding:
+        25px 20px 45px;
+}
+
+
+/* =====================================================
+   DRAWER PROFILE
+===================================================== */
+
+.detail-profile{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.detail-avatar{
+    width:65px;
+    height:65px;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #007aff,
+            #5ac8fa
+        );
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:700;
+}
+
+.detail-name{
+    font-size:18px;
+    font-weight:700;
+}
+
+.detail-speciality{
+    margin-top:4px;
+
+    color:var(--secondary);
+
+    font-size:10px;
+}
+
+.detail-status{
+    margin-top:7px;
+
+    color:#248a3d;
+
+    font-size:8px;
+    font-weight:600;
+}
+
+
+/* =====================================================
+   DETAIL CARD
+===================================================== */
+
+.detail-card{
+    margin-top:22px;
+
+    padding:16px;
+
+    border-radius:17px;
+
+    background:#f5f5f7;
+}
+
+.detail-row{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:8px 0;
+
+    font-size:10px;
+}
+
+.detail-row span{
+    color:var(--secondary);
+}
+
+.detail-row strong{
+    text-align:right;
+
+    font-weight:600;
+}
+
+
+/* =====================================================
+   DETAIL ACTIONS
+===================================================== */
+
+.actions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+
+    margin-top:14px;
+}
+
+.action{
+    height:41px;
+
+    border:none;
+
+    border-radius:11px;
+
+    font-size:9px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.action.primary{
+    background:var(--blue);
+    color:#fff;
+}
+
+.action.secondary{
+    background:
+        rgba(118,118,128,.10);
+
+    color:var(--text);
+}
+
+
+/* =====================================================
+   PRESCRIPTION
+===================================================== */
+
+.prescription-detail{
+
+    margin-top:22px;
+
+    padding:15px;
+
+    border-radius:16px;
+
+    background:
+        var(--green-soft);
+
+    border:
+        1px solid
+        rgba(52,199,89,.12);
+}
+
+.prescription-detail-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+}
+
+.prescription-document{
+
+    width:37px;
+    height:43px;
+
+    border-radius:8px;
+
+    background:#fff;
+
+    color:var(--red);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.prescription-detail-title{
+
+    font-size:11px;
+    font-weight:650;
+}
+
+.prescription-detail-subtitle{
+
+    margin-top:3px;
+
+    color:var(--secondary);
+
+    font-size:8px;
+}
+
+.download{
+
+    width:100%;
+
+    height:38px;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#fff;
+
+    color:var(--blue);
+
+    font-size:9px;
+
+    font-weight:650;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 15px;
+    }
+
+    .nav-link{
+        display:none;
+    }
+
+    .page{
+        padding:
+            25px 14px 50px;
+    }
+
+    .header{
+        align-items:flex-start;
+
+        gap:15px;
+    }
+
+    .new-button{
+        white-space:nowrap;
+    }
+
+    .chat-right{
+        min-width:85px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .chat{
+        padding:10px;
+    }
+
+    .avatar{
+        width:47px;
+        height:47px;
+        min-width:47px;
+    }
+
+    .chat-right{
+        min-width:auto;
+    }
+
+    .mode{
+        display:none;
+    }
+
+    .preview{
+        max-width:180px;
+    }
+
+    .date{
+        font-size:8px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SVG SYMBOLS
+===================================================== -->
+
+<svg width="0" height="0" style="position:absolute">
+
+    <symbol id="search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="6.5"/>
+        <path d="M16 16l5 5"/>
+    </symbol>
+
+    <symbol id="calendar" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="16" rx="3"/>
+        <path d="M7 3v4"/>
+        <path d="M17 3v4"/>
+        <path d="M3 9h18"/>
+    </symbol>
+
+    <symbol id="clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+    </symbol>
+
+    <symbol id="video" viewBox="0 0 24 24">
+        <rect x="3" y="6" width="13" height="12" rx="3"/>
+        <path d="M16 10l5-3v10l-5-3z"/>
+    </symbol>
+
+    <symbol id="document" viewBox="0 0 24 24">
+        <path d="M6 3h9l4 4v14H6z"/>
+        <path d="M14 3v5h5"/>
+        <path d="M9 13h6"/>
+        <path d="M9 17h4"/>
+    </symbol>
+
+    <symbol id="download" viewBox="0 0 24 24">
+        <path d="M12 3v12"/>
+        <path d="M7 10l5 5 5-5"/>
+        <path d="M5 21h14"/>
+    </symbol>
+
+    <symbol id="close" viewBox="0 0 24 24">
+        <path d="M6 6l12 12"/>
+        <path d="M18 6L6 18"/>
+    </symbol>
+
+    <symbol id="check" viewBox="0 0 24 24">
+        <path d="M5 12l4 4L19 6"/>
+    </symbol>
+
+</svg>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-mark">
+            D
+        </div>
+
+        <div class="brand-name">
+            DoctorJet
+        </div>
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <button class="nav-link">
+            Find a Doctor
+        </button>
+
+        <button class="nav-link">
+            Health Records
+        </button>
+
+        <button class="profile">
+            BS
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<main class="page">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <div class="eyebrow">
+
+                <span class="eyebrow-dot"></span>
+
+                My healthcare
+
+            </div>
+
+
+            <h1>
+                Appointments
+            </h1>
+
+
+            <p>
+                Your consultations, bookings and prescriptions.
+            </p>
+
+        </div>
+
+
+        <button
+            class="new-button"
+            onclick="newAppointment()"
+        >
+
+            + New appointment
+
+        </button>
+
+    </header>
+
+
+    <!-- SEARCH -->
+
+    <div class="search">
+
+        <svg class="icon">
+            <use href="#search"/>
+        </svg>
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search doctor, speciality, appointment..."
+            oninput="filterAppointments()"
+        >
+
+    </div>
+
+
+    <!-- =================================================
+         WHATSAPP STYLE FILTERS
+    ================================================== -->
+
+    <div class="filter-wrapper">
+
+        <div class="filters">
+
+
+            <button
+                class="filter active"
+                data-filter="all"
+                onclick="setFilter('all',this)"
+            >
+                All
+                <span class="count">8</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="pending"
+                onclick="setFilter('pending',this)"
+            >
+                Pending
+                <span class="count">2</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="confirmed"
+                onclick="setFilter('confirmed',this)"
+            >
+                Confirmed
+                <span class="count">2</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="today"
+                onclick="setFilter('today',this)"
+            >
+                Today
+                <span class="count">1</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="upcoming"
+                onclick="setFilter('upcoming',this)"
+            >
+                Upcoming
+                <span class="count">4</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="completed"
+                onclick="setFilter('completed',this)"
+            >
+                Completed
+                <span class="count">3</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="cancelled"
+                onclick="setFilter('cancelled',this)"
+            >
+                Cancelled
+                <span class="count">1</span>
+            </button>
+
+
+            <button
+                class="filter"
+                data-filter="prescription"
+                onclick="setFilter('prescription',this)"
+            >
+                Prescriptions
+                <span class="count">2</span>
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <div>
+
+            <div
+                class="result-title"
+                id="resultTitle"
+            >
+                All appointments
+            </div>
+
+            <div
+                class="result-count"
+                id="resultCount"
+            >
+                8 appointments
+            </div>
+
+        </div>
+
+
+        <button
+            class="sort"
+            onclick="toggleSort()"
+        >
+            Newest first
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         APPOINTMENTS
+    ================================================== -->
+
+    <div
+        class="appointments"
+        id="appointments"
+    >
+
+
+        <!-- =================================================
+             TODAY — CONFIRMED
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="confirmed"
+            data-day="today"
+            data-upcoming="true"
+            data-prescription="false"
+            onclick="openAppointment(1)"
+        >
+
+            <div class="avatar blue">
+
+                BS
+
+                <span class="online"></span>
+
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Bishnu Prasad Sahoo
+                    </div>
+
+                    <div class="chat-time">
+                        8:45 AM
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Psychiatry
+                </div>
+
+
+                <div class="preview">
+                    Video consultation · ₹800
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    Today · 6:30 PM
+                </div>
+
+                <div class="mode">
+                    Video consultation
+                </div>
+
+
+                <span class="status confirmed">
+
+                    <span class="status-dot"></span>
+
+                    Confirmed
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             PENDING
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="pending"
+            data-day="future"
+            data-upcoming="true"
+            data-prescription="false"
+            onclick="openAppointment(2)"
+        >
+
+            <div class="avatar green">
+
+                TM
+
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Thitta Mohanty
+                    </div>
+
+                    <div class="chat-time">
+                        Yesterday
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Pulmonary Medicine
+                </div>
+
+
+                <div class="preview">
+                    In-person consultation · ₹1,200
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    12 Oct · 11:30 AM
+                </div>
+
+                <div class="mode">
+                    In-person
+                </div>
+
+
+                <span class="status pending">
+
+                    <span class="status-dot"></span>
+
+                    Pending
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             CONFIRMED
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="confirmed"
+            data-day="future"
+            data-upcoming="true"
+            data-prescription="false"
+            onclick="openAppointment(3)"
+        >
+
+            <div class="avatar purple">
+
+                AM
+
+                <span class="online"></span>
+
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Ananya Mohanty
+                    </div>
+
+                    <div class="chat-time">
+                        6 Oct
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Dermatology
+                </div>
+
+
+                <div class="preview">
+                    Video consultation · ₹700
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    15 Oct · 5:00 PM
+                </div>
+
+                <div class="mode">
+                    Video consultation
+                </div>
+
+
+                <span class="status confirmed">
+
+                    <span class="status-dot"></span>
+
+                    Confirmed
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             PENDING
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="pending"
+            data-day="future"
+            data-upcoming="true"
+            data-prescription="false"
+            onclick="openAppointment(4)"
+        >
+
+            <div class="avatar orange">
+                RK
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Rohan Kapoor
+                    </div>
+
+                    <div class="chat-time">
+                        5 Oct
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Cardiology
+                </div>
+
+
+                <div class="preview">
+                    In-person consultation · ₹1,200
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    18 Oct · 10:30 AM
+                </div>
+
+                <div class="mode">
+                    In-person
+                </div>
+
+
+                <span class="status pending">
+
+                    <span class="status-dot"></span>
+
+                    Pending
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             COMPLETED + PRESCRIPTION
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="completed"
+            data-day="past"
+            data-upcoming="false"
+            data-prescription="true"
+            onclick="openAppointment(5)"
+        >
+
+            <div class="avatar blue">
+                BS
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Bishnu Prasad Sahoo
+                    </div>
+
+                    <div class="chat-time">
+                        2 Oct
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Psychiatry
+                </div>
+
+
+                <div class="preview">
+                    Consultation completed · Prescription available
+                </div>
+
+
+                <div class="prescription-badge">
+
+                    <svg class="icon">
+                        <use href="#document"/>
+                    </svg>
+
+                    Prescription available
+
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    02 Oct · 6:00 PM
+                </div>
+
+                <div class="mode">
+                    Video consultation
+                </div>
+
+
+                <span class="status completed">
+
+                    <span class="status-dot"></span>
+
+                    Completed
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             COMPLETED + PRESCRIPTION
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="completed"
+            data-day="past"
+            data-upcoming="false"
+            data-prescription="true"
+            onclick="openAppointment(6)"
+        >
+
+            <div class="avatar purple">
+                AM
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Ananya Mohanty
+                    </div>
+
+                    <div class="chat-time">
+                        24 Sep
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Dermatology
+                </div>
+
+
+                <div class="preview">
+                    Consultation completed · Prescription available
+                </div>
+
+
+                <div class="prescription-badge">
+
+                    <svg class="icon">
+                        <use href="#document"/>
+                    </svg>
+
+                    Prescription available
+
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    24 Sep · 5:00 PM
+                </div>
+
+                <div class="mode">
+                    Video consultation
+                </div>
+
+
+                <span class="status completed">
+
+                    <span class="status-dot"></span>
+
+                    Completed
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             COMPLETED WITHOUT PRESCRIPTION
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="completed"
+            data-day="past"
+            data-upcoming="false"
+            data-prescription="false"
+            onclick="openAppointment(7)"
+        >
+
+            <div class="avatar green">
+                TM
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Thitta Mohanty
+                    </div>
+
+                    <div class="chat-time">
+                        15 Sep
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Pulmonary Medicine
+                </div>
+
+
+                <div class="preview">
+                    Consultation completed
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    15 Sep · 11:00 AM
+                </div>
+
+                <div class="mode">
+                    In-person
+                </div>
+
+
+                <span class="status completed">
+
+                    <span class="status-dot"></span>
+
+                    Completed
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <!-- =================================================
+             CANCELLED
+        ================================================== -->
+
+        <article
+            class="chat"
+            data-status="cancelled"
+            data-day="past"
+            data-upcoming="false"
+            data-prescription="false"
+            onclick="openAppointment(8)"
+        >
+
+            <div class="avatar red">
+                NR
+            </div>
+
+
+            <div class="chat-body">
+
+                <div class="chat-top">
+
+                    <div class="doctor-name">
+                        Dr. Nandini Rao
+                    </div>
+
+                    <div class="chat-time">
+                        10 Sep
+                    </div>
+
+                </div>
+
+
+                <div class="speciality">
+                    Gynecology
+                </div>
+
+
+                <div class="preview">
+                    Appointment cancelled
+                </div>
+
+            </div>
+
+
+            <div class="chat-right">
+
+                <div class="date">
+                    10 Sep · 4:00 PM
+                </div>
+
+                <div class="mode">
+                    In-person
+                </div>
+
+
+                <span class="status cancelled">
+
+                    <span class="status-dot"></span>
+
+                    Cancelled
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="empty"
+        id="empty"
+    >
+
+        <div class="empty-icon">
+
+            <svg class="icon">
+                <use href="#search"/>
+            </svg>
+
+        </div>
+
+        <h3>
+            No appointments found
+        </h3>
+
+        <p>
+            Try another filter or search for a different doctor.
+        </p>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     APPOINTMENT DETAIL DRAWER
+===================================================== -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeDrawer(event)"
+>
+
+
+    <aside
+        class="drawer"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <div class="drawer-header">
+
+            <div class="drawer-title">
+                Appointment
+            </div>
+
+
+            <button
+                class="close"
+                onclick="closeDrawer()"
+            >
+
+                <svg class="icon">
+                    <use href="#close"/>
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="drawer-content"
+            id="drawerContent"
+        ></div>
+
+
+    </aside>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   APPOINTMENT DATA
+===================================================== */
+
+const appointmentData = {
+
+    1:{
+        doctor:"Dr. Bishnu Prasad Sahoo",
+        initials:"BS",
+        speciality:"Psychiatry",
+        date:"10 October 2026",
+        time:"6:30 PM",
+        mode:"Video consultation",
+        status:"Confirmed",
+        fee:"₹800",
+        prescription:false
+    },
+
+    2:{
+        doctor:"Dr. Thitta Mohanty",
+        initials:"TM",
+        speciality:"Pulmonary Medicine",
+        date:"12 October 2026",
+        time:"11:30 AM",
+        mode:"In-person consultation",
+        status:"Pending",
+        fee:"₹1,200",
+        prescription:false
+    },
+
+    3:{
+        doctor:"Dr. Ananya Mohanty",
+        initials:"AM",
+        speciality:"Dermatology",
+        date:"15 October 2026",
+        time:"5:00 PM",
+        mode:"Video consultation",
+        status:"Confirmed",
+        fee:"₹700",
+        prescription:false
+    },
+
+    4:{
+        doctor:"Dr. Rohan Kapoor",
+        initials:"RK",
+        speciality:"Cardiology",
+        date:"18 October 2026",
+        time:"10:30 AM",
+        mode:"In-person consultation",
+        status:"Pending",
+        fee:"₹1,200",
+        prescription:false
+    },
+
+    5:{
+        doctor:"Dr. Bishnu Prasad Sahoo",
+        initials:"BS",
+        speciality:"Psychiatry",
+        date:"02 October 2026",
+        time:"6:00 PM",
+        mode:"Video consultation",
+        status:"Completed",
+        fee:"₹800",
+        prescription:true
+    },
+
+    6:{
+        doctor:"Dr. Ananya Mohanty",
+        initials:"AM",
+        speciality:"Dermatology",
+        date:"24 September 2026",
+        time:"5:00 PM",
+        mode:"Video consultation",
+        status:"Completed",
+        fee:"₹700",
+        prescription:true
+    },
+
+    7:{
+        doctor:"Dr. Thitta Mohanty",
+        initials:"TM",
+        speciality:"Pulmonary Medicine",
+        date:"15 September 2026",
+        time:"11:00 AM",
+        mode:"In-person consultation",
+        status:"Completed",
+        fee:"₹1,200",
+        prescription:false
+    },
+
+    8:{
+        doctor:"Dr. Nandini Rao",
+        initials:"NR",
+        speciality:"Gynecology",
+        date:"10 September 2026",
+        time:"4:00 PM",
+        mode:"In-person consultation",
+        status:"Cancelled",
+        fee:"₹900",
+        prescription:false
+    }
+
+};
+
+
+/* =====================================================
+   CURRENT FILTER
+===================================================== */
+
+let currentFilter = "all";
+
+let newestFirst = true;
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function setFilter(
+    filter,
+    button
+){
+
+    currentFilter =
+        filter;
+
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(
+            item =>
+                item.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    updateTitle();
+
+    filterAppointments();
+
+}
+
+
+/* =====================================================
+   SEARCH + FILTER
+===================================================== */
+
+function filterAppointments(){
+
+    const query =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const chats =
+        [
+            ...document.querySelectorAll(".chat")
+        ];
+
+
+    let visible = 0;
+
+
+    chats.forEach(chat => {
+
+        const text =
+            chat.textContent
+                .toLowerCase();
+
+
+        const status =
+            chat.dataset.status;
+
+
+        const day =
+            chat.dataset.day;
+
+
+        const upcoming =
+            chat.dataset.upcoming === "true";
+
+
+        const prescription =
+            chat.dataset.prescription === "true";
+
+
+        let matchesFilter = true;
+
+
+        switch(currentFilter){
+
+            case "pending":
+
+                matchesFilter =
+                    status === "pending";
+
+                break;
+
+
+            case "confirmed":
+
+                matchesFilter =
+                    status === "confirmed";
+
+                break;
+
+
+            case "today":
+
+                matchesFilter =
+                    day === "today";
+
+                break;
+
+
+            case "upcoming":
+
+                matchesFilter =
+                    upcoming;
+
+                break;
+
+
+            case "completed":
+
+                matchesFilter =
+                    status === "completed";
+
+                break;
+
+
+            case "cancelled":
+
+                matchesFilter =
+                    status === "cancelled";
+
+                break;
+
+
+            case "prescription":
+
+                matchesFilter =
+                    prescription;
+
+                break;
+
+
+            default:
+
+                matchesFilter = true;
+
+        }
+
+
+        const matchesSearch =
+            !query ||
+            text.includes(query);
+
+
+        if(
+            matchesFilter &&
+            matchesSearch
+        ){
+
+            chat.style.display =
+                "flex";
+
+            visible++;
+
+        }else{
+
+            chat.style.display =
+                "none";
+
+        }
+
+    });
+
+
+    document
+        .getElementById("empty")
+        .classList.toggle(
+            "show",
+            visible === 0
+        );
+
+
+    document
+        .getElementById("resultCount")
+        .textContent =
+            `${visible} appointment${visible===1?"":"s"}`;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+function updateTitle(){
+
+    const titles = {
+
+        all:"All appointments",
+
+        pending:"Pending appointments",
+
+        confirmed:"Confirmed appointments",
+
+        today:"Today's appointments",
+
+        upcoming:"Upcoming appointments",
+
+        completed:"Completed consultations",
+
+        cancelled:"Cancelled appointments",
+
+        prescription:"Prescriptions"
+
+    };
+
+
+    document
+        .getElementById("resultTitle")
+        .textContent =
+            titles[currentFilter];
+
+}
+
+
+/* =====================================================
+   SORT
+===================================================== */
+
+function toggleSort(){
+
+    newestFirst =
+        !newestFirst;
+
+
+    const container =
+        document
+            .getElementById("appointments");
+
+
+    const chats =
+        [
+            ...container.children
+        ];
+
+
+    if(!newestFirst){
+
+        chats.reverse()
+            .forEach(
+                item =>
+                    container.appendChild(item)
+            );
+
+    }else{
+
+        chats.reverse()
+            .forEach(
+                item =>
+                    container.appendChild(item)
+            );
+
+    }
+
+}
+
+
+/* =====================================================
+   OPEN APPOINTMENT
+===================================================== */
+
+function openAppointment(id){
+
+    const data =
+        appointmentData[id];
+
+
+    if(!data) return;
+
+
+    let statusClass =
+        data.status.toLowerCase();
+
+
+    let actionHTML = "";
+
+
+    if(data.status === "Confirmed"){
+
+        actionHTML = `
+
+            ${
+                data.mode === "Video consultation"
+
+                ?
+
+                `
+                    <button
+                        class="action primary"
+                        onclick="joinConsultation()"
+                    >
+                        Join consultation
+                    </button>
+                `
+
+                :
+
+                `
+                    <button
+                        class="action primary"
+                        onclick="showClinic()"
+                    >
+                        Clinic details
+                    </button>
+                `
+            }
+
+
+            <button
+                class="action secondary"
+                onclick="addCalendar()"
+            >
+                Add to calendar
+            </button>
+
+        `;
+
+    }
+
+
+    if(data.status === "Pending"){
+
+        actionHTML = `
+
+            <button
+                class="action primary"
+                onclick="showPayment()"
+            >
+                Complete booking
+            </button>
+
+
+            <button
+                class="action secondary"
+                onclick="cancelAppointment()"
+            >
+                Cancel
+            </button>
+
+        `;
+
+    }
+
+
+    if(data.status === "Completed"){
+
+        actionHTML = `
+
+            ${
+                data.prescription
+
+                ?
+
+                `
+                    <button
+                        class="action primary"
+                        onclick="downloadPrescription('${data.doctor}')"
+                    >
+                        Download prescription
+                    </button>
+                `
+
+                :
+
+                ""
+            }
+
+
+            <button
+                class="action secondary"
+                onclick="bookAgain('${data.doctor}')"
+            >
+                Book again
+            </button>
+
+        `;
+
+    }
+
+
+    if(data.status === "Cancelled"){
+
+        actionHTML = `
+
+            <button
+                class="action primary"
+                onclick="bookAgain('${data.doctor}')"
+            >
+                Book again
+            </button>
+
+        `;
+
+    }
+
+
+    let prescriptionHTML = "";
+
+
+    if(data.prescription){
+
+        prescriptionHTML = `
+
+            <div class="prescription-detail">
+
+                <div class="prescription-detail-header">
+
+                    <div class="prescription-document">
+
+                        <svg class="icon">
+                            <use href="#document"/>
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="prescription-detail-title">
+
+                            Prescription available
+
+                        </div>
+
+
+                        <div class="prescription-detail-subtitle">
+
+                            Issued after completed consultation
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="download"
+                    onclick="
+                        downloadPrescription('${data.doctor}')
+                    "
+                >
+
+                    Download prescription PDF
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    document
+        .getElementById("drawerContent")
+        .innerHTML = `
+
+            <div class="detail-profile">
+
+                <div class="detail-avatar">
+                    ${data.initials}
+                </div>
+
+
+                <div>
+
+                    <div class="detail-name">
+                        ${data.doctor}
+                    </div>
+
+                    <div class="detail-speciality">
+                        ${data.speciality}
+                    </div>
+
+
+                    <div class="detail-status">
+
+                        ● ${data.status}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-card">
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Appointment status
+                    </span>
+
+                    <strong>
+                        ${data.status}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong>
+                        ${data.date}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Time
+                    </span>
+
+                    <strong>
+                        ${data.time}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Consultation
+                    </span>
+
+                    <strong>
+                        ${data.mode}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Fee
+                    </span>
+
+                    <strong>
+                        ${data.fee}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="actions">
+
+                ${actionHTML}
+
+            </div>
+
+
+            ${prescriptionHTML}
+
+        `;
+
+
+    document
+        .getElementById("overlay")
+        .classList.add("open");
+
+}
+
+
+/* =====================================================
+   CLOSE DRAWER
+===================================================== */
+
+function closeDrawer(event){
+
+    if(
+        event &&
+        event.target !==
+        document.getElementById("overlay")
+    ){
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("overlay")
+        .classList.remove("open");
+
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+function joinConsultation(){
+
+    alert(
+        "The secure video consultation room will open here."
+    );
+
+}
+
+
+function showClinic(){
+
+    alert(
+        "Clinic address, map and navigation will appear here."
+    );
+
+}
+
+
+function addCalendar(){
+
+    alert(
+        "Calendar event will be created here."
+    );
+
+}
+
+
+function showPayment(){
+
+    alert(
+        "Payment gateway will open here."
+    );
+
+}
+
+
+function cancelAppointment(){
+
+    alert(
+        "Appointment cancellation flow will open here."
+    );
+
+}
+
+
+function bookAgain(doctor){
+
+    alert(
+        "Opening booking screen for " +
+        doctor
+    );
+
+}
+
+
+function downloadPrescription(doctor){
+
+    /*
+       Replace this with the actual PDF URL.
+
+       Example:
+
+       window.open(
+           prescriptionURL,
+           "_blank"
+       );
+    */
+
+    alert(
+        "Downloading prescription PDF for " +
+        doctor
+    );
+
+}
+
+
+function newAppointment(){
+
+    alert(
+        "Open the DoctorJet doctor/speciality booking interface here."
+    );
+
+}
+
+
+/* =====================================================
+   INITIALISE
+===================================================== */
+
+filterAppointments();
+
+</script>
+
+</body>
+</html>
