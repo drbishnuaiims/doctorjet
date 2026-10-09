@@ -3799,10 +3799,10 @@
     const pharmacy = {
 
       // ----- Name and description (shown in the top card) -----
-      name: "Pradhan Medicine Store",
+      name: "Sample Pharmacy Bhubaneswar",
       label: "Pharmacy",                                  // small blue text above the name
       type: "Pharmacy & Health Store",                    // blue line under the name
-      location: "Saheed Nagar, Bhubaneswar, Odisha",              // short location line
+      location: "Area, Bhubaneswar, Odisha",              // short location line
       description:
         "Prescription and OTC medicines, home delivery, lab tests through our in-house and partner labs, and doctor consultations.",
 
@@ -3901,9 +3901,9 @@
       // ----- Partner lab A -----
       {
         id: "partner-a",
-        name: "Partner Lab: PredLabs",
-        short: "PredLabs",
-        info: "NABL accredited · Fully Automated Lab",
+        name: "Partner Lab A",
+        short: "Lab A",
+        info: "NABL accredited · wider specialised test menu",
         report: "24 hours",
         home: true,
         homeFee: 100,

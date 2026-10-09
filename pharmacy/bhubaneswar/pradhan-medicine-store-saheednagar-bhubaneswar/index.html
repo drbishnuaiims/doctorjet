@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f5f7">
+<title>Pharmacy Profile</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#f5f5f7;--text:#171717;--text2:#606064;--text3:#8b8b91;--border:rgba(0,0,0,.075);--accent:#405867;--accent-soft:#edf2f5;--green:#26785d;--green-soft:#edf7f2;--blue:#1d9bf0;--black:#181818;--shadow:0 2px 4px rgba(0,0,0,.025),0 8px 25px rgba(0,0,0,.035)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+body.modal-open{overflow:hidden}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}img{max-width:100%}
+:focus-visible{outline:3px solid rgba(29,155,240,.22);outline-offset:2px}
+.page{width:min(1060px,calc(100% - 40px));margin:0 auto;padding:58px 0 90px}
+/* platform attribution */
+.platform-bar{position:fixed;top:10px;right:12px;z-index:500}
+.platform-trigger{display:flex;align-items:center;justify-content:center;min-width:31px;min-height:31px;padding:0;border:1px solid rgba(0,0,0,.07);border-radius:10px;background:rgba(255,255,255,.86);color:#2b70a8;box-shadow:0 4px 18px rgba(0,0,0,.07);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:hidden;transition:width .28s ease,background .2s ease,box-shadow .2s ease}
+.platform-bar.expanded .platform-trigger{width:215px;min-width:215px;justify-content:flex-start;padding:5px 9px;background:rgba(255,255,255,.96);box-shadow:0 7px 25px rgba(0,0,0,.10)}
+.security-icon{width:22px;height:22px;flex:0 0 22px;display:grid;place-items:center;color:#1677c8}.security-icon svg{width:21px;height:21px}
+.platform-attribution{display:flex;align-items:center;width:0;opacity:0;overflow:hidden;transform:translateX(5px);transition:width .28s ease,opacity .2s ease,margin .28s ease,transform .28s ease}
+.platform-bar.expanded .platform-attribution{width:180px;opacity:1;margin-left:7px;transform:none}
+.platform-link{display:flex;align-items:center;gap:8px;width:100%}.platform-logo{width:25px;height:25px;flex:0 0 25px;object-fit:contain;border-radius:7px}
+.platform-copy{display:flex;flex-direction:column;align-items:flex-start;white-space:nowrap;line-height:1.15}
+.platform-copy strong{color:#35383b;font-size:10px}.platform-copy small{color:#8b8f93;font-size:8px;margin-top:2px}
+/* hero */
+.hero{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:30px;align-items:center;padding:34px;background:rgba(255,255,255,.82);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.logo{position:relative}.logo img{width:138px;height:138px;object-fit:contain;display:block;border-radius:24px;background:#e8e8ea;box-shadow:0 2px 5px rgba(0,0,0,.08),0 10px 25px rgba(0,0,0,.06)}
+.badge{position:absolute;right:-6px;bottom:-5px;width:29px;height:29px;z-index:5;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15))}
+.eyebrow{margin-bottom:7px;color:var(--blue);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px}
+h1{margin:0;font-size:clamp(30px,4vw,42px);line-height:1.08;letter-spacing:-1.5px;font-weight:700}
+.type{margin-top:9px;color:var(--blue);font-size:17px;font-weight:600}
+.loc{margin-top:6px;color:var(--text2);font-size:13px}.desc{margin-top:6px;color:var(--text3);font-size:12px;max-width:620px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:17px}
+.tag{padding:6px 10px;border:1px solid rgba(0,0,0,.045);border-radius:999px;background:#f2f2f3;color:#57575a;font-size:11px;font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.btn{border:1px solid var(--border);border-radius:10px;padding:9px 13px;background:#fff;color:var(--text);font-size:12px;font-weight:700}
+.btn.primary{background:var(--black);color:#fff;border-color:var(--black)}
+.qrshare{display:flex;align-items:center;justify-content:center;gap:14px}
+.qr{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;background:rgba(255,255,255,.78);border:1px solid rgba(0,0,0,.065);border-radius:14px;min-width:92px}
+.qr>div{width:70px;height:70px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:7px}
+.qr img,.qr canvas{width:70px!important;height:70px!important;display:block}
+.qr small{margin-top:6px;color:var(--text3);font-size:8px;font-weight:650;text-align:center;white-space:nowrap;line-height:1.3}
+.share{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-width:150px}
+.share-btn{min-height:40px;padding:0 14px;border:1px solid rgba(29,155,240,.22);border-radius:12px;background:#fff;color:#171717;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:600;box-shadow:0 5px 16px rgba(15,23,42,.07);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.share-btn:hover{transform:translateY(-1px);border-color:rgba(29,155,240,.42);box-shadow:0 8px 22px rgba(15,23,42,.10)}
+.share-ico{width:20px;height:20px;flex:0 0 20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#1d9bf0;color:#fff}
+.share-ico svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.share-menu{width:210px;margin-top:8px;padding:6px;border:1px solid rgba(15,23,42,.08);border-radius:14px;background:rgba(255,255,255,.98);box-shadow:0 12px 30px rgba(15,23,42,.12);display:flex;flex-direction:column;gap:3px;z-index:20}
+.share-menu[hidden]{display:none}
+.opt{width:100%;border:0;background:transparent;color:#171717;min-height:42px;padding:8px 9px;border-radius:10px;display:flex;align-items:center;gap:9px;text-align:left;font-size:12px;font-weight:600;line-height:1.25}
+.opt:hover{background:#f4f8fb}
+.sico{width:28px;height:28px;flex:0 0 28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#f1f5f9;color:#475569}
+.sico svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wa-i{background:#e9f8ef;color:#168a45}.copy-i{background:#eef4f8;color:#3d5365}
+/* quick info */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;overflow:hidden;background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:18px}
+.quick div{padding:17px 20px;border-right:1px solid var(--border)}.quick div:last-child{border-right:0}
+.quick small{display:block;color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px}.quick b{display:block;margin-top:3px;font-size:13px;font-weight:600}
+/* tabs */
+.tabs-wrap{margin-top:18px;position:sticky;top:10px;z-index:100}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:16px;box-shadow:0 7px 25px rgba(0,0,0,.045);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.tab{min-height:45px;border:0;border-radius:12px;background:transparent;color:var(--text2);font-size:13px;font-weight:650;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.tab:hover{background:rgba(0,0,0,.035)}.tab.active{background:#fff;color:var(--text);box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.content{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:18px;margin-top:18px}.content>div{min-width:0}
+.card{padding:27px;background:rgba(255,255,255,.82);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+.card+.card,.card+.grid2{margin-top:18px}
+.card h2{margin:0;color:var(--text);font-size:19px;font-weight:650;letter-spacing:-.35px}
+.card>p.sub{margin:5px 0 22px;color:var(--text2);font-size:13px}
+.about{margin:0;color:#515151;font-size:14px;line-height:1.75}.card h2+.about{margin-top:8px}
+.panel{display:none}.panel.active{display:block}
+.panel-enter{animation:panelIn .22s ease both}@keyframes panelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* forms */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}
+label.l{display:block;margin-bottom:6px;color:#444;font-size:11px;font-weight:650}
+.fc{width:100%;padding:11px 12px;border:1px solid #dedee0;border-radius:11px;outline:none;background:#fafafa;color:var(--text);font-size:12px;transition:border .15s ease,box-shadow .15s ease,background .15s ease}
+.fc:focus{background:#fff;border-color:#8c9da8;box-shadow:0 0 0 3px rgba(63,89,107,.08)}
+textarea.fc{min-height:80px;resize:vertical}
+.radios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.radios.one{grid-template-columns:1fr}
+.radios div{position:relative}.radios input{position:absolute;opacity:0;pointer-events:none}
+.radios label{display:block;padding:11px;border:1px solid #dedee0;border-radius:11px;background:#fafafa;color:#555;font-size:10px;font-weight:650;cursor:pointer;transition:background .15s ease,border .15s ease,color .15s ease}
+.radios input:checked+label{background:#eef4f8;border-color:rgba(63,89,107,.35);color:#263f4d}
+.radios input:disabled+label{opacity:.45;cursor:not-allowed}
+.radios label small{display:block;margin-top:3px;color:var(--text3);font-size:10px;font-weight:500;line-height:1.45}
+.radios label .meta{display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.note{margin-top:14px;padding:12px 13px;border:1px solid rgba(29,155,240,.14);border-radius:11px;background:#f5faff;color:#66717a;font-size:9px;line-height:1.55}.note strong{color:#2d668f}
+.submit{width:100%;margin-top:13px;padding:13px;border:0;border-radius:12px;background:#171717;color:#fff;font-size:12px;font-weight:650;transition:transform .15s ease,background .15s ease}
+.submit:hover{background:#292929;transform:translateY(-1px)}
+.submit.wa{display:flex;align-items:center;justify-content:center;gap:8px}
+.submit.wa::before{content:"";width:18px;height:18px;flex:0 0 18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 11.5a8 8 0 0 1-11.8 7L4 20l1.6-4A8 8 0 1 1 20 11.5Z' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
+/* tests */
+.search-wrap{position:relative;margin-bottom:13px}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#8b8b91;pointer-events:none}
+.search-input{width:100%;min-height:45px;padding:11px 14px 11px 40px;border:1px solid #dedee0;border-radius:13px;background:#fafafa;color:var(--text);outline:none;font-size:13px;transition:border .15s ease,box-shadow .15s ease,background .15s ease}
+.search-input:focus{background:#fff;border-color:#8c9da8;box-shadow:0 0 0 3px rgba(63,89,107,.08)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid rgba(0,0,0,.06);border-radius:999px;background:#f4f4f5;color:#55565a;padding:7px 11px;font-size:11px;font-weight:650;transition:background .16s ease,color .16s ease}
+.chip:hover{background:#ededee}.chip.active{background:#1b1b1b;border-color:#1b1b1b;color:#fff}
+.list{display:grid;gap:10px;margin-top:18px}
+.item{padding:17px;background:#fafafa;border:1px solid var(--border);border-radius:16px;transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.item:hover{background:#fff;border-color:rgba(0,0,0,.10);box-shadow:0 7px 22px rgba(0,0,0,.045);transform:translateY(-1px)}
+.item.sel{background:#f7fbff;border-color:rgba(29,155,240,.20)}
+.item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+.item h3{margin:0;font-size:14px;font-weight:680;letter-spacing:-.15px}.item h3 small{display:inline-block;margin-left:5px;color:var(--text3);font-size:10px;font-weight:600}
+.item p{margin:5px 0 12px;color:var(--text2);font-size:11px;line-height:1.55}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px}.meta-row span{padding:5px 8px;border-radius:8px;background:#f0f0f1;color:#66676b;font-size:9px;font-weight:600}
+.price{margin-top:11px;font-size:13px;font-weight:700}.price span{color:var(--text3);font-size:9px;font-weight:500}
+.add{flex:0 0 auto;min-width:74px;min-height:35px;padding:7px 11px;border:1px solid #dedee0;border-radius:10px;background:#fff;color:#2c2c2e;font-size:10px;font-weight:700;transition:background .16s ease,color .16s ease,border-color .16s ease,transform .15s ease}
+.add:hover{transform:translateY(-1px)}.add.on{background:var(--green-soft);border-color:rgba(38,120,93,.18);color:var(--green)}
+.empty{padding:30px 18px;text-align:center;color:var(--text3);font-size:12px;border:1px dashed rgba(0,0,0,.10);border-radius:15px;background:#fafafa}
+.summary{margin-top:18px;padding:19px;background:#191919;color:#fff;border-radius:18px;box-shadow:0 14px 35px rgba(0,0,0,.12)}
+.summary .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:11px;color:#dedede}.summary .row:last-child{border:0}
+.summary .row button{border:0;background:transparent;color:#a4a4a7;font-size:15px;line-height:1;padding:2px 4px}
+.summary .total{display:flex;justify-content:space-between;gap:10px;margin-top:7px;padding-top:13px;border-top:1px solid rgba(255,255,255,.10);font-size:15px;font-weight:700}
+.summary small{display:block;margin-top:8px;color:#929296;font-size:9px;line-height:1.45}
+.summary .go{width:100%;margin-top:14px;padding:12px;border:0;border-radius:11px;background:#fff;color:#171717;font-size:11px;font-weight:700;transition:transform .15s ease}.summary .go:hover{transform:translateY(-1px)}
+/* doctors */
+.dgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.doc{padding:17px;background:#fafafa;border:1px solid var(--border);border-radius:17px;transition:background .18s ease,box-shadow .18s ease,transform .18s ease}
+.doc:hover{background:#fff;box-shadow:0 8px 25px rgba(0,0,0,.055);transform:translateY(-1px)}
+.doc img{width:64px;height:64px;object-fit:cover;border-radius:18px;background:#e7e7e9;margin-bottom:13px;display:block}
+.doc h3{margin:0;font-size:14px;line-height:1.2;font-weight:680}.doc .sp{margin-top:4px;color:var(--blue);font-size:11px;font-weight:650}
+.doc .q{margin-top:5px;color:var(--text2);font-size:10px}
+.dtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.dtag{padding:5px 7px;background:#f0f0f1;border-radius:7px;color:#66676b;font-size:8px;font-weight:650}
+.doc .av{margin-top:12px;padding-top:11px;border-top:1px solid var(--border);font-size:9px;font-weight:600;line-height:1.45}
+.doc .av small{display:block;margin-bottom:3px;color:var(--text3);font-size:8px;text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+.doc .bot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px}
+.doc .fee{font-size:11px;font-weight:700}
+.doc .bk{border:0;border-radius:9px;padding:8px 9px;background:#191919;color:#fff;font-size:9px;font-weight:700}
+.slots{display:flex;flex-wrap:wrap;gap:6px}
+.slot{padding:8px 10px;border:1px solid #dedee0;border-radius:8px;background:#fafafa;color:#444;font-size:10px;font-weight:600}
+.slot.on{background:#1b1b1b;border-color:#1b1b1b;color:#fff}
+/* info */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.mini{padding:18px;background:rgba(255,255,255,.82);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}
+.mini b{font-size:13px;font-weight:680}.mini p{margin:6px 0 0;color:var(--text2);font-size:11px;line-height:1.6}
+.mini .r{display:flex;justify-content:space-between;gap:12px;margin-top:7px;font-size:10px}.mini .r span:first-child{color:var(--text3)}.mini .r span:last-child{color:var(--text);font-weight:600;text-align:right}
+.mini>div:not(.r){display:grid;gap:7px;margin-top:9px}.mini>div .r{margin-top:0}
+/* contact */
+.contact{display:grid;gap:9px}
+.crow{display:flex;align-items:center;gap:11px;padding:12px;background:#fafafa;border:1px solid var(--border);border-radius:13px}
+.ci{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:10px;background:#f0f0f1;color:#4e4e50;font-size:11px;font-weight:750}
+.crow small{display:block;color:var(--text3);font-size:9px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.crow span.v,.crow a{display:block;margin-top:2px;color:var(--text);font-size:11px;font-weight:600}
+.map-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:9px 12px;border:1px solid rgba(29,155,240,.16);border-radius:10px;background:#f4f9fd;color:#25678e;font-size:10px;font-weight:700}
+/* sidebar */
+.side{position:sticky;top:82px;align-self:start}
+.book{padding:24px;background:#191919;color:#fff;border-radius:22px;box-shadow:0 16px 40px rgba(0,0,0,.14)}
+.beyebrow{color:#9e9e9e;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.book h2{margin:7px 0;color:#fff;font-size:22px;font-weight:650;letter-spacing:-.5px}
+.book p{margin:0;color:#a8a8aa;font-size:12px;line-height:1.6}
+.bdiv{height:1px;margin:19px 0;background:rgba(255,255,255,.1)}
+.brow{display:flex;justify-content:space-between;gap:15px;padding:7px 0;font-size:12px}.brow span:first-child{color:#a5a5a7}.brow span:last-child{text-align:right;font-weight:600}
+.book button{width:100%;margin-top:10px;padding:13px;border:0;border-radius:12px;background:#fff;color:#161616;font-size:13px;font-weight:700;transition:transform .15s ease}
+.book button:hover{transform:translateY(-1px)}.book button.alt{margin-top:8px;background:rgba(255,255,255,.12);color:#fff}
+.sidenote{margin-top:12px;padding:17px;background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:17px;color:var(--text2);font-size:11px;line-height:1.6}.sidenote strong{color:var(--text)}
+/* modal */
+.mb{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.45);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.mb.open{display:flex}
+.modal{width:min(620px,100%);max-height:92vh;overflow-y:auto;background:#fff;border-radius:25px;box-shadow:0 30px 100px rgba(0,0,0,.25);animation:modalIn .2s ease both}
+@keyframes modalIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.mh{display:flex;justify-content:space-between;gap:15px;padding:21px 23px;border-bottom:1px solid var(--border)}
+.mh h2{margin:0;font-size:19px;font-weight:650;letter-spacing:-.3px}.mh small{display:block;margin-top:3px;color:var(--text3);font-size:11px}
+.x{width:32px;height:32px;flex:0 0 32px;border:0;border-radius:9px;background:#f2f2f3;color:#555;font-size:18px}
+.mbody{padding:22px 23px 24px}.mact{display:grid;gap:10px}
+.mact a{display:block;padding:13px 15px;border-radius:12px;background:#f4f4f5;color:var(--text);font-weight:650}.mact a.wa{background:#1fa855;color:#fff}
+.sum{padding:15px;background:#f7f7f8;border:1px solid var(--border);border-radius:14px}
+.sum>b:first-child{font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+.sum .r{display:flex;justify-content:space-between;gap:12px;margin-top:5px;color:#55565a;font-size:10px}
+.sum .t{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);color:var(--text);font-size:11px;font-weight:700}
+.mobilebar{display:none}
+.toast{position:fixed;left:50%;bottom:25px;z-index:1500;transform:translate(-50%,15px);opacity:0;pointer-events:none;padding:11px 15px;border-radius:11px;background:#191919;color:#fff;box-shadow:0 12px 35px rgba(0,0,0,.20);font-size:11px;font-weight:600;transition:opacity .2s ease,transform .2s ease}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1000px){.hero{grid-template-columns:125px minmax(0,1fr);gap:23px}.logo img{width:120px;height:120px}.qrshare{grid-column:1/-1;justify-content:flex-start}.content{grid-template-columns:minmax(0,1fr)}.side{display:none}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+body{padding-bottom:74px;overflow-x:hidden}.page{width:calc(100% - 20px);padding:18px 0 35px}
+.platform-bar{top:8px;right:9px}.platform-trigger{min-width:29px;min-height:29px;border-radius:9px}.platform-bar.expanded .platform-trigger{width:202px;min-width:202px}
+.hero{grid-template-areas:"logo qr" "details details";grid-template-columns:82px minmax(0,1fr);align-items:start;gap:16px 14px;padding:16px;border-radius:22px}
+.hero>.logo{grid-area:logo}.hero>.details{grid-area:details;min-width:0}
+.logo img{width:82px;height:82px;border-radius:18px}.badge{width:25px;height:25px;right:-5px;bottom:-4px}
+h1{font-size:26px;letter-spacing:-.9px}.type{margin-top:5px;font-size:13px}.loc,.desc{font-size:10px}
+.tags{margin-top:10px}.tag{padding:5px 7px;font-size:9px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.btn{width:100%;min-height:42px;padding:8px;font-size:11px;line-height:1.2}
+.hero>.qrshare{grid-area:qr;justify-self:end;width:82px;max-width:82px;min-width:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:8px}
+.qr{width:82px;min-width:0;height:82px;padding:4px}.qr>div,.qr img,.qr canvas{width:50px!important;height:50px!important}.qr small{margin-top:3px;font-size:7px;line-height:1.1}
+.share{min-width:0;width:82px;align-items:stretch}.share-btn{width:82px;min-height:38px;padding:0 12px}
+.share-menu{position:absolute;top:100%;right:0;width:min(220px,calc(100vw - 32px))}.opt{white-space:nowrap}
+.search-input{min-height:44px;font-size:16px}.chip{padding:7px 10px;font-size:10px}
+.list{gap:9px;margin-top:14px}.item{padding:14px;border-radius:14px}.item-top{display:block}.item h3{font-size:13px;overflow-wrap:anywhere}.item p{font-size:10px;margin:5px 0 10px}
+.add{width:100%;min-height:38px;margin-top:2px;font-size:11px}.price{margin-top:10px}
+.summary{margin-top:14px;padding:15px;border-radius:15px}.summary .go{min-height:43px}
+.quick{grid-template-columns:1fr 1fr;border-radius:15px}.quick div{padding:13px;border-bottom:1px solid var(--border)}.quick div:nth-child(2){border-right:0}.quick div:nth-child(3),.quick div:nth-child(4){border-bottom:0}
+.tabs-wrap{top:6px}.tabs{border-radius:14px}.tab{min-height:43px;font-size:11px}
+.card{padding:21px;border-radius:19px}.dgrid,.grid2,.fg{grid-template-columns:1fr}.full{grid-column:auto}.doc{padding:15px}
+.mini{padding:16px}.mini .r{align-items:flex-start;flex-direction:column;gap:2px}.mini .r span:last-child{text-align:left;overflow-wrap:anywhere}
+.crow{align-items:flex-start;padding:11px}.crow span.v,.crow a{overflow-wrap:anywhere}.map-btn{width:100%;min-height:42px;padding:10px 12px}
+.mb{padding:0;align-items:flex-end}.modal{width:100%;max-height:96vh;border-radius:24px 24px 0 0}.mh{padding:18px}.mbody{padding:18px}.mh h2{font-size:17px}
+.fc{min-height:44px;font-size:16px}textarea.fc{min-height:96px}
+.mobilebar{position:fixed;display:flex;align-items:center;gap:9px;left:0;right:0;bottom:0;z-index:800;padding:9px 11px;background:rgba(255,255,255,.93);border-top:1px solid var(--border);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.mobilebar div{flex:1;min-width:0}.mobilebar small{display:block;color:var(--text3);font-size:9px;font-weight:650}.mobilebar b{display:block;margin-top:1px;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobilebar button{flex:0 0 auto;border:0;border-radius:11px;padding:12px 17px;background:#171717;color:#fff;font-size:11px;font-weight:700}
+.toast{bottom:84px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="platform-bar" id="platformBar"><button class="platform-trigger" id="platformTrigger" type="button" aria-label="Show DoctorJet attribution" aria-expanded="false"><span class="security-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 19.5 5.5v5.3c0 5-3.1 8.9-7.5 10.6-4.4-1.7-7.5-5.6-7.5-10.6V5.5L12 2.6Z" fill="currentColor"/><path d="m8.1 11.9 2.55 2.55 5.35-5.45" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="platform-attribution"><a href="https://doctorjet.in" target="_blank" rel="noopener noreferrer" class="platform-link" aria-label="Open DoctorJet.in"><img src="../images/powered-by-doctorjet.png" alt="DoctorJet" class="platform-logo"><span class="platform-copy"><strong>Powered by DoctorJet.in</strong><small>Secure profile &amp; appointments</small></span></a></span></button></div>
+<main class="page">
+
+<section class="hero">
+  <div class="logo">
+    <img id="logo" src="../images/predlabs-logo.png" alt="Pharmacy logo">
+    <svg class="badge" viewBox="0 0 24 24" aria-label="Verified pharmacy profile"><path d="M12 2.8l2.05 1.4 2.4-.1 1.1 2.15 2.1 1.2-.2 2.4L20.6 12l-1.15 2.15.2 2.4-2.1 1.2-1.1 2.15-2.4-.1L12 21.2l-2.05-1.4-2.4.1-1.1-2.15-2.1-1.2.2-2.4L3.4 12l1.15-2.15-.2-2.4 2.1-1.2 1.1-2.15 2.4.1z" fill="#1D9BF0"/><path d="m7.9 12.1 2.65 2.55 5.55-5.7" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="details">
+    <div class="eyebrow" id="hLabel"></div>
+    <h1 id="hName"></h1>
+    <div class="type" id="hType"></div>
+    <div class="loc" id="hLoc"></div>
+    <div class="desc" id="hDesc"></div>
+    <div class="tags" id="hTags"></div>
+    <div class="actions">
+      <button class="btn" onclick="openModal('locModal')">Location &amp; Directions</button>
+      <button class="btn primary" onclick="openModal('callModal')">Call or WhatsApp</button>
+    </div>
+  </div>
+  <div class="qrshare">
+    <div class="qr"><div id="qr" aria-label="QR code for this profile"></div><small>Pharmacy Profile<br>QR Code</small></div>
+    <div class="share">
+      <button id="shareBtn" class="share-btn" aria-expanded="false"><span class="share-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg></span><span>Share</span></button>
+      <div class="share-menu" id="shareMenu" hidden>
+        <button id="shareWa" class="opt"><span class="sico wa-i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.6-4A8 8 0 1 1 20 11.5Z"/></svg></span><span>Share on WhatsApp</span></button>
+        <button id="copyLink" class="opt"><span class="sico copy-i" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></span><span>Copy profile link</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quick">
+  <div><small>Medicines</small><b id="qMed"></b></div>
+  <div><small>Home Delivery</small><b id="qDel"></b></div>
+  <div><small>Lab Tests</small><b id="qLab"></b></div>
+  <div><small>Opening Hours</small><b id="qHours"></b></div>
+</section>
+
+<div class="tabs-wrap"><nav class="tabs" aria-label="Pharmacy profile sections">
+  <button class="tab active" data-tab="meds">MEDICINES</button>
+  <button class="tab" data-tab="labs">LAB TESTS</button>
+  <button class="tab" data-tab="docs">DOCTORS</button>
+</nav></div>
+
+<div class="content"><div>
+
+<!-- MEDICINES -->
+<section class="panel active panel-enter" id="medsPanel">
+<section class="card">
+  <h2>Order or ask about medicines</h2>
+  <p class="sub">List what you need. We will reply on WhatsApp and ask you to send a photo of your prescription.</p>
+  <form id="medForm" onsubmit="submitMed(event)">
+    <div class="fg">
+      <div class="full"><label class="l">Request type</label>
+        <div class="radios">
+          <div><input type="radio" name="reqType" id="rtOrder" value="Place an order" required><label for="rtOrder">Place an order<small>I want these medicines delivered or ready for pickup</small></label></div>
+          <div><input type="radio" name="reqType" id="rtEnq" value="Enquiry (availability / price)"><label for="rtEnq">Enquiry only<small>Check availability and price first</small></label></div>
+        </div></div>
+      <div><label class="l" for="mName">Full name</label><input class="fc" id="mName" required autocomplete="name"></div>
+      <div><label class="l" for="mMobile">Mobile number</label><input class="fc" id="mMobile" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" placeholder="10-digit mobile" required></div>
+      <div class="full"><label class="l" for="mList">Medicines needed</label><textarea class="fc" id="mList" placeholder="One per line, e.g. Paracetamol 650 mg – 2 strips&#10;Metformin 500 mg – 1 month" required></textarea></div>
+      <div class="full"><label class="l">Fulfilment</label>
+        <div class="radios">
+          <div><input type="radio" name="fulfil" id="fDel" value="Home delivery" required><label for="fDel">Home delivery</label></div>
+          <div><input type="radio" name="fulfil" id="fPick" value="Store pickup"><label for="fPick">Store pickup</label></div>
+        </div></div>
+      <div class="full" id="mAddrWrap" hidden><label class="l" for="mAddr">Delivery address</label><textarea class="fc" id="mAddr" placeholder="House / street / landmark, area, PIN"></textarea></div>
+      <div class="full"><label class="l" for="mNote">Optional note</label><input class="fc" id="mNote" placeholder="Brand preference, urgency, etc."></div>
+    </div>
+    <div class="note"><strong>Prescription needed.</strong> After you tap send, WhatsApp will open with your request. Please attach a clear photo of your prescription in that chat. Prescription-only medicines cannot be dispensed without it.</div>
+    <button class="submit wa" type="submit">Send request on WhatsApp</button>
+  </form>
+</section>
+</section>
+
+<!-- LAB TESTS -->
+<section class="panel" id="labsPanel">
+<section class="card">
+  <h2>Laboratory tests</h2>
+  <p class="sub">Select tests, then choose our in-house lab or one of our partner labs when you book.</p>
+  <div class="search-wrap"><svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input class="search-input" id="search" type="search" placeholder="Search tests..." aria-label="Search laboratory tests" autocomplete="off"></div>
+  <div class="chips" id="chips"></div>
+  <div class="list" id="testList"></div>
+  <div class="summary" id="summary" hidden>
+    <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:680"><span>Selected tests</span><span id="selCount" style="font-size:10px;color:#a5a5a7"></span></div>
+    <div id="selList" style="margin-top:10px"></div>
+    <div class="total"><span style="font-size:10px;color:#a5a5a7;font-weight:500">Base estimate</span><span id="selTotal"></span></div>
+    <small>Final price depends on the lab you choose and is confirmed by the pharmacy.</small>
+    <button class="go" onclick="openLab()">Choose lab &amp; book</button>
+  </div>
+</section>
+</section>
+
+<!-- DOCTORS -->
+<section class="panel" id="docsPanel">
+<section class="card">
+  <h2>Associated doctors</h2>
+  <p class="sub">Timings are tentative. Please call to confirm availability.</p>
+  <div class="dgrid" id="docGrid"></div>
+</section>
+</section>
+
+<section class="grid2">
+  <div class="mini"><b>About the pharmacy</b><p id="aboutText"></p></div>
+  <div class="mini"><b>Licence</b><p id="licText"></p></div>
+  <div class="mini"><b>Services</b><div id="svcList"></div></div>
+  <div class="mini"><b>Opening hours</b><div id="hoursList"></div></div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <h2>Contact</h2><p class="sub">Pharmacy contact and location</p>
+  <div class="contact">
+    <div class="crow"><div class="ci">LOC</div><div><small>Address</small><span class="v" id="cAddr"></span></div></div>
+    <div class="crow"><div class="ci">TEL</div><div><small>Phone</small><a id="cPhone" href="#"></a></div></div>
+    <div class="crow"><div class="ci">WA</div><div><small>WhatsApp</small><a id="cWa" href="#" target="_blank" rel="noopener noreferrer">Chat with pharmacy</a></div></div>
+    <div class="crow"><div class="ci">@</div><div><small>Email</small><a id="cMail" href="#"></a></div></div>
+  </div>
+  <a class="map-btn" id="mapBtn" href="#" target="_blank" rel="noopener noreferrer">Open location in Google Maps</a>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <h2>Booking &amp; privacy</h2>
+  <p class="about">Details you enter are not stored on this page or sent to any server. They are placed directly into a WhatsApp message to the pharmacy. Please avoid sharing highly sensitive medical information in notes.</p>
+</section>
+
+</div>
+
+<aside class="side">
+  <div class="book">
+    <div class="beyebrow">Pharmacy Services</div>
+    <h2>Order, test or consult</h2>
+    <p>Send a medicine request, book lab tests or choose an associated doctor.</p>
+    <div class="bdiv"></div>
+    <div class="brow"><span>Pharmacy</span><span id="sideName"></span></div>
+    <div class="brow"><span>Home delivery</span><span id="sideDel"></span></div>
+    <div class="brow"><span>Lab tests</span><span id="sideLab"></span></div>
+    <button onclick="go('meds')">Order Medicines</button>
+    <button class="alt" onclick="go('labs')">Browse Lab Tests</button>
+    <button class="alt" onclick="go('docs')">See Doctors</button>
+  </div>
+  <div class="sidenote"><strong>Direct WhatsApp booking.</strong><br>Nothing is stored by this page. Requests go straight to the pharmacy on WhatsApp.</div>
+</aside>
+</div>
+
+</main>
+
+<div class="mobilebar"><div><small id="mbLabel"></small><b id="mbValue"></b></div><button id="mbBtn"></button></div>
+
+<!-- LAB BOOKING MODAL -->
+<div class="mb" id="labModal" role="dialog" aria-modal="true" aria-label="Book lab tests" onclick="bd(event,'labModal')">
+<div class="modal">
+  <div class="mh"><div><h2>Book lab tests</h2><small id="labSub"></small></div><button class="x" onclick="closeModal('labModal')" aria-label="Close">×</button></div>
+  <div class="mbody"><form id="labForm" onsubmit="submitLab(event)"><div class="fg">
+    <div class="full"><label class="l">Where should the tests be done?</label><div class="radios one" id="labChoice"></div></div>
+    <div><label class="l" for="lName">Full name</label><input class="fc" id="lName" required autocomplete="name"></div>
+    <div><label class="l" for="lMobile">Mobile number</label><input class="fc" id="lMobile" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required></div>
+    <div><label class="l" for="lAge">Age</label><input class="fc" id="lAge" type="number" min="0" max="120" required></div>
+    <div><label class="l" for="lGender">Gender</label><select class="fc" id="lGender" required><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+    <div class="full"><label class="l">Collection type</label><div class="radios">
+      <div><input type="radio" name="colType" id="cVisit" value="Visit lab / pharmacy" required><label for="cVisit">Visit lab</label></div>
+      <div><input type="radio" name="colType" id="cHome" value="Home sample collection"><label for="cHome">Home sample collection</label></div></div></div>
+    <div class="full" id="lAddrWrap" hidden><label class="l" for="lAddr">Collection address</label><textarea class="fc" id="lAddr" placeholder="Full address with PIN"></textarea></div>
+    <div><label class="l" for="lDate">Preferred date</label><input class="fc" id="lDate" type="date" required></div>
+    <div><label class="l" for="lTime">Preferred time</label><select class="fc" id="lTime" required><option value="">Select time</option><option>7:00 AM – 9:00 AM</option><option>9:00 AM – 11:00 AM</option><option>11:00 AM – 1:00 PM</option><option>1:00 PM – 3:00 PM</option><option>3:00 PM – 5:00 PM</option><option>5:00 PM – 7:00 PM</option></select></div>
+    <div class="full"><div class="sum"><b style="font-size:11px">Selected tests</b><div id="lSumList"></div><div class="r t"><span>Estimated total</span><span id="lSumTotal"></span></div></div></div>
+    <div class="full"><label class="l" for="lNote">Optional note</label><textarea class="fc" id="lNote" placeholder="Anything else we should know?"></textarea></div>
+  </div>
+  <div class="note">Your details are placed directly into a WhatsApp message. If your doctor has advised these tests, you can send the prescription photo in the same chat.</div>
+  <button class="submit wa" type="submit">Send booking request on WhatsApp</button></form></div>
+</div></div>
+
+<!-- DOCTOR MODAL -->
+<div class="mb" id="docModal" role="dialog" aria-modal="true" aria-label="Book appointment" onclick="bd(event,'docModal')">
+<div class="modal">
+  <div class="mh"><div><h2>Book appointment</h2><small id="dSub"></small></div><button class="x" onclick="closeModal('docModal')" aria-label="Close">×</button></div>
+  <div class="mbody"><div class="sum" style="margin-bottom:16px"><b id="dName"></b><div style="font-size:11px;color:var(--blue);font-weight:650" id="dSpec"></div><div style="font-size:10px;color:var(--text3)" id="dFee"></div></div>
+  <form id="docForm" onsubmit="submitDoc(event)"><div class="fg">
+    <div><label class="l" for="pName">Patient name</label><input class="fc" id="pName" required></div>
+    <div><label class="l" for="pMobile">Mobile number</label><input class="fc" id="pMobile" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required></div>
+    <div><label class="l" for="pAge">Age</label><input class="fc" id="pAge" type="number" min="0" max="120" required></div>
+    <div><label class="l" for="pGender">Gender</label><select class="fc" id="pGender" required><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+    <div class="full"><label class="l">Consultation type</label><div class="radios" id="dModes"></div></div>
+    <div><label class="l" for="pDate">Preferred date</label><input class="fc" id="pDate" type="date" required></div>
+    <div><label class="l" for="pDay">Day</label><input class="fc" id="pDay" readonly placeholder="Select date"></div>
+    <div class="full"><label class="l">Preferred time</label><div class="slots" id="dSlots"></div></div>
+    <div class="full"><label class="l" for="pReason">Reason <span style="color:#999">(optional)</span></label><textarea class="fc" id="pReason" placeholder="Brief reason. Avoid highly sensitive details."></textarea></div>
+  </div>
+  <button class="submit wa" type="submit">Send appointment request on WhatsApp</button></form></div>
+</div></div>
+
+<!-- LOCATION / CONTACT -->
+<div class="mb" id="locModal" role="dialog" aria-modal="true" aria-label="Location" onclick="bd(event,'locModal')"><div class="modal">
+  <div class="mh"><div><h2 class="pn"></h2><small>Location &amp; directions</small></div><button class="x" onclick="closeModal('locModal')" aria-label="Close">×</button></div>
+  <div class="mbody mact"><div id="locAddr"></div><a class="wa" id="locDir" target="_blank" rel="noopener noreferrer">Get directions</a><a id="locMap" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></div>
+</div></div>
+<div class="mb" id="callModal" role="dialog" aria-modal="true" aria-label="Contact" onclick="bd(event,'callModal')"><div class="modal">
+  <div class="mh"><div><h2>Contact <span class="pn"></span></h2><small>Choose how you would like to connect</small></div><button class="x" onclick="closeModal('callModal')" aria-label="Close">×</button></div>
+  <div class="mbody mact" id="callActions"></div>
+</div></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   PHARMACY CONFIGURATION  — edit this block per pharmacy
+   No backend. Nothing is stored. All requests go to WhatsApp.
+   ========================================================= */
+const pharmacy = {
+  name: "Sample Pharmacy Bhubaneswar",
+  label: "Pharmacy",
+  type: "Pharmacy & Health Store",
+  location: "Area, Bhubaneswar, Odisha",
+  address: "Shop No., Street, Area, Bhubaneswar, Odisha 751001",
+  description: "Prescription and OTC medicines, home delivery, lab tests through our in-house and partner labs, and doctor consultations.",
+  logo: "../images/predlabs-logo.png",
+  whatsapp: "910000000000",
+  phones: ["+91 00000 00000"],
+  email: "hello@example.com",
+  maps: "https://www.google.com/maps/search/?api=1&query=Sample%20Pharmacy%20Bhubaneswar",
+  licence: "Drug licence no. XXXX (add before publishing)",
+  medicinesLabel: "Prescription & OTC",
+  delivery: "Available",
+  labLabel: "In-house & partner labs",
+  hours: [{day:"Monday – Saturday",hours:"8:00 AM – 10:00 PM"},{day:"Sunday",hours:"9:00 AM – 2:00 PM"}],
+  services: [
+    {label:"Medicines",value:"Prescription & OTC"},
+    {label:"Home delivery",value:"Selected areas"},
+    {label:"Lab tests",value:"In-house & partner labs"},
+    {label:"Doctors",value:"Scheduled availability"}
+  ],
+  tags: ["Home Delivery","Prescription Medicines","In-house Lab","Partner Labs","Doctor Consultation"]
+};
+
+/* Labs a patient can pick when booking tests.
+   id "inhouse" is the pharmacy's own lab. priceFactor scales the base test price (1 = same, 0.9 = 10% lower). */
+const labProviders = [
+  {id:"inhouse", name:"Our in-house lab", info:"Collected and processed at the pharmacy", report:"Same day", accreditation:"", priceFactor:1, home:true},
+  {id:"partner-a", name:"Partner Lab A", info:"NABL accredited · wider specialised test menu", report:"24 hours", accreditation:"NABL", priceFactor:1.1, home:true},
+  {id:"partner-b", name:"Partner Lab B", info:"Budget-friendly routine panels", report:"Same day", accreditation:"", priceFactor:.9, home:false}
+];
+
+const labTests = [
+  {id:"cbc",name:"Complete Blood Count",short:"CBC",category:"Blood",desc:"Haemoglobin, RBC, WBC and platelet parameters.",price:450,sample:"Blood"},
+  {id:"hba1c",name:"HbA1c",short:"HbA1c",category:"Diabetes",desc:"Average blood glucose over about 2–3 months.",price:400,sample:"Blood"},
+  {id:"fbs",name:"Fasting Blood Glucose",short:"FBS",category:"Diabetes",desc:"Blood glucose after an overnight fast.",price:150,sample:"Blood"},
+  {id:"lipid",name:"Lipid Profile",short:"Lipid",category:"Lipid",desc:"Cholesterol, triglycerides, HDL and LDL.",price:550,sample:"Blood"},
+  {id:"tsh",name:"Thyroid Stimulating Hormone",short:"TSH",category:"Thyroid",desc:"TSH for thyroid function assessment.",price:350,sample:"Blood"},
+  {id:"lft",name:"Liver Function Test",short:"LFT",category:"Liver",desc:"Common biochemical markers of liver function.",price:650,sample:"Blood"},
+  {id:"kft",name:"Kidney Function Test",short:"KFT",category:"Kidney",desc:"Common markers of kidney function.",price:600,sample:"Blood"},
+  {id:"urine",name:"Urine Routine Examination",short:"Urine R/E",category:"Urine",desc:"Routine microscopic and chemical urine examination.",price:180,sample:"Urine"},
+  {id:"vitd",name:"Vitamin D",short:"25-OH Vit D",category:"Vitamin",desc:"Serum 25-hydroxy vitamin D level.",price:1200,sample:"Blood"},
+  {id:"pkg",name:"Basic Health Check Package",short:"Health Package",category:"Packages",desc:"A selected set of common screening tests.",price:1499,sample:"Blood"}
+];
+
+const doctors = [
+  {id:"doc1",name:"Dr. Sample Doctor",specialty:"General Physician",qualifications:"MBBS, MD",photo:"../images/dr-arjun-das.png",fee:"Call for fee",modes:["In-person"],days:["Monday","Tuesday","Wednesday","Thursday","Friday"],slots:["6:00 PM"]},
+  {id:"doc2",name:"Dr. Another Doctor",specialty:"Diabetologist",qualifications:"MBBS, DNB",photo:"../images/dr-arjun-das.png",fee:"Call for fee",modes:["In-person","Video"],days:["Monday","Wednesday","Saturday"],slots:["11:00 AM","5:00 PM"]}
+];
+
+/* =========================================================
+   APP
+   ========================================================= */
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+const fmt=n=>Number(n).toLocaleString("en-IN");
+const val=id=>($(id)?.value||"").trim();
+const radio=n=>document.querySelector(`input[name="${n}"]:checked`)?.value||"";
+const waNum=n=>String(n||"").replace(/\D/g,"");
+const setText=(id,t)=>{const e=$(id);if(e)e.textContent=t??""};
+const fdate=d=>d?new Date(d+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"}):"";
+const dayOf=d=>d?new Date(d+"T12:00:00").toLocaleDateString("en-IN",{weekday:"long"}):"";
+const BAR="\n━━━━━━━━━━━━━━━━━━\n";
+let selected=new Set(),cat="All",doc=null,docSlot="",lastFocus=null,toastT;
+
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2400)}
+function openModal(id){lastFocus=document.activeElement;$(id).classList.add("open");document.body.classList.add("modal-open")}
+function closeModal(id){$(id).classList.remove("open");if(!document.querySelector(".mb.open"))document.body.classList.remove("modal-open");if(lastFocus&&lastFocus.focus)try{lastFocus.focus()}catch(e){}}
+function bd(e,id){if(e.target.id===id)closeModal(id)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const o=document.querySelector(".mb.open");if(o)closeModal(o.id)}});
+function sendWA(text){const n=waNum(pharmacy.whatsapp);if(!n){toast("Pharmacy WhatsApp number is not configured.");return false}window.open("https://wa.me/"+n+"?text="+encodeURIComponent(text),"_blank","noopener,noreferrer");return true}
+
+/* header / info */
+function initProfile(){
+  document.title=pharmacy.name+" — Pharmacy Profile";
+  setText("hLabel",pharmacy.label);setText("hName",pharmacy.name);setText("hType",pharmacy.type);setText("hLoc",pharmacy.location);setText("hDesc",pharmacy.description);
+  $("logo").src=pharmacy.logo;$("logo").alt=pharmacy.name+" logo";
+  $("hTags").innerHTML=pharmacy.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("");
+  setText("qMed",pharmacy.medicinesLabel);setText("qDel",pharmacy.delivery);setText("qLab",pharmacy.labLabel);setText("qHours",pharmacy.hours[0]?.hours);
+  setText("aboutText",pharmacy.description);setText("licText",pharmacy.licence);
+  $("svcList").innerHTML=pharmacy.services.map(s=>`<div class="r"><span>${esc(s.label)}</span><span>${esc(s.value)}</span></div>`).join("");
+  $("hoursList").innerHTML=pharmacy.hours.map(s=>`<div class="r"><span>${esc(s.day)}</span><span>${esc(s.hours)}</span></div>`).join("");
+  setText("cAddr",pharmacy.address);
+  const p=$("cPhone");p.textContent=pharmacy.phones.join(" / ");p.href="tel:"+pharmacy.phones[0].replace(/\s+/g,"");
+  $("cWa").href="https://wa.me/"+waNum(pharmacy.whatsapp);
+  const m=$("cMail");m.textContent=pharmacy.email;m.href="mailto:"+pharmacy.email;
+  document.querySelectorAll(".pn").forEach(e=>e.textContent=pharmacy.name);
+  setText("locAddr",pharmacy.address);
+  const q=encodeURIComponent(pharmacy.name+" "+pharmacy.address);
+  $("locDir").href="https://www.google.com/maps/dir/?api=1&destination="+q;
+  $("locMap").href=pharmacy.maps||"https://www.google.com/maps/search/?api=1&query="+q;
+  $("callActions").innerHTML=pharmacy.phones.map(p=>`<a href="tel:${esc(p.replace(/\s+/g,""))}">Call ${esc(p)}</a>`).join("")+
+    `<a class="wa" target="_blank" rel="noopener noreferrer" href="https://wa.me/${waNum(pharmacy.whatsapp)}?text=${encodeURIComponent("Hello "+pharmacy.name+", I would like to enquire about your services.")}">Message on WhatsApp</a>`;
+}
+
+/* tabs */
+function go(tab){
+  document.querySelectorAll(".tab").forEach(b=>{const a=b.dataset.tab===tab;b.classList.toggle("active",a);b.setAttribute("aria-selected",a)});
+  ["meds","labs","docs"].forEach(k=>$(k+"Panel").classList.toggle("active",k===tab));
+  const pn=$(tab+"Panel");pn.classList.remove("panel-enter");void pn.offsetWidth;pn.classList.add("panel-enter");updateBar();pn.scrollIntoView({behavior:"smooth",block:"start"});
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>go(b.dataset.tab)));
+const activeTab=()=>document.querySelector(".tab.active").dataset.tab;
+
+/* medicine request */
+document.querySelectorAll('input[name="fulfil"]').forEach(r=>r.addEventListener("change",()=>{const h=r.value==="Home delivery"&&r.checked;$("mAddrWrap").hidden=!h;$("mAddr").required=h}));
+function submitMed(e){
+  e.preventDefault();if(!e.target.checkValidity())return e.target.reportValidity();
+  const home=radio("fulfil")==="Home delivery";
+  const msg=`🏥 ${pharmacy.name.toUpperCase()}\nMEDICINE REQUEST${BAR}\nREQUEST TYPE\n${radio("reqType")}${BAR}\nPATIENT DETAILS\nName: ${val("mName")}\nMobile: ${val("mMobile")}${BAR}\nMEDICINES NEEDED\n${val("mList")}${BAR}\nFULFILMENT\n${radio("fulfil")}${home?"\nAddress: "+val("mAddr"):""}${val("mNote")?"\n\nNOTE\n"+val("mNote"):""}${BAR}\n📋 PRESCRIPTION\nI will attach a photo of my prescription in this chat.\n\nPharmacy team: if the prescription photo is not received, please remind the patient to send a clear photo (all medicine names and the doctor's signature visible) before confirming this request.`;
+  sendWA(msg.trim());
+}
+
+/* lab tests */
+function initCats(){
+  const cats=["All",...new Set(labTests.map(t=>t.category))];
+  $("chips").innerHTML=cats.map(c=>`<button type="button" class="chip ${c==="All"?"active":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("chips").querySelectorAll(".chip").forEach(ch=>ch.addEventListener("click",()=>{cat=ch.dataset.c;$("chips").querySelectorAll(".chip").forEach(b=>b.classList.toggle("active",b===ch));renderTests()}));
+}
+$("search").addEventListener("input",renderTests);
+function renderTests(){
+  const s=val("search").toLowerCase();
+  const f=labTests.filter(t=>(cat==="All"||t.category===cat)&&(!s||[t.name,t.short,t.category,t.desc].some(x=>x.toLowerCase().includes(s))));
+  if(!f.length){$("testList").innerHTML='<div class="empty">No tests match your search. Try a different name or clear the filter.</div>';return}
+  $("testList").innerHTML=f.map(t=>{const on=selected.has(t.id);return `<article class="item ${on?"sel":""}"><div class="item-top"><div><h3>${esc(t.name)}<small>${esc(t.short)}</small></h3><p>${esc(t.desc)}</p></div><button type="button" class="add ${on?"on":""}" data-id="${esc(t.id)}" aria-pressed="${on}">${on?"✓ Added":"+ Add"}</button></div><div class="meta-row"><span>Sample: ${esc(t.sample)}</span></div><div class="price">From ₹${fmt(t.price)} <span>base estimate</span></div></article>`}).join("");
+  $("testList").querySelectorAll(".add").forEach(b=>b.addEventListener("click",()=>toggleTest(b.dataset.id)));
+}
+const selTests=()=>labTests.filter(t=>selected.has(t.id));
+const baseTotal=()=>selTests().reduce((a,t)=>a+t.price,0);
+function toggleTest(id){selected.has(id)?selected.delete(id):selected.add(id);renderTests();renderSummary();updateBar()}
+function renderSummary(){
+  const box=$("summary");if(!selected.size){box.hidden=true;return}
+  box.hidden=false;const ts=selTests();
+  setText("selCount",ts.length+(ts.length===1?" test":" tests"));
+  $("selList").innerHTML=ts.map(t=>`<div class="row"><span>${esc(t.short)}</span><span>₹${fmt(t.price)} <button type="button" data-r="${esc(t.id)}" aria-label="Remove ${esc(t.name)}">×</button></span></div>`).join("");
+  $("selList").querySelectorAll("[data-r]").forEach(b=>b.addEventListener("click",()=>toggleTest(b.dataset.r)));
+  setText("selTotal","₹"+fmt(baseTotal()));
+}
+const chosenLab=()=>labProviders.find(l=>l.id===radio("labProvider"))||labProviders[0];
+const priceFor=(t,l)=>Math.round(t.price*l.priceFactor/10)*10;
+const totalFor=l=>selTests().reduce((a,t)=>a+priceFor(t,l),0);
+function renderLabChoice(){
+  $("labChoice").innerHTML=labProviders.map((l,i)=>`<div><input type="radio" name="labProvider" id="lp${i}" value="${esc(l.id)}" ${i===0?"checked":""}><label for="lp${i}"><span class="meta"><span>${esc(l.name)}</span><span>₹${fmt(totalFor(l))}</span></span><small>${esc(l.info)} · Reports: ${esc(l.report)}${l.home?"":" · Lab visit only"}</small></label></div>`).join("");
+  $("labChoice").querySelectorAll("input").forEach(r=>r.addEventListener("change",syncLab));syncLab();
+}
+function syncLab(){
+  const l=chosenLab();
+  $("lSumList").innerHTML=selTests().map(t=>`<div class="r"><span>${esc(t.name)}</span><span>₹${fmt(priceFor(t,l))}</span></div>`).join("");
+  setText("lSumTotal","₹"+fmt(totalFor(l)));
+  const home=$("cHome");home.disabled=!l.home;
+  if(!l.home&&home.checked){$("cVisit").checked=true;$("lAddrWrap").hidden=true;$("lAddr").required=false}
+  setText("labSub",pharmacy.name+" · "+l.name);
+}
+function openLab(){if(!selected.size)return toast("Select at least one test first.");renderLabChoice();openModal("labModal")}
+document.querySelectorAll('input[name="colType"]').forEach(r=>r.addEventListener("change",()=>{const h=radio("colType")==="Home sample collection";$("lAddrWrap").hidden=!h;$("lAddr").required=h}));
+function submitLab(e){
+  e.preventDefault();if(!selected.size){closeModal("labModal");return toast("Please select at least one test.")}
+  if(!e.target.checkValidity())return e.target.reportValidity();
+  const l=chosenLab(),home=radio("colType")==="Home sample collection";
+  const tl=selTests().map((t,i)=>`${i+1}. ${t.name} (${t.short})\nEstimated: ₹${fmt(priceFor(t,l))}`).join("\n\n");
+  const msg=`🏥 ${pharmacy.name.toUpperCase()}\nLAB TEST BOOKING REQUEST${BAR}\nPREFERRED LAB\n${l.name}${BAR}\nPATIENT DETAILS\nName: ${val("lName")}\nMobile: ${val("lMobile")}\nAge: ${val("lAge")}\nGender: ${val("lGender")}${BAR}\nSELECTED TESTS\n\n${tl}${BAR}\nESTIMATED TOTAL\n₹${fmt(totalFor(l))}${BAR}\nSAMPLE COLLECTION\nType: ${radio("colType")}${home?"\nAddress: "+val("lAddr"):""}\nPreferred Date: ${fdate(val("lDate"))}\nPreferred Time: ${val("lTime")}${BAR}\nNOTE\n${val("lNote")||"No additional note."}${BAR}\nPlease confirm availability, final pricing and collection details. If these tests were advised by a doctor, the patient may send the prescription photo in this chat.`;
+  if(sendWA(msg.trim()))closeModal("labModal");
+}
+
+/* doctors */
+function renderDoctors(){
+  $("docGrid").innerHTML=doctors.map(d=>`<article class="doc"><img src="${esc(d.photo)}" alt="${esc(d.name)}" onerror="this.style.visibility='hidden'"><h3>${esc(d.name)}</h3><div class="sp">${esc(d.specialty)}</div><div class="q">${esc(d.qualifications)}</div><div class="dtags">${d.modes.map(m=>`<span class="dtag">${esc(m)}</span>`).join("")}</div><div class="av"><small>Available</small>${esc(d.days.join(" · "))}<br>${esc(d.slots.join(" · "))}</div><div class="bot"><div class="fee">${esc(d.fee)}<span style="display:block;font-size:8px;font-weight:500;color:var(--text3)">consultation</span></div><button class="bk" data-d="${esc(d.id)}">Book</button></div></article>`).join("");
+  $("docGrid").querySelectorAll(".bk").forEach(b=>b.addEventListener("click",()=>openDoc(b.dataset.d)));
+}
+function openDoc(id){
+  doc=doctors.find(d=>d.id===id);if(!doc)return;docSlot="";
+  setText("dSub",pharmacy.name);setText("dName",doc.name);setText("dSpec",doc.specialty);setText("dFee",doc.fee+" consultation");
+  $("dModes").innerHTML=doc.modes.map((m,i)=>`<div><input type="radio" name="dMode" id="dm${i}" value="${esc(m)}" required><label for="dm${i}">${esc(m)}</label></div>`).join("");
+  $("dSlots").innerHTML=doc.slots.map(s=>`<button type="button" class="slot" data-s="${esc(s)}">${esc(s)}</button>`).join("");
+  $("dSlots").querySelectorAll(".slot").forEach(b=>b.addEventListener("click",()=>{docSlot=b.dataset.s;$("dSlots").querySelectorAll(".slot").forEach(x=>x.classList.toggle("on",x===b))}));
+  openModal("docModal");
+}
+$("pDate").addEventListener("change",function(){const d=dayOf(this.value);$("pDay").value=d;if(doc&&d&&!doc.days.includes(d))toast("This doctor is not listed as available on "+d+".")});
+function submitDoc(e){
+  e.preventDefault();if(!doc)return;if(!e.target.checkValidity())return e.target.reportValidity();
+  if(!docSlot)return toast("Please select a time slot.");
+  const d=val("pDate");if(!doc.days.includes(dayOf(d)))return toast("Please choose a date when the doctor is available.");
+  const msg=`🏥 ${pharmacy.name.toUpperCase()}\nDOCTOR APPOINTMENT REQUEST${BAR}\nDOCTOR\n${doc.name}\n${doc.specialty}${BAR}\nPATIENT DETAILS\nName: ${val("pName")}\nMobile: ${val("pMobile")}\nAge: ${val("pAge")}\nGender: ${val("pGender")}${BAR}\nAPPOINTMENT\nConsultation: ${radio("dMode")}\nDate: ${fdate(d)}\nTime: ${docSlot}${BAR}\nREASON\n${val("pReason")||"No reason provided."}${BAR}\nPlease contact the patient to confirm the appointment.`;
+  if(sendWA(msg.trim()))closeModal("docModal");
+}
+
+/* share + QR */
+function initShare(){
+  const b=$("shareBtn"),m=$("shareMenu");
+  b.addEventListener("click",e=>{e.stopPropagation();m.hidden=!m.hidden;b.setAttribute("aria-expanded",String(!m.hidden))});
+  document.addEventListener("click",()=>{m.hidden=true;b.setAttribute("aria-expanded","false")});
+  m.addEventListener("click",e=>e.stopPropagation());
+  $("shareWa").addEventListener("click",()=>window.open("https://wa.me/?text="+encodeURIComponent(pharmacy.name+"\n\nView this pharmacy profile on DoctorJet:\n"+location.href),"_blank","noopener,noreferrer"));
+  $("copyLink").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(location.href)}catch(e){const t=document.createElement("textarea");t.value=location.href;document.body.appendChild(t);t.select();try{document.execCommand("copy")}catch(_){}t.remove()}toast("Profile link copied.")});
+}
+function genQR(){const c=$("qr");c.innerHTML="";if(typeof QRCode==="undefined"){c.textContent="QR";return}new QRCode(c,{text:location.href,width:70,height:70,colorDark:"#171717",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M})}
+
+/* mobile bar */
+function updateBar(){
+  const t=activeTab(),l=$("mbLabel"),v=$("mbValue"),b=$("mbBtn");
+  if(t==="meds"){l.textContent="MEDICINES";v.textContent="Send an order or enquiry";b.textContent="Order"}
+  else if(t==="labs"){l.textContent="LAB TESTS";v.textContent=selected.size?`${selected.size} selected · ₹${fmt(baseTotal())}`:"Select tests to book";b.textContent=selected.size?"Book":"Browse"}
+  else{l.textContent="DOCTORS";v.textContent=doctors.length+(doctors.length===1?" associated doctor":" associated doctors");b.textContent="View"}
+}
+$("mbBtn").addEventListener("click",()=>{const t=activeTab();if(t==="meds")$("mList").focus();else if(t==="labs"){selected.size?openLab():$("search").focus()}else $("docGrid").scrollIntoView({behavior:"smooth"})});
+
+function initExtras(){
+  setText("sideName",pharmacy.name);setText("sideDel",pharmacy.delivery);setText("sideLab",pharmacy.labLabel);
+  $("mapBtn").href=pharmacy.maps;
+  const bar=$("platformBar"),tr=$("platformTrigger");
+  tr.addEventListener("click",e=>{e.stopPropagation();const x=bar.classList.toggle("expanded");tr.setAttribute("aria-expanded",String(x))});
+  document.addEventListener("click",()=>{bar.classList.remove("expanded");tr.setAttribute("aria-expanded","false")});
+  bar.addEventListener("click",e=>e.stopPropagation());
+}
+/* init */
+const today=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`})();
+$("lDate").min=today;$("pDate").min=today;
+initProfile();initExtras();initCats();renderTests();renderDoctors();initShare();genQR();updateBar();
+</script>
+</body>
+</html>
