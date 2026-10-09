@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy Locator | DoctorJet</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #172033;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: #fff;
+      padding: 22px 5%;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    header h1 { margin: 0; font-size: 25px; }
+    header p { margin: 8px 0 0; color: #667085; }
+
+    main { max-width: 1200px; margin: auto; padding: 22px; }
+
+    .search-panel, .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .search-panel {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) 150px auto;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 8px;
+      font-size: 15px;
+      padding: 10px 12px;
+    }
+
+    input, select {
+      border: 1px solid #d0d5dd;
+      background: white;
+    }
+
+    button {
+      border: 0;
+      background: #155eef;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: .6; cursor: wait; }
+
+    #map {
+      height: 360px;
+      width: 100%;
+      border-radius: 14px;
+      margin-bottom: 22px;
+      background: #e5e7eb;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 14px;
+    }
+
+    .results-header h2 { font-size: 20px; margin: 0; }
+    #status { color: #667085; font-size: 14px; }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+
+    .card h3 { margin: 0 0 12px; font-size: 18px; }
+    .card p { font-size: 14px; line-height: 1.55; color: #475467; }
+    .card a { color: #155eef; text-decoration: none; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .actions a.primary {
+      background: #155eef;
+      border-color: #155eef;
+      color: white;
+    }
+
+    .empty {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      color: #667085;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      font-size: 13px;
+      color: #667085;
+    }
+
+    @media (max-width: 650px) {
+      main { padding: 14px; }
+      .search-panel { grid-template-columns: 1fr; }
+      #map { height: 300px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Pharmacy Locator</h1>
+    <p>Find pharmacies, contact details and websites by location.</p>
+  </header>
+
+  <main>
+    <form id="searchForm" class="search-panel">
+      <input
+        id="locationInput"
+        type="text"
+        placeholder="Enter city, locality or PIN code"
+        value="Rourkela, Odisha, India"
+        required
+      >
+
+      <select id="radius">
+        <option value="2000">Within 2 km</option>
+        <option value="5000" selected>Within 5 km</option>
+        <option value="10000">Within 10 km</option>
+        <option value="20000">Within 20 km</option>
+      </select>
+
+      <button id="searchButton" type="submit">
+        Search Pharmacies
+      </button>
+    </form>
+
+    <div id="map"></div>
+
+    <div class="results-header">
+      <h2>Pharmacies</h2>
+      <span id="status">Enter a location to search.</span>
+    </div>
+
+    <section id="results" class="results">
+      <div class="empty">
+        Search for a location to discover pharmacies.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Pharmacy information provided by Google Maps.
+    Verify contact details before visiting.
+  </footer>
+
+  <script>
+    // Replace with your own restricted Google Maps API key.
+    const API_KEY = "YOUR_GOOGLE_MAPS_API_KEY";
+
+    let map;
+    let geocoder;
+    let infoWindow;
+    let markers = [];
+    let placesLibrary;
+
+    async function initMap() {
+      const { Map, InfoWindow } =
+        await google.maps.importLibrary("maps");
+
+      const { Place } =
+        await google.maps.importLibrary("places");
+
+      await google.maps.importLibrary("marker");
+
+      map = new Map(document.getElementById("map"), {
+        center: { lat: 20.4625, lng: 85.8830 },
+        zoom: 12,
+        mapTypeControl: false,
+        streetViewControl: false
+      });
+
+      geocoder = new google.maps.Geocoder();
+      infoWindow = new InfoWindow();
+      placesLibrary = Place;
+
+      document.getElementById("searchForm")
+        .addEventListener("submit", searchPharmacies);
+
+      searchPharmacies();
+    }
+
+    function clearResults() {
+      markers.forEach(marker => marker.setMap(null));
+      markers = [];
+      document.getElementById("results").replaceChildren();
+    }
+
+    function addMessage(message) {
+      const box = document.createElement("div");
+      box.className = "empty";
+      box.textContent = message;
+      document.getElementById("results").appendChild(box);
+    }
+
+    async function searchPharmacies(event) {
+      if (event) event.preventDefault();
+
+      const button = document.getElementById("searchButton");
+      const status = document.getElementById("status");
+      const query = document.getElementById("locationInput").value.trim();
+      const radius = Number(document.getElementById("radius").value);
+
+      if (!query) return;
+
+      button.disabled = true;
+      status.textContent = "Searching...";
+      clearResults();
+
+      try {
+        const response = await geocoder.geocode({
+          address: query,
+          region: "IN"
+        });
+
+        if (!response.results.length) {
+          addMessage("Location not found. Try a more specific address.");
+          status.textContent = "No location found.";
+          return;
+        }
+
+        const center = response.results[0].geometry.location;
+        map.setCenter(center);
+        map.setZoom(radius <= 2000 ? 14 : radius <= 5000 ? 13 : 11);
+
+        const { Place } = { Place: placesLibrary };
+
+        const result = await Place.searchNearby({
+          fields: [
+            "displayName",
+            "formattedAddress",
+            "location",
+            "nationalPhoneNumber",
+            "websiteURI",
+            "googleMapsURI"
+          ],
+          locationRestriction: {
+            center: center,
+            radius: radius
+          },
+          includedTypes: ["pharmacy"],
+          maxResultCount: 20,
+          rankPreference: "DISTANCE"
+        });
+
+        const pharmacies = result.places || [];
+
+        if (!pharmacies.length) {
+          addMessage("No pharmacies found in this search area. Try a larger radius.");
+          status.textContent = "0 results";
+          return;
+        }
+
+        pharmacies.forEach((place, index) => {
+          if (!place.location) return;
+
+          const marker = new google.maps.Marker({
+            map,
+            position: place.location,
+            title: place.displayName || "Pharmacy"
+          });
+
+          marker.addListener("click", () => {
+            infoWindow.setContent(
+              escapeHTML(place.displayName || "Pharmacy")
+            );
+            infoWindow.open({ map, anchor: marker });
+          });
+
+          markers.push(marker);
+          renderPharmacy(place, index + 1);
+        });
+
+        const count = markers.length;
+        status.textContent = `${count} pharmacy listing${count === 1 ? "" : "s"} found`;
+      } catch (error) {
+        console.error(error);
+        addMessage(
+          "Search failed. Check your API key, enabled APIs, billing and internet connection."
+        );
+        status.textContent = "Unable to complete search.";
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function renderPharmacy(place, number) {
+      const results = document.getElementById("results");
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const name = place.displayName || "Unnamed pharmacy";
+      const address = place.formattedAddress || "Address unavailable";
+      const phone = place.nationalPhoneNumber;
+      const website = place.websiteURI;
+      const mapsURL = place.googleMapsURI;
+
+      const title = document.createElement("h3");
+      title.textContent = `${number}. ${name}`;
+      card.appendChild(title);
+
+      const addressText = document.createElement("p");
+      addressText.textContent = address;
+      card.appendChild(addressText);
+
+      const phoneText = document.createElement("p");
+      phoneText.textContent = phone
+        ? `Phone: ${phone}`
+        : "Phone number not listed";
+      card.appendChild(phoneText);
+
+      const websiteText = document.createElement("p");
+
+      if (website) {
+        const link = document.createElement("a");
+        link.href = website;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Visit official website";
+        websiteText.appendChild(link);
+      } else {
+        websiteText.textContent = "Website not listed";
+      }
+
+      card.appendChild(websiteText);
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      if (phone) {
+        const call = document.createElement("a");
+        call.href = "tel:" + phone.replace(/[^\d+]/g, "");
+        call.className = "primary";
+        call.textContent = "Call pharmacy";
+        actions.appendChild(call);
+      }
+
+      if (website) {
+        const visit = document.createElement("a");
+        visit.href = website;
+        visit.target = "_blank";
+        visit.rel = "noopener noreferrer";
+        visit.textContent = "Website";
+        actions.appendChild(visit);
+      }
+
+      if (mapsURL) {
+        const maps = document.createElement("a");
+        maps.href = mapsURL;
+        maps.target = "_blank";
+        maps.rel = "noopener noreferrer";
+        maps.textContent = "View on Maps";
+        actions.appendChild(maps);
+      }
+
+      card.appendChild(actions);
+      results.appendChild(card);
+    }
+
+    // The callback is invoked by the Google Maps JavaScript loader.
+    window.initMap = initMap;
+  </script>
+
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&loading=async&callback=initMap&v=weekly">
+  </script>
+</body>
+</html>
