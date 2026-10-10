@@ -1,0 +1,4324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f7" />
+    <title>Pharmacy Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+  :root {
+    --bg: #f5f5f7;
+    --text: #171717;
+    --text2: #606064;
+    --text3: #8b8b91;
+    --border: rgba(0, 0, 0, 0.075);
+    --accent: #405867;
+    --accent-soft: #edf2f5;
+    --green: #26785d;
+    --green-soft: #edf7f2;
+    --blue: #1d9bf0;
+    --black: #181818;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.025), 0 8px 25px rgba(0, 0, 0, 0.035);
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+      "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  body.modal-open {
+    overflow: hidden;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  :focus-visible {
+    outline: 3px solid rgba(29, 155, 240, 0.22);
+    outline-offset: 2px;
+  }
+  .page {
+    width: min(1060px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 58px 0 90px;
+  }
+  /* platform attribution */
+  .platform-bar {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 500;
+  }
+  .platform-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 31px;
+    min-height: 31px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.86);
+    color: #2b70a8;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    overflow: hidden;
+    transition:
+      width 0.28s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .platform-bar.expanded .platform-trigger {
+    width: 215px;
+    min-width: 215px;
+    justify-content: flex-start;
+    padding: 5px 9px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.1);
+  }
+  .security-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: grid;
+    place-items: center;
+    color: #1677c8;
+  }
+  .security-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+  .platform-attribution {
+    display: flex;
+    align-items: center;
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateX(5px);
+    transition:
+      width 0.28s ease,
+      opacity 0.2s ease,
+      margin 0.28s ease,
+      transform 0.28s ease;
+  }
+  .platform-bar.expanded .platform-attribution {
+    width: 180px;
+    opacity: 1;
+    margin-left: 7px;
+    transform: none;
+  }
+  .platform-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .platform-logo {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    object-fit: contain;
+    border-radius: 7px;
+  }
+  .platform-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: nowrap;
+    line-height: 1.15;
+  }
+  .platform-copy strong {
+    color: #35383b;
+    font-size: 10px;
+  }
+  .platform-copy small {
+    color: #8b8f93;
+    font-size: 8px;
+    margin-top: 2px;
+  }
+  /* hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) auto;
+    gap: 30px;
+    align-items: center;
+    padding: 34px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .hero.no-logo {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .logo {
+    position: relative;
+  }
+  .logo img {
+    width: 138px;
+    height: 138px;
+    object-fit: contain;
+    display: block;
+    border-radius: 24px;
+    background: #e8e8ea;
+    box-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.08),
+      0 10px 25px rgba(0, 0, 0, 0.06);
+  }
+  .badge {
+    position: absolute;
+    right: -6px;
+    bottom: -5px;
+    width: 29px;
+    height: 29px;
+    z-index: 5;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  }
+  .eyebrow {
+    margin-bottom: 7px;
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    font-weight: 700;
+  }
+  .type {
+    margin-top: 9px;
+    color: var(--blue);
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .loc {
+    margin-top: 6px;
+    color: var(--text2);
+    font-size: 13px;
+  }
+  .desc {
+    margin-top: 6px;
+    color: var(--text3);
+    font-size: 12px;
+    max-width: 620px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 17px;
+  }
+  .tag {
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.045);
+    border-radius: 999px;
+    background: #f2f2f3;
+    color: #57575a;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 15px;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 13px;
+    background: #fff;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .btn.primary {
+    background: var(--black);
+    color: #fff;
+    border-color: var(--black);
+  }
+  .qrshare {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(0, 0, 0, 0.065);
+    border-radius: 14px;
+    min-width: 92px;
+  }
+  .qr > div {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 7px;
+  }
+  .qr img,
+  .qr canvas {
+    width: 70px !important;
+    height: 70px !important;
+    display: block;
+  }
+  .qr small {
+    margin-top: 6px;
+    color: var(--text3);
+    font-size: 8px;
+    font-weight: 650;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+  .share {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 150px;
+  }
+  .share-btn {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgba(29, 155, 240, 0.22);
+    border-radius: 12px;
+    background: #fff;
+    color: #171717;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 5px 16px rgba(15, 23, 42, 0.07);
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      border-color 0.18s ease;
+  }
+  .share-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(29, 155, 240, 0.42);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+  }
+  .share-ico {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #1d9bf0;
+    color: #fff;
+  }
+  .share-ico svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .share-menu {
+    width: 210px;
+    margin-top: 8px;
+    padding: 6px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    z-index: 20;
+  }
+  .share-menu[hidden] {
+    display: none;
+  }
+  .opt {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #171717;
+    min-height: 42px;
+    padding: 8px 9px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .opt:hover {
+    background: #f4f8fb;
+  }
+  .sico {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #475569;
+  }
+  .sico svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .wa-i {
+    background: #e9f8ef;
+    color: #168a45;
+  }
+  .copy-i {
+    background: #eef4f8;
+    color: #3d5365;
+  }
+  /* quick info */
+  .quick {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 14px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+  }
+  .quick div {
+    padding: 17px 20px;
+    border-right: 1px solid var(--border);
+  }
+  .quick div:last-child {
+    border-right: 0;
+  }
+  .quick small {
+    display: block;
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .quick b {
+    display: block;
+    margin-top: 3px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  /* tabs */
+  .tabs-wrap {
+    margin-top: 18px;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+  }
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.045);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .tab {
+    min-height: 45px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 650;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .tab:hover {
+    background: rgba(0, 0, 0, 0.035);
+  }
+  .tab.active {
+    background: #fff;
+    color: var(--text);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  }
+  .content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 315px;
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .content > div {
+    min-width: 0;
+  }
+  .card {
+    padding: 27px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+  }
+  .card + .card,
+  .card + .grid2 {
+    margin-top: 18px;
+  }
+  .card h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.35px;
+  }
+  .card > p.sub {
+    margin: 5px 0 22px;
+    color: var(--text2);
+    font-size: 13px;
+  }
+  .about {
+    margin: 0;
+    color: #515151;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  .card h2 + .about {
+    margin-top: 8px;
+  }
+  .panel {
+    display: none;
+  }
+  .panel.active {
+    display: block;
+  }
+  .panel-enter {
+    animation: panelIn 0.22s ease both;
+  }
+  @keyframes panelIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* forms */
+  .fg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .full {
+    grid-column: 1/-1;
+  }
+  label.l {
+    display: block;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 11px;
+    font-weight: 650;
+  }
+  .fc {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #dedee0;
+    border-radius: 11px;
+    outline: none;
+    background: #fafafa;
+    color: var(--text);
+    font-size: 12px;
+    transition:
+      border 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+  .fc:focus {
+    background: #fff;
+    border-color: #8c9da8;
+    box-shadow: 0 0 0 3px rgba(63, 89, 107, 0.08);
+  }
+  textarea.fc {
+    min-height: 80px;
+    resize: vertical;
+  }
+  .radios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .radios.one {
+    grid-template-columns: 1fr;
+  }
+  .radios div {
+    position: relative;
+  }
+  .radios input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .radios label {
+    display: block;
+    padding: 11px;
+    border: 1px solid #dedee0;
+    border-radius: 11px;
+    background: #fafafa;
+    color: #555;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      border 0.15s ease,
+      color 0.15s ease;
+  }
+  .radios input:checked + label {
+    background: #eef4f8;
+    border-color: rgba(63, 89, 107, 0.35);
+    color: #263f4d;
+  }
+  .radios input:disabled + label {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .radios label small {
+    display: block;
+    margin-top: 3px;
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .radios label .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .note {
+    margin-top: 14px;
+    padding: 12px 13px;
+    border: 1px solid rgba(29, 155, 240, 0.14);
+    border-radius: 11px;
+    background: #f5faff;
+    color: #66717a;
+    font-size: 9px;
+    line-height: 1.55;
+  }
+  .note strong {
+    color: #2d668f;
+  }
+  .submit {
+    width: 100%;
+    margin-top: 13px;
+    padding: 13px;
+    border: 0;
+    border-radius: 12px;
+    background: #171717;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 650;
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease;
+  }
+  .submit:hover {
+    background: #292929;
+    transform: translateY(-1px);
+  }
+  .submit.wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .submit.wa::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z'/%3E%3C/svg%3E")
+      center/contain no-repeat;
+  }
+  /* tests */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 13px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 17px;
+    height: 17px;
+    color: #8b8b91;
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    min-height: 45px;
+    padding: 11px 14px 11px 40px;
+    border: 1px solid #dedee0;
+    border-radius: 13px;
+    background: #fafafa;
+    color: var(--text);
+    outline: none;
+    font-size: 13px;
+    transition:
+      border 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+  .search-input:focus {
+    background: #fff;
+    border-color: #8c9da8;
+    box-shadow: 0 0 0 3px rgba(63, 89, 107, 0.08);
+  }
+  .chips {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chip {
+    flex: 0 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    background: #f4f4f5;
+    color: #55565a;
+    padding: 7px 11px;
+    font-size: 11px;
+    font-weight: 650;
+    transition:
+      background 0.16s ease,
+      color 0.16s ease;
+  }
+  .chip:hover {
+    background: #ededee;
+  }
+  .chip.active {
+    background: #1b1b1b;
+    border-color: #1b1b1b;
+    color: #fff;
+  }
+  .list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .item {
+    padding: 17px;
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
+  }
+  .item:hover {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 7px 22px rgba(0, 0, 0, 0.045);
+    transform: translateY(-1px);
+  }
+  .item.sel {
+    background: #f7fbff;
+    border-color: rgba(29, 155, 240, 0.2);
+  }
+  .item-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  .item h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 680;
+    letter-spacing: -0.15px;
+  }
+  .item h3 small {
+    display: inline-block;
+    margin-left: 5px;
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .item p {
+    margin: 5px 0 12px;
+    color: var(--text2);
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .meta-row span {
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: #f0f0f1;
+    color: #66676b;
+    font-size: 9px;
+    font-weight: 600;
+  }
+  .price {
+    margin-top: 11px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .price span {
+    color: var(--text3);
+    font-size: 9px;
+    font-weight: 500;
+  }
+  .add {
+    flex: 0 0 auto;
+    min-width: 74px;
+    min-height: 35px;
+    padding: 7px 11px;
+    border: 1px solid #dedee0;
+    border-radius: 10px;
+    background: #fff;
+    color: #2c2c2e;
+    font-size: 10px;
+    font-weight: 700;
+    transition:
+      background 0.16s ease,
+      color 0.16s ease,
+      border-color 0.16s ease,
+      transform 0.15s ease;
+  }
+  .add:hover {
+    transform: translateY(-1px);
+  }
+  .add.on {
+    background: var(--green-soft);
+    border-color: rgba(38, 120, 93, 0.18);
+    color: var(--green);
+  }
+  .empty {
+    padding: 30px 18px;
+    text-align: center;
+    color: var(--text3);
+    font-size: 12px;
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    background: #fafafa;
+  }
+  .summary {
+    margin-top: 18px;
+    padding: 19px;
+    background: #191919;
+    color: #fff;
+    border-radius: 18px;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+  }
+  .summary .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 11px;
+    color: #dedede;
+  }
+  .summary .row:last-child {
+    border: 0;
+  }
+  .summary .row button {
+    border: 0;
+    background: transparent;
+    color: #a4a4a7;
+    font-size: 15px;
+    line-height: 1;
+    padding: 2px 4px;
+  }
+  .summary .total {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 7px;
+    padding-top: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .summary small {
+    display: block;
+    margin-top: 8px;
+    color: #929296;
+    font-size: 9px;
+    line-height: 1.45;
+  }
+  .summary .go {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: 0;
+    border-radius: 11px;
+    background: #fff;
+    color: #171717;
+    font-size: 11px;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+  }
+  .summary .go:hover {
+    transform: translateY(-1px);
+  }
+  /* doctors */
+  .dgrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .doc {
+    padding: 17px;
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    transition:
+      background 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
+  }
+  .doc:hover {
+    background: #fff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.055);
+    transform: translateY(-1px);
+  }
+  .doc img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #e7e7e9;
+    margin-bottom: 13px;
+    display: block;
+  }
+  .doc h3 {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 680;
+  }
+  .doc .sp {
+    margin-top: 4px;
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 650;
+  }
+  .doc .q {
+    margin-top: 5px;
+    color: var(--text2);
+    font-size: 10px;
+  }
+  .dtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .dtag {
+    padding: 5px 7px;
+    background: #f0f0f1;
+    border-radius: 7px;
+    color: #66676b;
+    font-size: 8px;
+    font-weight: 650;
+  }
+  .doc .av {
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid var(--border);
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .doc .av small {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--text3);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+  }
+  .doc .bot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 13px;
+  }
+  .doc .fee {
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .doc .bk {
+    border: 0;
+    border-radius: 9px;
+    padding: 8px 9px;
+    background: #191919;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  .slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .slot {
+    padding: 8px 10px;
+    border: 1px solid #dedee0;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #444;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .slot.on {
+    background: #1b1b1b;
+    border-color: #1b1b1b;
+    color: #fff;
+  }
+  /* info */
+  .grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .mini {
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+  .mini b {
+    font-size: 13px;
+    font-weight: 680;
+  }
+  .mini p {
+    margin: 6px 0 0;
+    color: var(--text2);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .mini .r {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 7px;
+    font-size: 10px;
+  }
+  .mini .r span:first-child {
+    color: var(--text3);
+  }
+  .mini .r span:last-child {
+    color: var(--text);
+    font-weight: 600;
+    text-align: right;
+  }
+  .mini > div:not(.r) {
+    display: grid;
+    gap: 7px;
+    margin-top: 9px;
+  }
+  .mini > div .r {
+    margin-top: 0;
+  }
+  /* contact */
+  .contact {
+    display: grid;
+    gap: 9px;
+  }
+  .crow {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px;
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+  }
+  .ci {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #f0f0f1;
+    color: #4e4e50;
+    font-size: 11px;
+    font-weight: 750;
+  }
+  .crow small {
+    display: block;
+    color: var(--text3);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .crow span.v,
+  .crow a {
+    display: block;
+    margin-top: 2px;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 9px 12px;
+    border: 1px solid rgba(29, 155, 240, 0.16);
+    border-radius: 10px;
+    background: #f4f9fd;
+    color: #25678e;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  /* sidebar */
+  .side {
+    position: sticky;
+    top: 82px;
+    align-self: start;
+  }
+  .book {
+    padding: 24px;
+    background: #191919;
+    color: #fff;
+    border-radius: 22px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  }
+  .beyebrow {
+    color: #9e9e9e;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .book h2 {
+    margin: 7px 0;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+  }
+  .book p {
+    margin: 0;
+    color: #a8a8aa;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .bdiv {
+    height: 1px;
+    margin: 19px 0;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .brow {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 7px 0;
+    font-size: 12px;
+  }
+  .brow span:first-child {
+    color: #a5a5a7;
+  }
+  .brow span:last-child {
+    text-align: right;
+    font-weight: 600;
+  }
+  .book button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    color: #161616;
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+  }
+  .book button:hover {
+    transform: translateY(-1px);
+  }
+  .book button.alt {
+    margin-top: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+  .sidenote {
+    margin-top: 12px;
+    padding: 17px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    color: var(--text2);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .sidenote strong {
+    color: var(--text);
+  }
+  /* modal */
+  .mb {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+  }
+  .mb.open {
+    display: flex;
+  }
+  .modal {
+    width: min(620px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.25);
+    animation: modalIn 0.2s ease both;
+  }
+  @keyframes modalIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .mh {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 21px 23px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mh h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+  }
+  .mh small {
+    display: block;
+    margin-top: 3px;
+    color: var(--text3);
+    font-size: 11px;
+  }
+  .x {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    border: 0;
+    border-radius: 9px;
+    background: #f2f2f3;
+    color: #555;
+    font-size: 18px;
+  }
+  .mbody {
+    padding: 22px 23px 24px;
+  }
+  .mact {
+    display: grid;
+    gap: 10px;
+  }
+  .mact a {
+    display: block;
+    padding: 13px 15px;
+    border-radius: 12px;
+    background: #f4f4f5;
+    color: var(--text);
+    font-weight: 650;
+  }
+  .mact a.wa {
+    background: #1fa855;
+    color: #fff;
+  }
+  .sum {
+    padding: 15px;
+    background: #f7f7f8;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .sum > b:first-child {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .sum .r {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 5px;
+    color: #55565a;
+    font-size: 10px;
+  }
+  .sum .t {
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .sum .r[hidden],
+  .offers[hidden] {
+    display: none;
+  }
+  .mrp {
+    margin-right: 5px;
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 500;
+    text-decoration: line-through;
+  }
+  .lo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .lo i {
+    font-style: normal;
+    padding: 3px 7px;
+    border-radius: 7px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 9px;
+    font-weight: 650;
+  }
+  .lo i.hint {
+    background: #f0f0f1;
+    color: #66676b;
+  }
+  .offers {
+    margin-bottom: 14px;
+    padding: 12px 13px;
+    border: 1px solid rgba(38, 120, 93, 0.18);
+    border-radius: 11px;
+    background: var(--green-soft);
+    color: #3d6556;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .offers b {
+    color: #1f5f49;
+  }
+  .subtabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: #f2f2f3;
+    border-radius: 13px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subtabs::-webkit-scrollbar {
+    display: none;
+  }
+  .subtab {
+    flex: 1 0 auto;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .subtab small {
+    margin-left: 3px;
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .subtab.active {
+    background: #fff;
+    color: var(--text);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  }
+  .labinfo {
+    margin: 10px 2px 14px;
+    color: var(--text2);
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .labinfo[hidden] {
+    display: none;
+  }
+  .meta-row span.low {
+    background: var(--green-soft);
+    color: var(--green);
+  }
+  .wa-i svg {
+    fill: currentColor;
+    stroke: none;
+  }
+  .ci svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+  .mact a.wa {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mact a svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    fill: currentColor;
+  }
+  .mobilebar {
+    display: none;
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    z-index: 1500;
+    transform: translate(-50%, 15px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 11px 15px;
+    border-radius: 11px;
+    background: #191919;
+    color: #fff;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    font-size: 11px;
+    font-weight: 600;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  @media (max-width: 1000px) {
+    .hero {
+      grid-template-columns: 125px minmax(0, 1fr);
+      gap: 23px;
+    }
+    .hero.no-logo {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .logo img {
+      width: 120px;
+      height: 120px;
+    }
+    .qrshare {
+      grid-column: 1/-1;
+      justify-content: flex-start;
+    }
+    .content {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .side {
+      display: none;
+    }
+    .dgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 650px) {
+    body {
+      padding-bottom: 74px;
+      overflow-x: hidden;
+    }
+    .page {
+      width: calc(100% - 20px);
+      padding: 18px 0 35px;
+    }
+    .platform-bar {
+      top: 8px;
+      right: 9px;
+    }
+    .platform-trigger {
+      min-width: 29px;
+      min-height: 29px;
+      border-radius: 9px;
+    }
+    .platform-bar.expanded .platform-trigger {
+      width: 202px;
+      min-width: 202px;
+    }
+    .hero {
+      grid-template-areas: "logo qr" "details details";
+      grid-template-columns: 82px minmax(0, 1fr);
+      align-items: start;
+      gap: 16px 14px;
+      padding: 16px;
+      border-radius: 22px;
+    }
+    .hero.no-logo {
+      grid-template-areas: "qr" "details";
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hero > .logo {
+      grid-area: logo;
+    }
+    .hero > .details {
+      grid-area: details;
+      min-width: 0;
+    }
+    .logo img {
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+    }
+    .badge {
+      width: 25px;
+      height: 25px;
+      right: -5px;
+      bottom: -4px;
+    }
+    h1 {
+      font-size: 26px;
+      letter-spacing: -0.9px;
+    }
+    .type {
+      margin-top: 5px;
+      font-size: 13px;
+    }
+    .loc,
+    .desc {
+      font-size: 10px;
+    }
+    .tags {
+      margin-top: 10px;
+    }
+    .tag {
+      padding: 5px 7px;
+      font-size: 9px;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 13px;
+    }
+    .btn {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+    .hero > .qrshare {
+      grid-area: qr;
+      justify-self: end;
+      width: 82px;
+      max-width: 82px;
+      min-width: 0;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .qr {
+      width: 82px;
+      min-width: 0;
+      height: 82px;
+      padding: 4px;
+    }
+    .qr > div,
+    .qr img,
+    .qr canvas {
+      width: 50px !important;
+      height: 50px !important;
+    }
+    .qr small {
+      margin-top: 3px;
+      font-size: 7px;
+      line-height: 1.1;
+    }
+    .share {
+      min-width: 0;
+      width: 82px;
+      align-items: stretch;
+    }
+    .share-btn {
+      width: 82px;
+      min-height: 38px;
+      padding: 0 12px;
+    }
+    .share-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: min(220px, calc(100vw - 32px));
+    }
+    .opt {
+      white-space: nowrap;
+    }
+    .search-input {
+      min-height: 44px;
+      font-size: 16px;
+    }
+    .chip {
+      padding: 7px 10px;
+      font-size: 10px;
+    }
+    .list {
+      gap: 9px;
+      margin-top: 14px;
+    }
+    .item {
+      padding: 14px;
+      border-radius: 14px;
+    }
+    .item-top {
+      display: block;
+    }
+    .item h3 {
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+    .item p {
+      font-size: 10px;
+      margin: 5px 0 10px;
+    }
+    .add {
+      width: 100%;
+      min-height: 38px;
+      margin-top: 2px;
+      font-size: 11px;
+    }
+    .price {
+      margin-top: 10px;
+    }
+    .summary {
+      margin-top: 14px;
+      padding: 15px;
+      border-radius: 15px;
+    }
+    .summary .go {
+      min-height: 43px;
+    }
+    .quick {
+      grid-template-columns: 1fr 1fr;
+      border-radius: 15px;
+    }
+    .quick div {
+      padding: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .quick div:nth-child(2) {
+      border-right: 0;
+    }
+    .quick div:nth-child(3),
+    .quick div:nth-child(4) {
+      border-bottom: 0;
+    }
+    .tabs-wrap {
+      top: 6px;
+    }
+    .tabs {
+      border-radius: 14px;
+    }
+    .tab {
+      min-height: 43px;
+      font-size: 11px;
+    }
+    .card {
+      padding: 21px;
+      border-radius: 19px;
+    }
+    .dgrid,
+    .grid2,
+    .fg {
+      grid-template-columns: 1fr;
+    }
+    .full {
+      grid-column: auto;
+    }
+    .doc {
+      padding: 15px;
+    }
+    .mini {
+      padding: 16px;
+    }
+    .mini .r {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .mini .r span:last-child {
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+    .crow {
+      align-items: flex-start;
+      padding: 11px;
+    }
+    .crow span.v,
+    .crow a {
+      overflow-wrap: anywhere;
+    }
+    .map-btn {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+    }
+    .mb {
+      padding: 0;
+      align-items: flex-end;
+    }
+    .modal {
+      width: 100%;
+      max-height: 96vh;
+      border-radius: 24px 24px 0 0;
+    }
+    .mh {
+      padding: 18px;
+    }
+    .mbody {
+      padding: 18px;
+    }
+    .mh h2 {
+      font-size: 17px;
+    }
+    .fc {
+      min-height: 44px;
+      font-size: 16px;
+    }
+    textarea.fc {
+      min-height: 96px;
+    }
+    .mobilebar {
+      position: fixed;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 800;
+      padding: 9px 11px;
+      background: rgba(255, 255, 255, 0.93);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .mobilebar div {
+      flex: 1;
+      min-width: 0;
+    }
+    .mobilebar small {
+      display: block;
+      color: var(--text3);
+      font-size: 9px;
+      font-weight: 650;
+    }
+    .mobilebar b {
+      display: block;
+      margin-top: 1px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mobilebar button {
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 17px;
+      background: #171717;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .toast {
+      bottom: 84px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+    </style>
+  </head>
+  <body>
+    <div class="platform-bar" id="platformBar">
+      <button
+        class="platform-trigger"
+        id="platformTrigger"
+        type="button"
+        aria-label="Show DoctorJet attribution"
+        aria-expanded="false"
+      >
+        <span class="security-icon"
+          ><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2.6 19.5 5.5v5.3c0 5-3.1 8.9-7.5 10.6-4.4-1.7-7.5-5.6-7.5-10.6V5.5L12 2.6Z"
+              fill="currentColor"
+            />
+            <path
+              d="m8.1 11.9 2.55 2.55 5.35-5.45"
+              fill="none"
+              stroke="#fff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg></span
+        ><span class="platform-attribution"
+          ><a
+            href="https://doctorjet.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-link"
+            aria-label="Open DoctorJet.in"
+            ><img
+              alt="DoctorJet"
+              class="platform-logo"
+              id="platformLogo"
+            /><span class="platform-copy"
+              ><strong>Powered by DoctorJet.in</strong
+              ><small>Secure profile &amp; appointments</small></span
+            ></a
+          ></span
+        >
+      </button>
+    </div>
+    <main class="page">
+      <section class="hero">
+        <div class="logo">
+          <img id="logo" alt="Pharmacy logo" />
+          <svg class="badge" viewBox="0 0 24 24" aria-label="Verified pharmacy profile">
+            <path
+              d="M12 2.8l2.05 1.4 2.4-.1 1.1 2.15 2.1 1.2-.2 2.4L20.6 12l-1.15 2.15.2 2.4-2.1 1.2-1.1 2.15-2.4-.1L12 21.2l-2.05-1.4-2.4.1-1.1-2.15-2.1-1.2.2-2.4L3.4 12l1.15-2.15-.2-2.4 2.1-1.2 1.1-2.15 2.4.1z"
+              fill="#1D9BF0"
+            />
+            <path
+              d="m7.9 12.1 2.65 2.55 5.55-5.7"
+              fill="none"
+              stroke="#fff"
+              stroke-width="2.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="details">
+          <div class="eyebrow" id="hLabel"></div>
+          <h1 id="hName"></h1>
+          <div class="type" id="hType"></div>
+          <div class="loc" id="hLoc"></div>
+          <div class="desc" id="hDesc"></div>
+          <div class="tags" id="hTags"></div>
+          <div class="actions">
+            <button class="btn" id="locationAction" onclick="openModal('locModal')">Location &amp; Directions</button>
+            <button class="btn primary" id="contactAction" onclick="openModal('callModal')">Call or WhatsApp</button>
+          </div>
+        </div>
+        <div class="qrshare">
+          <div class="qr">
+            <div id="qr" aria-label="QR code for this profile"></div>
+            <small>Pharmacy Profile<br />QR Code</small>
+          </div>
+          <div class="share">
+            <button id="shareBtn" class="share-btn" aria-expanded="false">
+              <span class="share-ico" aria-hidden="true"
+                ><svg viewBox="0 0 24 24">
+                  <path d="M12 16V4" />
+                  <path d="M7 9l5-5 5 5" />
+                  <path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" /></svg></span
+              ><span>Share</span>
+            </button>
+            <div class="share-menu" id="shareMenu" hidden>
+              <button id="shareWa" class="opt">
+                <span class="sico wa-i" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24">
+                    <path
+                      d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                    /></svg></span
+                ><span>Share on WhatsApp</span>
+              </button>
+              <button id="copyLink" class="opt">
+                <span class="sico copy-i" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24">
+                    <rect x="8" y="8" width="11" height="11" rx="2" />
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg></span
+                ><span>Copy profile link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="quick">
+        <div><small>Medicines</small><b id="qMed"></b></div>
+        <div><small>Home Delivery</small><b id="qDel"></b></div>
+        <div><small>Lab Tests</small><b id="qLab"></b></div>
+        <div><small>Opening Hours</small><b id="qHours"></b></div>
+      </section>
+
+      <div class="tabs-wrap">
+        <nav class="tabs" aria-label="Pharmacy profile sections">
+          <button class="tab active" data-tab="meds">MEDICINES</button>
+          <button class="tab" data-tab="labs">LAB TESTS</button>
+          <button class="tab" data-tab="docs">DOCTORS</button>
+        </nav>
+      </div>
+
+      <div class="content">
+        <div>
+          <!-- MEDICINES -->
+          <section class="panel active panel-enter" id="medsPanel">
+            <section class="card">
+              <h2>Order or ask about medicines</h2>
+              <p class="sub">
+                List what you need. We will reply on WhatsApp and ask you to send a photo of your
+                prescription.
+              </p>
+              <form id="medForm" onsubmit="submitMed(event)">
+                <div class="fg">
+                  <div class="full">
+                    <label class="l">Request type</label>
+                    <div class="radios">
+                      <div>
+                        <input
+                          type="radio"
+                          name="reqType"
+                          id="rtOrder"
+                          value="Place an order"
+                          required
+                        /><label for="rtOrder"
+                          >Place an order<small
+                            >I want these medicines delivered or ready for pickup</small
+                          ></label
+                        >
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          name="reqType"
+                          id="rtEnq"
+                          value="Enquiry (availability / price)"
+                        /><label for="rtEnq"
+                          >Enquiry only<small>Check availability and price first</small></label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="l" for="mName">Full name</label
+                    ><input class="fc" id="mName" required autocomplete="name" />
+                  </div>
+                  <div>
+                    <label class="l" for="mMobile">Mobile number</label
+                    ><input
+                      class="fc"
+                      id="mMobile"
+                      type="tel"
+                      inputmode="numeric"
+                      maxlength="10"
+                      pattern="[0-9]{10}"
+                      placeholder="10-digit mobile"
+                      required
+                    />
+                  </div>
+                  <div class="full">
+                    <label class="l" for="mList">Medicines needed</label
+                    ><textarea
+                      class="fc"
+                      id="mList"
+                      placeholder="One per line, e.g. Paracetamol 650 mg – 2 strips&#10;Metformin 500 mg – 1 month"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="full">
+                    <label class="l">Fulfilment</label>
+                    <div class="radios">
+                      <div>
+                        <input
+                          type="radio"
+                          name="fulfil"
+                          id="fDel"
+                          value="Home delivery"
+                          required
+                        /><label for="fDel">Home delivery</label>
+                      </div>
+                      <div>
+                        <input type="radio" name="fulfil" id="fPick" value="Store pickup" /><label
+                          for="fPick"
+                          >Store pickup</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full" id="mAddrWrap" hidden>
+                    <label class="l" for="mAddr">Delivery address</label
+                    ><textarea
+                      class="fc"
+                      id="mAddr"
+                      placeholder="House / street / landmark, area, PIN"
+                    ></textarea>
+                  </div>
+                  <div class="full">
+                    <label class="l" for="mNote">Optional note</label
+                    ><input class="fc" id="mNote" placeholder="Brand preference, urgency, etc." />
+                  </div>
+                </div>
+                <div class="note">
+                  <strong>Prescription needed.</strong> After you tap send, WhatsApp will open with
+                  your request. Please attach a clear photo of your prescription in that chat.
+                  Prescription-only medicines cannot be dispensed without it.
+                </div>
+                <button class="submit wa" type="submit">Send request on WhatsApp</button>
+              </form>
+            </section>
+          </section>
+
+          <!-- LAB TESTS -->
+          <section class="panel" id="labsPanel">
+            <section class="card">
+              <h2>Laboratory tests</h2>
+              <p class="sub">
+                Browse every test across all labs, or open one lab to see only its tests and prices.
+              </p>
+              <div class="subtabs" id="labTabs" role="tablist" aria-label="Choose lab"></div>
+              <div class="labinfo" id="labInfo" hidden></div>
+              <div class="offers" id="offerStrip" hidden></div>
+              <div class="search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  />
+                  <path
+                    d="m16 16 5 5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  /></svg
+                ><input
+                  class="search-input"
+                  id="search"
+                  type="search"
+                  placeholder="Search tests..."
+                  aria-label="Search laboratory tests"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="chips" id="chips"></div>
+              <div class="list" id="testList"></div>
+              <div class="summary" id="summary" hidden>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 14px;
+                    font-weight: 680;
+                  "
+                >
+                  <span>Selected tests</span
+                  ><span id="selCount" style="font-size: 10px; color: #a5a5a7"></span>
+                </div>
+                <div id="selList" style="margin-top: 10px"></div>
+                <div class="total">
+                  <span style="font-size: 10px; color: #a5a5a7; font-weight: 500" id="selTotalLabel"
+                    >MRP total</span
+                  ><span id="selTotal"></span>
+                </div>
+                <small
+                  >Final price depends on the lab you choose, any offers and the collection type.
+                  The pharmacy confirms it.</small
+                >
+                <button class="go" onclick="openLab()">Choose lab &amp; book</button>
+              </div>
+            </section>
+          </section>
+
+          <!-- DOCTORS -->
+          <section class="panel" id="docsPanel">
+            <section class="card">
+              <h2>Associated doctors</h2>
+              <p class="sub">Timings are tentative. Please call to confirm availability.</p>
+              <div class="dgrid" id="docGrid"></div>
+            </section>
+          </section>
+
+          <section class="grid2">
+            <div class="mini" id="aboutCard">
+              <b>About the pharmacy</b>
+              <p id="aboutText"></p>
+            </div>
+            <div class="mini" id="licenceCard">
+              <b>Licence</b>
+              <p id="licText"></p>
+            </div>
+            <div class="mini" id="servicesCard">
+              <b>Services</b>
+              <div id="svcList"></div>
+            </div>
+            <div class="mini" id="hoursCard">
+              <b>Opening hours</b>
+              <div id="hoursList"></div>
+            </div>
+          </section>
+
+          <section class="card" id="contactCard" style="margin-top: 18px">
+            <h2>Contact</h2>
+            <p class="sub">Pharmacy contact and location</p>
+            <div class="contact">
+              <div class="crow" id="addressRow">
+                <div class="ci">LOC</div>
+                <div><small>Address</small><span class="v" id="cAddr"></span></div>
+              </div>
+              <div class="crow" id="phoneRow">
+                <div class="ci">TEL</div>
+                <div><small>Phone</small><a id="cPhone" href="#"></a></div>
+              </div>
+              <div class="crow" id="whatsappRow">
+                <div class="ci wa-i">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <small>WhatsApp</small
+                  ><a id="cWa" href="#" target="_blank" rel="noopener noreferrer"
+                    >Chat with pharmacy</a
+                  >
+                </div>
+              </div>
+              <div class="crow" id="emailRow">
+                <div class="ci">@</div>
+                <div><small>Email</small><a id="cMail" href="#"></a></div>
+              </div>
+            </div>
+            <a class="map-btn" id="mapBtn" href="#" target="_blank" rel="noopener noreferrer"
+              >Open location in Google Maps</a
+            >
+          </section>
+
+          <section class="card" style="margin-top: 18px">
+            <h2>Booking &amp; privacy</h2>
+            <p class="about">
+              Details you enter are not stored on this page or sent to any server. They are placed
+              directly into a WhatsApp message to the pharmacy. Please avoid sharing highly
+              sensitive medical information in notes.
+            </p>
+          </section>
+        </div>
+
+        <aside class="side">
+          <div class="book">
+            <div class="beyebrow">Pharmacy Services</div>
+            <h2>Order, test or consult</h2>
+            <p>Send a medicine request, book lab tests or choose an associated doctor.</p>
+            <div class="bdiv"></div>
+            <div class="brow"><span>Pharmacy</span><span id="sideName"></span></div>
+            <div class="brow"><span>Home delivery</span><span id="sideDel"></span></div>
+            <div class="brow"><span>Lab tests</span><span id="sideLab"></span></div>
+            <button onclick="go('meds')">Order Medicines</button>
+            <button class="alt" onclick="go('labs')">Browse Lab Tests</button>
+            <button class="alt" onclick="go('docs')">See Doctors</button>
+          </div>
+          <div class="sidenote">
+            <strong>Direct WhatsApp booking.</strong><br />Nothing is stored by this page. Requests
+            go straight to the pharmacy on WhatsApp.
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <div class="mobilebar">
+      <div><small id="mbLabel"></small><b id="mbValue"></b></div>
+      <button id="mbBtn"></button>
+    </div>
+
+    <!-- LAB BOOKING MODAL -->
+    <div
+      class="mb"
+      id="labModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Book lab tests"
+      onclick="closeOnBackdrop(event,'labModal')"
+    >
+      <div class="modal">
+        <div class="mh">
+          <div>
+            <h2>Book lab tests</h2>
+            <small id="labSub"></small>
+          </div>
+          <button class="x" onclick="closeModal('labModal')" aria-label="Close">×</button>
+        </div>
+        <div class="mbody">
+          <form id="labForm" onsubmit="submitLab(event)">
+            <div class="fg">
+              <div class="full">
+                <label class="l">Where should the tests be done?</label>
+                <div class="radios one" id="labChoice"></div>
+              </div>
+              <div>
+                <label class="l" for="lName">Full name</label
+                ><input class="fc" id="lName" required autocomplete="name" />
+              </div>
+              <div>
+                <label class="l" for="lMobile">Mobile number</label
+                ><input
+                  class="fc"
+                  id="lMobile"
+                  type="tel"
+                  inputmode="numeric"
+                  maxlength="10"
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </div>
+              <div>
+                <label class="l" for="lAge">Age</label
+                ><input class="fc" id="lAge" type="number" min="0" max="120" required />
+              </div>
+              <div>
+                <label class="l" for="lGender">Gender</label
+                ><select class="fc" id="lGender" required>
+                  <option value="">Select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+              <div class="full">
+                <label class="l">Collection type</label>
+                <div class="radios">
+                  <div>
+                    <input
+                      type="radio"
+                      name="colType"
+                      id="cVisit"
+                      value="Visit lab / pharmacy"
+                      required
+                    /><label for="cVisit">Visit lab</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      name="colType"
+                      id="cHome"
+                      value="Home sample collection"
+                    /><label for="cHome">Home sample collection</label>
+                  </div>
+                </div>
+              </div>
+              <div class="full" id="lAddrWrap" hidden>
+                <label class="l" for="lAddr">Collection address</label
+                ><textarea class="fc" id="lAddr" placeholder="Full address with PIN"></textarea>
+              </div>
+              <div>
+                <label class="l" for="lDate">Preferred date</label
+                ><input class="fc" id="lDate" type="date" required />
+              </div>
+              <div>
+                <label class="l" for="lTime">Preferred time</label
+                ><select class="fc" id="lTime" required>
+                  <option value="">Select time</option>
+                  <option>7:00 AM – 9:00 AM</option>
+                  <option>9:00 AM – 11:00 AM</option>
+                  <option>11:00 AM – 1:00 PM</option>
+                  <option>1:00 PM – 3:00 PM</option>
+                  <option>3:00 PM – 5:00 PM</option>
+                  <option>5:00 PM – 7:00 PM</option>
+                </select>
+              </div>
+              <div class="full">
+                <div class="sum">
+                  <b>Selected tests</b>
+                  <div id="lSumList"></div>
+                  <div class="r" id="lSubRow" hidden>
+                    <span>Subtotal</span><span id="lSub"></span>
+                  </div>
+                  <div class="r" id="lOfferRow" hidden>
+                    <span id="lOfferLabel" style="color: var(--green)"></span
+                    ><span id="lOffer" style="color: var(--green)"></span>
+                  </div>
+                  <div class="r" id="lFeeRow" hidden>
+                    <span>Home collection</span><span id="lFee"></span>
+                  </div>
+                  <div class="r t"><span>Estimated total</span><span id="lSumTotal"></span></div>
+                </div>
+              </div>
+              <div class="full">
+                <label class="l" for="lNote">Optional note</label
+                ><textarea
+                  class="fc"
+                  id="lNote"
+                  placeholder="Anything else we should know?"
+                ></textarea>
+              </div>
+            </div>
+            <div class="note">
+              Your details are placed directly into a WhatsApp message. Prices and offers are
+              indicative and confirmed by the pharmacy. If your doctor has advised these tests, you
+              can send the prescription photo in the same chat.
+            </div>
+            <button class="submit wa" type="submit">Send booking request on WhatsApp</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCTOR MODAL -->
+    <div
+      class="mb"
+      id="docModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Book appointment"
+      onclick="closeOnBackdrop(event,'docModal')"
+    >
+      <div class="modal">
+        <div class="mh">
+          <div>
+            <h2>Book appointment</h2>
+            <small id="dSub"></small>
+          </div>
+          <button class="x" onclick="closeModal('docModal')" aria-label="Close">×</button>
+        </div>
+        <div class="mbody">
+          <div class="sum" style="margin-bottom: 16px">
+            <b id="dName"></b>
+            <div style="font-size: 11px; color: var(--blue); font-weight: 650" id="dSpec"></div>
+            <div style="font-size: 10px; color: var(--text3)" id="dFee"></div>
+          </div>
+          <form id="docForm" onsubmit="submitDoc(event)">
+            <div class="fg">
+              <div>
+                <label class="l" for="pName">Patient name</label
+                ><input class="fc" id="pName" required />
+              </div>
+              <div>
+                <label class="l" for="pMobile">Mobile number</label
+                ><input
+                  class="fc"
+                  id="pMobile"
+                  type="tel"
+                  inputmode="numeric"
+                  maxlength="10"
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </div>
+              <div>
+                <label class="l" for="pAge">Age</label
+                ><input class="fc" id="pAge" type="number" min="0" max="120" required />
+              </div>
+              <div>
+                <label class="l" for="pGender">Gender</label
+                ><select class="fc" id="pGender" required>
+                  <option value="">Select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+              <div class="full">
+                <label class="l">Consultation type</label>
+                <div class="radios" id="dModes"></div>
+              </div>
+              <div>
+                <label class="l" for="pDate">Preferred date</label
+                ><input class="fc" id="pDate" type="date" required />
+              </div>
+              <div>
+                <label class="l" for="pDay">Day</label
+                ><input class="fc" id="pDay" readonly placeholder="Select date" />
+              </div>
+              <div class="full">
+                <label class="l">Preferred time</label>
+                <div class="slots" id="dSlots"></div>
+              </div>
+              <div class="full">
+                <label class="l" for="pReason"
+                  >Reason <span style="color: #999">(optional)</span></label
+                ><textarea
+                  class="fc"
+                  id="pReason"
+                  placeholder="Brief reason. Avoid highly sensitive details."
+                ></textarea>
+              </div>
+            </div>
+            <button class="submit wa" type="submit">Send appointment request on WhatsApp</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCATION / CONTACT -->
+    <div
+      class="mb"
+      id="locModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Location"
+      onclick="closeOnBackdrop(event,'locModal')"
+    >
+      <div class="modal">
+        <div class="mh">
+          <div>
+            <h2 class="pn"></h2>
+            <small>Location &amp; directions</small>
+          </div>
+          <button class="x" onclick="closeModal('locModal')" aria-label="Close">×</button>
+        </div>
+        <div class="mbody mact">
+          <div id="locAddr"></div>
+          <a class="wa" id="locDir" target="_blank" rel="noopener noreferrer">Get directions</a
+          ><a id="locMap" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mb"
+      id="callModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Contact"
+      onclick="closeOnBackdrop(event,'callModal')"
+    >
+      <div class="modal">
+        <div class="mh">
+          <div>
+            <h2>Contact <span class="pn"></span></h2>
+            <small>Choose how you would like to connect</small>
+          </div>
+          <button class="x" onclick="closeModal('callModal')" aria-label="Close">×</button>
+        </div>
+        <div class="mbody mact" id="callActions"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+    /* =============================================================
+       PHARMACY PROFILE: APP LOGIC
+
+       You do NOT need to edit anything in this script.
+       All pharmacy-specific details (name, phone, address, labs,
+       tests, prices, doctors) are in the "PHARMACY DATA" script at
+       the very bottom of this file.
+       ============================================================= */
+
+
+    /* -------------------------------------------------------------
+       CONSTANTS
+       ------------------------------------------------------------- */
+
+    // Official WhatsApp logo (SVG path, 24x24 viewBox)
+    const WHATSAPP_LOGO_PATH =
+      "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z";
+
+    // Separator line used inside WhatsApp messages
+    const DIVIDER = "\n━━━━━━━━━━━━━━━━━━\n";
+
+
+    /* -------------------------------------------------------------
+       PAGE STATE
+       ------------------------------------------------------------- */
+
+    const selectedTestIds = new Set();   // tests the patient has added
+    let activeLabView = "all";           // "all" or a configured lab id
+    let activeCategory = "All";          // selected test category chip
+    let selectedDoctor = null;           // doctor being booked
+    let selectedDoctorSlot = "";         // time slot chosen for that doctor
+    let lastFocusedElement = null;       // restores focus after a modal closes
+    let toastTimer = null;
+    let appStarted = false;
+
+
+    /* -------------------------------------------------------------
+       SMALL HELPERS
+       ------------------------------------------------------------- */
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    // Makes text safe to insert into HTML
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // 1500 -> "1,500"
+    function formatNumber(number) {
+      return Number(number).toLocaleString("en-IN");
+    }
+
+    // Value of a form field (trimmed)
+    function getValue(id) {
+      const element = $(id);
+      return element ? element.value.trim() : "";
+    }
+
+    // Value of the selected radio button in a group
+    function getChecked(name) {
+      const element = document.querySelector(`input[name="${name}"]:checked`);
+      return element ? element.value : "";
+    }
+
+    // Keeps only digits: "+91 98765 43210" -> "919876543210"
+    function cleanNumber(number) {
+      return String(number || "").replace(/\D/g, "");
+    }
+
+    function setText(id, text) {
+      const element = $(id);
+      if (element) {
+        element.textContent = text ?? "";
+      }
+    }
+
+    function setVisible(id, visible) {
+      const element = $(id);
+      if (element) {
+        element.hidden = !visible;
+      }
+    }
+
+    function hasText(value) {
+      return typeof value === "string" && value.trim().length > 0;
+    }
+
+    function pharmacyName() {
+      return hasText(pharmacy.name) ? pharmacy.name.trim() : "Pharmacy";
+    }
+
+    function hasPrice(value) {
+      return value !== null && value !== undefined &&
+        !(typeof value === "string" && value.trim() === "") &&
+        Number.isFinite(Number(value)) && Number(value) >= 0;
+    }
+
+    function safeHttpURL(value) {
+      if (!hasText(value)) return "";
+      try {
+        const url = new URL(value.trim(), location.href);
+        return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function sharedAssetURL(filename) {
+      const marker = "/pharmacy/";
+      const markerIndex = location.pathname.lastIndexOf(marker);
+      if (markerIndex < 0) return "";
+
+      const currentDirectory = new URL(".", location.href).pathname;
+      const pharmacyDirectory = currentDirectory.slice(markerIndex + marker.length);
+      const depth = pharmacyDirectory.split("/").filter(Boolean).length;
+      return "../".repeat(depth + 1) + "images/" + encodeURIComponent(filename);
+    }
+
+    function initializePharmacyLogo() {
+      const image = $("logo");
+      if (image.dataset.fallbackInitialized === "true") return;
+      image.dataset.fallbackInitialized = "true";
+      image.alt = (pharmacy.name || "Pharmacy") + " logo";
+
+      const defaults = ["pharmacy.jpg", "pharmacy.jpeg", "pharmacy.png"];
+      const custom = String(pharmacy.imageFilename || "").trim();
+      const validFilename = /^[^/\\?#]+\.(?:jpe?g|png)$/i;
+      if (custom && !validFilename.test(custom)) {
+        console.error("Pharmacy imageFilename must be a .jpg, .jpeg, or .png filename in this folder.");
+      }
+      const candidates = custom && validFilename.test(custom)
+        ? [custom, ...defaults.filter((filename) => filename !== custom)]
+        : defaults;
+
+      image.onerror = () => {
+        const nextIndex = Number(image.dataset.logoAttempt || "0") + 1;
+        if (nextIndex < candidates.length) {
+          image.dataset.logoAttempt = String(nextIndex);
+          image.src = candidates[nextIndex];
+          return;
+        }
+
+        image.onerror = null;
+        image.hidden = true;
+        image.parentElement.hidden = true;
+        image.closest(".hero").classList.add("no-logo");
+        console.warn(
+          "Pharmacy logo not found. Place pharmacy.jpg, pharmacy.jpeg, or pharmacy.png beside index.html, or set imageFilename in the pharmacy configuration."
+        );
+      };
+
+      image.dataset.logoAttempt = "0";
+      image.src = candidates[0];
+    }
+
+    // "2026-10-09" -> "9 October 2026"
+    function formatDate(dateString) {
+      if (!dateString) return "";
+
+      return new Date(dateString + "T12:00:00").toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    // "2026-10-09" -> "Friday"
+    function weekdayOf(dateString) {
+      if (!dateString) return "";
+
+      return new Date(dateString + "T12:00:00").toLocaleDateString("en-IN", {
+        weekday: "long",
+      });
+    }
+
+    function infoRowHTML(label, value) {
+      return `
+        <div class="r">
+          <span>${esc(label)}</span>
+          <span>${esc(value)}</span>
+        </div>
+      `;
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    // Opens WhatsApp with a ready-made message to the pharmacy.
+    // Returns true if WhatsApp was opened.
+    function sendWhatsApp(message) {
+      const number = cleanNumber(pharmacy.whatsapp);
+
+      if (!number) {
+        showToast("Pharmacy WhatsApp number is not configured.");
+        return false;
+      }
+
+      const url = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+      window.open(url, "_blank", "noopener,noreferrer");
+      return true;
+    }
+
+
+    /* -------------------------------------------------------------
+       MODALS
+       ------------------------------------------------------------- */
+
+    function openModal(id) {
+      lastFocusedElement = document.activeElement;
+      $(id).classList.add("open");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeModal(id) {
+      $(id).classList.remove("open");
+
+      if (!document.querySelector(".mb.open")) {
+        document.body.classList.remove("modal-open");
+      }
+
+      if (lastFocusedElement && lastFocusedElement.focus) {
+        try {
+          lastFocusedElement.focus();
+        } catch (error) {
+          /* ignore */
+        }
+      }
+    }
+
+    // Clicking the dark area outside a modal closes it
+    function closeOnBackdrop(event, id) {
+      if (event.target.id === id) {
+        closeModal(id);
+      }
+    }
+
+    // Escape key closes the open modal
+    function setupEscapeKey() {
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+
+        const openModalElement = document.querySelector(".mb.open");
+        if (openModalElement) {
+          closeModal(openModalElement.id);
+        }
+      });
+    }
+
+
+    /* -------------------------------------------------------------
+       PROFILE HEADER, INFO CARDS, CONTACT
+       (fills the page from the `pharmacy` data)
+       ------------------------------------------------------------- */
+
+    function renderProfile() {
+      document.title = pharmacyName() + " | Pharmacy Profile";
+      const visibility = pharmacy.visibility || {};
+      const show = (key, hasData = true) => visibility[key] !== false && hasData;
+      const labs = Array.isArray(pharmacy.labs) ? pharmacy.labs : [];
+      const tests = Array.isArray(pharmacy.tests) ? pharmacy.tests : [];
+      const doctors = Array.isArray(pharmacy.doctors) ? pharmacy.doctors : [];
+
+      const visibleTabs = {
+        meds: visibility.medicines !== false,
+        labs: visibility.labs !== false && labs.length > 0 && tests.length > 0,
+        docs: visibility.doctors !== false && doctors.length > 0,
+      };
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.hidden = !visibleTabs[button.dataset.tab];
+      });
+      ["meds", "labs", "docs"].forEach((tab) => {
+        $(tab + "Panel").hidden = !visibleTabs[tab];
+      });
+      if (!visibleTabs[getActiveTab()]) {
+        const firstVisibleTab = Object.keys(visibleTabs).find((tab) => visibleTabs[tab]) || "meds";
+        go(firstVisibleTab);
+      }
+
+      // Hero
+      setText("hLabel", pharmacy.label);
+      setText("hName", pharmacyName());
+      setText("hType", pharmacy.type);
+      setText("hLoc", pharmacy.location);
+      setText("hDesc", pharmacy.description);
+      setVisible("hLabel", hasText(pharmacy.label));
+      setVisible("hType", hasText(pharmacy.type));
+      setVisible("hLoc", hasText(pharmacy.location));
+      setVisible("hDesc", hasText(pharmacy.description));
+
+      initializePharmacyLogo();
+
+      const tags = Array.isArray(pharmacy.tags) ? pharmacy.tags.filter(hasText) : [];
+      $("hTags").innerHTML = tags
+        .map((tag) => `<span class="tag">${esc(tag)}</span>`)
+        .join("");
+      setVisible("hTags", tags.length > 0);
+
+      // Quick info strip
+      setText("qMed", pharmacy.medicinesLabel);
+      setText("qDel", pharmacy.delivery);
+      setText("qLab", pharmacy.labLabel);
+      setVisible("qMed", hasText(pharmacy.medicinesLabel));
+      setVisible("qDel", hasText(pharmacy.delivery));
+      setVisible("qLab", hasText(pharmacy.labLabel));
+      const hours = Array.isArray(pharmacy.hours) ? pharmacy.hours.filter((item) => hasText(item.day) && hasText(item.hours)) : [];
+      setText("qHours", hours[0] ? hours[0].hours : "");
+      setVisible("qHours", hours.length > 0);
+      ["qMed", "qDel", "qLab", "qHours"].forEach((id) => {
+        const element = $(id);
+        if (element) element.parentElement.hidden = !hasText(element.textContent);
+      });
+
+      // Info cards
+      setText("aboutText", pharmacy.description);
+      setText("licText", pharmacy.licence);
+      setVisible("aboutCard", show("about", hasText(pharmacy.description)));
+      setVisible("licenceCard", show("licence", hasText(pharmacy.licence)));
+
+      const services = Array.isArray(pharmacy.services)
+        ? pharmacy.services.filter((item) => hasText(item.label) && hasText(item.value))
+        : [];
+      $("svcList").innerHTML = services
+        .map((item) => infoRowHTML(item.label, item.value))
+        .join("");
+      setVisible("servicesCard", show("services", services.length > 0));
+
+      $("hoursList").innerHTML = hours
+        .map((item) => infoRowHTML(item.day, item.hours))
+        .join("");
+      setVisible("hoursCard", show("hours", hours.length > 0));
+
+      // Contact card
+      const address = hasText(pharmacy.address) ? pharmacy.address.trim() : "";
+      const phones = Array.isArray(pharmacy.phones)
+        ? pharmacy.phones.filter((phone) => hasText(phone) && cleanNumber(phone))
+        : [];
+      const whatsappNumber = cleanNumber(pharmacy.whatsapp);
+      const email = hasText(pharmacy.email) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pharmacy.email.trim())
+        ? pharmacy.email.trim()
+        : "";
+      const mapsURL = safeHttpURL(pharmacy.maps);
+      setText("cAddr", address);
+      setVisible("addressRow", hasText(address));
+
+      const phoneLink = $("cPhone");
+      phoneLink.textContent = phones.join(" / ");
+      if (phones.length) {
+        phoneLink.href = "tel:" + cleanNumber(phones[0]);
+      } else {
+        phoneLink.removeAttribute("href");
+      }
+      setVisible("phoneRow", phones.length > 0);
+
+      if (whatsappNumber) {
+        $("cWa").href = "https://wa.me/" + whatsappNumber;
+      } else {
+        $("cWa").removeAttribute("href");
+      }
+      setVisible("whatsappRow", Boolean(whatsappNumber));
+
+      const emailLink = $("cMail");
+      emailLink.textContent = email;
+      if (email) {
+        emailLink.href = "mailto:" + email;
+      } else {
+        emailLink.removeAttribute("href");
+      }
+      setVisible("emailRow", Boolean(email));
+
+      const mapURL = mapsURL || (address
+        ? "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pharmacyName() + " " + address)
+        : "");
+      if (mapURL) {
+        $("mapBtn").href = mapURL;
+      } else {
+        $("mapBtn").removeAttribute("href");
+      }
+      setVisible("mapBtn", Boolean(mapURL));
+      setVisible("contactCard", show("contact", Boolean(address || phones.length || whatsappNumber || email || mapURL)));
+
+      // Sidebar
+      setText("sideName", pharmacyName());
+      setText("sideDel", pharmacy.delivery);
+      setText("sideLab", pharmacy.labLabel);
+      setVisible("locationAction", Boolean(address || mapURL));
+      setVisible("contactAction", Boolean(phones.length || whatsappNumber));
+
+      renderLocationAndContactModals();
+    }
+
+    function renderLocationAndContactModals() {
+      document.querySelectorAll(".pn").forEach((element) => {
+        element.textContent = pharmacyName();
+      });
+
+      // Location modal
+      const address = hasText(pharmacy.address) ? pharmacy.address.trim() : "";
+      const searchText = address ? encodeURIComponent([pharmacyName(), address].join(" ")) : "";
+      const mapURL = safeHttpURL(pharmacy.maps) ||
+        (address ? "https://www.google.com/maps/search/?api=1&query=" + searchText : "");
+
+      setText("locAddr", address);
+      setVisible("locAddr", Boolean(address));
+      if (searchText) {
+        $("locDir").href = "https://www.google.com/maps/dir/?api=1&destination=" + searchText;
+      } else {
+        $("locDir").removeAttribute("href");
+      }
+      setVisible("locDir", Boolean(searchText));
+      if (mapURL) {
+        $("locMap").href = mapURL;
+      } else {
+        $("locMap").removeAttribute("href");
+      }
+      setVisible("locMap", Boolean(mapURL));
+
+      // Call / WhatsApp modal
+      const greeting = "Hello " + pharmacyName() + ", I would like to enquire about your services.";
+
+      const phones = Array.isArray(pharmacy.phones) ? pharmacy.phones.filter((phone) => hasText(phone) && cleanNumber(phone)) : [];
+      const callLinks = phones
+        .map((phone) => {
+          return `<a href="tel:${esc(cleanNumber(phone))}">Call ${esc(phone)}</a>`;
+        })
+        .join("");
+
+      const whatsappNumber = cleanNumber(pharmacy.whatsapp);
+      const whatsappLink = whatsappNumber ? `
+        <a class="wa" target="_blank" rel="noopener noreferrer"
+           href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(greeting)}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${WHATSAPP_LOGO_PATH}"/></svg>
+          Message on WhatsApp
+        </a>
+      ` : "";
+
+      $("callActions").innerHTML = callLinks + whatsappLink;
+      setVisible("callActions", Boolean(callLinks || whatsappLink));
+    }
+
+    // Small "Powered by DoctorJet" badge (top right) + optional offer strip
+    function setupPlatformBadge() {
+      const bar = $("platformBar");
+      const trigger = $("platformTrigger");
+
+      if (hasText(pharmacy.poweredByLogo)) {
+        const logo = $("platformLogo");
+        logo.onerror = () => {
+          logo.hidden = true;
+          logo.onerror = null;
+        };
+        logo.src = sharedAssetURL(pharmacy.poweredByLogo);
+      }
+
+      trigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const isOpen = bar.classList.toggle("expanded");
+        trigger.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      document.addEventListener("click", () => {
+        bar.classList.remove("expanded");
+        trigger.setAttribute("aria-expanded", "false");
+      });
+
+      bar.addEventListener("click", (event) => event.stopPropagation());
+    }
+
+    // Green "Current lab offers" box (only when offers are enabled in the configuration)
+    function renderOfferStrip() {
+      if (!pharmacy.showOffers || pharmacy.visibility?.offers === false) return;
+
+      const rows = pharmacy.labs
+        .filter((lab) => (lab.offers || []).length > 0)
+        .map((lab) => {
+          const titles = lab.offers.map((offer) => esc(offer.title)).join(" · ");
+          return `<div><b>${esc(lab.name)}</b> — ${titles}</div>`;
+        })
+        .join("");
+
+      if (rows) {
+        $("offerStrip").innerHTML = "<b>Current lab offers</b>" + rows;
+        $("offerStrip").hidden = false;
+      }
+    }
+
+
+    /* -------------------------------------------------------------
+       MAIN TABS  (Medicines / Lab Tests / Doctors)
+       ------------------------------------------------------------- */
+
+    function getActiveTab() {
+      return document.querySelector(".tab.active").dataset.tab;
+    }
+
+    // Switches tab: "meds", "labs" or "docs"
+    function go(tab) {
+      document.querySelectorAll(".tab").forEach((button) => {
+        const isActive = button.dataset.tab === tab;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", isActive);
+      });
+
+      ["meds", "labs", "docs"].forEach((name) => {
+        $(name + "Panel").classList.toggle("active", name === tab);
+      });
+
+      // Replays the small fade-in animation
+      const panel = $(tab + "Panel");
+      panel.classList.remove("panel-enter");
+      void panel.offsetWidth;
+      panel.classList.add("panel-enter");
+
+      updateMobileBar();
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function setupMainTabs() {
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.addEventListener("click", () => go(button.dataset.tab));
+      });
+    }
+
+
+    /* -------------------------------------------------------------
+       MEDICINE ORDER / ENQUIRY
+       ------------------------------------------------------------- */
+
+    function setupMedicineForm() {
+      // Show the address box only for home delivery
+      document.querySelectorAll('input[name="fulfil"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          const isDelivery = getChecked("fulfil") === "Home delivery";
+
+          $("mAddrWrap").hidden = !isDelivery;
+          $("mAddr").required = isDelivery;
+        });
+      });
+    }
+
+    function submitMed(event) {
+      event.preventDefault();
+
+      if (!event.target.checkValidity()) {
+        event.target.reportValidity();
+        return;
+      }
+
+      const isDelivery = getChecked("fulfil") === "Home delivery";
+      const addressLine = isDelivery ? "\nAddress: " + getValue("mAddr") : "";
+      const noteBlock = getValue("mNote") ? "\n\nNOTE\n" + getValue("mNote") : "";
+
+      const message = `🏥 ${pharmacyName().toUpperCase()}
+    MEDICINE REQUEST
+    ${DIVIDER}
+    REQUEST TYPE
+    ${getChecked("reqType")}
+    ${DIVIDER}
+    PATIENT DETAILS
+    Name: ${getValue("mName")}
+    Mobile: ${getValue("mMobile")}
+    ${DIVIDER}
+    MEDICINES NEEDED
+    ${getValue("mList")}
+    ${DIVIDER}
+    FULFILMENT
+    ${getChecked("fulfil")}${addressLine}${noteBlock}
+    ${DIVIDER}
+    📋 PRESCRIPTION
+    I will attach a photo of my prescription in this chat.
+
+    Pharmacy team: if the prescription photo is not received, please remind the patient to send a clear photo (all medicine names and the doctor's signature visible) before confirming this request.`;
+
+      sendWhatsApp(message.trim());
+    }
+
+
+    /* -------------------------------------------------------------
+       LAB TESTS: PRICING HELPERS
+       ------------------------------------------------------------- */
+
+    function getSelectedTests() {
+      return pharmacy.tests.filter((test) => selectedTestIds.has(test.id));
+    }
+
+    function getMrpTotal() {
+      return getSelectedTests().reduce((sum, test) => sum + (hasPrice(test.price) ? Number(test.price) : 0), 0);
+    }
+
+    // The lab whose tab is open (or undefined on "All tests")
+    function getViewedLab() {
+      return pharmacy.labs.find((lab) => lab.id === activeLabView);
+    }
+
+    // Does this lab offer this test?
+    function labOffersTest(test, lab) {
+      return !(lab.unavailable || []).includes(test.id) && priceAtLab(test, lab) !== null;
+    }
+
+    // Does this lab offer every test the patient selected?
+    function labOffersAllSelected(lab) {
+      return getSelectedTests().every((test) => labOffersTest(test, lab));
+    }
+
+    // Price of a test at a lab:
+    // 1) exact price from lab.prices, otherwise 2) MRP x lab.priceFactor
+    function priceAtLab(test, lab) {
+      if (lab.prices && hasPrice(lab.prices[test.id])) {
+        return Number(lab.prices[test.id]);
+      }
+
+      if (!hasPrice(test.price)) return null;
+      const factor = hasPrice(lab.priceFactor) ? Number(lab.priceFactor) : 1;
+      return Math.round((Number(test.price) * factor) / 10) * 10;
+    }
+
+    // Totals for the selected tests at one lab (subtotal, offer discount, etc.)
+    function calculatePricing(lab) {
+      const subtotal = getSelectedTests().reduce((sum, test) => sum + (priceAtLab(test, lab) ?? 0), 0);
+
+      let bestDiscount = 0;
+      let bestOfferTitle = "";
+      let freeHomeCollection = false;
+      const hints = [];
+
+      // Offers are ignored completely when disabled in the pharmacy configuration
+      if (pharmacy.showOffers && pharmacy.visibility?.offers !== false) {
+        (lab.offers || []).forEach((offer) => {
+          const minimum = offer.min || 0;
+
+          // Not eligible yet: remember a hint like "Add ₹200 more"
+          if (subtotal < minimum) {
+            hints.push(`Add ₹${formatNumber(minimum - subtotal)} more: ${offer.title}`);
+            return;
+          }
+
+          if (offer.type === "freeHome") {
+            freeHomeCollection = true;
+            return;
+          }
+
+          let discount = offer.type === "percent" ? Math.round((subtotal * offer.value) / 100) : offer.value;
+
+          if (offer.cap) discount = Math.min(discount, offer.cap);
+          discount = Math.min(discount, subtotal);
+
+          if (discount > bestDiscount) {
+            bestDiscount = discount;
+            bestOfferTitle = offer.title;
+          }
+        });
+      }
+
+      return {
+        subtotal: subtotal,
+        discount: bestDiscount,
+        offerTitle: bestOfferTitle,
+        freeHome: freeHomeCollection,
+        hints: hints,
+      };
+    }
+
+    // Returns null when a home collection fee has not been specified.
+    function homeFeeFor(lab, pricing, isHomeCollection) {
+      if (!isHomeCollection || !lab.home || pricing.freeHome) return 0;
+      return hasPrice(lab.homeFee) ? Number(lab.homeFee) : null;
+    }
+
+
+    /* -------------------------------------------------------------
+       LAB TESTS: TABS, CATEGORIES, TEST LIST
+       ------------------------------------------------------------- */
+
+    function setupLabTests() {
+      $("search").addEventListener("input", renderTests);
+
+      // Show the address box only for home sample collection
+      document.querySelectorAll('input[name="colType"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          const isHome = getChecked("colType") === "Home sample collection";
+
+          $("lAddrWrap").hidden = !isHome;
+          $("lAddr").required = isHome;
+
+          if ($("labModal").classList.contains("open")) {
+            renderLabSummary();
+          }
+        });
+      });
+
+      renderOfferStrip();
+      renderLabTabs();
+      renderCategories();
+      renderTests();
+    }
+
+    // Tests shown in the current tab (all tests, or only that lab's tests)
+    function visibleTests() {
+      const lab = getViewedLab();
+      return pharmacy.tests.filter((test) => !lab || labOffersTest(test, lab));
+    }
+
+    // "All tests | In-house | Lab A | Lab B" tab row
+    function renderLabTabs() {
+      const tabs = [
+        { id: "all", name: "All tests", count: pharmacy.tests.length },
+        ...pharmacy.labs.map((lab) => ({
+          id: lab.id,
+          name: lab.short || lab.name,
+          count: pharmacy.tests.filter((test) => labOffersTest(test, lab)).length,
+        })),
+      ];
+
+      $("labTabs").innerHTML = tabs
+        .map((tab) => {
+          const isActive = tab.id === activeLabView;
+
+          return `
+            <button type="button" role="tab"
+                    class="subtab ${isActive ? "active" : ""}"
+                    data-lab="${esc(tab.id)}"
+                    aria-selected="${isActive}">
+              ${esc(tab.name)} <small>${tab.count}</small>
+            </button>
+          `;
+        })
+        .join("");
+
+      $("labTabs").querySelectorAll(".subtab").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeLabView = button.dataset.lab;
+          activeCategory = "All";
+
+          renderLabTabs();
+          renderCategories();
+          renderTests();
+          renderSummary();
+        });
+      });
+
+      // Short info line under the tabs (only when a single lab is open)
+      const lab = getViewedLab();
+      const infoBox = $("labInfo");
+
+      if (lab) {
+        const homeText = lab.home ? "Home collection available" : "Lab visit only";
+        infoBox.textContent = `${lab.name} · ${lab.info} · Reports: ${lab.report} · ${homeText}`;
+        infoBox.hidden = false;
+      } else {
+        infoBox.hidden = true;
+      }
+    }
+
+    // Category chips (Blood, Diabetes, Thyroid...)
+    function renderCategories() {
+      const categories = ["All", ...new Set(visibleTests().map((test) => test.category))];
+
+      $("chips").innerHTML = categories
+        .map((category) => {
+          const isActive = category === activeCategory;
+
+          return `
+            <button type="button" class="chip ${isActive ? "active" : ""}" data-c="${esc(category)}">
+              ${esc(category)}
+            </button>
+          `;
+        })
+        .join("");
+
+      $("chips").querySelectorAll(".chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          activeCategory = chip.dataset.c;
+          renderCategories();
+          renderTests();
+        });
+      });
+    }
+
+    // Price line + extra info for one test card
+    function testPriceHTML(test, viewedLab) {
+      // Inside a single lab's tab: show that lab's price
+      if (viewedLab) {
+        const price = priceAtLab(test, viewedLab);
+        const mrpText = hasPrice(test.price) && price < Number(test.price)
+          ? `<span class="mrp">₹${formatNumber(test.price)}</span>`
+          : "";
+
+        return {
+          priceLine: price === null
+            ? `Price on request <span>at ${esc(viewedLab.short || viewedLab.name)}</span>`
+            : `${mrpText}₹${formatNumber(price)} <span>at ${esc(viewedLab.short || viewedLab.name)}</span>`,
+          extraMeta: `<span>Report: ${esc(viewedLab.report)}</span>`,
+        };
+      }
+
+      // On "All tests": show lowest price and a price chip per lab
+      const labsOffering = pharmacy.labs.filter((lab) => labOffersTest(test, lab));
+      if (labsOffering.length === 0) {
+        return { priceLine: "Price on request", extraMeta: "" };
+      }
+      const lowest = Math.min(...labsOffering.map((lab) => priceAtLab(test, lab)));
+
+      const priceChips = labsOffering
+        .map((lab) => {
+          const price = priceAtLab(test, lab);
+          const cssClass = price === lowest ? "low" : "";
+
+          return `<span class="${cssClass}">${esc(lab.short || lab.name)} ₹${formatNumber(price)}</span>`;
+        })
+        .join("");
+
+      return {
+        priceLine: `From ₹${formatNumber(lowest)} <span>best lab price</span>`,
+        extraMeta: priceChips,
+      };
+    }
+
+    function testCardHTML(test, viewedLab) {
+      const isSelected = selectedTestIds.has(test.id);
+      const { priceLine, extraMeta } = testPriceHTML(test, viewedLab);
+
+      return `
+        <article class="item ${isSelected ? "sel" : ""}">
+          <div class="item-top">
+            <div>
+              <h3>${esc(test.name)}<small>${esc(test.short)}</small></h3>
+              <p>${esc(test.desc)}</p>
+            </div>
+
+            <button type="button"
+                    class="add ${isSelected ? "on" : ""}"
+                    data-id="${esc(test.id)}"
+                    aria-pressed="${isSelected}">
+              ${isSelected ? "✓ Added" : "+ Add"}
+            </button>
+          </div>
+
+          <div class="meta-row">
+            <span>Sample: ${esc(test.sample)}</span>
+            ${extraMeta}
+          </div>
+
+          <div class="price">${priceLine}</div>
+        </article>
+      `;
+    }
+
+    function renderTests() {
+      const searchText = getValue("search").toLowerCase();
+      const viewedLab = getViewedLab();
+
+      const tests = visibleTests().filter((test) => {
+        const categoryMatches = activeCategory === "All" || test.category === activeCategory;
+
+        const searchMatches =
+          !searchText ||
+          [test.name, test.short, test.category, test.desc].some((text) =>
+            text.toLowerCase().includes(searchText)
+          );
+
+        return categoryMatches && searchMatches;
+      });
+
+      if (tests.length === 0) {
+        $("testList").innerHTML =
+          '<div class="empty">No tests match your search. Try a different name or clear the filter.</div>';
+        return;
+      }
+
+      $("testList").innerHTML = tests.map((test) => testCardHTML(test, viewedLab)).join("");
+
+      $("testList").querySelectorAll(".add").forEach((button) => {
+        button.addEventListener("click", () => toggleTest(button.dataset.id));
+      });
+    }
+
+    function toggleTest(id) {
+      if (selectedTestIds.has(id)) {
+        selectedTestIds.delete(id);
+      } else {
+        selectedTestIds.add(id);
+      }
+
+      renderTests();
+      renderSummary();
+      updateMobileBar();
+    }
+
+    // Dark "Selected tests" box under the list
+    function renderSummary() {
+      const box = $("summary");
+
+      if (selectedTestIds.size === 0) {
+        box.hidden = true;
+        return;
+      }
+
+      box.hidden = false;
+
+      const tests = getSelectedTests();
+      setText("selCount", tests.length + (tests.length === 1 ? " test" : " tests"));
+
+      $("selList").innerHTML = tests
+        .map((test) => {
+          const price = hasPrice(test.price) ? "₹" + formatNumber(test.price) : "Price on request";
+          return `
+            <div class="row">
+              <span>${esc(test.short)}</span>
+              <span>
+                ${price}
+                <button type="button" data-r="${esc(test.id)}" aria-label="Remove ${esc(test.name)}">×</button>
+              </span>
+            </div>
+          `;
+        })
+        .join("");
+
+      $("selList").querySelectorAll("[data-r]").forEach((button) => {
+        button.addEventListener("click", () => toggleTest(button.dataset.r));
+      });
+
+      // In a lab's tab show the estimate at that lab, otherwise the MRP total
+      const lab = getViewedLab();
+      const useLab = lab && labOffersAllSelected(lab);
+
+      const hasIncompleteMrp = tests.some((test) => !hasPrice(test.price));
+      setText(
+        "selTotalLabel",
+        useLab ? "Estimate at " + (lab.short || lab.name) : hasIncompleteMrp ? "Price on request" : "MRP total"
+      );
+      setText(
+        "selTotal",
+        useLab ? "₹" + formatNumber(calculatePricing(lab).subtotal) : hasIncompleteMrp ? "—" : "₹" + formatNumber(getMrpTotal())
+      );
+    }
+
+
+    /* -------------------------------------------------------------
+       LAB BOOKING POPUP
+       ------------------------------------------------------------- */
+
+    function openLab() {
+      if (selectedTestIds.size === 0) {
+        showToast("Select at least one test first.");
+        return;
+      }
+
+      renderLabChoices();
+      openModal("labModal");
+    }
+
+    function getChosenLab() {
+      const chosenId = getChecked("labProvider");
+      return pharmacy.labs.find((lab) => lab.id === chosenId) || pharmacy.labs[0];
+    }
+
+    // Radio cards: in-house lab + partner labs, with price and subtle info
+    function renderLabChoices() {
+      // Pre-select the lab whose tab was open, otherwise the first lab that offers every test
+      const viewedIndex = pharmacy.labs.findIndex(
+        (lab) => lab.id === activeLabView && labOffersAllSelected(lab)
+      );
+      const preselected = viewedIndex >= 0 ? viewedIndex : pharmacy.labs.findIndex(labOffersAllSelected);
+
+      $("labChoice").innerHTML = pharmacy.labs
+        .map((lab, index) => {
+          const isAvailable = labOffersAllSelected(lab);
+          const pricing = calculatePricing(lab);
+
+          // Price shown on the right of the card
+          let priceHTML = "Unavailable";
+          if (isAvailable) {
+            const beforeOffer = pricing.discount
+              ? `<span class="mrp">₹${formatNumber(pricing.subtotal)}</span>`
+              : "";
+            priceHTML = beforeOffer + "₹" + formatNumber(pricing.subtotal - pricing.discount);
+          }
+
+          // Subtle info line
+          let detailText = `${lab.info} · Reports: ${lab.report}`;
+          if (!isAvailable) {
+            const missing = getSelectedTests()
+              .filter((test) => !labOffersTest(test, lab))
+              .map((test) => test.short)
+              .join(", ");
+            detailText += ` · Does not offer: ${missing}`;
+          } else if (!lab.home) {
+            detailText += " · Lab visit only";
+          } else if (lab.home && !pricing.freeHome && !hasPrice(lab.homeFee)) {
+            detailText += " · Home collection fee confirmed by lab";
+          } else if (lab.home && !pricing.freeHome && Number(lab.homeFee) > 0) {
+            detailText += ` · Home collection ₹${formatNumber(lab.homeFee)}`;
+          } else {
+            detailText += lab.home ? " · Home collection available" : "";
+          }
+
+          // Offer tags are empty while offers are disabled
+          let tags = "";
+          if (isAvailable) {
+            if (pricing.discount) {
+              tags += `<i>${esc(pricing.offerTitle)} · saves ₹${formatNumber(pricing.discount)}</i>`;
+            }
+            if (pricing.freeHome) {
+              tags += "<i>Free home collection</i>";
+            }
+            if (pricing.hints[0]) {
+              tags += `<i class="hint">${esc(pricing.hints[0])}</i>`;
+            }
+          }
+
+          return `
+            <div>
+              <input type="radio" name="labProvider" id="lp${index}" value="${esc(lab.id)}"
+                     ${index === preselected ? "checked" : ""}
+                     ${isAvailable ? "" : "disabled"}>
+              <label for="lp${index}">
+                <span class="meta">
+                  <span>${esc(lab.name)}</span>
+                  <span>${priceHTML}</span>
+                </span>
+                <small>${esc(detailText)}</small>
+                ${tags ? `<span class="lo">${tags}</span>` : ""}
+              </label>
+            </div>
+          `;
+        })
+        .join("");
+
+      $("labChoice").querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", renderLabSummary);
+      });
+
+      renderLabSummary();
+    }
+
+    // Price breakdown inside the popup (updates when lab / collection type changes)
+    function renderLabSummary() {
+      const lab = getChosenLab();
+      if (!lab || !labOffersAllSelected(lab)) {
+        $("lSumList").innerHTML = getSelectedTests()
+          .map((test) => `<div class="r"><span>${esc(test.name)}</span><span>Unavailable</span></div>`)
+          .join("");
+        $("lSubRow").hidden = true;
+        $("lOfferRow").hidden = true;
+        $("lFeeRow").hidden = true;
+        setText("lSumTotal", "Unavailable");
+        return;
+      }
+
+      const pricing = calculatePricing(lab);
+      const homeCheckbox = $("cHome");
+
+      // Labs without home collection: force "Visit lab"
+      homeCheckbox.disabled = !lab.home;
+      if (!lab.home && homeCheckbox.checked) {
+        $("cVisit").checked = true;
+        $("lAddrWrap").hidden = true;
+        $("lAddr").required = false;
+      }
+
+      const isHome = getChecked("colType") === "Home sample collection";
+      const fee = homeFeeFor(lab, pricing, isHome);
+
+      $("lSumList").innerHTML = getSelectedTests()
+        .map((test) => {
+          const price = priceAtLab(test, lab);
+          const mrpText = hasPrice(test.price) && price < Number(test.price)
+            ? `<span class="mrp">₹${formatNumber(test.price)}</span>`
+            : "";
+          const priceText = price === null ? "Price on request" : `${mrpText}₹${formatNumber(price)}`;
+
+          return `
+            <div class="r">
+              <span>${esc(test.name)}</span>
+              <span>${priceText}</span>
+            </div>
+          `;
+        })
+        .join("");
+
+      $("lSubRow").hidden = !(pricing.discount || (isHome && lab.home));
+      setText("lSub", "₹" + formatNumber(pricing.subtotal));
+
+      $("lOfferRow").hidden = !pricing.discount;
+      setText("lOfferLabel", pricing.offerTitle);
+      setText("lOffer", "− ₹" + formatNumber(pricing.discount));
+
+      $("lFeeRow").hidden = !(isHome && lab.home);
+      setText("lFee", fee === null ? "To be confirmed" : fee ? "₹" + formatNumber(fee) : "Free");
+
+      setText(
+        "lSumTotal",
+        isHome && fee === null
+          ? "To be confirmed"
+          : "₹" + formatNumber(pricing.subtotal - pricing.discount + (fee ?? 0))
+      );
+      setText("labSub", pharmacyName() + " · " + lab.name);
+    }
+
+    function submitLab(event) {
+      event.preventDefault();
+
+      if (selectedTestIds.size === 0) {
+        closeModal("labModal");
+        showToast("Please select at least one test.");
+        return;
+      }
+
+      if (!event.target.checkValidity()) {
+        event.target.reportValidity();
+        return;
+      }
+
+      const lab = getChosenLab();
+
+      if (!labOffersAllSelected(lab)) {
+        showToast("The selected lab does not offer all chosen tests.");
+        return;
+      }
+
+      const pricing = calculatePricing(lab);
+      const isHome = getChecked("colType") === "Home sample collection";
+      const fee = homeFeeFor(lab, pricing, isHome);
+      const total = pricing.subtotal - pricing.discount + fee;
+
+      // Numbered test list
+      const testLines = getSelectedTests()
+        .map((test, index) => {
+          const price = priceAtLab(test, lab);
+          const mrpText = hasPrice(test.price) && price < Number(test.price)
+            ? ` (MRP ₹${formatNumber(test.price)})`
+            : "";
+
+          return `${index + 1}. ${test.name} (${test.short})\nPrice: ${price === null ? "To be confirmed" : "₹" + formatNumber(price)}${mrpText}`;
+        })
+        .join("\n\n");
+
+      // Pricing block
+      let pricingLines = `Subtotal: ₹${formatNumber(pricing.subtotal)}`;
+      if (pricing.discount) {
+        pricingLines += `\nOffer: ${pricing.offerTitle} (− ₹${formatNumber(pricing.discount)})`;
+      }
+      if (isHome && lab.home) {
+        pricingLines += `\nHome collection: ${fee === null ? "To be confirmed" : fee ? "₹" + formatNumber(fee) : "Free"}`;
+      }
+      pricingLines += `\nEstimated total: ${fee === null && isHome ? "To be confirmed" : "₹" + formatNumber(total)}`;
+
+      const addressLine = isHome ? "\nAddress: " + getValue("lAddr") : "";
+
+      const message = `🏥 ${pharmacyName().toUpperCase()}
+    LAB TEST BOOKING REQUEST
+    ${DIVIDER}
+    PREFERRED LAB
+    ${lab.name}
+    ${DIVIDER}
+    PATIENT DETAILS
+    Name: ${getValue("lName")}
+    Mobile: ${getValue("lMobile")}
+    Age: ${getValue("lAge")}
+    Gender: ${getValue("lGender")}
+    ${DIVIDER}
+    SELECTED TESTS
+
+    ${testLines}
+    ${DIVIDER}
+    PRICING
+    ${pricingLines}
+    ${DIVIDER}
+    SAMPLE COLLECTION
+    Type: ${getChecked("colType")}${addressLine}
+    Preferred Date: ${formatDate(getValue("lDate"))}
+    Preferred Time: ${getValue("lTime")}
+    ${DIVIDER}
+    NOTE
+    ${getValue("lNote") || "No additional note."}
+    ${DIVIDER}
+    Please confirm availability, final pricing and collection details. If these tests were advised by a doctor, the patient may send the prescription photo in this chat.`;
+
+      if (sendWhatsApp(message.trim())) {
+        closeModal("labModal");
+      }
+    }
+
+
+    /* -------------------------------------------------------------
+       DOCTORS
+       ------------------------------------------------------------- */
+
+    function renderDoctors() {
+      $("docGrid").innerHTML = pharmacy.doctors
+        .map((doctor) => {
+          const modes = Array.isArray(doctor.modes) ? doctor.modes : [];
+          const days = Array.isArray(doctor.days) ? doctor.days : [];
+          const slots = Array.isArray(doctor.slots) ? doctor.slots : [];
+          const modeTags = modes
+            .map((mode) => `<span class="dtag">${esc(mode)}</span>`)
+            .join("");
+          const photo = hasText(doctor.photo)
+            ? `<img src="${esc(doctor.photo)}" alt="${esc(doctor.name)}" onerror="this.remove()">`
+            : "";
+          const fee = hasText(doctor.fee) ? doctor.fee : "Call for fee";
+
+          return `
+            <article class="doc">
+              ${photo}
+
+              <h3>${esc(doctor.name)}</h3>
+              <div class="sp">${esc(doctor.specialty)}</div>
+              <div class="q">${esc(doctor.qualifications)}</div>
+
+              <div class="dtags">${modeTags}</div>
+
+              <div class="av">
+                <small>Available</small>
+                ${esc(days.join(" · "))}<br>
+                ${esc(slots.join(" · "))}
+              </div>
+
+              <div class="bot">
+                <div class="fee">
+                  ${esc(fee)}
+                  <span style="display:block;font-size:8px;font-weight:500;color:var(--text3)">consultation</span>
+                </div>
+                <button class="bk" data-d="${esc(doctor.id)}">Book</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      $("docGrid").querySelectorAll(".bk").forEach((button) => {
+        button.addEventListener("click", () => openDoctorBooking(button.dataset.d));
+      });
+    }
+
+    function openDoctorBooking(doctorId) {
+      selectedDoctor = pharmacy.doctors.find((doctor) => doctor.id === doctorId);
+      if (!selectedDoctor) return;
+
+      selectedDoctorSlot = "";
+
+      setText("dSub", pharmacyName());
+      setText("dName", selectedDoctor.name);
+      setText("dSpec", selectedDoctor.specialty);
+      setText("dFee", (hasText(selectedDoctor.fee) ? selectedDoctor.fee : "Call for fee") + " consultation");
+
+      // Consultation type options
+      $("dModes").innerHTML = (Array.isArray(selectedDoctor.modes) ? selectedDoctor.modes : [])
+        .map((mode, index) => {
+          return `
+            <div>
+              <input type="radio" name="dMode" id="dm${index}" value="${esc(mode)}" required>
+              <label for="dm${index}">${esc(mode)}</label>
+            </div>
+          `;
+        })
+        .join("");
+
+      // Time slots
+      $("dSlots").innerHTML = (Array.isArray(selectedDoctor.slots) ? selectedDoctor.slots : [])
+        .map((slot) => `<button type="button" class="slot" data-s="${esc(slot)}">${esc(slot)}</button>`)
+        .join("");
+
+      $("dSlots").querySelectorAll(".slot").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedDoctorSlot = button.dataset.s;
+
+          $("dSlots").querySelectorAll(".slot").forEach((other) => {
+            other.classList.toggle("on", other === button);
+          });
+        });
+      });
+
+      openModal("docModal");
+    }
+
+    function setupDoctorForm() {
+      // Shows the weekday and warns if the doctor is not listed for it
+      $("pDate").addEventListener("change", function () {
+        const day = weekdayOf(this.value);
+        $("pDay").value = day;
+
+        if (selectedDoctor && day && !selectedDoctor.days.includes(day)) {
+          showToast("This doctor is not listed as available on " + day + ".");
+        }
+      });
+    }
+
+    function submitDoc(event) {
+      event.preventDefault();
+
+      if (!selectedDoctor) return;
+
+      if (!event.target.checkValidity()) {
+        event.target.reportValidity();
+        return;
+      }
+
+      if (!selectedDoctorSlot) {
+        showToast("Please select a time slot.");
+        return;
+      }
+
+      const date = getValue("pDate");
+
+      if (!selectedDoctor.days.includes(weekdayOf(date))) {
+        showToast("Please choose a date when the doctor is available.");
+        return;
+      }
+
+      const message = `🏥 ${pharmacyName().toUpperCase()}
+    DOCTOR APPOINTMENT REQUEST
+    ${DIVIDER}
+    DOCTOR
+    ${selectedDoctor.name}
+    ${selectedDoctor.specialty}
+    ${DIVIDER}
+    PATIENT DETAILS
+    Name: ${getValue("pName")}
+    Mobile: ${getValue("pMobile")}
+    Age: ${getValue("pAge")}
+    Gender: ${getValue("pGender")}
+    ${DIVIDER}
+    APPOINTMENT
+    Consultation: ${getChecked("dMode")}
+    Date: ${formatDate(date)}
+    Time: ${selectedDoctorSlot}
+    ${DIVIDER}
+    REASON
+    ${getValue("pReason") || "No reason provided."}
+    ${DIVIDER}
+    Please contact the patient to confirm the appointment.`;
+
+      if (sendWhatsApp(message.trim())) {
+        closeModal("docModal");
+      }
+    }
+
+
+    /* -------------------------------------------------------------
+       SHARE MENU + QR CODE
+       ------------------------------------------------------------- */
+
+    function setupShareMenu() {
+      const button = $("shareBtn");
+      const menu = $("shareMenu");
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        menu.hidden = !menu.hidden;
+        button.setAttribute("aria-expanded", String(!menu.hidden));
+      });
+
+      document.addEventListener("click", () => {
+        menu.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+      });
+
+      menu.addEventListener("click", (event) => event.stopPropagation());
+
+      $("shareWa").addEventListener("click", () => {
+        const text = pharmacyName() + "\n\nView this pharmacy profile on DoctorJet:\n" + location.href;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
+      });
+
+      $("copyLink").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(location.href);
+        } catch (error) {
+          // Older browsers: copy using a temporary text box
+          const box = document.createElement("textarea");
+          box.value = location.href;
+          document.body.appendChild(box);
+          box.select();
+          try {
+            document.execCommand("copy");
+          } catch (innerError) {
+            /* ignore */
+          }
+          box.remove();
+        }
+
+        showToast("Profile link copied.");
+      });
+    }
+
+    // QR code of this page's own address (nothing to configure)
+    function generateQR() {
+      const container = $("qr");
+      container.innerHTML = "";
+
+      if (typeof QRCode === "undefined") {
+        container.textContent = "QR";
+        return;
+      }
+
+      new QRCode(container, {
+        text: location.href,
+        width: 70,
+        height: 70,
+        colorDark: "#171717",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    }
+
+
+    /* -------------------------------------------------------------
+       MOBILE BOTTOM BAR
+       ------------------------------------------------------------- */
+
+    function updateMobileBar() {
+      const tab = getActiveTab();
+      const label = $("mbLabel");
+      const value = $("mbValue");
+      const button = $("mbBtn");
+
+      if (tab === "meds") {
+        label.textContent = "MEDICINES";
+        value.textContent = "Send an order or enquiry";
+        button.textContent = "Order";
+      } else if (tab === "labs") {
+        label.textContent = "LAB TESTS";
+        button.textContent = selectedTestIds.size ? "Book" : "Browse";
+        const selectedTests = getSelectedTests();
+        const needsQuote = selectedTests.some((test) => !hasPrice(test.price));
+        value.textContent = selectedTests.length
+          ? needsQuote
+            ? `${selectedTests.length} selected · Price on request`
+            : `${selectedTests.length} selected · ₹${formatNumber(getMrpTotal())}`
+          : "Select tests to book";
+      } else {
+        label.textContent = "DOCTORS";
+        value.textContent = pharmacy.doctors.length + (pharmacy.doctors.length === 1 ? " associated doctor" : " associated doctors");
+        button.textContent = "View";
+      }
+    }
+
+    function setupMobileBar() {
+      $("mbBtn").addEventListener("click", () => {
+        const tab = getActiveTab();
+
+        if (tab === "meds") {
+          $("mList").focus();
+        } else if (tab === "labs") {
+          if (selectedTestIds.size) {
+            openLab();
+          } else {
+            $("search").focus();
+          }
+        } else {
+          $("docGrid").scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+
+    /* -------------------------------------------------------------
+       START
+       Runs once the page (and the data script below) has loaded.
+       ------------------------------------------------------------- */
+
+    // Date pickers cannot select past dates
+    function setMinimumDates() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const today = `${year}-${month}-${day}`;
+
+      $("lDate").min = today;
+      $("pDate").min = today;
+    }
+
+    function startApp() {
+      if (appStarted) return;
+      appStarted = true;
+      setMinimumDates();
+      renderProfile();
+      setupPlatformBadge();
+      setupMainTabs();
+      setupMedicineForm();
+      setupLabTests();
+      renderDoctors();
+      setupDoctorForm();
+      setupShareMenu();
+      setupEscapeKey();
+      setupMobileBar();
+      generateQR();
+      updateMobileBar();
+    }
+
+    function initializePharmacyProfile() {
+      pharmacy.labs = Array.isArray(pharmacy.labs) ? pharmacy.labs : [];
+      pharmacy.tests = Array.isArray(pharmacy.tests) ? pharmacy.tests : [];
+      pharmacy.doctors = Array.isArray(pharmacy.doctors) ? pharmacy.doctors : [];
+      pharmacy.phones = Array.isArray(pharmacy.phones) ? pharmacy.phones : [];
+      pharmacy.hours = Array.isArray(pharmacy.hours) ? pharmacy.hours : [];
+      pharmacy.services = Array.isArray(pharmacy.services) ? pharmacy.services : [];
+      pharmacy.tags = Array.isArray(pharmacy.tags) ? pharmacy.tags : [];
+      startApp();
+    }
+
+    </script>
+    <script>
+    /* =============================================================
+       START EDITING PHARMACY DETAILS BELOW
+
+       Everything that varies by pharmacy is stored in this one object.
+       The profile initializes only after this configuration is defined.
+       ============================================================= */
+    const pharmacy = {
+
+      // ----- Feature switches -----
+      showOffers: false,
+      visibility: {
+        medicines: true,
+        labs: true,
+        doctors: true,
+        about: true,
+        licence: true,
+        services: true,
+        hours: true,
+        contact: true,
+        offers: true,
+      },
+
+      // ----- Name and description (shown in the top card) -----
+      name: "Sample Community Pharmacy",
+      label: "Pharmacy",                                  // small blue text above the name
+      type: "Pharmacy & Health Store",                    // blue line under the name
+      location: "Example District, Your City",
+      description:
+        "Prescription and over-the-counter medicines, home delivery, laboratory tests, and doctor consultations.",
+
+      // ----- Images (place the pharmacy image beside the copied index.html) -----
+      imageFilename: "pharmacy.jpg",                       // falls back to pharmacy.jpeg, then pharmacy.png
+      poweredByLogo: "powered-by-doctorjet.png",          // shared DoctorJet logo filename
+
+      // ----- Contact -----
+      // Replace these obvious placeholders before publishing.
+      whatsapp: "910000000000",                         // country code plus digits, no spaces
+      phones: ["+91 00000 00000"],
+      email: "hello@example.com",
+      address: "Shop 1, Example Road, Your City, State 000000",
+      maps: "",                                           // optional Google Maps URL
+
+      // ----- Licence (shown in the "Licence" card) -----
+      licence: "Add pharmacy drug licence details here",
+
+      // ----- The four boxes under the top card -----
+      medicinesLabel: "Prescription & OTC",
+      delivery: "Available",
+      labLabel: "In-house & partner labs",
+
+      // ----- Opening hours (first row also appears in the top strip) -----
+      hours: [
+        { day: "Monday – Saturday", hours: "8:00 AM – 10:00 PM" },
+        { day: "Sunday", hours: "9:00 AM – 2:00 PM" },
+      ],
+
+      // ----- "Services" card -----
+      services: [
+        { label: "Medicines", value: "Prescription & OTC" },
+        { label: "Home delivery", value: "Selected areas" },
+        { label: "Lab tests", value: "In-house & partner labs" },
+        { label: "Doctors", value: "Scheduled availability" },
+      ],
+
+      // ----- Small pill tags in the top card -----
+      tags: [
+        "Home Delivery",
+        "Prescription Medicines",
+        "In-house Lab",
+        "Partner Labs",
+        "Doctor Consultation",
+      ],
+
+      // ----- Labs (the first entry is usually the in-house lab) -----
+      /*
+       The first lab is normally the pharmacy's own in-house lab.
+       Add, remove or reorder labs freely. Each one gets its own tab.
+
+       Fields:
+         id           unique short code, no spaces (e.g. "partner-a")
+         name         full name shown in the booking popup
+         short        short name used on tabs and price chips
+         info         one subtle line about the lab
+         report       report turnaround time
+         home         true = offers home sample collection, false = lab visit only
+         homeFee      home collection charge in ₹ (0 = free)
+         unavailable  ids of tests (from section 4) this lab does NOT offer
+
+       Pricing at a lab (use either or both):
+         prices        exact price per test, e.g. { cbc: 480, hba1c: 420 }
+         priceFactor   multiplier on the base price for every other test
+                       (1 = same as base, 1.1 = 10% higher, 0.9 = 10% lower)
+
+       Offers (only shown when showOffers is true):
+         { type: "percent",  value: 10, min: 1000, cap: 300, title: "10% off above ₹1,000" }
+         { type: "flat",     value: 100, min: 1500, title: "₹100 off above ₹1,500" }
+         { type: "freeHome", min: 800, title: "Free home collection above ₹800" }
+      */
+      labs: [
+
+      // ----- In-house lab -----
+      {
+        id: "inhouse",
+        name: "Our in-house lab",
+        short: "In-house",
+        info: "Collected and processed at the pharmacy",
+        report: "Same day",
+        home: true,
+        homeFee: 50,
+        priceFactor: 1,
+        unavailable: [],
+        offers: [
+          { type: "percent", value: 10, min: 1000, cap: 300, title: "10% off above ₹1,000" },
+          { type: "freeHome", min: 800, title: "Free home collection above ₹800" },
+        ],
+      },
+
+      // ----- Partner lab A -----
+      {
+        id: "partner-a",
+        name: "Partner Laboratory A",
+        short: "Partner A",
+        info: "Accredited laboratory · Routine and specialised testing",
+        report: "24 hours",
+        home: true,
+        homeFee: 100,
+        priceFactor: 1.1,
+        prices: { cbc: 480, hba1c: 420 },
+        unavailable: [],
+        offers: [
+          { type: "flat", value: 100, min: 1500, title: "₹100 off above ₹1,500" },
+        ],
+      },
+
+      // ----- Partner lab B -----
+      {
+        id: "partner-b",
+        name: "Partner Lab B",
+        short: "Lab B",
+        info: "Budget-friendly routine panels",
+        report: "Same day",
+        home: false,
+        homeFee: 0,
+        priceFactor: 0.9,
+        unavailable: ["vitd", "pkg"],
+        offers: [
+          { type: "percent", value: 5, title: "5% off all tests" },
+        ],
+      },
+      ],
+
+
+      // ----- Lab tests and base prices -----
+      /*
+       `price` is the base price (MRP) in ₹. Each lab's price is
+       worked out from it using the lab pricing settings above.
+
+       Fields:
+         id        unique code, no spaces (used in labs' `prices` / `unavailable`)
+         name      full test name
+         short     short name
+         category  groups tests into filter chips (Blood, Diabetes, ...)
+         desc      one-line description
+         price     base price in ₹
+         sample    sample type (Blood, Urine, ...)
+      */
+      tests: [
+      {
+        id: "cbc",
+        name: "Complete Blood Count",
+        short: "CBC",
+        category: "Blood",
+        desc: "Haemoglobin, RBC, WBC and platelet parameters.",
+        price: 450,
+        sample: "Blood",
+      },
+      {
+        id: "hba1c",
+        name: "HbA1c",
+        short: "HbA1c",
+        category: "Diabetes",
+        desc: "Average blood glucose over about 2–3 months.",
+        price: 400,
+        sample: "Blood",
+      },
+      {
+        id: "fbs",
+        name: "Fasting Blood Glucose",
+        short: "FBS",
+        category: "Diabetes",
+        desc: "Blood glucose after an overnight fast.",
+        price: 150,
+        sample: "Blood",
+      },
+      {
+        id: "lipid",
+        name: "Lipid Profile",
+        short: "Lipid",
+        category: "Lipid",
+        desc: "Cholesterol, triglycerides, HDL and LDL.",
+        price: 550,
+        sample: "Blood",
+      },
+      {
+        id: "tsh",
+        name: "Thyroid Stimulating Hormone",
+        short: "TSH",
+        category: "Thyroid",
+        desc: "TSH for thyroid function assessment.",
+        price: 350,
+        sample: "Blood",
+      },
+      {
+        id: "lft",
+        name: "Liver Function Test",
+        short: "LFT",
+        category: "Liver",
+        desc: "Common biochemical markers of liver function.",
+        price: 650,
+        sample: "Blood",
+      },
+      {
+        id: "kft",
+        name: "Kidney Function Test",
+        short: "KFT",
+        category: "Kidney",
+        desc: "Common markers of kidney function.",
+        price: 600,
+        sample: "Blood",
+      },
+      {
+        id: "urine",
+        name: "Urine Routine Examination",
+        short: "Urine R/E",
+        category: "Urine",
+        desc: "Routine microscopic and chemical urine examination.",
+        price: 180,
+        sample: "Urine",
+      },
+      {
+        id: "vitd",
+        name: "Vitamin D",
+        short: "25-OH Vit D",
+        category: "Vitamin",
+        desc: "Serum 25-hydroxy vitamin D level.",
+        price: 1200,
+        sample: "Blood",
+      },
+      {
+        id: "pkg",
+        name: "Basic Health Check Package",
+        short: "Health Package",
+        category: "Packages",
+        desc: "A selected set of common screening tests.",
+        price: 1499,
+        sample: "Blood",
+      },
+      ],
+
+
+      // ----- Associated doctors -----
+      /*
+       Fields:
+         id              unique code, no spaces
+         name            e.g. "Dr. Name"
+         specialty       e.g. "General Physician"
+         qualifications  e.g. "MBBS, MD"
+         photo           image path (relative to this index.html)
+         fee             e.g. "₹500" or "Call for fee"
+         modes           consultation types: "In-person", "Video", ...
+         days            days available (full English day names)
+         slots           time slots patients can pick
+      */
+      doctors: [
+      {
+        id: "doc1",
+        name: "Dr. Sample Doctor",
+        specialty: "General Physician",
+        qualifications: "MBBS, MD",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        slots: ["6:00 PM"],
+      },
+      {
+        id: "doc2",
+        name: "Dr. Another Doctor",
+        specialty: "Diabetologist",
+        qualifications: "MBBS, DNB",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person", "Video"],
+        days: ["Monday", "Wednesday", "Saturday"],
+        slots: ["11:00 AM", "5:00 PM"],
+      },
+      ],
+    };
+
+    initializePharmacyProfile();
+    /* END PHARMACY CONFIGURATION */
+    </script>
+  </body>
+</html>
