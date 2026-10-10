@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DoctorJet Pharmacy QR Poster Generator</title>
+<style>
+:root{--ink:#14233b;--muted:#64748b;--blue:#165dff;--cyan:#14b8c8;--purple:#7147e8;--paper:#fff;--bg:#f3f6fb;--line:#dce4ef}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+header{background:linear-gradient(120deg,#103b91,#165dff 52%,#7147e8);color:#fff;padding:28px 20px 32px}
+.wrap{max-width:1180px;margin:auto}
+.topline{display:flex;align-items:center;gap:12px}
+.logo-mini{width:44px;height:44px;object-fit:contain;background:#fff;border-radius:13px;padding:5px}
+.brand{font-weight:800;letter-spacing:.2px;font-size:20px}
+.kicker{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;opacity:.8;margin-bottom:8px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-1px;margin:22px 0 10px}
+header p{max-width:720px;color:#e8efff;line-height:1.6;margin:0}
+main{max-width:1180px;margin:24px auto;padding:0 18px 36px;display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:22px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 8px 28px #1831530a}
+h2{font-size:18px;margin:0 0 6px;letter-spacing:-.3px}
+.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 20px}
+label{display:block;font-size:12px;font-weight:750;color:#34445c;margin:15px 0 7px}
+input,textarea{width:100%;border:1px solid #cfd9e7;border-radius:11px;padding:12px 13px;font:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none}
+input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #165dff19}
+input[type=file]{padding:9px;font-size:12px}
+textarea{resize:vertical;min-height:72px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.help{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{border:0;border-radius:12px;padding:12px 16px;font-weight:750;font-size:13px;cursor:pointer;transition:transform .15s,opacity .15s}
+button:hover{transform:translateY(-1px)}
+.primary{background:linear-gradient(100deg,var(--blue),var(--purple));color:white;flex:1}
+.secondary{background:#edf2ff;color:#2149a5}
+.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.pill{font-size:11px;border-radius:99px;padding:7px 10px;background:#eaf8f7;color:#087f80;font-weight:750}
+.preview-shell{background:#e9eef7;border-radius:17px;padding:14px;overflow:auto}
+.poster{width:100%;max-width:600px;min-height:750px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px #172c4a18;position:relative}
+.poster-band{background:linear-gradient(125deg,#103b91 0%,#165dff 55%,#7147e8 100%);color:#fff;padding:25px 28px 30px;position:relative;overflow:hidden}
+.poster-band:after{content:"";position:absolute;width:220px;height:220px;border:36px solid #ffffff12;border-radius:50%;right:-80px;top:-100px}
+.poster-brand{display:flex;align-items:center;gap:11px;position:relative;z-index:1}
+.poster-logo{width:49px;height:49px;border-radius:13px;background:#fff;object-fit:contain;padding:4px;display:none}
+.poster-brand-name{font-size:21px;font-weight:850;letter-spacing:.2px}
+.poster-brand-small{font-size:10px;letter-spacing:1.7px;text-transform:uppercase;color:#dce7ff;margin-top:3px}
+.poster-band h2{font-size:30px;line-height:1.08;letter-spacing:-.8px;color:#fff;margin:24px 0 9px;max-width:420px}
+.poster-band p{font-size:13px;line-height:1.5;color:#e7edff;margin:0;max-width:420px}
+.poster-main{padding:24px 28px 20px;text-align:center}
+.scan-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:850;color:#165dff}
+.qr-frame{width:220px;height:220px;margin:13px auto 12px;border:1px solid #e0e8f5;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#fff;padding:10px;box-shadow:0 7px 22px #143b7b10}
+#qrCanvas{width:198px;height:198px;image-rendering:pixelated}
+.scan-caption{font-size:16px;font-weight:850;margin:8px 0 5px}
+.profile-url{font-size:11px;color:#52627a;overflow-wrap:anywhere}
+.info-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:22px 0 18px;text-align:left}
+.info-card{background:#f3f7ff;border:1px solid #e3eaf7;border-radius:12px;padding:12px 10px;min-height:89px}
+.info-icon{font-size:17px;margin-bottom:7px;color:#165dff;font-weight:900}
+.info-title{font-size:11px;font-weight:850;margin-bottom:4px}
+.info-text{font-size:10px;line-height:1.4;color:#65738a}
+.pharmacy-name{font-size:18px;font-weight:850;line-height:1.3;margin-top:14px;overflow-wrap:anywhere}
+.pharmacy-details{font-size:11px;line-height:1.5;color:#64748b;margin-top:5px;white-space:pre-line}
+.bottom-strip{margin:0 28px 22px;border-radius:12px;background:#eff6ff;padding:12px 14px;display:flex;gap:10px;align-items:center;text-align:left}
+.dot{width:9px;height:9px;background:#15b8a6;border-radius:50%;flex-shrink:0}
+.bottom-strip strong{display:block;font-size:11px;margin-bottom:3px}
+.bottom-strip span{font-size:10px;color:#62738c;line-height:1.4}
+.poster-footer{background:#101f3d;color:#d7e3ff;padding:13px 20px;text-align:center;font-size:10px;line-height:1.5}
+.poster-footer strong{color:#fff}
+.note{font-size:11px;color:#6a7890;line-height:1.5;margin:13px 2px 0}
+@media(max-width:850px){main{grid-template-columns:1fr}.poster{max-width:540px}.panel{padding:18px}}
+@media(max-width:430px){.grid2{grid-template-columns:1fr}.poster-band{padding:20px}.poster-main{padding:20px 16px}.poster-band h2{font-size:26px}.qr-frame{width:205px;height:205px}#qrCanvas{width:183px;height:183px}.info-cards{gap:6px}.info-card{padding:9px 7px}.info-text{font-size:9px}.bottom-strip{margin-left:16px;margin-right:16px}}
+@media print{body{background:#fff}.no-print{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <div class="topline"><div class="brand">DoctorJet</div><span style="opacity:.65">/</span><span style="font-size:13px">Pharmacy Profile QR</span></div>
+  <div class="kicker" style="margin-top:23px">Scan. Discover. Connect.</div>
+  <h1>Your pharmacy profile,<br>one scan away.</h1>
+  <p>Create a polished QR poster that helps customers open your DoctorJet pharmacy profile for your location, contact information and available services. Download it as an A4 PDF and display it at your counter.</p>
+ </div>
+</header>
+<main>
+ <section class="panel no-print">
+  <h2>Personalise your poster</h2>
+  <p class="sub">Enter your pharmacy details and profile link. Everything is processed in your browser; your logo is not uploaded to a server.</p>
+  <label for="pharmacyName">Pharmacy name</label>
+  <input id="pharmacyName" value="Your Pharmacy Name" maxlength="100">
+  <label for="profileUrl">DoctorJet pharmacy profile URL *</label>
+  <input id="profileUrl" type="url" placeholder="https://yourname.github.io/doctorjet/pharmacy/" value="">
+  <div class="help">Paste the complete public URL. The QR code will open this exact address.</div>
+  <div class="grid2">
+   <div><label for="phone">Contact number (optional)</label><input id="phone" type="tel" placeholder="+91 98765 43210" maxlength="35"></div>
+   <div><label for="location">Area / city (optional)</label><input id="location" placeholder="Bhubaneswar" maxlength="90"></div>
+  </div>
+  <label for="tagline">Short message</label>
+  <input id="tagline" value="Your trusted local pharmacy, connected online." maxlength="120">
+  <label for="services">Services / highlights</label>
+  <textarea id="services" maxlength="220">View pharmacy details, contact information, location and available services through the online profile.</textarea>
+  <label for="logoUpload">Upload DoctorJet logo (PNG, JPG, JPEG or WebP)</label>
+  <input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp">
+  <div class="help">The logo is kept in this browser session and embedded into the PDF. Upload it again if you reopen the page later.</div>
+  <div class="actions"><button class="primary" id="downloadBtn">Generate & Download A4 PDF</button><button class="secondary" id="refreshBtn">Refresh QR</button></div>
+  <div class="status" id="status" role="status">Enter your profile URL to generate your QR code.</div>
+  <p class="note">Important: use a publicly accessible profile URL and test the QR code with a phone before printing. This is a profile-access QR, not a UPI payment QR.</p>
+ </section>
+ <section class="panel">
+  <div class="preview-head"><div><h2>Live poster preview</h2><p class="sub" style="margin:5px 0 0">What your customers will see on the printed poster.</p></div><span class="pill">A4-ready design</span></div>
+  <div class="preview-shell">
+   <article class="poster" id="poster">
+    <div class="poster-band">
+     <div class="poster-brand"><img id="posterLogo" class="poster-logo" alt="DoctorJet logo"><div><div class="poster-brand-name">DoctorJet</div><div class="poster-brand-small">Digital healthcare discovery</div></div></div>
+     <h2>Find your pharmacy.<br>Start with a scan.</h2>
+     <p id="previewTagline">Your trusted local pharmacy, connected online.</p>
+    </div>
+    <div class="poster-main">
+     <div class="scan-label">Scan to open profile</div>
+     <div class="qr-frame"><canvas id="qrCanvas" width="330" height="330" aria-label="QR code for pharmacy profile"></canvas></div>
+     <div class="scan-caption">Visit our DoctorJet profile</div>
+     <div class="profile-url" id="previewUrl">Add your profile URL to generate QR</div>
+     <div class="pharmacy-name" id="previewName">Your Pharmacy Name</div>
+     <div class="pharmacy-details" id="previewDetails"></div>
+     <div class="info-cards">
+      <div class="info-card"><div class="info-icon">⌕</div><div class="info-title">Discover</div><div class="info-text">Open the pharmacy's online profile.</div></div>
+      <div class="info-card"><div class="info-icon">◎</div><div class="info-title">Connect</div><div class="info-text">Find contact and location details.</div></div>
+      <div class="info-card"><div class="info-icon">＋</div><div class="info-title">Explore</div><div class="info-text">See available services and information.</div></div>
+     </div>
+    </div>
+    <div class="bottom-strip"><div class="dot"></div><div><strong>DoctorJet — your digital pharmacy profile</strong><span id="previewServices">View pharmacy details, contact information, location and available services through the online profile.</span></div></div>
+    <div class="poster-footer"><strong>Scan with your phone camera</strong><br>DoctorJet helps people discover pharmacy information online. Services shown depend on the pharmacy's profile.</div>
+   </article>
+  </div>
+  <p class="note">For best results, print at 100% scale on A4 paper. Keep the QR code unobstructed and verify it scans from the intended viewing distance.</p>
+ </section>
+</main>
+
+<!-- Client-side libraries: QRCode.js creates the QR; jsPDF exports the poster to PDF. Internet is required to load these libraries. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(() => {
+ const $ = id => document.getElementById(id);
+ const fields = ['pharmacyName','profileUrl','phone','location','tagline','services'];
+ let logoData = null;
+ let qrInstance = null;
+ const status = (msg, error=false) => { $('status').textContent=msg; $('status').style.color=error?'#b42318':'#64748b'; };
+ function validUrl(raw){
+  try { const u=new URL(raw.trim()); return ['http:','https:'].includes(u.protocol) ? u.href : null; }
+  catch(e){ return null; }
+ }
+ function refresh(){
+  const name=$('pharmacyName').value.trim() || 'Your Pharmacy Name';
+  const url=$('profileUrl').value.trim();
+  const phone=$('phone').value.trim();
+  const location=$('location').value.trim();
+  $('previewName').textContent=name;
+  $('previewTagline').textContent=$('tagline').value.trim() || 'Your trusted local pharmacy, connected online.';
+  $('previewDetails').textContent=[phone ? 'Contact: '+phone : '',location ? 'Location: '+location : ''].filter(Boolean).join('\n');
+  $('previewServices').textContent=$('services').value.trim() || 'View pharmacy details, contact information, location and available services through the online profile.';
+  const good=validUrl(url);
+  $('previewUrl').textContent=good || 'Add a valid public profile URL to generate QR';
+  const canvas=$('qrCanvas'), ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(good && window.QRCode){
+   const temp=document.createElement('div');
+   temp.style.cssText='position:fixed;left:-9999px;top:-9999px';
+   document.body.appendChild(temp);
+   try{
+    new QRCode(temp,{text:good,width:330,height:330,colorDark:'#10234a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+    const img=temp.querySelector('img'), c=temp.querySelector('canvas');
+    const draw=()=>{if(c){ctx.drawImage(c,0,0,330,330)}else if(img&&img.complete&&img.naturalWidth){ctx.drawImage(img,0,0,330,330)}};
+    if(c) draw(); else if(img){img.onload=draw;if(img.complete)draw();}
+   }catch(e){status('Could not generate QR code. Check the profile URL and try again.',true);}
+   setTimeout(()=>temp.remove(),1000);
+   status('QR code ready. Scan-test it before printing.');
+  } else {
+   // Deliberately show a clear placeholder, never a misleading fake QR.
+   ctx.fillStyle='#f3f6fb';ctx.fillRect(18,18,294,294);
+   ctx.strokeStyle='#b9c8dc';ctx.setLineDash([7,6]);ctx.strokeRect(35,35,260,260);ctx.setLineDash([]);
+   ctx.fillStyle='#64748b';ctx.font='bold 17px -apple-system,Arial';ctx.textAlign='center';
+   ctx.fillText('PROFILE URL',165,153);ctx.fillText('REQUIRED',165,178);
+   status(url?'Enter a valid http:// or https:// profile URL.':'Enter your profile URL to generate your QR code.');
+  }
+ }
+ fields.forEach(id=>$(id).addEventListener('input',refresh));
+ $('refreshBtn').addEventListener('click',refresh);
+ $('logoUpload').addEventListener('change',e=>{
+  const file=e.target.files&&e.target.files[0]; if(!file)return;
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){status('Please select a PNG, JPG, JPEG or WebP image.',true);return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+   const img=new Image();
+   img.onload=()=>{
+    const c=document.createElement('canvas');const max=700;const scale=Math.min(1,max/Math.max(img.width,img.height));
+    c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    logoData=c.toDataURL('image/png');
+    $('posterLogo').src=logoData;$('posterLogo').style.display='block';
+    status('Logo loaded locally and added to the poster.');
+   };
+   img.onerror=()=>status('Could not read this image. Try another logo file.',true);
+   img.src=reader.result;
+  };
+  reader.onerror=()=>status('Could not load the logo file.',true);
+  reader.readAsDataURL(file);
+ });
+ function loadImage(data){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=data;});}
+ async function makePdf(){
+  const url=validUrl($('profileUrl').value);
+  if(!url){status('Please enter a valid public profile URL before generating the PDF.',true);$('profileUrl').focus();return;}
+  if(!window.jspdf||!window.QRCode){status('PDF/QR libraries did not load. Check your internet connection and reload this page.',true);return;}
+  // Rebuild QR in a detached element and await the rendered image for reliable PDF embedding.
+  const temp=document.createElement('div');
+  temp.style.cssText='position:fixed;left:-9999px;top:-9999px';
+  document.body.appendChild(temp);
+  try{
+   new QRCode(temp,{text:url,width:600,height:600,colorDark:'#10234a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+   let qrData='';
+   for(let i=0;i<40;i++){
+    await new Promise(r=>setTimeout(r,100));
+    const c=temp.querySelector('canvas'), im=temp.querySelector('img');
+    if(c){qrData=c.toDataURL('image/png');break;}
+    if(im&&im.complete&&im.naturalWidth){qrData=im.src;break;}
+   }
+   if(!qrData)throw new Error('QR code is not ready');
+   const {jsPDF}=window.jspdf;
+   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+   const W=210,H=297;
+   // White page and rich blue-purple header.
+   pdf.setFillColor(246,249,255);pdf.rect(0,0,W,H,'F');
+   pdf.setFillColor(16,59,145);pdf.rect(0,0,W,87,'F');
+   pdf.setFillColor(22,93,255);pdf.triangle(70,0,210,0,210,87,'F');
+   pdf.setFillColor(113,71,232);pdf.triangle(154,0,210,0,210,48,'F');
+   if(logoData){
+    const logo=await loadImage(logoData);
+    const ratio=Math.min(18/logo.width,18/logo.height);
+    const lw=logo.width*ratio,lh=logo.height*ratio;
+    pdf.setFillColor(255,255,255);pdf.roundedRect(15,12,22,22,3,3,'F');
+    pdf.addImage(logoData,'PNG',15+(22-lw)/2,12+(22-lh)/2,lw,lh);
+    pdf.setTextColor(255,255,255);pdf.setFont('helvetica','bold');pdf.setFontSize(18);pdf.text('DoctorJet',42,21);
+   } else {
+    pdf.setTextColor(255,255,255);pdf.setFont('helvetica','bold');pdf.setFontSize(20);pdf.text('DoctorJet',15,24);
+   }
+   pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(224,235,255);pdf.text('DIGITAL HEALTHCARE DISCOVERY',15,31);
+   pdf.setFont('helvetica','bold');pdf.setFontSize(23);pdf.setTextColor(255,255,255);
+   pdf.text('Find your pharmacy.',15,48);pdf.text('Start with a scan.',15,58);
+   pdf.setFont('helvetica','normal');pdf.setFontSize(10);
+   const tag=$('tagline').value.trim()||'Your trusted local pharmacy, connected online.';
+   pdf.text(pdf.splitTextToSize(tag,160).slice(0,2),15,68);
+   // Main white card.
+   pdf.setFillColor(255,255,255);pdf.setDrawColor(226,233,245);pdf.setLineWidth(.4);pdf.roundedRect(20,78,170,139,5,5,'FD');
+   pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(22,93,255);pdf.text('SCAN TO OPEN PROFILE',105,91,{align:'center'});
+   pdf.setFillColor(255,255,255);pdf.roundedRect(68,96,74,74,4,4,'FD');
+   pdf.addImage(qrData,'PNG',72,100,66,66);
+   pdf.setFont('helvetica','bold');pdf.setFontSize(13);pdf.setTextColor(20,35,59);pdf.text('Visit our DoctorJet profile',105,179,{align:'center'});
+   pdf.setFont('helvetica','normal');pdf.setFontSize(7.5);pdf.setTextColor(83,99,124);
+   const urlLines=pdf.splitTextToSize(url,155).slice(0,2);pdf.text(urlLines,105,186,{align:'center'});
+   const name=$('pharmacyName').value.trim()||'Your Pharmacy Name';
+   pdf.setFont('helvetica','bold');pdf.setFontSize(12);pdf.setTextColor(20,35,59);
+   pdf.text(pdf.splitTextToSize(name,155).slice(0,2),105,197,{align:'center'});
+   const details=[$('phone').value.trim()? 'Contact: '+$('phone').value.trim():'',$('location').value.trim()? 'Location: '+$('location').value.trim(): ''].filter(Boolean).join('  |  ');
+   if(details){pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(90,105,128);pdf.text(pdf.splitTextToSize(details,155).slice(0,2),105,207,{align:'center'});}
+   // Three clear value blocks.
+   const bx=[15,73,131], bw=54;
+   const titles=['DISCOVER','CONNECT','EXPLORE'];
+   const desc=['Open the online pharmacy profile.','Find contact and location details.','View listed services and information.'];
+   for(let i=0;i<3;i++){
+    pdf.setFillColor(i===0?237: i===1?232:243,i===0?244: i===1?249:237,255);
+    pdf.roundedRect(bx[i],225,bw,28,3,3,'F');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(8);pdf.setTextColor(22,75,174);pdf.text(titles[i],bx[i]+4,233);
+    pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(81,98,124);
+    pdf.text(pdf.splitTextToSize(desc[i],bw-8).slice(0,2),bx[i]+4,239);
+   }
+   const service=$('services').value.trim()||'View pharmacy details, contact information, location and available services through the online profile.';
+   pdf.setFillColor(231,242,255);pdf.roundedRect(15,260,180,16,3,3,'F');
+   pdf.setFillColor(21,184,166);pdf.circle(21,268,1.5,'F');
+   pdf.setFont('helvetica','bold');pdf.setFontSize(7.5);pdf.setTextColor(20,35,59);pdf.text('DoctorJet — your digital pharmacy profile',26,266.5);
+   pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(76,96,122);
+   pdf.text(pdf.splitTextToSize(service,163).slice(0,1),26,272);
+   pdf.setFillColor(16,31,61);pdf.rect(0,281,W,16,'F');
+   pdf.setFont('helvetica','bold');pdf.setFontSize(8);pdf.setTextColor(255,255,255);pdf.text('SCAN WITH YOUR PHONE CAMERA',105,287,{align:'center'});
+   pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(215,226,250);
+   pdf.text('DoctorJet helps people discover pharmacy information online. This is not a UPI payment QR.',105,292,{align:'center'});
+   const safe=(name.replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')||'pharmacy');
+   pdf.save('DoctorJet-'+safe+'-QR-Poster.pdf');
+   status('PDF generated. Open it and test the printed-size QR before displaying.');
+  }catch(err){
+   console.error(err);
+   status('Could not generate PDF. Please check your internet connection and try again.',true);
+  }finally{temp.remove();}
+ }
+ $('downloadBtn').addEventListener('click',makePdf);
+ refresh();
+})();
+</script>
+</body>
+</html>
