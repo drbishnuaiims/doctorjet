@@ -37,14 +37,14 @@ button:hover{transform:translateY(-1px)}
 .pill{font-size:11px;border-radius:99px;padding:7px 10px;background:#eaf8f7;color:#087f80;font-weight:750}
 .preview-shell{background:#e9eef7;border-radius:17px;padding:14px;overflow:auto}
 .poster{width:100%;max-width:390px;min-height:900px;margin:0 auto;background:#fbfcff;border:1px solid #e7ebf2;border-radius:18px;overflow:hidden;box-shadow:0 16px 44px #172c4a14;position:relative}
-.poster-band{background:linear-gradient(180deg,#ffffff 0%,#f4f7ff 100%);color:#14233b;padding:25px 22px 24px;position:relative;overflow:hidden;border-bottom:1px solid #e7ebf4}
+.poster-band{background:linear-gradient(180deg,#ffffff 0%,#f4f7ff 100%);color:#14233b;padding:25px 22px 24px;position:relative;overflow:hidden;border-bottom:1px solid #e7ebf4;text-align:center}
 .poster-band:after{content:"";position:absolute;width:190px;height:190px;border:28px solid #165dff08;border-radius:50%;right:-90px;top:-100px}
-.poster-brand{display:flex;align-items:center;gap:11px;position:relative;z-index:1}
-.poster-logo{width:49px;height:49px;border-radius:13px;background:#fff;object-fit:contain;padding:4px;display:none}
-.poster-brand-name{font-size:21px;font-weight:850;letter-spacing:-.5px;color:#14233b}
-.poster-brand-small{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#77849a;margin-top:3px}
-.poster-band h2{font-size:31px;line-height:1.05;letter-spacing:-1.1px;color:#14233b;margin:25px 0 9px;max-width:420px}
-.poster-band p{font-size:12px;line-height:1.55;color:#68768d;margin:0;max-width:420px}
+.poster-brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1;text-align:center}
+.poster-logo{width:92px;height:92px;border-radius:22px;background:#fff;object-fit:contain;padding:7px;display:none;box-shadow:0 8px 24px #193b7b12}
+.poster-brand-name{font-size:25px;font-weight:850;letter-spacing:-.8px;color:#14233b}
+.poster-brand-small{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:#77849a;margin-top:4px}
+.poster-band h2{font-size:31px;line-height:1.05;letter-spacing:-1.1px;color:#14233b;margin:25px auto 9px;max-width:420px;text-align:center}
+.poster-band p{font-size:12px;line-height:1.55;color:#68768d;margin:0 auto;max-width:420px;text-align:center}
 .poster-main{padding:22px 18px 18px;text-align:center}
 .scan-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:850;color:#165dff}
 .qr-frame{width:258px;height:258px;margin:15px auto 14px;border:1px solid #e0e7f1;border-radius:24px;display:flex;align-items:center;justify-content:center;background:#fff;padding:12px;box-shadow:0 12px 32px #143b7b0d}
@@ -108,7 +108,7 @@ button:hover{transform:translateY(-1px)}
   <div class="preview-shell">
    <article class="poster" id="poster">
     <div class="poster-band">
-     <div class="poster-brand"><img id="posterLogo" class="poster-logo" alt="DoctorJet logo"><div><div class="poster-brand-name">DoctorJet</div><div class="poster-brand-small">Digital pharmacy access</div></div></div>
+     <div class="poster-brand"><img id="posterLogo" class="poster-logo" alt="DoctorJet logo"><div><div class="poster-brand-name">DoctorJet.in</div><div class="poster-brand-small">Digital Pharmacy</div></div></div>
      <h2>Access digital<br>pharmacy.</h2>
      <p id="previewTagline">Your pharmacy information, just one scan away.</p>
     </div>
@@ -223,27 +223,30 @@ button:hover{transform:translateY(-1px)}
    pdf.setFillColor(232,239,255);pdf.circle(96,8,23,'F');
    pdf.setFillColor(244,239,255);pdf.circle(100,13,15,'F');
    if(logoData){
-    const logo=await loadImage(logoData);const ratio=Math.min(10/logo.width,10/logo.height);const lw=logo.width*ratio,lh=logo.height*ratio;
-    pdf.setFillColor(255,255,255);pdf.setDrawColor(226,232,242);pdf.roundedRect(7,6,13,13,2,2,'FD');pdf.addImage(logoData,'PNG',7+(13-lw)/2,6+(13-lh)/2,lw,lh);
-    pdf.setTextColor(20,35,59);pdf.setFont('helvetica','bold');pdf.setFontSize(14);pdf.text('DoctorJet',23,14);
-   }else{pdf.setTextColor(20,35,59);pdf.setFont('helvetica','bold');pdf.setFontSize(16);pdf.text('DoctorJet',7,15);}
-   pdf.setFont('helvetica','normal');pdf.setFontSize(5.5);pdf.setTextColor(103,117,139);pdf.text('DIGITAL PHARMACY ACCESS',7,23);
-   pdf.setFont('helvetica','bold');pdf.setFontSize(17);pdf.setTextColor(20,35,59);pdf.text('ACCESS DIGITAL',7,34);pdf.text('PHARMACY.',7,42);
-   pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(95,110,132);pdf.text(pdf.splitTextToSize($('tagline').value.trim()||'Your pharmacy information, just one scan away.',85).slice(0,2),7,46.5);
+    const logo=await loadImage(logoData);const ratio=Math.min(22/logo.width,22/logo.height);const lw=logo.width*ratio,lh=logo.height*ratio;
+    pdf.setFillColor(255,255,255);pdf.setDrawColor(226,232,242);pdf.roundedRect(39,4,22,22,3,3,'FD');pdf.addImage(logoData,'PNG',39+(22-lw)/2,4+(22-lh)/2,lw,lh);
+   }else{
+    pdf.setFillColor(255,255,255);pdf.setDrawColor(226,232,242);pdf.roundedRect(39,4,22,22,3,3,'FD');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(6.5);pdf.setTextColor(22,93,255);pdf.text('YOUR LOGO',50,16,{align:'center'});
+   }
+   pdf.setTextColor(20,35,59);pdf.setFont('helvetica','bold');pdf.setFontSize(14);pdf.text('DoctorJet.in',50,32,{align:'center'});
+   pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(103,117,139);pdf.text('DIGITAL PHARMACY',50,37,{align:'center'});
+   pdf.setFont('helvetica','bold');pdf.setFontSize(16);pdf.setTextColor(20,35,59);pdf.text('ACCESS DIGITAL',50,46,{align:'center'});pdf.text('PHARMACY.',50,53,{align:'center'});
+   pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(95,110,132);pdf.text(pdf.splitTextToSize($('tagline').value.trim()||'Your pharmacy information, just one scan away.',85).slice(0,2),50,58,{align:'center'});
    // Large, high-contrast QR card is the main focal point.
-   pdf.setFillColor(255,255,255);pdf.setDrawColor(224,231,242);pdf.setLineWidth(.4);pdf.roundedRect(7,53,86,82,4,4,'FD');
-   pdf.setFont('helvetica','bold');pdf.setFontSize(7.2);pdf.setTextColor(22,93,255);pdf.text('SCAN TO ACCESS DIGITAL PHARMACY',50,61,{align:'center'});
-   pdf.addImage(qrData,'PNG',21,64,58,58);
-   pdf.setFont('helvetica','bold');pdf.setFontSize(8);pdf.setTextColor(20,35,59);pdf.text('Your pharmacy. One simple scan.',50,129,{align:'center'});
-   pdf.setFont('helvetica','normal');pdf.setFontSize(5.3);pdf.setTextColor(83,99,124);pdf.text(pdf.splitTextToSize(url,75).slice(0,2),50,133,{align:'center'});
+   pdf.setFillColor(255,255,255);pdf.setDrawColor(224,231,242);pdf.setLineWidth(.4);pdf.roundedRect(7,65,86,82,4,4,'FD');
+   pdf.setFont('helvetica','bold');pdf.setFontSize(7.2);pdf.setTextColor(22,93,255);pdf.text('SCAN TO ACCESS DIGITAL PHARMACY',50,73,{align:'center'});
+   pdf.addImage(qrData,'PNG',21,76,58,58);
+   pdf.setFont('helvetica','bold');pdf.setFontSize(8);pdf.setTextColor(20,35,59);pdf.text('Your pharmacy. One simple scan.',50,141,{align:'center'});
+   pdf.setFont('helvetica','normal');pdf.setFontSize(5.3);pdf.setTextColor(83,99,124);pdf.text(pdf.splitTextToSize(url,75).slice(0,2),50,145,{align:'center'});
    const name=$('pharmacyName').value.trim()||'Your Pharmacy Name';
    pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(20,35,59);pdf.text(pdf.splitTextToSize(name,86).slice(0,2),50,138,{align:'center'});
    const details=[$('phone').value.trim()?'Contact: '+$('phone').value.trim():'',$('location').value.trim()?'Location: '+$('location').value.trim():''].filter(Boolean).join('  |  ');
    if(details){pdf.setFont('helvetica','normal');pdf.setFontSize(6.5);pdf.setTextColor(90,105,128);pdf.text(pdf.splitTextToSize(details,84).slice(0,2),50,145,{align:'center'});}
-   pdf.setFillColor(238,243,251);pdf.roundedRect(7,151,86,17,3,3,'F');pdf.setFillColor(21,184,166);pdf.circle(12,157,1.2,'F');
-   pdf.setFont('helvetica','bold');pdf.setFontSize(6.5);pdf.setTextColor(20,35,59);pdf.text('DISCOVER  •  CONNECT  •  EXPLORE',17,157.5);
-   pdf.setFont('helvetica','normal');pdf.setFontSize(5.2);pdf.setTextColor(76,96,122);pdf.text(pdf.splitTextToSize($('services').value.trim()||'View pharmacy details, contact information, location and available services.',78).slice(0,2),10,162.5);
-   pdf.setFillColor(245,247,251);pdf.rect(0,171,W,9,'F');pdf.setFont('helvetica','bold');pdf.setFontSize(6.2);pdf.setTextColor(20,35,59);pdf.text('POWERED BY DOCTORJET',50,176.5,{align:'center'});
+   pdf.setFillColor(238,243,251);pdf.roundedRect(7,163,86,17,3,3,'F');pdf.setFillColor(21,184,166);pdf.circle(12,169,1.2,'F');
+   pdf.setFont('helvetica','bold');pdf.setFontSize(6.5);pdf.setTextColor(20,35,59);pdf.text('DISCOVER  •  CONNECT  •  EXPLORE',17,169.5);
+   pdf.setFont('helvetica','normal');pdf.setFontSize(5.2);pdf.setTextColor(76,96,122);pdf.text(pdf.splitTextToSize($('services').value.trim()||'View pharmacy details, contact information, location and available services.',78).slice(0,2),10,174.5);
+   pdf.setFillColor(245,247,251);pdf.rect(0,183,W,9,'F');pdf.setFont('helvetica','bold');pdf.setFontSize(6.2);pdf.setTextColor(20,35,59);pdf.text('POWERED BY DOCTORJET',50,188.5,{align:'center'});
    const safe=(name.replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')||'pharmacy');
    pdf.save('DoctorJet-'+safe+'-Tall-QR-Standee.pdf');
    status('Premium digital pharmacy QR standee PDF downloaded. Scan-test it before printing.');
