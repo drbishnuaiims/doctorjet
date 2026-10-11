@@ -55,6 +55,9 @@
   img {
     max-width: 100%;
   }
+  [hidden] {
+    display: none !important;
+  }
   :focus-visible {
     outline: 3px solid rgba(29, 155, 240, 0.22);
     outline-offset: 2px;
@@ -172,6 +175,9 @@
     box-shadow: var(--shadow);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+  }
+  .hero.no-logo {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
   .logo {
     position: relative;
@@ -1483,6 +1489,9 @@
       grid-template-columns: 125px minmax(0, 1fr);
       gap: 23px;
     }
+    .hero.no-logo {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .logo img {
       width: 120px;
       height: 120px;
@@ -1530,6 +1539,10 @@
       gap: 16px 14px;
       padding: 16px;
       border-radius: 22px;
+    }
+    .hero.no-logo {
+      grid-template-areas: "qr" "details";
+      grid-template-columns: minmax(0, 1fr);
     }
     .hero > .logo {
       grid-area: logo;
@@ -1853,7 +1866,6 @@
             class="platform-link"
             aria-label="Open DoctorJet.in"
             ><img
-              src="../images/powered-by-doctorjet.png"
               alt="DoctorJet"
               class="platform-logo"
               id="platformLogo"
@@ -1868,7 +1880,7 @@
     <main class="page">
       <section class="hero">
         <div class="logo">
-          <img id="logo" src="../images/predlabs-logo.png" alt="Pharmacy logo" />
+          <img id="logo" alt="Pharmacy logo" />
           <svg class="badge" viewBox="0 0 24 24" aria-label="Verified pharmacy profile">
             <path
               d="M12 2.8l2.05 1.4 2.4-.1 1.1 2.15 2.1 1.2-.2 2.4L20.6 12l-1.15 2.15.2 2.4-2.1 1.2-1.1 2.15-2.4-.1L12 21.2l-2.05-1.4-2.4.1-1.1-2.15-2.1-1.2.2-2.4L3.4 12l1.15-2.15-.2-2.4 2.1-1.2 1.1-2.15 2.4.1z"
@@ -1892,8 +1904,8 @@
           <div class="desc" id="hDesc"></div>
           <div class="tags" id="hTags"></div>
           <div class="actions">
-            <button class="btn" onclick="openModal('locModal')">Location &amp; Directions</button>
-            <button class="btn primary" onclick="openModal('callModal')">Call or WhatsApp</button>
+            <button class="btn" id="locationAction" onclick="openModal('locModal')">Location &amp; Directions</button>
+            <button class="btn primary" id="contactAction" onclick="openModal('callModal')">Call or WhatsApp</button>
           </div>
         </div>
         <div class="qrshare">
@@ -2130,37 +2142,37 @@
           </section>
 
           <section class="grid2">
-            <div class="mini">
+            <div class="mini" id="aboutCard">
               <b>About the pharmacy</b>
               <p id="aboutText"></p>
             </div>
-            <div class="mini">
+            <div class="mini" id="licenceCard">
               <b>Licence</b>
               <p id="licText"></p>
             </div>
-            <div class="mini">
+            <div class="mini" id="servicesCard">
               <b>Services</b>
               <div id="svcList"></div>
             </div>
-            <div class="mini">
+            <div class="mini" id="hoursCard">
               <b>Opening hours</b>
               <div id="hoursList"></div>
             </div>
           </section>
 
-          <section class="card" style="margin-top: 18px">
+          <section class="card" id="contactCard" style="margin-top: 18px">
             <h2>Contact</h2>
             <p class="sub">Pharmacy contact and location</p>
             <div class="contact">
-              <div class="crow">
+              <div class="crow" id="addressRow">
                 <div class="ci">LOC</div>
                 <div><small>Address</small><span class="v" id="cAddr"></span></div>
               </div>
-              <div class="crow">
+              <div class="crow" id="phoneRow">
                 <div class="ci">TEL</div>
                 <div><small>Phone</small><a id="cPhone" href="#"></a></div>
               </div>
-              <div class="crow">
+              <div class="crow" id="whatsappRow">
                 <div class="ci wa-i">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path
@@ -2175,7 +2187,7 @@
                   >
                 </div>
               </div>
-              <div class="crow">
+              <div class="crow" id="emailRow">
                 <div class="ci">@</div>
                 <div><small>Email</small><a id="cMail" href="#"></a></div>
               </div>
@@ -2515,12 +2527,13 @@
        ------------------------------------------------------------- */
 
     const selectedTestIds = new Set();   // tests the patient has added
-    let activeLabView = "all";           // "all" or a lab id (from labProviders)
+    let activeLabView = "all";           // "all" or a configured lab id
     let activeCategory = "All";          // selected test category chip
     let selectedDoctor = null;           // doctor being booked
     let selectedDoctorSlot = "";         // time slot chosen for that doctor
     let lastFocusedElement = null;       // restores focus after a modal closes
     let toastTimer = null;
+    let appStarted = false;
 
 
     /* -------------------------------------------------------------
@@ -2568,6 +2581,85 @@
       if (element) {
         element.textContent = text ?? "";
       }
+    }
+
+    function setVisible(id, visible) {
+      const element = $(id);
+      if (element) {
+        element.hidden = !visible;
+      }
+    }
+
+    function hasText(value) {
+      return typeof value === "string" && value.trim().length > 0;
+    }
+
+    function pharmacyName() {
+      return hasText(pharmacy.name) ? pharmacy.name.trim() : "Pharmacy";
+    }
+
+    function hasPrice(value) {
+      return value !== null && value !== undefined &&
+        !(typeof value === "string" && value.trim() === "") &&
+        Number.isFinite(Number(value)) && Number(value) >= 0;
+    }
+
+    function safeHttpURL(value) {
+      if (!hasText(value)) return "";
+      try {
+        const url = new URL(value.trim(), location.href);
+        return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function sharedAssetURL(filename) {
+      const marker = "/pharmacy/";
+      const markerIndex = location.pathname.lastIndexOf(marker);
+      if (markerIndex < 0) return "";
+
+      const currentDirectory = new URL(".", location.href).pathname;
+      const pharmacyDirectory = currentDirectory.slice(markerIndex + marker.length);
+      const depth = pharmacyDirectory.split("/").filter(Boolean).length;
+      return "../".repeat(depth + 1) + "images/" + encodeURIComponent(filename);
+    }
+
+    function initializePharmacyLogo() {
+      const image = $("logo");
+      if (image.dataset.fallbackInitialized === "true") return;
+      image.dataset.fallbackInitialized = "true";
+      image.alt = (pharmacy.name || "Pharmacy") + " logo";
+
+      const defaults = ["pharmacy.jpg", "pharmacy.jpeg", "pharmacy.png"];
+      const custom = String(pharmacy.imageFilename || "").trim();
+      const validFilename = /^[^/\\?#]+\.(?:jpe?g|png)$/i;
+      if (custom && !validFilename.test(custom)) {
+        console.error("Pharmacy imageFilename must be a .jpg, .jpeg, or .png filename in this folder.");
+      }
+      const candidates = custom && validFilename.test(custom)
+        ? [custom, ...defaults.filter((filename) => filename !== custom)]
+        : defaults;
+
+      image.onerror = () => {
+        const nextIndex = Number(image.dataset.logoAttempt || "0") + 1;
+        if (nextIndex < candidates.length) {
+          image.dataset.logoAttempt = String(nextIndex);
+          image.src = candidates[nextIndex];
+          return;
+        }
+
+        image.onerror = null;
+        image.hidden = true;
+        image.parentElement.hidden = true;
+        image.closest(".hero").classList.add("no-logo");
+        console.warn(
+          "Pharmacy logo not found. Place pharmacy.jpg, pharmacy.jpeg, or pharmacy.png beside index.html, or set imageFilename in the pharmacy configuration."
+        );
+      };
+
+      image.dataset.logoAttempt = "0";
+      image.src = candidates[0];
     }
 
     // "2026-10-09" -> "9 October 2026"
@@ -2677,94 +2769,188 @@
        ------------------------------------------------------------- */
 
     function renderProfile() {
-      document.title = pharmacy.name + " | Pharmacy Profile";
+      document.title = pharmacyName() + " | Pharmacy Profile";
+      const visibility = pharmacy.visibility || {};
+      const show = (key, hasData = true) => visibility[key] !== false && hasData;
+      const labs = Array.isArray(pharmacy.labs) ? pharmacy.labs : [];
+      const tests = Array.isArray(pharmacy.tests) ? pharmacy.tests : [];
+      const doctors = Array.isArray(pharmacy.doctors) ? pharmacy.doctors : [];
+
+      const visibleTabs = {
+        meds: visibility.medicines !== false,
+        labs: visibility.labs !== false && labs.length > 0 && tests.length > 0,
+        docs: visibility.doctors !== false && doctors.length > 0,
+      };
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.hidden = !visibleTabs[button.dataset.tab];
+      });
+      ["meds", "labs", "docs"].forEach((tab) => {
+        $(tab + "Panel").hidden = !visibleTabs[tab];
+      });
+      if (!visibleTabs[getActiveTab()]) {
+        const firstVisibleTab = Object.keys(visibleTabs).find((tab) => visibleTabs[tab]) || "meds";
+        go(firstVisibleTab);
+      }
 
       // Hero
       setText("hLabel", pharmacy.label);
-      setText("hName", pharmacy.name);
+      setText("hName", pharmacyName());
       setText("hType", pharmacy.type);
       setText("hLoc", pharmacy.location);
       setText("hDesc", pharmacy.description);
+      setVisible("hLabel", hasText(pharmacy.label));
+      setVisible("hType", hasText(pharmacy.type));
+      setVisible("hLoc", hasText(pharmacy.location));
+      setVisible("hDesc", hasText(pharmacy.description));
 
-      $("logo").src = pharmacy.logo;
-      $("logo").alt = pharmacy.name + " logo";
+      initializePharmacyLogo();
 
-      $("hTags").innerHTML = pharmacy.tags
+      const tags = Array.isArray(pharmacy.tags) ? pharmacy.tags.filter(hasText) : [];
+      $("hTags").innerHTML = tags
         .map((tag) => `<span class="tag">${esc(tag)}</span>`)
         .join("");
+      setVisible("hTags", tags.length > 0);
 
       // Quick info strip
       setText("qMed", pharmacy.medicinesLabel);
       setText("qDel", pharmacy.delivery);
       setText("qLab", pharmacy.labLabel);
-      setText("qHours", pharmacy.hours[0] ? pharmacy.hours[0].hours : "");
+      setVisible("qMed", hasText(pharmacy.medicinesLabel));
+      setVisible("qDel", hasText(pharmacy.delivery));
+      setVisible("qLab", hasText(pharmacy.labLabel));
+      const hours = Array.isArray(pharmacy.hours) ? pharmacy.hours.filter((item) => hasText(item.day) && hasText(item.hours)) : [];
+      setText("qHours", hours[0] ? hours[0].hours : "");
+      setVisible("qHours", hours.length > 0);
+      ["qMed", "qDel", "qLab", "qHours"].forEach((id) => {
+        const element = $(id);
+        if (element) element.parentElement.hidden = !hasText(element.textContent);
+      });
 
       // Info cards
       setText("aboutText", pharmacy.description);
       setText("licText", pharmacy.licence);
+      setVisible("aboutCard", show("about", hasText(pharmacy.description)));
+      setVisible("licenceCard", show("licence", hasText(pharmacy.licence)));
 
-      $("svcList").innerHTML = pharmacy.services
+      const services = Array.isArray(pharmacy.services)
+        ? pharmacy.services.filter((item) => hasText(item.label) && hasText(item.value))
+        : [];
+      $("svcList").innerHTML = services
         .map((item) => infoRowHTML(item.label, item.value))
         .join("");
+      setVisible("servicesCard", show("services", services.length > 0));
 
-      $("hoursList").innerHTML = pharmacy.hours
+      $("hoursList").innerHTML = hours
         .map((item) => infoRowHTML(item.day, item.hours))
         .join("");
+      setVisible("hoursCard", show("hours", hours.length > 0));
 
       // Contact card
-      setText("cAddr", pharmacy.address);
+      const address = hasText(pharmacy.address) ? pharmacy.address.trim() : "";
+      const phones = Array.isArray(pharmacy.phones)
+        ? pharmacy.phones.filter((phone) => hasText(phone) && cleanNumber(phone))
+        : [];
+      const whatsappNumber = cleanNumber(pharmacy.whatsapp);
+      const email = hasText(pharmacy.email) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pharmacy.email.trim())
+        ? pharmacy.email.trim()
+        : "";
+      const mapsURL = safeHttpURL(pharmacy.maps);
+      setText("cAddr", address);
+      setVisible("addressRow", hasText(address));
 
       const phoneLink = $("cPhone");
-      phoneLink.textContent = pharmacy.phones.join(" / ");
-      phoneLink.href = "tel:" + pharmacy.phones[0].replace(/\s+/g, "");
+      phoneLink.textContent = phones.join(" / ");
+      if (phones.length) {
+        phoneLink.href = "tel:" + cleanNumber(phones[0]);
+      } else {
+        phoneLink.removeAttribute("href");
+      }
+      setVisible("phoneRow", phones.length > 0);
 
-      $("cWa").href = "https://wa.me/" + cleanNumber(pharmacy.whatsapp);
+      if (whatsappNumber) {
+        $("cWa").href = "https://wa.me/" + whatsappNumber;
+      } else {
+        $("cWa").removeAttribute("href");
+      }
+      setVisible("whatsappRow", Boolean(whatsappNumber));
 
       const emailLink = $("cMail");
-      emailLink.textContent = pharmacy.email;
-      emailLink.href = "mailto:" + pharmacy.email;
+      emailLink.textContent = email;
+      if (email) {
+        emailLink.href = "mailto:" + email;
+      } else {
+        emailLink.removeAttribute("href");
+      }
+      setVisible("emailRow", Boolean(email));
 
-      $("mapBtn").href = pharmacy.maps;
+      const mapURL = mapsURL || (address
+        ? "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pharmacyName() + " " + address)
+        : "");
+      if (mapURL) {
+        $("mapBtn").href = mapURL;
+      } else {
+        $("mapBtn").removeAttribute("href");
+      }
+      setVisible("mapBtn", Boolean(mapURL));
+      setVisible("contactCard", show("contact", Boolean(address || phones.length || whatsappNumber || email || mapURL)));
 
       // Sidebar
-      setText("sideName", pharmacy.name);
+      setText("sideName", pharmacyName());
       setText("sideDel", pharmacy.delivery);
       setText("sideLab", pharmacy.labLabel);
+      setVisible("locationAction", Boolean(address || mapURL));
+      setVisible("contactAction", Boolean(phones.length || whatsappNumber));
 
       renderLocationAndContactModals();
     }
 
     function renderLocationAndContactModals() {
       document.querySelectorAll(".pn").forEach((element) => {
-        element.textContent = pharmacy.name;
+        element.textContent = pharmacyName();
       });
 
       // Location modal
-      const searchText = encodeURIComponent(pharmacy.name + " " + pharmacy.address);
+      const address = hasText(pharmacy.address) ? pharmacy.address.trim() : "";
+      const searchText = address ? encodeURIComponent([pharmacyName(), address].join(" ")) : "";
+      const mapURL = safeHttpURL(pharmacy.maps) ||
+        (address ? "https://www.google.com/maps/search/?api=1&query=" + searchText : "");
 
-      setText("locAddr", pharmacy.address);
-      $("locDir").href = "https://www.google.com/maps/dir/?api=1&destination=" + searchText;
-      $("locMap").href =
-        pharmacy.maps || "https://www.google.com/maps/search/?api=1&query=" + searchText;
+      setText("locAddr", address);
+      setVisible("locAddr", Boolean(address));
+      if (searchText) {
+        $("locDir").href = "https://www.google.com/maps/dir/?api=1&destination=" + searchText;
+      } else {
+        $("locDir").removeAttribute("href");
+      }
+      setVisible("locDir", Boolean(searchText));
+      if (mapURL) {
+        $("locMap").href = mapURL;
+      } else {
+        $("locMap").removeAttribute("href");
+      }
+      setVisible("locMap", Boolean(mapURL));
 
       // Call / WhatsApp modal
-      const greeting = "Hello " + pharmacy.name + ", I would like to enquire about your services.";
+      const greeting = "Hello " + pharmacyName() + ", I would like to enquire about your services.";
 
-      const callLinks = pharmacy.phones
+      const phones = Array.isArray(pharmacy.phones) ? pharmacy.phones.filter((phone) => hasText(phone) && cleanNumber(phone)) : [];
+      const callLinks = phones
         .map((phone) => {
-          return `<a href="tel:${esc(phone.replace(/\s+/g, ""))}">Call ${esc(phone)}</a>`;
+          return `<a href="tel:${esc(cleanNumber(phone))}">Call ${esc(phone)}</a>`;
         })
         .join("");
 
-      const whatsappLink = `
+      const whatsappNumber = cleanNumber(pharmacy.whatsapp);
+      const whatsappLink = whatsappNumber ? `
         <a class="wa" target="_blank" rel="noopener noreferrer"
-           href="https://wa.me/${cleanNumber(pharmacy.whatsapp)}?text=${encodeURIComponent(greeting)}">
+           href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(greeting)}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${WHATSAPP_LOGO_PATH}"/></svg>
           Message on WhatsApp
         </a>
-      `;
+      ` : "";
 
       $("callActions").innerHTML = callLinks + whatsappLink;
+      setVisible("callActions", Boolean(callLinks || whatsappLink));
     }
 
     // Small "Powered by DoctorJet" badge (top right) + optional offer strip
@@ -2772,8 +2958,13 @@
       const bar = $("platformBar");
       const trigger = $("platformTrigger");
 
-      if (pharmacy.poweredByLogo) {
-        $("platformLogo").src = pharmacy.poweredByLogo;
+      if (hasText(pharmacy.poweredByLogo)) {
+        const logo = $("platformLogo");
+        logo.onerror = () => {
+          logo.hidden = true;
+          logo.onerror = null;
+        };
+        logo.src = sharedAssetURL(pharmacy.poweredByLogo);
       }
 
       trigger.addEventListener("click", (event) => {
@@ -2790,11 +2981,11 @@
       bar.addEventListener("click", (event) => event.stopPropagation());
     }
 
-    // Green "Current lab offers" box (only when SHOW_OFFERS is true)
+    // Green "Current lab offers" box (only when offers are enabled in the configuration)
     function renderOfferStrip() {
-      if (!SHOW_OFFERS) return;
+      if (!pharmacy.showOffers || pharmacy.visibility?.offers === false) return;
 
-      const rows = labProviders
+      const rows = pharmacy.labs
         .filter((lab) => (lab.offers || []).length > 0)
         .map((lab) => {
           const titles = lab.offers.map((offer) => esc(offer.title)).join(" · ");
@@ -2874,7 +3065,7 @@
       const addressLine = isDelivery ? "\nAddress: " + getValue("mAddr") : "";
       const noteBlock = getValue("mNote") ? "\n\nNOTE\n" + getValue("mNote") : "";
 
-      const message = `🏥 ${pharmacy.name.toUpperCase()}
+      const message = `🏥 ${pharmacyName().toUpperCase()}
     MEDICINE REQUEST
     ${DIVIDER}
     REQUEST TYPE
@@ -2904,21 +3095,21 @@
        ------------------------------------------------------------- */
 
     function getSelectedTests() {
-      return labTests.filter((test) => selectedTestIds.has(test.id));
+      return pharmacy.tests.filter((test) => selectedTestIds.has(test.id));
     }
 
     function getMrpTotal() {
-      return getSelectedTests().reduce((sum, test) => sum + test.price, 0);
+      return getSelectedTests().reduce((sum, test) => sum + (hasPrice(test.price) ? Number(test.price) : 0), 0);
     }
 
     // The lab whose tab is open (or undefined on "All tests")
     function getViewedLab() {
-      return labProviders.find((lab) => lab.id === activeLabView);
+      return pharmacy.labs.find((lab) => lab.id === activeLabView);
     }
 
     // Does this lab offer this test?
     function labOffersTest(test, lab) {
-      return !(lab.unavailable || []).includes(test.id);
+      return !(lab.unavailable || []).includes(test.id) && priceAtLab(test, lab) !== null;
     }
 
     // Does this lab offer every test the patient selected?
@@ -2929,25 +3120,26 @@
     // Price of a test at a lab:
     // 1) exact price from lab.prices, otherwise 2) MRP x lab.priceFactor
     function priceAtLab(test, lab) {
-      if (lab.prices && lab.prices[test.id] != null) {
-        return lab.prices[test.id];
+      if (lab.prices && hasPrice(lab.prices[test.id])) {
+        return Number(lab.prices[test.id]);
       }
 
-      const factor = lab.priceFactor ?? 1;
-      return Math.round((test.price * factor) / 10) * 10;
+      if (!hasPrice(test.price)) return null;
+      const factor = hasPrice(lab.priceFactor) ? Number(lab.priceFactor) : 1;
+      return Math.round((Number(test.price) * factor) / 10) * 10;
     }
 
     // Totals for the selected tests at one lab (subtotal, offer discount, etc.)
     function calculatePricing(lab) {
-      const subtotal = getSelectedTests().reduce((sum, test) => sum + priceAtLab(test, lab), 0);
+      const subtotal = getSelectedTests().reduce((sum, test) => sum + (priceAtLab(test, lab) ?? 0), 0);
 
       let bestDiscount = 0;
       let bestOfferTitle = "";
       let freeHomeCollection = false;
       const hints = [];
 
-      // Offers are ignored completely when SHOW_OFFERS is false
-      if (SHOW_OFFERS) {
+      // Offers are ignored completely when disabled in the pharmacy configuration
+      if (pharmacy.showOffers && pharmacy.visibility?.offers !== false) {
         (lab.offers || []).forEach((offer) => {
           const minimum = offer.min || 0;
 
@@ -2983,10 +3175,10 @@
       };
     }
 
-    // Home collection fee for a lab (0 if lab visit or fee waived)
+    // Returns null when a home collection fee has not been specified.
     function homeFeeFor(lab, pricing, isHomeCollection) {
       if (!isHomeCollection || !lab.home || pricing.freeHome) return 0;
-      return lab.homeFee || 0;
+      return hasPrice(lab.homeFee) ? Number(lab.homeFee) : null;
     }
 
 
@@ -3020,17 +3212,17 @@
     // Tests shown in the current tab (all tests, or only that lab's tests)
     function visibleTests() {
       const lab = getViewedLab();
-      return labTests.filter((test) => !lab || labOffersTest(test, lab));
+      return pharmacy.tests.filter((test) => !lab || labOffersTest(test, lab));
     }
 
     // "All tests | In-house | Lab A | Lab B" tab row
     function renderLabTabs() {
       const tabs = [
-        { id: "all", name: "All tests", count: labTests.length },
-        ...labProviders.map((lab) => ({
+        { id: "all", name: "All tests", count: pharmacy.tests.length },
+        ...pharmacy.labs.map((lab) => ({
           id: lab.id,
           name: lab.short || lab.name,
-          count: labTests.filter((test) => labOffersTest(test, lab)).length,
+          count: pharmacy.tests.filter((test) => labOffersTest(test, lab)).length,
         })),
       ];
 
@@ -3104,16 +3296,23 @@
       // Inside a single lab's tab: show that lab's price
       if (viewedLab) {
         const price = priceAtLab(test, viewedLab);
-        const mrpText = price < test.price ? `<span class="mrp">₹${formatNumber(test.price)}</span>` : "";
+        const mrpText = hasPrice(test.price) && price < Number(test.price)
+          ? `<span class="mrp">₹${formatNumber(test.price)}</span>`
+          : "";
 
         return {
-          priceLine: `${mrpText}₹${formatNumber(price)} <span>at ${esc(viewedLab.short || viewedLab.name)}</span>`,
+          priceLine: price === null
+            ? `Price on request <span>at ${esc(viewedLab.short || viewedLab.name)}</span>`
+            : `${mrpText}₹${formatNumber(price)} <span>at ${esc(viewedLab.short || viewedLab.name)}</span>`,
           extraMeta: `<span>Report: ${esc(viewedLab.report)}</span>`,
         };
       }
 
       // On "All tests": show lowest price and a price chip per lab
-      const labsOffering = labProviders.filter((lab) => labOffersTest(test, lab));
+      const labsOffering = pharmacy.labs.filter((lab) => labOffersTest(test, lab));
+      if (labsOffering.length === 0) {
+        return { priceLine: "Price on request", extraMeta: "" };
+      }
       const lowest = Math.min(...labsOffering.map((lab) => priceAtLab(test, lab)));
 
       const priceChips = labsOffering
@@ -3218,11 +3417,12 @@
 
       $("selList").innerHTML = tests
         .map((test) => {
+          const price = hasPrice(test.price) ? "₹" + formatNumber(test.price) : "Price on request";
           return `
             <div class="row">
               <span>${esc(test.short)}</span>
               <span>
-                ₹${formatNumber(test.price)}
+                ${price}
                 <button type="button" data-r="${esc(test.id)}" aria-label="Remove ${esc(test.name)}">×</button>
               </span>
             </div>
@@ -3238,8 +3438,15 @@
       const lab = getViewedLab();
       const useLab = lab && labOffersAllSelected(lab);
 
-      setText("selTotalLabel", useLab ? "Estimate at " + (lab.short || lab.name) : "MRP total");
-      setText("selTotal", "₹" + formatNumber(useLab ? calculatePricing(lab).subtotal : getMrpTotal()));
+      const hasIncompleteMrp = tests.some((test) => !hasPrice(test.price));
+      setText(
+        "selTotalLabel",
+        useLab ? "Estimate at " + (lab.short || lab.name) : hasIncompleteMrp ? "Price on request" : "MRP total"
+      );
+      setText(
+        "selTotal",
+        useLab ? "₹" + formatNumber(calculatePricing(lab).subtotal) : hasIncompleteMrp ? "—" : "₹" + formatNumber(getMrpTotal())
+      );
     }
 
 
@@ -3259,18 +3466,18 @@
 
     function getChosenLab() {
       const chosenId = getChecked("labProvider");
-      return labProviders.find((lab) => lab.id === chosenId) || labProviders[0];
+      return pharmacy.labs.find((lab) => lab.id === chosenId) || pharmacy.labs[0];
     }
 
     // Radio cards: in-house lab + partner labs, with price and subtle info
     function renderLabChoices() {
       // Pre-select the lab whose tab was open, otherwise the first lab that offers every test
-      const viewedIndex = labProviders.findIndex(
+      const viewedIndex = pharmacy.labs.findIndex(
         (lab) => lab.id === activeLabView && labOffersAllSelected(lab)
       );
-      const preselected = viewedIndex >= 0 ? viewedIndex : labProviders.findIndex(labOffersAllSelected);
+      const preselected = viewedIndex >= 0 ? viewedIndex : pharmacy.labs.findIndex(labOffersAllSelected);
 
-      $("labChoice").innerHTML = labProviders
+      $("labChoice").innerHTML = pharmacy.labs
         .map((lab, index) => {
           const isAvailable = labOffersAllSelected(lab);
           const pricing = calculatePricing(lab);
@@ -3294,13 +3501,15 @@
             detailText += ` · Does not offer: ${missing}`;
           } else if (!lab.home) {
             detailText += " · Lab visit only";
-          } else if (lab.homeFee && !pricing.freeHome) {
+          } else if (lab.home && !pricing.freeHome && !hasPrice(lab.homeFee)) {
+            detailText += " · Home collection fee confirmed by lab";
+          } else if (lab.home && !pricing.freeHome && Number(lab.homeFee) > 0) {
             detailText += ` · Home collection ₹${formatNumber(lab.homeFee)}`;
           } else {
-            detailText += " · Home collection available";
+            detailText += lab.home ? " · Home collection available" : "";
           }
 
-          // Offer tags (empty while SHOW_OFFERS is false)
+          // Offer tags are empty while offers are disabled
           let tags = "";
           if (isAvailable) {
             if (pricing.discount) {
@@ -3342,6 +3551,17 @@
     // Price breakdown inside the popup (updates when lab / collection type changes)
     function renderLabSummary() {
       const lab = getChosenLab();
+      if (!lab || !labOffersAllSelected(lab)) {
+        $("lSumList").innerHTML = getSelectedTests()
+          .map((test) => `<div class="r"><span>${esc(test.name)}</span><span>Unavailable</span></div>`)
+          .join("");
+        $("lSubRow").hidden = true;
+        $("lOfferRow").hidden = true;
+        $("lFeeRow").hidden = true;
+        setText("lSumTotal", "Unavailable");
+        return;
+      }
+
       const pricing = calculatePricing(lab);
       const homeCheckbox = $("cHome");
 
@@ -3359,12 +3579,15 @@
       $("lSumList").innerHTML = getSelectedTests()
         .map((test) => {
           const price = priceAtLab(test, lab);
-          const mrpText = price < test.price ? `<span class="mrp">₹${formatNumber(test.price)}</span>` : "";
+          const mrpText = hasPrice(test.price) && price < Number(test.price)
+            ? `<span class="mrp">₹${formatNumber(test.price)}</span>`
+            : "";
+          const priceText = price === null ? "Price on request" : `${mrpText}₹${formatNumber(price)}`;
 
           return `
             <div class="r">
               <span>${esc(test.name)}</span>
-              <span>${mrpText}₹${formatNumber(price)}</span>
+              <span>${priceText}</span>
             </div>
           `;
         })
@@ -3378,10 +3601,15 @@
       setText("lOffer", "− ₹" + formatNumber(pricing.discount));
 
       $("lFeeRow").hidden = !(isHome && lab.home);
-      setText("lFee", fee ? "₹" + formatNumber(fee) : "Free");
+      setText("lFee", fee === null ? "To be confirmed" : fee ? "₹" + formatNumber(fee) : "Free");
 
-      setText("lSumTotal", "₹" + formatNumber(pricing.subtotal - pricing.discount + fee));
-      setText("labSub", pharmacy.name + " · " + lab.name);
+      setText(
+        "lSumTotal",
+        isHome && fee === null
+          ? "To be confirmed"
+          : "₹" + formatNumber(pricing.subtotal - pricing.discount + (fee ?? 0))
+      );
+      setText("labSub", pharmacyName() + " · " + lab.name);
     }
 
     function submitLab(event) {
@@ -3414,9 +3642,11 @@
       const testLines = getSelectedTests()
         .map((test, index) => {
           const price = priceAtLab(test, lab);
-          const mrpText = price < test.price ? ` (MRP ₹${formatNumber(test.price)})` : "";
+          const mrpText = hasPrice(test.price) && price < Number(test.price)
+            ? ` (MRP ₹${formatNumber(test.price)})`
+            : "";
 
-          return `${index + 1}. ${test.name} (${test.short})\nPrice: ₹${formatNumber(price)}${mrpText}`;
+          return `${index + 1}. ${test.name} (${test.short})\nPrice: ${price === null ? "To be confirmed" : "₹" + formatNumber(price)}${mrpText}`;
         })
         .join("\n\n");
 
@@ -3426,13 +3656,13 @@
         pricingLines += `\nOffer: ${pricing.offerTitle} (− ₹${formatNumber(pricing.discount)})`;
       }
       if (isHome && lab.home) {
-        pricingLines += `\nHome collection: ${fee ? "₹" + formatNumber(fee) : "Free"}`;
+        pricingLines += `\nHome collection: ${fee === null ? "To be confirmed" : fee ? "₹" + formatNumber(fee) : "Free"}`;
       }
-      pricingLines += `\nEstimated total: ₹${formatNumber(total)}`;
+      pricingLines += `\nEstimated total: ${fee === null && isHome ? "To be confirmed" : "₹" + formatNumber(total)}`;
 
       const addressLine = isHome ? "\nAddress: " + getValue("lAddr") : "";
 
-      const message = `🏥 ${pharmacy.name.toUpperCase()}
+      const message = `🏥 ${pharmacyName().toUpperCase()}
     LAB TEST BOOKING REQUEST
     ${DIVIDER}
     PREFERRED LAB
@@ -3472,16 +3702,22 @@
        ------------------------------------------------------------- */
 
     function renderDoctors() {
-      $("docGrid").innerHTML = doctors
+      $("docGrid").innerHTML = pharmacy.doctors
         .map((doctor) => {
-          const modeTags = doctor.modes
+          const modes = Array.isArray(doctor.modes) ? doctor.modes : [];
+          const days = Array.isArray(doctor.days) ? doctor.days : [];
+          const slots = Array.isArray(doctor.slots) ? doctor.slots : [];
+          const modeTags = modes
             .map((mode) => `<span class="dtag">${esc(mode)}</span>`)
             .join("");
+          const photo = hasText(doctor.photo)
+            ? `<img src="${esc(doctor.photo)}" alt="${esc(doctor.name)}" onerror="this.remove()">`
+            : "";
+          const fee = hasText(doctor.fee) ? doctor.fee : "Call for fee";
 
           return `
             <article class="doc">
-              <img src="${esc(doctor.photo)}" alt="${esc(doctor.name)}"
-                   onerror="this.style.visibility='hidden'">
+              ${photo}
 
               <h3>${esc(doctor.name)}</h3>
               <div class="sp">${esc(doctor.specialty)}</div>
@@ -3491,13 +3727,13 @@
 
               <div class="av">
                 <small>Available</small>
-                ${esc(doctor.days.join(" · "))}<br>
-                ${esc(doctor.slots.join(" · "))}
+                ${esc(days.join(" · "))}<br>
+                ${esc(slots.join(" · "))}
               </div>
 
               <div class="bot">
                 <div class="fee">
-                  ${esc(doctor.fee)}
+                  ${esc(fee)}
                   <span style="display:block;font-size:8px;font-weight:500;color:var(--text3)">consultation</span>
                 </div>
                 <button class="bk" data-d="${esc(doctor.id)}">Book</button>
@@ -3513,18 +3749,18 @@
     }
 
     function openDoctorBooking(doctorId) {
-      selectedDoctor = doctors.find((doctor) => doctor.id === doctorId);
+      selectedDoctor = pharmacy.doctors.find((doctor) => doctor.id === doctorId);
       if (!selectedDoctor) return;
 
       selectedDoctorSlot = "";
 
-      setText("dSub", pharmacy.name);
+      setText("dSub", pharmacyName());
       setText("dName", selectedDoctor.name);
       setText("dSpec", selectedDoctor.specialty);
-      setText("dFee", selectedDoctor.fee + " consultation");
+      setText("dFee", (hasText(selectedDoctor.fee) ? selectedDoctor.fee : "Call for fee") + " consultation");
 
       // Consultation type options
-      $("dModes").innerHTML = selectedDoctor.modes
+      $("dModes").innerHTML = (Array.isArray(selectedDoctor.modes) ? selectedDoctor.modes : [])
         .map((mode, index) => {
           return `
             <div>
@@ -3536,7 +3772,7 @@
         .join("");
 
       // Time slots
-      $("dSlots").innerHTML = selectedDoctor.slots
+      $("dSlots").innerHTML = (Array.isArray(selectedDoctor.slots) ? selectedDoctor.slots : [])
         .map((slot) => `<button type="button" class="slot" data-s="${esc(slot)}">${esc(slot)}</button>`)
         .join("");
 
@@ -3587,7 +3823,7 @@
         return;
       }
 
-      const message = `🏥 ${pharmacy.name.toUpperCase()}
+      const message = `🏥 ${pharmacyName().toUpperCase()}
     DOCTOR APPOINTMENT REQUEST
     ${DIVIDER}
     DOCTOR
@@ -3638,7 +3874,7 @@
       menu.addEventListener("click", (event) => event.stopPropagation());
 
       $("shareWa").addEventListener("click", () => {
-        const text = pharmacy.name + "\n\nView this pharmacy profile on DoctorJet:\n" + location.href;
+        const text = pharmacyName() + "\n\nView this pharmacy profile on DoctorJet:\n" + location.href;
         window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
       });
 
@@ -3701,12 +3937,16 @@
       } else if (tab === "labs") {
         label.textContent = "LAB TESTS";
         button.textContent = selectedTestIds.size ? "Book" : "Browse";
-        value.textContent = selectedTestIds.size
-          ? `${selectedTestIds.size} selected · ₹${formatNumber(getMrpTotal())}`
+        const selectedTests = getSelectedTests();
+        const needsQuote = selectedTests.some((test) => !hasPrice(test.price));
+        value.textContent = selectedTests.length
+          ? needsQuote
+            ? `${selectedTests.length} selected · Price on request`
+            : `${selectedTests.length} selected · ₹${formatNumber(getMrpTotal())}`
           : "Select tests to book";
       } else {
         label.textContent = "DOCTORS";
-        value.textContent = doctors.length + (doctors.length === 1 ? " associated doctor" : " associated doctors");
+        value.textContent = pharmacy.doctors.length + (pharmacy.doctors.length === 1 ? " associated doctor" : " associated doctors");
         button.textContent = "View";
       }
     }
@@ -3748,6 +3988,8 @@
     }
 
     function startApp() {
+      if (appStarted) return;
+      appStarted = true;
       setMinimumDates();
       renderProfile();
       setupPlatformBadge();
@@ -3763,69 +4005,67 @@
       updateMobileBar();
     }
 
-    document.addEventListener("DOMContentLoaded", startApp);
+    function initializePharmacyProfile() {
+      pharmacy.labs = Array.isArray(pharmacy.labs) ? pharmacy.labs : [];
+      pharmacy.tests = Array.isArray(pharmacy.tests) ? pharmacy.tests : [];
+      pharmacy.doctors = Array.isArray(pharmacy.doctors) ? pharmacy.doctors : [];
+      pharmacy.phones = Array.isArray(pharmacy.phones) ? pharmacy.phones : [];
+      pharmacy.hours = Array.isArray(pharmacy.hours) ? pharmacy.hours : [];
+      pharmacy.services = Array.isArray(pharmacy.services) ? pharmacy.services : [];
+      pharmacy.tags = Array.isArray(pharmacy.tags) ? pharmacy.tags : [];
+      startApp();
+    }
 
     </script>
     <script>
     /* =============================================================
-       ★★★  PHARMACY DATA: EDIT ONLY THIS SECTION  ★★★
+       START EDITING PHARMACY DETAILS BELOW
 
-       Everything specific to ONE pharmacy lives here.
-       For a new pharmacy, copy this file and change only the
-       values below. Nothing above this script needs to be touched.
-
-       Sections:
-         1. Settings
-         2. Pharmacy details
-         3. Labs (in-house + partner labs)
-         4. Lab tests and base prices
-         5. Doctors
+       Everything that varies by pharmacy is stored in this one object.
+       The profile initializes only after this configuration is defined.
        ============================================================= */
-
-
-    /* -------------------------------------------------------------
-       1. SETTINGS
-       ------------------------------------------------------------- */
-
-    // Lab offers (discounts, free home collection) are switched off for now.
-    // Change to true to show them again. Offer details are set per lab in section 3.
-    const SHOW_OFFERS = false;
-
-
-    /* -------------------------------------------------------------
-       2. PHARMACY DETAILS
-       ------------------------------------------------------------- */
-
     const pharmacy = {
 
+      // ----- Feature switches -----
+      showOffers: false,
+      visibility: {
+        medicines: true,
+        labs: true,
+        doctors: true,
+        about: true,
+        licence: true,
+        services: true,
+        hours: true,
+        contact: true,
+        offers: true,
+      },
+
       // ----- Name and description (shown in the top card) -----
-      name: "Pradhan Medicine Store",
+      name: "Jeevan Daan Pharma",
       label: "Pharmacy",                                  // small blue text above the name
       type: "Pharmacy & Health Store",                    // blue line under the name
-      location: "Saheed Nagar, Bhubaneswar, Odisha",              // short location line
+      location: "6QPR+38C, Jodupur Rd, Jadupur, Dumduma, Bhubaneswar, Odisha 751019",
       description:
-        "Prescription and OTC medicines, home delivery, lab tests through our in-house and partner labs, and doctor consultations.",
+        "Prescription and over-the-counter medicines, home delivery, laboratory tests, and doctor consultations.",
 
-      // ----- Images (paths are relative to this index.html) -----
-      logo: "../images/predlabs-logo.png",
-      poweredByLogo: "../images/powered-by-doctorjet.png",   // small badge, top right
+      // ----- Images (place the pharmacy image beside the copied index.html) -----
+      imageFilename: "pharmacy.jpg",                       // falls back to pharmacy.jpeg, then pharmacy.png
+      poweredByLogo: "powered-by-doctorjet.png",          // shared DoctorJet logo filename
 
       // ----- Contact -----
-      // WhatsApp number: country code + number, digits only. All requests are sent here.
-      whatsapp: "910000000000",
-      // One or more phone numbers (each becomes a "Call" button)
-      phones: ["+91 00000 00000"],
-      email: "hello@example.com",
-      address: "Shop No., Street, Area, Bhubaneswar, Odisha 751001",
-      // Paste the pharmacy's Google Maps link here
-      maps: "https://www.google.com/maps/search/?api=1&query=Sample%20Pharmacy%20Bhubaneswar",
+      // Replace these obvious placeholders before publishing.
+      whatsapp: "917008187315",                         // country code plus digits, no spaces
+      phones: ["+91 70081 87315"],
+      email: "doctorjet@mail.com",
+      address: "6QPR+38C, Jodupur Rd, Jadupur, Dumduma, Bhubaneswar, Odisha 751019",
+      maps: "",                                           // optional Google Maps URL
 
       // ----- Licence (shown in the "Licence" card) -----
-      licence: "Drug licence no. XXXX (add before publishing)",
+      licence: "Locked",
 
       // ----- The four boxes under the top card -----
       medicinesLabel: "Prescription & OTC",
-      delivery: "Available",                              // e.g. "Available" or "Not available"
+      delivery: "Available",
       labLabel: "In-house & partner labs",
 
       // ----- Opening hours (first row also appears in the top strip) -----
@@ -3850,11 +4090,9 @@
         "Partner Labs",
         "Doctor Consultation",
       ],
-    };
 
-
-    /* -------------------------------------------------------------
-       3. LABS
+      // ----- Labs (the first entry is usually the in-house lab) -----
+      /*
        The first lab is normally the pharmacy's own in-house lab.
        Add, remove or reorder labs freely. Each one gets its own tab.
 
@@ -3873,13 +4111,12 @@
          priceFactor   multiplier on the base price for every other test
                        (1 = same as base, 1.1 = 10% higher, 0.9 = 10% lower)
 
-       Offers (only shown when SHOW_OFFERS is true):
+       Offers (only shown when showOffers is true):
          { type: "percent",  value: 10, min: 1000, cap: 300, title: "10% off above ₹1,000" }
          { type: "flat",     value: 100, min: 1500, title: "₹100 off above ₹1,500" }
          { type: "freeHome", min: 800, title: "Free home collection above ₹800" }
-       ------------------------------------------------------------- */
-
-    const labProviders = [
+      */
+      labs: [
 
       // ----- In-house lab -----
       {
@@ -3901,9 +4138,9 @@
       // ----- Partner lab A -----
       {
         id: "partner-a",
-        name: "Partner Lab: PredLabs",
-        short: "PredLabs",
-        info: "NABL accredited · Fully Automated Lab",
+        name: "Partner Laboratory A",
+        short: "Partner A",
+        info: "Accredited laboratory · Routine and specialised testing",
         report: "24 hours",
         home: true,
         homeFee: 100,
@@ -3930,13 +4167,13 @@
           { type: "percent", value: 5, title: "5% off all tests" },
         ],
       },
-    ];
+      ],
 
 
-    /* -------------------------------------------------------------
-       4. LAB TESTS
+      // ----- Lab tests and base prices -----
+      /*
        `price` is the base price (MRP) in ₹. Each lab's price is
-       worked out from it (see section 3).
+       worked out from it using the lab pricing settings above.
 
        Fields:
          id        unique code, no spaces (used in labs' `prices` / `unavailable`)
@@ -3946,9 +4183,8 @@
          desc      one-line description
          price     base price in ₹
          sample    sample type (Blood, Urine, ...)
-       ------------------------------------------------------------- */
-
-    const labTests = [
+      */
+      tests: [
       {
         id: "cbc",
         name: "Complete Blood Count",
@@ -4039,11 +4275,11 @@
         price: 1499,
         sample: "Blood",
       },
-    ];
+      ],
 
 
-    /* -------------------------------------------------------------
-       5. DOCTORS
+      // ----- Associated doctors -----
+      /*
        Fields:
          id              unique code, no spaces
          name            e.g. "Dr. Name"
@@ -4054,33 +4290,79 @@
          modes           consultation types: "In-person", "Video", ...
          days            days available (full English day names)
          slots           time slots patients can pick
-       ------------------------------------------------------------- */
-
-    const doctors = [
+      */
+      doctors: [
       {
         id: "doc1",
-        name: "Dr. Sample Doctor",
-        specialty: "General Physician",
-        qualifications: "MBBS, MD",
-        photo: "../images/dr-arjun-das.png",
+        name: "Dr Jingyasa Swain",
+        specialty: "Medicine Specialist",
+        qualifications: "MBBS, MD(Medicine)",
+        photo: "",
         fee: "Call for fee",
         modes: ["In-person"],
-        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        slots: ["6:00 PM"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        slots: ["7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM"],
       },
       {
         id: "doc2",
-        name: "Dr. Another Doctor",
-        specialty: "Diabetologist",
-        qualifications: "MBBS, DNB",
-        photo: "../images/dr-arjun-das.png",
+        name: "Dr Dibyajyoti Nayak",
+        specialty: "Obstetrician & Gynecologist",
+        qualifications: "MBBS, MS (O&G), Assistant Professor IMS & SUM Hospital",
+        photo: "",
         fee: "Call for fee",
         modes: ["In-person", "Video"],
-        days: ["Monday", "Wednesday", "Saturday"],
-        slots: ["11:00 AM", "5:00 PM"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        slots: ["6:00 PM", "7:00 PM"],
       },
-    ];
+      {
+        id: "doc3",
+        name: "Dr Manjit Dash",
+        specialty: "Orthopedic & Spine Surgeon",
+        qualifications: "MBBS, MS (Orthopedics), Assistant Professor IMS & SUM Hospital",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person", "Video"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        slots: ["7:00 PM", "8:00 PM"],
+      },
+      {
+        id: "doc4",
+        name: "Dr Subhajit Karan",
+        specialty: "Pediatrician",
+        qualifications: "MBBS, MD (Pediatrics), Assistant Professor IMS & SUM Hospital",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person", "Video"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        slots: ["6:30 PM", "7:30 PM"],
+      },
+      {
+        id: "doc5",
+        name: "Dr Rupali Lopamudra Sahoo",
+        specialty: "Dermatologist",
+        qualifications: "MBBS, MD (Dermatology), Assistant Professor IMS & SUM Hospital",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person", "Video"],
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        slots: ["6:30 PM", "7:30 PM"],
+      },
+      {
+        id: "doc6",
+        name: "Dr Bishnu Prasad Sahoo",
+        specialty: "Psychiatrist",
+        qualifications: "MBBS, MD (Psychiatry), AIIMS Bhubaneswar",
+        photo: "",
+        fee: "Call for fee",
+        modes: ["In-person", "Video"],
+        days: ["Tuesday"],
+        slots: ["8:00 PM", "9:00 PM"],
+      },
+      ],
+    };
 
+    initializePharmacyProfile();
+    /* END PHARMACY CONFIGURATION */
     </script>
   </body>
 </html>
