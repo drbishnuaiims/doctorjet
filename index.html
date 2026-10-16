@@ -4791,9 +4791,19 @@ textarea{
     background:linear-gradient(90deg,rgba(48,213,200,.055),transparent);
 }
 
-.calc-option[data-name="DoctorJet profile"] .calc-check{
-    width:auto;
-    min-width:auto;
+.calc-option[data-name="DoctorJet profile"].active{
+    border-color:rgba(48,213,200,.55);
+    background:linear-gradient(90deg,rgba(48,213,200,.12),rgba(48,213,200,.025));
+}
+
+.calc-option-meta{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    flex:0 0 auto;
+}
+
+.calc-price-tag{
     padding:6px 9px;
     border:1px solid rgba(48,213,200,.28);
     border-radius:999px;
@@ -4802,11 +4812,28 @@ textarea{
     font-size:10px;
     font-weight:850;
     letter-spacing:.01em;
+    white-space:nowrap;
+}
+
+.calc-option:focus-visible{
+    outline:3px solid rgba(0,113,227,.45);
+    outline-offset:3px;
 }
 
 .calc-result .btn{
     margin-top:18px;
     align-self:flex-start;
+}
+
+.price-monthly{
+    color:var(--blue,#0071e3);
+    font-size:13px;
+    font-weight:750;
+    margin-bottom:8px;
+}
+
+.price-monthly:empty{
+    display:none;
 }
 
 @media(max-width:1000px){
@@ -4920,6 +4947,63 @@ textarea{
 
     .container{
         width:calc(100% - 28px);
+    }
+}
+
+/* Compact vertical rhythm between sections */
+section.section{
+    padding-top:80px;
+    padding-bottom:80px;
+}
+
+section.section.dj-hero-tools{
+    margin-top:0;
+    padding-top:56px;
+    padding-bottom:64px;
+}
+
+section.section .section-heading{
+    margin-bottom:44px;
+}
+
+section.cta{
+    padding-top:70px;
+    padding-bottom:90px;
+}
+
+.hero{
+    padding-bottom:56px;
+}
+
+@media(max-width:1000px){
+    .hero{
+        padding-bottom:40px;
+    }
+}
+
+@media(max-width:680px){
+    section.section{
+        padding-top:52px;
+        padding-bottom:52px;
+    }
+
+    section.section.dj-hero-tools{
+        margin-top:0;
+        padding-top:40px;
+        padding-bottom:48px;
+    }
+
+    section.section .section-heading{
+        margin-bottom:30px;
+    }
+
+    section.cta{
+        padding-top:48px;
+        padding-bottom:64px;
+    }
+
+    .hero{
+        padding-bottom:32px;
     }
 }
 </style>
@@ -5319,9 +5403,9 @@ textarea{
                         </div>
                         <div class="dj-patient-strip"><span>Patient</span><strong>Ananya Das</strong><span>32 / F</span></div>
                         <div class="dj-rx-table-head"><span>MEDICINE</span><span>DOSE</span><span>FREQUENCY</span><span>DURATION</span></div>
-                        <div class="dj-rx-demo-line"><b>Pantoprazole 40 mg</b><span>1 tab</span><span>1-0-0</span><span>30 days</span></div>
-                        <div class="dj-rx-demo-line"><b>Paracetamol 650 mg</b><span>1 tab</span><span>0-0-1</span><span>7 days</span></div>
-                        <div class="dj-rx-advice"><span>Advice</span><b>Review after 4 weeks · Continue regular follow-up</b></div>
+                        <div class="dj-rx-demo-line"><b>Paracetamol 650 mg</b><span>1 tab</span><span>1-1-1</span><span>3 days</span></div>
+                        <div class="dj-rx-demo-line"><b>Pantoprazole 40 mg</b><span>1 tab</span><span>1-0-0</span><span>7 days</span></div>
+                        <div class="dj-rx-advice"><span>Advice</span><b>Drink plenty of fluids · Review if fever persists</b></div>
                         <div class="dj-rx-actions"><span>Prescription ready</span><b>PDF</b><b>Share ↗</b></div>
                     </div>
                 </div>
@@ -5340,9 +5424,9 @@ textarea{
                             <div class="dj-mobile-status"><span>9:41</span><span>● ◒ ▰</span></div>
                             <div class="dj-app-header"><span class="dj-app-logo">DJ</span><div><strong>DoctorJet</strong><small>Doctor Workspace</small></div><b>⋮</b></div>
                             <div class="dj-app-patient"><span>NEW PRESCRIPTION</span><strong>Ananya Das</strong><small>32 years · Female</small></div>
-                            <div class="dj-mobile-field"><span>Diagnosis</span><b>Generalised anxiety disorder</b></div>
-                            <div class="dj-mobile-medicine"><div><strong>Sertraline 50 mg</strong><small>1 tablet · Once daily</small></div><b>30d</b></div>
-                            <div class="dj-mobile-medicine"><div><strong>Clonazepam 0.25 mg</strong><small>1 tablet · At bedtime</small></div><b>7d</b></div>
+                            <div class="dj-mobile-field"><span>Diagnosis</span><b>Acute viral fever with allergic rhinitis</b></div>
+                            <div class="dj-mobile-medicine"><div><strong>Paracetamol 650 mg</strong><small>1 tablet · Thrice daily</small></div><b>3d</b></div>
+                            <div class="dj-mobile-medicine"><div><strong>Levocetirizine 5 mg</strong><small>1 tablet · At bedtime</small></div><b>5d</b></div>
                             <div class="dj-mobile-save"><span>Prescription ready</span><b>✓</b></div>
                             <div class="dj-mobile-share"><b>Generate PDF</b><b>Share</b></div>
                         </div>
@@ -5365,8 +5449,8 @@ textarea{
                             <div class="dj-mobile-status"><span>9:41</span><span>● ◒ ▰</span></div>
                             <div class="dj-ios-header"><div><small>DOCTORJET</small><strong>New Prescription</strong></div><span>Save</span></div>
                             <div class="dj-ios-patient"><span>PATIENT</span><strong>Rahul Sharma</strong><small>45 years · Male</small></div>
-                            <div class="dj-ios-rx-row"><span>Rx</span><div><strong>Pantoprazole 40 mg</strong><small>1 tablet · Morning · 30 days</small></div><b>›</b></div>
-                            <div class="dj-ios-rx-row"><span>Rx</span><div><strong>Propranolol 20 mg</strong><small>1 tablet · SOS · 10 tablets</small></div><b>›</b></div>
+                            <div class="dj-ios-rx-row"><span>Rx</span><div><strong>Pantoprazole 40 mg</strong><small>1 tablet · Morning · 7 days</small></div><b>›</b></div>
+                            <div class="dj-ios-rx-row"><span>Rx</span><div><strong>Paracetamol 500 mg</strong><small>1 tablet · SOS · 10 tablets</small></div><b>›</b></div>
                             <div class="dj-ios-advice"><span>ADVICE</span><b>Review after 4 weeks</b></div>
                             <div class="dj-ios-bottom"><b>Preview PDF</b><strong>Share Prescription</strong></div>
                         </div>
@@ -5421,43 +5505,15 @@ textarea{
         </div>
 
         <div class="trust-item">
-            NEUROLOGISTS
-        </div>
-
-        <div class="trust-item">
             PEDIATRICIANS
         </div>
 
         <div class="trust-item">
-            ORTHOPEDISTS
+            ORTHOPAEDICIANS
         </div>
 
         <div class="trust-item">
-            GYNECOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            OPHTHALMOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            GASTROENTEROLOGISTS
-        </div>
-
-        <div class="trust-item">
-            UROLOGISTS
-        </div>
-
-        <div class="trust-item">
-            ONCOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            PHARMACY
-        </div>
-
-        <div class="trust-item">
-            LABS
+            GYNAECOLOGISTS
         </div>
 
 
@@ -5494,43 +5550,15 @@ textarea{
         </div>
 
         <div class="trust-item">
-            NEUROLOGISTS
-        </div>
-
-        <div class="trust-item">
             PEDIATRICIANS
         </div>
 
         <div class="trust-item">
-            ORTHOPEDISTS
+            ORTHOPAEDICIANS
         </div>
 
         <div class="trust-item">
-            GYNECOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            OPHTHALMOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            GASTROENTEROLOGISTS
-        </div>
-
-        <div class="trust-item">
-            UROLOGISTS
-        </div>
-
-        <div class="trust-item">
-            ONCOLOGISTS
-        </div>
-
-        <div class="trust-item">
-            PHARMACY
-        </div>
-
-        <div class="trust-item">
-            LABS
+            GYNAECOLOGISTS
         </div>
 
     </div>
@@ -5991,7 +6019,7 @@ textarea{
 
                     <p>
 
-                        Personalised mental healthcare
+                        Personalised heart care
                         designed around the individual.
 
                     </p>
@@ -6159,50 +6187,43 @@ textarea{
                         margin-top:15px;
                         font-size:13px;
                     ">
-
-                        Select the practice features you need and
-                        generate an indicative project estimate.
-                        Appointment booking, WhatsApp and digital
-                        prescriptions can be added to the core site.
-
+                        Start with your DoctorJet profile at ₹99/month, then
+                        choose any optional services to build an
+                        indicative launch estimate.
                     </p>
 
 
                     <div class="calc-options">
 
 
-                        <div class="calc-option"
-                         data-price="99"
-                         data-name="DoctorJet profile">
-
-                        <div>
-
-                            <div class="calc-title">
-                                DoctorJet profile
-                            </div>
-
-                            <div class="calc-desc">
-                                Doctors · Clinics · Pharmacies · Hospitals · Labs · Nursing officers · Pharmacists & more · Customisable features & add-ons
-                            </div>
-
-                        </div>
-
-                        <div class="calc-check">
-                            ₹99/mo
-                        </div>
-
-                    </div>
-
-                    <div class="calc-check">
-                                FREE
-                            </div>
-
-                        </div>
-
-
                         <div class="calc-option active"
+                             data-price="0"
+                             data-monthly="99"
+                             data-name="DoctorJet profile"
+                             role="checkbox"
+                             aria-checked="true"
+                             tabindex="0">
+
+                            <div>
+                                <div class="calc-title">DoctorJet profile</div>
+                                <div class="calc-desc">
+                                    Doctors · Clinics · Pharmacies · Hospitals · Labs · Nursing officers · Pharmacists & more · Customisable features & add-ons
+                                </div>
+                            </div>
+
+                            <div class="calc-option-meta">
+                                <span class="calc-price-tag">₹99/month</span>
+                                <span class="calc-check" aria-hidden="true">✓</span>
+                            </div>
+                        </div>
+
+
+                        <div class="calc-option"
                              data-price="12600"
-                             data-name="Professional website">
+                             data-name="Professional website"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6217,7 +6238,7 @@ textarea{
                             </div>
 
                             <div class="calc-check">
-                                ✓
+                                +
                             </div>
 
                         </div>
@@ -6225,7 +6246,10 @@ textarea{
 
                         <div class="calc-option"
                              data-price="4900"
-                             data-name="Google optimisation">
+                             data-name="Google optimisation"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6248,7 +6272,10 @@ textarea{
 
                         <div class="calc-option"
                              data-price="5600"
-                             data-name="Appointment system">
+                             data-name="Appointment system"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6271,7 +6298,10 @@ textarea{
 
                         <div class="calc-option"
                              data-price="5600"
-                             data-name="Digital prescription">
+                             data-name="Digital prescription"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6294,7 +6324,10 @@ textarea{
 
                         <div class="calc-option"
                              data-price="3500"
-                             data-name="WhatsApp integration">
+                             data-name="WhatsApp integration"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6317,7 +6350,10 @@ textarea{
 
                         <div class="calc-option"
                              data-price="7000"
-                             data-name="Professional content">
+                             data-name="Professional content"
+                             role="checkbox"
+                             aria-checked="false"
+                             tabindex="0">
 
                             <div>
 
@@ -6354,14 +6390,18 @@ textarea{
                     <div class="price"
                          id="price">
 
-                        ₹12,600
+                        ₹0
 
                     </div>
 
 
+                    <div class="price-monthly"
+                         id="priceMonthly"></div>
+
+
                     <div class="price-note">
 
-                        Final quotation depends on
+                        One-time project value. Final quotation depends on
                         scope and requirements.
 
                     </div>
@@ -7063,10 +7103,17 @@ const selected =
         "selected"
     );
 
+const priceMonthly =
+    document.getElementById(
+        "priceMonthly"
+    );
+
 
 function updatePrice(){
 
     let total = 0;
+
+    let monthly = 0;
 
     let selectedItems = [];
 
@@ -7084,7 +7131,14 @@ function updatePrice(){
                         option.dataset.price
                     );
 
+                const recurring =
+                    Number(
+                        option.dataset.monthly || 0
+                    );
+
                 total += amount;
+
+                monthly += recurring;
 
 
                 selectedItems.push({
@@ -7093,7 +7147,10 @@ function updatePrice(){
                         option.dataset.name,
 
                     price:
-                        amount
+                        amount,
+
+                    monthly:
+                        recurring
 
                 });
 
@@ -7108,6 +7165,11 @@ function updatePrice(){
         total.toLocaleString(
             "en-IN"
         );
+
+    priceMonthly.textContent =
+        monthly
+            ? "+ ₹" + monthly + "/month DoctorJet profile"
+            : "";
 
 
     selected.innerHTML =
@@ -7133,8 +7195,9 @@ function updatePrice(){
                 </span>
 
                 <span>
-                    ₹${item.price
-                        .toLocaleString("en-IN")}
+                    ${item.monthly
+                        ? `₹${item.monthly}/month`
+                        : `₹${item.price.toLocaleString("en-IN")}`}
                 </span>
 
             `;
@@ -7150,57 +7213,47 @@ function updatePrice(){
 }
 
 
+function toggleCalcOption(option){
+
+    const isActive =
+        option.classList.toggle("active");
+
+    option.setAttribute(
+        "aria-checked",
+        String(isActive)
+    );
+
+    const check =
+        option.querySelector(".calc-check");
+
+    check.textContent =
+        isActive ? "✓" : "+";
+
+    updatePrice();
+
+}
+
+
 calcOptions.forEach(
     option => {
 
         option.addEventListener(
             "click",
             () => {
+                toggleCalcOption(option);
+            }
+        );
 
-                /*
-                    Base website remains
-                    permanently selected.
-                */
-
+        option.addEventListener(
+            "keydown",
+            event => {
                 if(
-                    option.dataset.name ===
-                    "Professional website"
+                    event.key === "Enter" ||
+                    event.key === " "
                 ){
-
-                    return;
-
+                    event.preventDefault();
+                    toggleCalcOption(option);
                 }
-
-
-                option.classList.toggle(
-                    "active"
-                );
-
-
-                const check =
-                    option.querySelector(
-                        ".calc-check"
-                    );
-
-
-                if(
-                    option.classList
-                        .contains("active")
-                ){
-
-                    check.textContent =
-                        "✓";
-
-                }else{
-
-                    check.textContent =
-                        "+";
-
-                }
-
-
-                updatePrice();
-
             }
         );
 
