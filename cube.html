@@ -1,0 +1,711 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotion Regulation | Course Modules</title>
+
+<style>
+:root {
+  --bg: #f5f5f7;
+  --text: #1d1d1f;
+  --secondary: #86868b;
+  --blue: #0071e3;
+  --glass: rgba(255, 255, 255, 0.76);
+  --size: 300px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 50% 35%, #ffffff 0%, transparent 55%),
+    var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  width: min(100%, 900px);
+  padding: 48px 24px 36px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -1.8px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  max-width: 480px;
+  margin: 16px auto 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--secondary);
+}
+
+/* Cube stage */
+
+.stage {
+  height: 390px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1100px;
+  margin: 12px auto 0;
+  overflow: visible;
+}
+
+.cube-wrap {
+  width: var(--size);
+  height: var(--size);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: float 5s ease-in-out infinite;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 950ms cubic-bezier(.2,.75,.25,1);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 30px;
+  background: var(--glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    0 12px 35px rgba(0,0,0,.045);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 27px;
+  text-align: left;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -85px;
+  top: -90px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .12;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.face-front  { transform: rotateY(0deg) translateZ(150px); }
+.face-right  { transform: rotateY(90deg) translateZ(150px); }
+.face-back   { transform: rotateY(180deg) translateZ(150px); }
+.face-left   { transform: rotateY(-90deg) translateZ(150px); }
+.face-top    { transform: rotateX(90deg) translateZ(150px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+.module-number {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.module-title {
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -.8px;
+  margin: auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.module-author {
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--secondary);
+  position: relative;
+  z-index: 1;
+}
+
+.face-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.face-footer span {
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.open-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  font-size: 20px;
+}
+
+/* Navigation */
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: -5px;
+}
+
+.nav-btn {
+  border: 1px solid rgba(0,0,0,.06);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+  font-size: 22px;
+  color: var(--text);
+  transition: transform .2s, background .2s;
+}
+
+.nav-btn:hover {
+  background: white;
+  transform: scale(1.06);
+}
+
+.nav-btn:active {
+  transform: scale(.94);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 26px 0 18px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: #c7c7cc;
+  transition: width .3s, background .3s;
+}
+
+.dot.active {
+  width: 24px;
+  background: var(--blue);
+}
+
+.active-title {
+  min-height: 48px;
+  max-width: 460px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.active-description {
+  margin: 8px auto 0;
+  max-width: 400px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
+.bottom-bar {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.play-btn {
+  border: none;
+  background: var(--blue);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,113,227,.18);
+  transition: background .2s, transform .2s;
+}
+
+.play-btn:hover {
+  background: #0077ed;
+  transform: translateY(-1px);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+
+@media (max-width: 480px) {
+  :root { --size: 260px; }
+
+  .app { padding: 38px 16px 28px; }
+  h1 { letter-spacing: -1.2px; }
+  .stage { height: 335px; }
+  .face { padding: 23px; border-radius: 25px; }
+  .face-front  { transform: rotateY(0deg) translateZ(130px); }
+  .face-right  { transform: rotateY(90deg) translateZ(130px); }
+  .face-back   { transform: rotateY(180deg) translateZ(130px); }
+  .face-left   { transform: rotateY(-90deg) translateZ(130px); }
+  .face-top    { transform: rotateX(90deg) translateZ(130px); }
+  .face-bottom { transform: rotateX(-90deg) translateZ(130px); }
+  .module-title { font-size: 22px; }
+  .subtitle { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <div class="eyebrow">The Science of Emotion</div>
+  <h1>Emotion Regulation</h1>
+  <p class="subtitle">
+    Six modules. One interactive experience.
+    Explore how emotions shape our relationships and social world.
+  </p>
+
+  <section class="stage" aria-label="Interactive 3D module cube">
+    <div class="cube-wrap" id="cubeWrap">
+      <div class="cube" id="cube">
+
+        <article class="face face-front"
+          style="--accent:#0071e3">
+          <span class="module-number">Module 18</span>
+          <h2 class="module-title">Interpersonal Emotion Regulation</h2>
+          <div>
+            <div class="module-author">Karen Niven</div>
+            <div class="face-footer">
+              <span>Social Aspects · Interpersonal</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="face face-right"
+          style="--accent:#9254de">
+          <span class="module-number">Module 19</span>
+          <h2 class="module-title">Attachment Processes and Emotion Regulation</h2>
+          <div>
+            <div class="module-author">Mario Mikulincer &amp; Phillip R. Shaver</div>
+            <div class="face-footer">
+              <span>Social Aspects · Interpersonal</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="face face-back"
+          style="--accent:#e05a47">
+          <span class="module-number">Module 20</span>
+          <h2 class="module-title">Emotion Regulation in Romantic Relationships</h2>
+          <div>
+            <div class="module-author">Tabea Meier, Jacquelyn E. Stephens &amp; Claudia M. Haase</div>
+            <div class="face-footer">
+              <span>Social Aspects · Interpersonal</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="face face-left"
+          style="--accent:#159b79">
+          <span class="module-number">Module 21</span>
+          <h2 class="module-title">Emotion Regulation in Parenting</h2>
+          <div>
+            <div class="module-author">Moïra Mikolajczak &amp; Isabelle Roskam</div>
+            <div class="face-footer">
+              <span>Social Aspects · Interpersonal</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="face face-top"
+          style="--accent:#e09b24">
+          <span class="module-number">Module 22</span>
+          <h2 class="module-title">Regulating Collective Emotions</h2>
+          <div>
+            <div class="module-author">Amit Goldenberg</div>
+            <div class="face-footer">
+              <span>Social Aspects · Groups</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="face face-bottom"
+          style="--accent:#d94683">
+          <span class="module-number">Module 23</span>
+          <h2 class="module-title">Emotion Regulation in the Context of Discrimination</h2>
+          <div>
+            <div class="module-author">Dorainne J. Green, Ajua Duker &amp; Jennifer A. Richeson</div>
+            <div class="face-footer">
+              <span>Social Aspects · Groups</span>
+              <span class="open-icon">↗</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="navigation">
+    <button class="nav-btn" id="prev" aria-label="Previous module">‹</button>
+    <button class="nav-btn" id="next" aria-label="Next module">›</button>
+  </div>
+
+  <div class="dots" id="dots" aria-label="Select a module"></div>
+
+  <div class="active-title" id="activeTitle" aria-live="polite">
+    Interpersonal Emotion Regulation
+  </div>
+  <p class="active-description" id="activeDescription">
+    Module 18 · Karen Niven · Page 153
+  </p>
+
+  <div class="bottom-bar">
+    <button class="play-btn" id="playBtn">Pause Rotation</button>
+    <span class="hint">Drag to explore · Use arrows to navigate</span>
+  </div>
+
+</main>
+
+<script>
+const cube = document.getElementById("cube");
+const cubeWrap = document.getElementById("cubeWrap");
+const dots = document.getElementById("dots");
+const activeTitle = document.getElementById("activeTitle");
+const activeDescription = document.getElementById("activeDescription");
+const playBtn = document.getElementById("playBtn");
+
+const modules = [
+  {
+    number: 18,
+    title: "Interpersonal Emotion Regulation",
+    author: "Karen Niven",
+    page: 153
+  },
+  {
+    number: 19,
+    title: "Implications of Attachment Processes for Emotion Regulation",
+    author: "Mario Mikulincer and Phillip R. Shaver",
+    page: 160
+  },
+  {
+    number: 20,
+    title: "Emotion Regulation in Romantic Relationships",
+    author: "Tabea Meier, Jacquelyn E. Stephens and Claudia M. Haase",
+    page: 167
+  },
+  {
+    number: 21,
+    title: "Emotion Regulation in Parenting",
+    author: "Moïra Mikolajczak and Isabelle Roskam",
+    page: 174
+  },
+  {
+    number: 22,
+    title: "Regulating Collective Emotions",
+    author: "Amit Goldenberg",
+    page: 183
+  },
+  {
+    number: 23,
+    title: "Emotion Regulation in the Context of Discrimination",
+    author: "Dorainne J. Green, Ajua Duker and Jennifer A. Richeson",
+    page: 190
+  }
+];
+
+// Each entry specifies the cube's orientation for the corresponding face.
+const orientations = [
+  { x: 0,   y: 0 },
+  { x: 0,   y: -90 },
+  { x: 0,   y: -180 },
+  { x: 0,   y: -270 },
+  { x: -90, y: 0 },
+  { x: 90,  y: 0 }
+];
+
+let current = 0;
+let rotationTimer = null;
+let isPlaying = true;
+let touchStartX = 0;
+let touchStartY = 0;
+let dragStartX = 0;
+let dragStartY = 0;
+let isDragging = false;
+let dragMoved = false;
+
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+// Build navigation dots.
+modules.forEach((module, index) => {
+  const dot = document.createElement("button");
+  dot.className = "dot";
+  dot.type = "button";
+  dot.setAttribute("aria-label", `Show module ${module.number}`);
+  dot.addEventListener("click", () => {
+    stopRotation();
+    showModule(index);
+  });
+  dots.appendChild(dot);
+});
+
+function showModule(index) {
+  current = (index + modules.length) % modules.length;
+
+  const orientation = orientations[current];
+
+  cube.style.transform =
+    `rotateX(${orientation.x}deg) rotateY(${orientation.y}deg)`;
+
+  const module = modules[current];
+  activeTitle.textContent = module.title;
+  activeDescription.textContent =
+    `Module ${module.number} · ${module.author} · Page ${module.page}`;
+
+  [...dots.children].forEach((dot, i) => {
+    dot.classList.toggle("active", i === current);
+    dot.setAttribute("aria-current", i === current ? "true" : "false");
+  });
+}
+
+function nextModule() {
+  showModule(current + 1);
+}
+
+function previousModule() {
+  showModule(current - 1);
+}
+
+function startRotation() {
+  stopRotation();
+  isPlaying = true;
+  playBtn.textContent = "Pause Rotation";
+
+  rotationTimer = setInterval(() => {
+    nextModule();
+  }, 4500);
+}
+
+function stopRotation() {
+  if (rotationTimer !== null) {
+    clearInterval(rotationTimer);
+    rotationTimer = null;
+  }
+
+  isPlaying = false;
+  playBtn.textContent = "Play Rotation";
+}
+
+document.getElementById("next").addEventListener("click", () => {
+  stopRotation();
+  nextModule();
+});
+
+document.getElementById("prev").addEventListener("click", () => {
+  stopRotation();
+  previousModule();
+});
+
+playBtn.addEventListener("click", () => {
+  if (isPlaying) {
+    stopRotation();
+  } else {
+    startRotation();
+  }
+});
+
+// Pause automatic rotation when the user interacts with the cube.
+cubeWrap.addEventListener("pointerdown", event => {
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+
+  stopRotation();
+  isDragging = true;
+  dragMoved = false;
+  dragStartX = event.clientX;
+  dragStartY = event.clientY;
+  cubeWrap.style.animationPlayState = "paused";
+  cubeWrap.setPointerCapture?.(event.pointerId);
+});
+
+cubeWrap.addEventListener("pointermove", event => {
+  if (!isDragging) return;
+
+  const dx = event.clientX - dragStartX;
+  const dy = event.clientY - dragStartY;
+
+  if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+    dragMoved = true;
+  }
+
+  if (dragMoved) {
+    cube.style.transition = "none";
+
+    const orientation = orientations[current];
+    const x = orientation.x - dy * 0.5;
+    const y = orientation.y + dx * 0.5;
+
+    cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
+  }
+});
+
+function finishDrag() {
+  if (!isDragging) return;
+
+  isDragging = false;
+  cubeWrap.style.animationPlayState = "";
+
+  cube.style.transition =
+    "transform 950ms cubic-bezier(.2,.75,.25,1)";
+
+  if (dragMoved) {
+    // Snap to the closest intended face based on horizontal movement.
+    const dx = eventSafeDeltaX();
+
+    if (Math.abs(dx) > 45) {
+      showModule(current + (dx < 0 ? 1 : -1));
+    } else {
+      showModule(current);
+    }
+  } else {
+    showModule(current);
+  }
+}
+
+let lastDragDeltaX = 0;
+
+function eventSafeDeltaX() {
+  return lastDragDeltaX;
+}
+
+cubeWrap.addEventListener("pointermove", event => {
+  if (isDragging) {
+    lastDragDeltaX = event.clientX - dragStartX;
+  }
+});
+
+cubeWrap.addEventListener("pointerup", finishDrag);
+cubeWrap.addEventListener("pointercancel", finishDrag);
+
+// Keyboard navigation.
+document.addEventListener("keydown", event => {
+  if (event.key === "ArrowRight") {
+    stopRotation();
+    nextModule();
+  } else if (event.key === "ArrowLeft") {
+    stopRotation();
+    previousModule();
+  } else if (event.code === "Space" &&
+             !["INPUT", "TEXTAREA", "BUTTON"].includes(
+               document.activeElement.tagName
+             )) {
+    event.preventDefault();
+    isPlaying ? stopRotation() : startRotation();
+  }
+});
+
+// Pause when the page is hidden.
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopRotation();
+  }
+});
+
+// Initial state.
+showModule(0);
+
+if (!reducedMotion) {
+  startRotation();
+} else {
+  stopRotation();
+}
+</script>
+</body>
+</html>
