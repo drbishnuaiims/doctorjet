@@ -1,78 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Doctor profiles -->
+  <url><loc>https://doctorjet.in/doctors/dr_arti_verma.html</loc></url>
+  <url><loc>https://doctorjet.in/doctors/dr-bishnu-prasad-sahoo-neuropsychiatrist-aiims-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/doctors/dr-thitta-mohanty-pulmonary-medicine-bhubaneswar/</loc></url>
 
-    <!-- Homepage -->
-    <url>
-        <loc>https://doctorjet.in/</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
+  <!-- Pharmacy profiles -->
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/alok-drug-house-dumduma-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/city-pharma-ekamra-road-forest-park-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/dumduma-drug-house-housing-board-colony-dumduma-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/jeevan-daan-pharma-dumduma-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/lucky-medicine-store-jadupur-dumduma-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/mahesh-medicals-ganga-nagar-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/mohanty-drug-house-ekamra-marg-ganga-nagar-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/orissa-drug-house-surya-nagar-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/bhubaneswar/pradhan-medicine-store-saheednagar-bhubaneswar/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/kataka/life-pharma-chandni-chowk-katak/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/kataka/mg-plus-chemist-druggist-dargah-bazar-katak/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/kataka/minati-medicine-store-barang-katak/</loc></url>
+  <url><loc>https://doctorjet.in/pharmacy/kataka/zinqe-med-cuttack-gayatri-vihar-katak/</loc></url>
 
-    <!-- Doctor Profiles -->
-    <url>
-        <loc>https://doctorjet.in/doctors/bhakhti.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/doctors/dr_archie_derma.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/doctors/dr_arti_verma.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/doctors/dr_spo.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/doctors/drpahuja.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <!-- Pharmacy -->
-    <url>
-        <loc>https://doctorjet.in/pharmacy/</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/pharmacy/bhubaneswar/dumduma-drug-house-housing-board-colony-dumduma-bhubaneswar/</loc>
-        <lastmod>2026-10-11</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://doctorjet.in/pharmacy/bhubaneswar/jeevan-daan-pharma-dumduma-bhubaneswar/</loc>
-        <lastmod>2026-10-11</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Public Roster Tool -->
-    <url>
-        <loc>https://doctorjet.in/roster.html</loc>
-        <lastmod>2026-09-28</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
+  <!-- Lab profiles -->
+  <url><loc>https://doctorjet.in/labs/predlabs/predlabs-bhubaneswar/</loc></url>
 </urlset>

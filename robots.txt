@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /tools/
+Disallow: /templates/
+Disallow: /pharmacy/template/
+
+Sitemap: https://doctorjet.in/sitemap.xml
