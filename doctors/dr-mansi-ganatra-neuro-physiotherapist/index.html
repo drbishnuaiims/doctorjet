@@ -154,14 +154,11 @@
     .contact-line .service-icon{width:39px;height:39px;margin:0;font-size:1rem;flex-shrink:0}
     .contact-line strong{display:block;font-size:.88rem}
     .contact-line span{display:block;color:var(--muted);font-size:.82rem}
-    .map-panel{min-height:300px;border-radius:25px;overflow:hidden;background:linear-gradient(135deg,#e8edf2,#f2f3f5);display:grid;place-items:center;text-align:center;padding:28px}
-    .map-panel .service-icon{margin-inline:auto}
-    .map-panel p{max-width:360px;font-size:.9rem}
-    .map-panel .btn{margin-top:8px}
     footer{padding:32px 0 25px;background:#eceef1}
     .footer-main{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;padding-bottom:23px}
     .footer-links{display:flex;gap:18px;flex-wrap:wrap;font-size:.81rem;color:#515963}
     .footer-bottom{border-top:1px solid rgba(29,29,31,.09);padding-top:16px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;font-size:.72rem;color:#777d84}.footer-powered{color:#555d66}.footer-powered a{color:var(--blue);font-weight:600}
+    .back-to-top{position:fixed;right:20px;bottom:20px;z-index:24;width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(29,29,31,.12);border-radius:50%;background:rgba(255,255,255,.94);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.13);backdrop-filter:blur(14px);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s ease,visibility .2s ease,transform .2s ease}.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}.back-to-top:hover{background:#fff;color:var(--blue)}.back-to-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
     .review-carousel-block{margin:24px 0 26px}.carousel-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:13px}.carousel-heading h3{margin:0}.carousel-controls{display:flex;gap:7px}.carousel-arrow{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:1.1rem}.carousel-arrow:hover{background:#eef2f6}.review-carousel{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;scrollbar-width:thin;scrollbar-color:#c5cbd1 transparent}.review-card{flex:0 0 min(320px,82vw);scroll-snap-align:start;padding:19px;border-radius:20px;background:rgba(255,255,255,.9);border:1px solid rgba(29,29,31,.09);box-shadow:0 6px 22px rgba(0,0,0,.04)}.review-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.review-card-name{font-size:.87rem;font-weight:650}.review-card-date{font-size:.72rem;color:var(--muted)}.review-card-text{font-size:.86rem;line-height:1.6;color:#555d66;margin:12px 0 0;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}.review-platform{font-size:.68rem;color:#68727c;background:#eef1f4;padding:4px 8px;border-radius:999px}.modal-review-carousel{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 1px 12px;margin:14px 0}.modal-review-carousel .review-card{flex-basis:260px}.modal-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 
@@ -221,6 +218,7 @@
       .footer-main{display:block}.footer-links{margin-top:20px;gap:14px}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:6px}
       .modal{padding:21px 17px;border-radius:22px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
       .mobile-booking{display:flex;position:fixed;z-index:25;bottom:9px;left:11px;right:11px;padding:6px;border-radius:999px;background:rgba(255,255,255,.92);border:1px solid white;box-shadow:0 8px 28px rgba(0,0,0,.13);backdrop-filter:blur(18px)}
+      .back-to-top{right:14px;bottom:82px;width:40px;height:40px}
       .mobile-booking .btn{width:100%}footer{padding-bottom:90px}
     }
     @media(max-width:380px){.hero h1{font-size:2.15rem}.hero-grid{grid-template-columns:92px minmax(0,1fr);column-gap:10px}.hero .profile-avatar{width:92px;height:92px}.profile-qr-share-wrap{gap:4px}.profile-qr{min-width:64px;padding:5px}.qr-code,.qr-code img,.qr-code canvas{width:50px!important;height:50px!important}.profile-share-button{padding:0 7px}.review-pill{padding:8px 7px}.review-pill small{font-size:.64rem}.reel-grid{grid-template-columns:1fr}.reel-thumb{height:170px}.hero-buttons{flex-direction:row}}
@@ -251,10 +249,11 @@
           <div class="designation">Neurophysiotherapist & Aquatic Therapist</div>
           <div class="clinic-line">Mulund West, Mumbai · Consultations by appointment</div>
           <div class="review-links" aria-label="Review platforms">
-            <button class="review-pill" id="googleReviewButton" type="button">
+            <!-- Edit the rating and review count below directly in this HTML when they change. -->
+            <a class="review-pill" href="https://maps.app.goo.gl/xVFMSSQrHZY7oYVu5" target="_blank" rel="noopener" aria-label="Open Google reviews">
               <span class="platform-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5h6.7c3.9-3.6 6-8.8 6-14.9z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.7-5c-1.8 1.2-4 1.9-6.8 1.9-5.2 0-9.6-3.5-11.2-8.2H5.9v5.1A20 20 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.8 27.9a12 12 0 0 1 0-7.8V15H5.9a20 20 0 0 0 0 18z"/><path fill="#EA4335" d="M24 11.9c3 0 5.7 1 7.8 3.1l5.9-5.9C34.1 5.8 29.5 4 24 4A20 20 0 0 0 5.9 15l6.9 5.1c1.6-4.7 6-8.2 11.2-8.2z"/></svg></span>
-              <span><strong>Google <span id="googleReviewCount">Reviews</span></strong><small><span id="googleReviewRating">Rating not configured</span></small></span>
-            </button>
+              <span><strong>Google Reviews</strong><small>☆☆☆☆☆ 0.0 / 5 · 0 reviews</small></span>
+            </a>
             <button class="review-pill" id="doctorjetReviewButton" type="button">
               <span class="platform-icon doctorjet" aria-hidden="true"><img src="../../assets/doctorjet_logo.png" alt="DoctorJet" onerror="this.style.display='none';this.parentElement.textContent='✳'"></span>
               <span><strong>DoctorJet <span id="doctorjetReviewCount">Reviews</span></strong><small><span id="doctorjetReviewRating">Loading reviews…</span></small></span>
@@ -324,18 +323,17 @@
     </div></section>
 
     <section class="section services" id="reviews"><div class="shell">
-      <div class="section-head reveal"><div class="eyebrow">Patient feedback</div><h2>Experiences matter. Feedback helps us improve.</h2><p class="lead">Choose a review platform. Ratings and testimonials are not displayed here until verified and approved.</p></div>
-      <div class="review-carousel-block reveal"><div class="carousel-heading"><h3>DoctorJet patient feedback</h3><div class="carousel-controls"><button class="carousel-arrow" type="button" data-scroll-reviews="-1" aria-label="Scroll DoctorJet reviews left">←</button><button class="carousel-arrow" type="button" data-scroll-reviews="1" aria-label="Scroll DoctorJet reviews right">→</button></div></div><div class="review-carousel" id="reviewCarousel" aria-live="polite"><div class="empty-reviews">Approved DoctorJet reviews will appear here once the Google Sheet is connected.</div></div><div class="carousel-heading" style="margin-top:22px"><h3>Google reviews</h3><div class="carousel-controls"><button class="carousel-arrow" type="button" data-scroll-google="-1" aria-label="Scroll Google reviews left">←</button><button class="carousel-arrow" type="button" data-scroll-google="1" aria-label="Scroll Google reviews right">→</button></div></div><div class="review-carousel" id="googleReviewCarousel" aria-live="polite"><div class="empty-reviews">Google review excerpts will appear here after Google Places is configured in Apps Script.</div></div></div>
+      <div class="section-head reveal"><div class="eyebrow">Patient feedback</div><h2>Experiences matter. Feedback helps us improve.</h2><p class="lead">DoctorJet ratings and testimonials are displayed only after verification and approval.</p></div>
+      <div class="review-carousel-block reveal"><div class="carousel-heading"><h3>DoctorJet patient feedback</h3><div class="carousel-controls"><button class="carousel-arrow" type="button" data-scroll-reviews="-1" aria-label="Scroll DoctorJet reviews left">←</button><button class="carousel-arrow" type="button" data-scroll-reviews="1" aria-label="Scroll DoctorJet reviews right">→</button></div></div><div class="review-carousel" id="reviewCarousel" aria-live="polite"><div class="empty-reviews">Approved DoctorJet reviews will appear here once the Google Sheet is connected.</div></div></div>
       <div class="review-grid" style="margin-top:25px">
-        <div class="review-source glass reveal"><div class="source-head"><div><span class="source-badge">GOOGLE REVIEWS</span><h3 style="margin-top:12px">Share your Google experience</h3></div><span aria-hidden="true" style="font-size:1.4rem">↗</span></div><p>Leave feedback on Google to help others find accurate information about the clinic.</p><div class="review-actions"><button class="btn btn-primary btn-sm" data-google-review>Open Google reviews ↗</button></div><p class="form-note" id="googleReviewNote">The clinic owner must add the verified Google review URL before publishing.</p></div>
         <div class="review-source glass reveal"><div class="source-head"><div><span class="source-badge">DOCTORJET</span><h3 style="margin-top:12px">Share feedback on DoctorJet</h3></div><span aria-hidden="true" style="font-size:1.4rem">✳</span></div><p>Submit honest feedback for moderation. Reviews are stored in the connected Google Sheet.</p><div class="review-actions"><button class="btn btn-secondary btn-sm" data-open-review>Write a DoctorJet review ↗</button></div></div>
       </div>
-      <div class="review-list" id="approvedReviews" aria-live="polite"><div class="empty-reviews">No approved testimonials have been added yet. Reviews will appear here only after verification and approval.</div></div>
+      <div class="review-list" id="approvedReviews" aria-live="polite"><div class="empty-reviews">No approved testimonials have been added by you yet. Reviews will appear here only after verification and approval.</div></div>
     </div></section>
 
     <section class="cta-section"><div class="shell"><div class="cta-panel reveal"><div><div class="eyebrow" style="color:#c5d5e5">Your next step</div><h2>Let’s talk about your rehabilitation goals.</h2><p>Appointments are arranged in advance so your concerns can be understood and the next step discussed.</p></div><button class="btn" data-open-appointment>Request an appointment ↗</button></div></div></section>
 
-    <section class="section" id="contact"><div class="shell contact-grid">
+    <section class="section" id="contact"><div class="shell">
       <div class="reveal"><div class="eyebrow">Visit Raah</div><h2>Care begins with a conversation.</h2><p>Contact the clinic to ask about availability, consultation format, and whether the service is appropriate for your needs.</p>
         <div class="contact-details">
           <div class="contact-line"><div class="service-icon">⌖</div><div><strong>Raah — Neurophysiotherapy and Rehab Clinic</strong><span>2nd Floor, Mulund West, Mumbai</span><span>Confirm the complete street address before publishing.</span></div></div>
@@ -343,11 +341,11 @@
           <div class="contact-line"><div class="service-icon">✉</div><div><strong>Contact the clinic</strong><span id="contactPhone">Add the verified phone number or email in site configuration.</span></div></div>
         </div><div style="margin-top:23px"><button class="btn btn-primary" data-open-appointment>Book an appointment ↗</button></div>
       </div>
-      <div class="map-panel reveal"><div><div class="service-icon">⌖</div><h3>Find the clinic</h3><p>Open directions once the exact clinic address has been confirmed in the configuration.</p><a class="btn btn-secondary" id="directionsLink" href="#">Get directions ↗</a></div></div>
     </div></section>
   </main>
 
   <footer><div class="shell"><div class="footer-main"><a class="brand" href="#top"><span class="brand-mark"><img src="clinic-logo.png" alt="Raah Neurophysiotherapy & Rehab Clinic logo"></span><span>Raah<small>Neurophysiotherapy & Rehab</small></span></a><div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#insights">Videos</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></div></div><div class="footer-bottom"><span>© <span id="year"></span> Raah Neurophysiotherapy and Rehab Clinic.</span><span>Website information is educational and does not replace professional assessment.</span><span class="footer-powered">Powered by <a href="https://doctorjet.in" target="_blank" rel="noopener">DoctorJet.in</a></span></div></div></footer>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Go to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"></path></svg></button>
   <div class="mobile-booking"><button class="btn btn-primary" data-open-appointment>Book Appointment ↗</button></div>
 
   <div class="modal-backdrop" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="appointmentTitle">
@@ -377,20 +375,13 @@
 
   <div class="modal-backdrop" id="doctorjetGalleryModal" role="dialog" aria-modal="true" aria-labelledby="doctorjetGalleryTitle"><div class="modal"><div class="modal-head"><div><div class="eyebrow">DoctorJet</div><h2 id="doctorjetGalleryTitle">DoctorJet reviews</h2><p style="margin-bottom:0;font-size:.88rem" id="doctorjetGallerySummary">Loading approved reviews…</p></div><button class="close-modal" data-close-modal aria-label="Close DoctorJet reviews">×</button></div><div class="modal-review-carousel" id="doctorjetModalReviews"></div><div class="modal-actions"><button class="btn btn-primary" data-open-review>Leave a DoctorJet review ↗</button></div><p class="form-note">Reviews submitted through this website are moderated before they appear publicly.</p></div></div>
 
-  <div class="modal-backdrop" id="googleModal" role="dialog" aria-modal="true" aria-labelledby="googleModalTitle">
-    <div class="modal"><div class="modal-head"><div><div class="eyebrow">Google</div><h2 id="googleModalTitle">Google Reviews</h2><p style="margin-bottom:0;font-size:.88rem" id="googleGallerySummary">Google review rating and review count will appear when configured.</p></div><button class="close-modal" data-close-modal aria-label="Close Google review dialog">×</button></div><div class="modal-review-carousel" id="googleModalReviews"><div class="empty-reviews">Google review excerpts require a configured Google Places API connection.</div></div><div class="modal-actions"><a class="btn btn-primary" id="googleModalLink" href="#" target="_blank" rel="noopener">Leave a Google review ↗</a></div><p class="form-note" id="googleModalNote">Add the verified Google review URL and configure Google Places API in Apps Script to show live rating, count, and review excerpts.</p></div>
-  </div>
-
   <script>
     /* Configure these with verified clinic information before publishing. */
     const SITE_CONFIG = {
       appsScriptUrl: "https://script.google.com/macros/s/AKfycbxFjwb33IV6S1lbFWERnFkxStA8nY97jJI2GNT7_4aBIS8secb1V4urWawep_O2xXbn_w/exec",
-      googleReviewUrl: "https://maps.app.goo.gl/xVFMSSQrHZY7oYVu5",
       directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=19.1740799%2C72.954541",
       clinicPhone: "918879285616",
-      whatsappNumber: "918879285616", // digits only with country code, e.g. 9198XXXXXXXX
-      googleRating: null, // optional verified fallback, e.g. 4.8
-      googleReviewCount: null // optional verified fallback count
+      whatsappNumber: "918879285616" // digits only with country code, e.g. 9198XXXXXXXX
     };
     document.getElementById('year').textContent = new Date().getFullYear();
     const platformBar=document.getElementById('platformBar'),platformTrigger=document.getElementById('platformTrigger');let platformHideTimer;
@@ -404,15 +395,13 @@
     menuToggle.addEventListener('click',()=>{const open=navLinks.classList.toggle('open');menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close menu':'Open menu');menuToggle.textContent=open?'×':'☰';});
     navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuToggle.setAttribute('aria-expanded','false');menuToggle.textContent='☰';}));
 
-    const appointmentModal=document.getElementById('appointmentModal'),reviewModal=document.getElementById('reviewModal'),googleModal=document.getElementById('googleModal'),doctorjetGalleryModal=document.getElementById('doctorjetGalleryModal');
-    const modals=[appointmentModal,reviewModal,googleModal,doctorjetGalleryModal];let lastFocused=null;
+    const appointmentModal=document.getElementById('appointmentModal'),reviewModal=document.getElementById('reviewModal'),doctorjetGalleryModal=document.getElementById('doctorjetGalleryModal');
+    const modals=[appointmentModal,reviewModal,doctorjetGalleryModal];let lastFocused=null;
     function openModal(modal){lastFocused=document.activeElement;modal.classList.add('open');document.body.classList.add('modal-open');const f=modal.querySelector('input:not([type=hidden]),button,a');if(f)setTimeout(()=>f.focus(),50);}
     function closeModal(modal){modal.classList.remove('open');if(!modals.some(m=>m.classList.contains('open')))document.body.classList.remove('modal-open');if(lastFocused)lastFocused.focus();}
     document.querySelectorAll('[data-open-appointment]').forEach(b=>b.addEventListener('click',()=>openModal(appointmentModal)));
     document.querySelectorAll('[data-open-review]').forEach(b=>b.addEventListener('click',()=>{if(doctorjetGalleryModal.classList.contains('open'))doctorjetGalleryModal.classList.remove('open');openModal(reviewModal);}));
     document.getElementById('doctorjetReviewButton').addEventListener('click',()=>openModal(doctorjetGalleryModal));
-    document.getElementById('googleReviewButton').addEventListener('click',()=>openModal(googleModal));
-    document.querySelectorAll('[data-google-review]').forEach(b=>b.addEventListener('click',()=>openModal(googleModal)));
     document.querySelectorAll('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>closeModal(b.closest('.modal-backdrop'))));
     modals.forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m);});m.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal(m);});});
     document.addEventListener('keydown',e=>{if(e.key==='Escape')modals.forEach(m=>m.classList.contains('open')&&closeModal(m));});
@@ -422,12 +411,10 @@
     document.querySelectorAll('.tree-toggle').forEach(toggle=>toggle.addEventListener('click',()=>{const key=toggle.dataset.tree,content=document.querySelector(`[data-tree-content="${key}"]`),expanded=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!expanded));content.hidden=expanded;toggle.querySelector('span').textContent=expanded?'＋':'−';}));
     document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('active'));button.classList.add('active');const filter=button.dataset.filter;document.querySelectorAll('.reel-card').forEach(card=>card.style.display=filter==='all'||card.dataset.category===filter?'':'none');}));
 
-    const googleModalLink=document.getElementById('googleModalLink'),googleModalNote=document.getElementById('googleModalNote'),directionsLink=document.getElementById('directionsLink'),heroDirectionsLink=document.getElementById('heroDirectionsLink'),heroWhatsappLink=document.getElementById('heroWhatsappLink');
-    if(SITE_CONFIG.googleReviewUrl){googleModalLink.href=SITE_CONFIG.googleReviewUrl;googleModalNote.style.display='none';}else googleModalLink.addEventListener('click',e=>{e.preventDefault();googleModalNote.textContent='Add the verified Google review URL in SITE_CONFIG before using this link.';});
-    if(SITE_CONFIG.directionsUrl){directionsLink.href=SITE_CONFIG.directionsUrl;heroDirectionsLink.href=SITE_CONFIG.directionsUrl;heroDirectionsLink.target='_blank';heroDirectionsLink.rel='noopener';}else {directionsLink.addEventListener('click',e=>{e.preventDefault();alert('Add the verified directions URL in SITE_CONFIG before using this link.');});heroDirectionsLink.addEventListener('click',e=>{e.preventDefault();alert('Add the verified directions URL in SITE_CONFIG before using this link.');});}
+    const heroDirectionsLink=document.getElementById('heroDirectionsLink'),heroWhatsappLink=document.getElementById('heroWhatsappLink');
+    if(SITE_CONFIG.directionsUrl){heroDirectionsLink.href=SITE_CONFIG.directionsUrl;heroDirectionsLink.target='_blank';heroDirectionsLink.rel='noopener';}else heroDirectionsLink.addEventListener('click',e=>{e.preventDefault();alert('Add the verified directions URL in SITE_CONFIG before using this button.');});
     if(SITE_CONFIG.whatsappNumber){heroWhatsappLink.href='https://wa.me/'+SITE_CONFIG.whatsappNumber+'?text='+encodeURIComponent('Hello, I would like to enquire about an appointment at Raah Neurophysiotherapy and Rehab Clinic.');}else heroWhatsappLink.addEventListener('click',e=>{e.preventDefault();alert('Add the clinic WhatsApp number in SITE_CONFIG before using this button.');});
     if(SITE_CONFIG.clinicPhone)document.getElementById('contactPhone').textContent=SITE_CONFIG.clinicPhone;
-    if(SITE_CONFIG.googleRating!==null && SITE_CONFIG.googleReviewCount!==null){document.getElementById('googleReviewCount').textContent=Number(SITE_CONFIG.googleReviewCount).toLocaleString()+' reviews';document.getElementById('googleReviewRating').textContent='★ '+Number(SITE_CONFIG.googleRating).toFixed(1)+' rating';document.getElementById('googleGallerySummary').textContent='★ '+Number(SITE_CONFIG.googleRating).toFixed(1)+' · '+Number(SITE_CONFIG.googleReviewCount).toLocaleString()+' Google reviews';}
 
     function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function reviewCard(review, platform){const rating=Math.max(0,Math.min(5,Number(review.rating)||0));const date=review.timestamp?new Date(review.timestamp).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):(review.relativeTimeDescription||'');const body=escapeHTML(review.comment||review.text||'');const name=escapeHTML(review.name||review.authorName||'Reviewer');return `<article class="review-card"><div class="review-card-top"><span class="review-card-name">${name}</span><span class="review-platform">${platform}</span></div><div class="stars" aria-label="${rating} out of 5 stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div><p class="review-card-text">${body||'No written comment provided.'}</p><div class="review-card-date">${escapeHTML(date)}</div></article>`;}
@@ -436,7 +423,6 @@
       const dj=data.doctorjet||{};const reviews=Array.isArray(dj.reviews)?dj.reviews:[];const count=Number(dj.count)||0;const avg=Number(dj.averageRating)||0;
       document.getElementById('doctorjetReviewCount').textContent=count.toLocaleString()+' reviews';document.getElementById('doctorjetReviewRating').textContent=count?`★ ${avg.toFixed(1)} average rating`:'No approved reviews yet';document.getElementById('doctorjetGallerySummary').textContent=count?`★ ${avg.toFixed(1)} · ${count.toLocaleString()} approved reviews`:'No approved DoctorJet reviews yet';
       fillReviewRail(document.getElementById('reviewCarousel'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('doctorjetModalReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');
-      const google=data.google||{};if(google.rating!=null&&google.count!=null){document.getElementById('googleReviewCount').textContent=Number(google.count).toLocaleString()+' reviews';document.getElementById('googleReviewRating').textContent=`★ ${Number(google.rating).toFixed(1)} rating`;document.getElementById('googleGallerySummary').textContent=`★ ${Number(google.rating).toFixed(1)} · ${Number(google.count).toLocaleString()} Google reviews`;if(google.reviews){fillReviewRail(document.getElementById('googleModalReviews'),google.reviews,'Google','No Google review excerpts were returned.');fillReviewRail(document.getElementById('googleReviewCarousel'),google.reviews,'Google','No Google review excerpts were returned.');}}
       document.querySelectorAll('#reviews .reveal').forEach(el=>el.classList.add('visible'));
     }
     window.raahReviewsLoaded=function(data){renderReviewData(data||{});};
@@ -444,7 +430,8 @@
       if(!SITE_CONFIG.appsScriptUrl||SITE_CONFIG.appsScriptUrl.includes('PASTE_YOUR_')){document.getElementById('doctorjetReviewCount').textContent='Reviews';document.getElementById('doctorjetReviewRating').textContent='Connect review sheet';document.getElementById('doctorjetGallerySummary').textContent='Connect Google Sheets to display approved DoctorJet reviews.';return;}
       const script=document.createElement('script');script.src=SITE_CONFIG.appsScriptUrl+'?action=reviews&callback=raahReviewsLoaded';script.async=true;script.onerror=()=>{document.getElementById('doctorjetReviewRating').textContent='Reviews temporarily unavailable';document.getElementById('doctorjetGallerySummary').textContent='Reviews could not be loaded. Please try again later.';};document.head.appendChild(script);
     }
-    document.querySelectorAll('[data-scroll-reviews]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById('reviewCarousel').scrollBy({left:Number(btn.dataset.scrollReviews)*330,behavior:'smooth'})));document.querySelectorAll('[data-scroll-google]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById('googleReviewCarousel').scrollBy({left:Number(btn.dataset.scrollGoogle)*330,behavior:'smooth'})));
+    document.querySelectorAll('[data-scroll-reviews]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById('reviewCarousel').scrollBy({left:Number(btn.dataset.scrollReviews)*330,behavior:'smooth'})));
+    const backToTop=document.getElementById('backToTop'),updateBackToTop=()=>backToTop.classList.toggle('visible',window.scrollY>500);window.addEventListener('scroll',updateBackToTop,{passive:true});updateBackToTop();backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
     loadReviewData();
 
     let selectedRating=0;const ratingButtons=[...document.querySelectorAll('[data-rating]')];
