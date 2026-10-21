@@ -422,13 +422,17 @@
     function renderReviewData(data){
       const dj=data.doctorjet||{};const reviews=Array.isArray(dj.reviews)?dj.reviews:[];const count=Number(dj.count)||0;const avg=Number(dj.averageRating)||0;
       document.getElementById('doctorjetReviewCount').textContent=count.toLocaleString()+' reviews';document.getElementById('doctorjetReviewRating').textContent=count?`★ ${avg.toFixed(1)} average rating`:'No approved reviews yet';document.getElementById('doctorjetGallerySummary').textContent=count?`★ ${avg.toFixed(1)} · ${count.toLocaleString()} approved reviews`:'No approved DoctorJet reviews yet';
-      fillReviewRail(document.getElementById('reviewCarousel'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('doctorjetModalReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');
+      fillReviewRail(document.getElementById('reviewCarousel'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('approvedReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('doctorjetModalReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');
       document.querySelectorAll('#reviews .reveal').forEach(el=>el.classList.add('visible'));
     }
     window.raahReviewsLoaded=function(data){renderReviewData(data||{});};
     function loadReviewData(){
       if(!SITE_CONFIG.appsScriptUrl||SITE_CONFIG.appsScriptUrl.includes('PASTE_YOUR_')){document.getElementById('doctorjetReviewCount').textContent='Reviews';document.getElementById('doctorjetReviewRating').textContent='Connect review sheet';document.getElementById('doctorjetGallerySummary').textContent='Connect Google Sheets to display approved DoctorJet reviews.';return;}
-      const script=document.createElement('script');script.src=SITE_CONFIG.appsScriptUrl+'?action=reviews&callback=raahReviewsLoaded';script.async=true;script.onerror=()=>{document.getElementById('doctorjetReviewRating').textContent='Reviews temporarily unavailable';document.getElementById('doctorjetGallerySummary').textContent='Reviews could not be loaded. Please try again later.';};document.head.appendChild(script);
+      const callback='raahReviewsLoaded_'+Date.now(),script=document.createElement('script'),query=new URLSearchParams({action:'reviews',callback,cacheBust:Date.now().toString()});let completed=false;
+      const fail=()=>{if(completed)return;completed=true;clearTimeout(timeout);delete window[callback];script.remove();document.getElementById('doctorjetReviewRating').textContent='Reviews temporarily unavailable';document.getElementById('doctorjetGallerySummary').textContent='Reviews could not be loaded. Please try again later.';};
+      const timeout=setTimeout(fail,15000);
+      window[callback]=data=>{if(completed)return;completed=true;clearTimeout(timeout);delete window[callback];script.remove();renderReviewData(data||{});};
+      script.async=true;script.onerror=fail;script.src=SITE_CONFIG.appsScriptUrl+(SITE_CONFIG.appsScriptUrl.includes('?')?'&':'?')+query.toString();document.head.appendChild(script);
     }
     document.querySelectorAll('[data-scroll-reviews]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById('reviewCarousel').scrollBy({left:Number(btn.dataset.scrollReviews)*330,behavior:'smooth'})));
     const backToTop=document.getElementById('backToTop'),updateBackToTop=()=>backToTop.classList.toggle('visible',window.scrollY>500);window.addEventListener('scroll',updateBackToTop,{passive:true});updateBackToTop();backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
