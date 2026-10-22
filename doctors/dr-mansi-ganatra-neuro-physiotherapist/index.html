@@ -136,7 +136,6 @@
     .source-badge{padding:6px 9px;border-radius:999px;background:#eff1f3;font-size:.68rem;font-weight:700;color:#56606a}
     .review-source p{font-size:.88rem}
     .review-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
-    .review-list{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:18px}
     .review-quote{padding:19px;border-radius:19px}
     .stars{color:#d49b38;letter-spacing:2px;font-size:.85rem}
     .review-quote blockquote{margin:10px 0;color:#555d66;font-size:.86rem}
@@ -191,7 +190,7 @@
       .nav-links{gap:13px}.nav-links a{font-size:.8rem}
       .hero-grid{grid-template-columns:150px minmax(0,1fr) auto;gap:22px}.hero .profile-avatar{width:140px;height:140px}.qr-code,.qr-code img,.qr-code canvas{width:60px!important;height:60px!important}.profile-qr{min-width:80px}.profile-qr-share-wrap{gap:9px}.profile-share-wrap{min-width:0}
       .about-grid,.philosophy-grid{gap:35px}.service-grid{grid-template-columns:repeat(2,1fr)}
-      .insights-layout{grid-template-columns:220px 1fr}.review-list{grid-template-columns:1fr 1fr}
+      .insights-layout{grid-template-columns:220px 1fr}
     }
     @media(max-width:700px){
       html{scroll-padding-top:80px}.shell{width:min(calc(100% - 30px),var(--max))}
@@ -213,7 +212,7 @@
       .clinical-image{height:280px;order:2}.philosophy-grid{gap:23px}
       .insights-layout{grid-template-columns:1fr;gap:16px}.tree-panel{position:static}
       .reel-grid{grid-template-columns:1fr 1fr;gap:9px}.reel-thumb{height:130px}.reel-info{padding:12px}.reel-info h3{font-size:.94rem}.reel-info p{font-size:.78rem}
-      .review-grid,.review-list{grid-template-columns:1fr}#reviews .reveal{opacity:1;transform:none}.review-carousel{overflow-x:auto;-webkit-overflow-scrolling:touch}.review-card{flex-basis:min(320px,82vw)}
+      .review-grid{grid-template-columns:1fr}#reviews .reveal{opacity:1;transform:none}.review-carousel{overflow-x:auto;-webkit-overflow-scrolling:touch}.review-card{flex-basis:min(320px,82vw)}
       .cta-section{padding:8px 0 65px}.cta-panel{padding:29px 23px;display:block;border-radius:24px}.cta-panel h2{font-size:2rem}.cta-panel .btn{margin-top:20px;width:100%}
       .footer-main{display:block}.footer-links{margin-top:20px;gap:14px}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:6px}
       .modal{padding:21px 17px;border-radius:22px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
@@ -328,7 +327,6 @@
       <div class="review-grid" style="margin-top:25px">
         <div class="review-source glass reveal"><div class="source-head"><div><span class="source-badge">DOCTORJET</span><h3 style="margin-top:12px">Share feedback on DoctorJet</h3></div><span aria-hidden="true" style="font-size:1.4rem">✳</span></div><p>Submit honest feedback for moderation. Reviews are stored in the DoctorJet database.</p><div class="review-actions"><button class="btn btn-secondary btn-sm" data-open-review>Write a DoctorJet review ↗</button></div></div>
       </div>
-      <div class="review-list" id="approvedReviews" aria-live="polite"><div class="empty-reviews">No approved testimonials have been added by you yet. Reviews will appear here only after verification and approval.</div></div>
     </div></section>
 
     <section class="cta-section"><div class="shell"><div class="cta-panel reveal"><div><div class="eyebrow" style="color:#c5d5e5">Your next step</div><h2>Let’s talk about your rehabilitation goals.</h2><p>Appointments are arranged in advance so your concerns can be understood and the next step discussed.</p></div><button class="btn" data-open-appointment>Request an appointment ↗</button></div></div></section>
@@ -422,7 +420,7 @@
     function renderReviewData(data){
       const dj=data.doctorjet||{};const reviews=Array.isArray(dj.reviews)?dj.reviews:[];const count=Number(dj.count)||0;const avg=Number(dj.averageRating)||0;
       document.getElementById('doctorjetReviewCount').textContent=count.toLocaleString()+' reviews';document.getElementById('doctorjetReviewRating').textContent=count?`★ ${avg.toFixed(1)} average rating`:'No approved reviews yet';document.getElementById('doctorjetGallerySummary').textContent=count?`★ ${avg.toFixed(1)} · ${count.toLocaleString()} approved reviews`:'No approved DoctorJet reviews yet';
-      fillReviewRail(document.getElementById('reviewCarousel'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('approvedReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('doctorjetModalReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');
+      fillReviewRail(document.getElementById('reviewCarousel'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');fillReviewRail(document.getElementById('doctorjetModalReviews'),reviews,'DoctorJet','No approved DoctorJet reviews are available yet.');
       document.querySelectorAll('#reviews .reveal').forEach(el=>el.classList.add('visible'));
     }
     // Keep the profile useful if a phone has a slow/intermittent connection to Google Apps Script.
