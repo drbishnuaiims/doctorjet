@@ -5864,364 +5864,180 @@ const laboratory = {
 
 const labTests = [
 
-    {
-        id: "cbc",
-
-        name:
-            "Complete Blood Count",
-
-        shortName:
-            "CBC",
-
-        category:
-            "Blood",
-
-        description:
-            "Measures haemoglobin, RBC, WBC and platelet parameters.",
-
-        price:
-            450,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "hba1c",
-
-        name:
-            "HbA1c",
-
-        shortName:
-            "HbA1c",
-
-        category:
-            "Diabetes",
-
-        description:
-            "Reflects average blood glucose over approximately 2–3 months.",
-
-        price:
-            400,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "fasting-glucose",
-
-        name:
-            "Fasting Blood Glucose",
-
-        shortName:
-            "FBS",
-
-        category:
-            "Diabetes",
-
-        description:
-            "Measures blood glucose after an overnight fasting period.",
-
-        price:
-            150,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "lipid",
-
-        name:
-            "Lipid Profile",
-
-        shortName:
-            "Lipid",
-
-        category:
-            "Lipid",
-
-        description:
-            "Measures cholesterol, triglycerides, HDL and LDL parameters.",
-
-        price:
-            550,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "tsh",
-
-        name:
-            "Thyroid Stimulating Hormone",
-
-        shortName:
-            "TSH",
-
-        category:
-            "Thyroid",
-
-        description:
-            "Measures TSH as part of thyroid function assessment.",
-
-        price:
-            350,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "ft4",
-
-        name:
-            "Free Thyroxine",
-
-        shortName:
-            "FT4",
-
-        category:
-            "Thyroid",
-
-        description:
-            "Measures circulating free thyroxine as part of thyroid assessment.",
-
-        price:
-            400,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "lft",
-
-        name:
-            "Liver Function Test",
-
-        shortName:
-            "LFT",
-
-        category:
-            "Liver",
-
-        description:
-            "Assesses commonly used biochemical markers of liver function.",
-
-        price:
-            650,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "kft",
-
-        name:
-            "Kidney Function Test",
-
-        shortName:
-            "KFT",
-
-        category:
-            "Kidney",
-
-        description:
-            "Assesses commonly used markers of renal function.",
-
-        price:
-            600,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "urine-routine",
-
-        name:
-            "Urine Routine Examination",
-
-        shortName:
-            "Urine R/E",
-
-        category:
-            "Urine",
-
-        description:
-            "Routine microscopic and biochemical examination of urine.",
-
-        price:
-            180,
-
-        reportTime:
-            "Same day",
-
-        sample:
-            "Urine",
-
-        homeCollection:
-            false
-
-    },
-
-
-    {
-        id: "vitamin-d",
-
-        name:
-            "Vitamin D",
-
-        shortName:
-            "25-OH Vitamin D",
-
-        category:
-            "Vitamin",
-
-        description:
-            "Measures serum 25-hydroxy vitamin D concentration.",
-
-        price:
-            1200,
-
-        reportTime:
-            "24 hours",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "vitamin-b12",
-
-        name:
-            "Vitamin B12",
-
-        shortName:
-            "B12",
-
-        category:
-            "Vitamin",
-
-        description:
-            "Measures circulating vitamin B12 concentration.",
-
-        price:
-            850,
-
-        reportTime:
-            "24 hours",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    },
-
-
-    {
-        id: "liver-package",
-
-        name:
-            "Basic Health Check Package",
-
-        shortName:
-            "Health Package",
-
-        category:
-            "Health Packages",
-
-        description:
-            "A selected combination of commonly requested screening investigations.",
-
-        price:
-            1499,
-
-        reportTime:
-            "24–48 hours",
-
-        sample:
-            "Blood",
-
-        homeCollection:
-            true
-
-    }
+    { id: "aec-absolute-eosinophil-count", name: "AEC (Absolute Eosinophil Count)", shortName: "AEC (Absolute Eosinophil Count)", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "aptt", name: "APTT", shortName: "APTT", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "blood-grouping-and-rh-typing", name: "Blood Grouping and Rh Typing", shortName: "Blood Grouping and Rh Typing", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "bt-ct", name: "BT,CT", shortName: "BT,CT", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "cbc", name: "CBC", shortName: "CBC", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "d-dimer", name: "D-Dimer", shortName: "D-Dimer", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "dc", name: "DC", shortName: "DC", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "esr", name: "ESR", shortName: "ESR", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 90 },
+    { id: "hemoglobin-hb", name: "Hemoglobin (Hb)", shortName: "Hemoglobin (Hb)", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 80 },
+    { id: "hemoglobin-electrophoresis", name: "Hemoglobin Electrophoresis", shortName: "Hemoglobin Electrophoresis", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "peripheral-blood-smear-pbs", name: "Peripheral Blood Smear (PBS)", shortName: "Peripheral Blood Smear (PBS)", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "pt-inr", name: "PT/INR", shortName: "PT/INR", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 320 },
+    { id: "reticulocyte-count", name: "Reticulocyte Count", shortName: "Reticulocyte Count", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "sickle-cell-test", name: "Sickle Cell Test", shortName: "Sickle Cell Test", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 400 },
+    { id: "tpc-total-platelet-count", name: "TPC (Total Platelet Count)", shortName: "TPC (Total Platelet Count)", category: "Hematology and coagulation", description: "Hematology and coagulation investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "fbs", name: "FBS", shortName: "FBS", category: "Diabetes and glucose testing", description: "Diabetes and glucose testing investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "hba1c", name: "HbA1c", shortName: "HbA1c", category: "Diabetes and glucose testing", description: "Diabetes and glucose testing investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "ppbs-1-hour", name: "PPBS (1 Hour)", shortName: "PPBS (1 Hour)", category: "Diabetes and glucose testing", description: "Diabetes and glucose testing investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "ppbs-2-hour", name: "PPBS (2 Hour)", shortName: "PPBS (2 Hour)", category: "Diabetes and glucose testing", description: "Diabetes and glucose testing investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "rbs", name: "RBS", shortName: "RBS", category: "Diabetes and glucose testing", description: "Diabetes and glucose testing investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "bun-blood-urea-nitrogen", name: "BUN (Blood Urea Nitrogen)", shortName: "BUN (Blood Urea Nitrogen)", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 100 },
+    { id: "calcium", name: "Calcium", shortName: "Calcium", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "chloride", name: "Chloride", shortName: "Chloride", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "creatinine-serum", name: "Creatinine Serum", shortName: "Creatinine Serum", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 100 },
+    { id: "electrolytes", name: "Electrolytes", shortName: "Electrolytes", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "glomerular-filtration-rate-egfr", name: "GLOMERULAR FILTRATION RATE (eGFR)", shortName: "GLOMERULAR FILTRATION RATE (eGFR)", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "kft", name: "KFT", shortName: "KFT", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "magnesium", name: "Magnesium", shortName: "Magnesium", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "microalbumin", name: "Microalbumin", shortName: "Microalbumin", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "phosphate", name: "Phosphate", shortName: "Phosphate", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "phosphorus", name: "Phosphorus", shortName: "Phosphorus", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 200 },
+    { id: "potassium", name: "Potassium", shortName: "Potassium", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "sodium", name: "Sodium", shortName: "Sodium", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 100 },
+    { id: "urea", name: "Urea", shortName: "Urea", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 100 },
+    { id: "uric-acid-serum", name: "Uric Acid (Serum)", shortName: "Uric Acid (Serum)", category: "Renal function and electrolytes", description: "Renal function and electrolytes investigation at Predlabs Bhubaneswar.", price: 120 },
+    { id: "25-oh-vitamin-d", name: "25-OH Vitamin D", shortName: "25-OH Vitamin D", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "albumin", name: "Albumin", shortName: "Albumin", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "alp-alkaline-phosphatase", name: "ALP (Alkaline Phosphatase)", shortName: "ALP (Alkaline Phosphatase)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "amylase", name: "Amylase", shortName: "Amylase", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 450 },
+    { id: "angiotensin-converting-enzyme-ace", name: "Angiotensin Converting Enzyme (ACE)", shortName: "Angiotensin Converting Enzyme (ACE)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "apolipoprotein", name: "Apolipoprotein", shortName: "Apolipoprotein", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "bilirubin", name: "Bilirubin", shortName: "Bilirubin", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "cholesterol", name: "Cholesterol", shortName: "Cholesterol", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "cpk", name: "CPK", shortName: "CPK", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "crp-qualitative", name: "CRP(Qualitative)", shortName: "CRP(Qualitative)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "crp-quantitative", name: "CRP(Quantitative)", shortName: "CRP(Quantitative)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "ferritin", name: "Ferritin", shortName: "Ferritin", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 700 },
+    { id: "homocysteine", name: "Homocysteine", shortName: "Homocysteine", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 1100 },
+    { id: "iron-binding-capacity-total-tibc", name: "Iron Binding Capacity - Total (TIBC)", shortName: "Iron Binding Capacity - Total (TIBC)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "iron-profile", name: "Iron Profile", shortName: "Iron Profile", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "iron-fe", name: "IRON/Fe", shortName: "IRON/Fe", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "lactate-dehydrogenase-ldh", name: "Lactate Dehydrogenase (LDH)", shortName: "Lactate Dehydrogenase (LDH)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 450 },
+    { id: "lft", name: "LFT", shortName: "LFT", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "lipase", name: "Lipase", shortName: "Lipase", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 450 },
+    { id: "lipidprofile", name: "LipidProfile", shortName: "LipidProfile", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "nt-probnp", name: "NT-proBNP", shortName: "NT-proBNP", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 2400 },
+    { id: "protein", name: "Protein", shortName: "Protein", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "sgot", name: "SGOT", shortName: "SGOT", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 80 },
+    { id: "sgpt", name: "SGPT", shortName: "SGPT", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 80 },
+    { id: "triglyceride", name: "Triglyceride", shortName: "Triglyceride", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "unsaturated-iron-binding-capacity-uibc", name: "Unsaturated Iron Binding Capacity (UIBC)", shortName: "Unsaturated Iron Binding Capacity (UIBC)", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "vitamin-b12", name: "Vitamin B12", shortName: "Vitamin B12", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 800 },
+    { id: "zinc", name: "ZINC", shortName: "ZINC", category: "Clinical biochemistry and vitamins", description: "Clinical biochemistry and vitamins investigation at Predlabs Bhubaneswar.", price: 2400 },
+    { id: "17-alpha-hydroxyprogesterone", name: "17-Alpha Hydroxyprogesterone", shortName: "17-Alpha Hydroxyprogesterone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "acth", name: "ACTH", shortName: "ACTH", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "aldosterone", name: "Aldosterone", shortName: "Aldosterone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1800 },
+    { id: "amh", name: "AMH", shortName: "AMH", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 2000 },
+    { id: "androstenedione", name: "Androstenedione", shortName: "Androstenedione", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 900 },
+    { id: "c-peptide", name: "C-Peptide", shortName: "C-Peptide", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 750 },
+    { id: "cortisol-3pm-5pm", name: "Cortisol (3pm-5pm)", shortName: "Cortisol (3pm-5pm)", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 700 },
+    { id: "cortisol-7am-9am", name: "Cortisol (7am-9am)", shortName: "Cortisol (7am-9am)", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 700 },
+    { id: "dual-marker", name: "Dual Marker", shortName: "Dual Marker", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1800 },
+    { id: "estradiol", name: "Estradiol", shortName: "Estradiol", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "free-testosterone", name: "Free Testosterone", shortName: "Free Testosterone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "fsh-folliclestimulatinghormone", name: "FSH/FollicleStimulatingHormone", shortName: "FSH/FollicleStimulatingHormone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "ft3-ft4-tsh", name: "FT3,FT4,TSH", shortName: "FT3,FT4,TSH", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 750 },
+    { id: "ft4-tsh", name: "FT4,TSH", shortName: "FT4,TSH", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "insulin", name: "Insulin", shortName: "Insulin", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "lh-luteinizing-hormone", name: "LH (Luteinizing Hormone)", shortName: "LH (Luteinizing Hormone)", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "progesterone", name: "Progesterone", shortName: "Progesterone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "prolactin", name: "Prolactin", shortName: "Prolactin", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "shbg", name: "SHBG", shortName: "SHBG", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 2350 },
+    { id: "thyroid-profile-t3-t4-tsh", name: "Thyroid Profile (T3, T4, TSH)", shortName: "Thyroid Profile (T3, T4, TSH)", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "total-testosterone", name: "Total Testosterone", shortName: "Total Testosterone", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 700 },
+    { id: "triple-marker", name: "Triple Marker", shortName: "Triple Marker", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 1600 },
+    { id: "tsh", name: "TSH", shortName: "TSH", category: "Hormones, thyroid and reproductive investigations", description: "Hormones, thyroid and reproductive investigations investigation at Predlabs Bhubaneswar.", price: 250 },
+    { id: "ana-immunoblot", name: "ANA Immunoblot", shortName: "ANA Immunoblot", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 3280 },
+    { id: "ana-profile", name: "ANA Profile", shortName: "ANA Profile", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 3400 },
+    { id: "ana-elisa", name: "ANA-Elisa", shortName: "ANA-Elisa", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 900 },
+    { id: "ana-ifa", name: "ANA-IFA", shortName: "ANA-IFA", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 2000 },
+    { id: "anti-ccp-antibody", name: "Anti-CCP Antibody", shortName: "Anti-CCP Antibody", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "anti-tg", name: "Anti-Tg", shortName: "Anti-Tg", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 630 },
+    { id: "anti-tpo", name: "Anti-TPO", shortName: "Anti-TPO", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "cardiolipinigg", name: "CardiolipinIgG", shortName: "CardiolipinIgG", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "cardiolipinigm", name: "CardiolipinIgM", shortName: "CardiolipinIgM", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "hla-b27", name: "HLA-B27", shortName: "HLA-B27", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 1200 },
+    { id: "ige", name: "IGE", shortName: "IGE", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "rheumatoid-factor-qualitative", name: "Rheumatoid Factor (Qualitative)", shortName: "Rheumatoid Factor (Qualitative)", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "rheumatoid-factor-quantitative", name: "Rheumatoid Factor (Quantitative)", shortName: "Rheumatoid Factor (Quantitative)", category: "Immunology, autoimmune and allergy", description: "Immunology, autoimmune and allergy investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "aso", name: "ASO", shortName: "ASO", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "chlamydia-trachomatis-iga", name: "Chlamydia trachomatis IgA", shortName: "Chlamydia trachomatis IgA", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "chlamydia-trachomatis-igg", name: "Chlamydia trachomatis IgG", shortName: "Chlamydia trachomatis IgG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "cmv-igg", name: "CMV IgG", shortName: "CMV IgG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "cmv-igm", name: "CMV IgM", shortName: "CMV IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "dengue-card-igg-igm-ns1-antigen", name: "Dengue Card (IgG, IgM, NS1 Antigen)", shortName: "Dengue Card (IgG, IgM, NS1 Antigen)", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 800 },
+    { id: "dengue-elisa-igg-igm-ns1-antigen", name: "Dengue ELISA (IgG, IgM, NS1 Antigen)", shortName: "Dengue ELISA (IgG, IgM, NS1 Antigen)", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 2100 },
+    { id: "hbeag", name: "HBEAG", shortName: "HBEAG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "hbsag", name: "HBsAg", shortName: "HBsAg", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 150 },
+    { id: "hbv-dna-quantitative-qualitative-pcr", name: "HBV DNA (Quantitative / Qualitative PCR)", shortName: "HBV DNA (Quantitative / Qualitative PCR)", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 4200 },
+    { id: "hcv", name: "HCV", shortName: "HCV", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "hepatitis-a-igm", name: "Hepatitis A IgM", shortName: "Hepatitis A IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "hepatitis-e-igm", name: "Hepatitis E IgM", shortName: "Hepatitis E IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "hiv", name: "HIV", shortName: "HIV", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "hiv-elisa", name: "Hiv elisa", shortName: "Hiv elisa", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "hsv-1-2igg", name: "HSV-1/2IgG", shortName: "HSV-1/2IgG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "hsv-1-2igm", name: "HSV-1/2IgM", shortName: "HSV-1/2IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "malaria-parasite-qbc", name: "Malaria Parasite (QBC)", shortName: "Malaria Parasite (QBC)", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 450 },
+    { id: "malaria-parasite-slide", name: "Malaria Parasite (Slide)", shortName: "Malaria Parasite (Slide)", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 250 },
+    { id: "malaria-parasite-antigen", name: "Malaria Parasite Antigen", shortName: "Malaria Parasite Antigen", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 250 },
+    { id: "rubella-igg", name: "Rubella IgG", shortName: "Rubella IgG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "rubella-igm", name: "Rubella IgM", shortName: "Rubella IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "scrub-typhus-igm", name: "Scrub Typhus IgM", shortName: "Scrub Typhus IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 2000 },
+    { id: "torch-igg-igm", name: "Torch IgG & IgM", shortName: "Torch IgG & IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 2000 },
+    { id: "toxoplasma-igg", name: "Toxoplasma IgG", shortName: "Toxoplasma IgG", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "toxoplasma-igm", name: "Toxoplasma IgM", shortName: "Toxoplasma IgM", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "vdrl", name: "VDRL", shortName: "VDRL", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "widal", name: "Widal", shortName: "Widal", category: "Infectious disease and serology", description: "Infectious disease and serology investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "afp-alpha-fetoprotein", name: "AFP (Alpha-Fetoprotein)", shortName: "AFP (Alpha-Fetoprotein)", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 1000 },
+    { id: "ca125", name: "CA125", shortName: "CA125", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 1200 },
+    { id: "ca15-3", name: "CA15-3", shortName: "CA15-3", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "ca19-9", name: "CA19-9", shortName: "CA19-9", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "calcitonin", name: "Calcitonin", shortName: "Calcitonin", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 1500 },
+    { id: "cea", name: "CEA", shortName: "CEA", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 700 },
+    { id: "psa", name: "PSA", shortName: "PSA", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "psa-free", name: "PSA -Free", shortName: "PSA -Free", category: "Tumor markers", description: "Tumor markers investigation at Predlabs Bhubaneswar.", price: 1100 },
+    { id: "bile-salts-and-bile-pigments-urine", name: "Bile Salts and Bile Pigments (Urine)", shortName: "Bile Salts and Bile Pigments (Urine)", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "chyle-qualitative", name: "Chyle-Qualitative", shortName: "Chyle-Qualitative", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "creatinine-urine", name: "Creatinine(urine)", shortName: "Creatinine(urine)", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "semen-analysis", name: "Semen Analysis", shortName: "Semen Analysis", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 550 },
+    { id: "stool-calprotectin", name: "Stool Calprotectin", shortName: "Stool Calprotectin", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 4400 },
+    { id: "stool-occult-blood", name: "Stool Occult Blood", shortName: "Stool Occult Blood", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 120 },
+    { id: "stool-routine-and-microscopy", name: "Stool Routine and Microscopy", shortName: "Stool Routine and Microscopy", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "urine-albumin-creatinine-ratio", name: "Urine Albumin/Creatinine Ratio", shortName: "Urine Albumin/Creatinine Ratio", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "urine-routine-and-microscopy-cue", name: "Urine Routine and Microscopy (CUE)", shortName: "Urine Routine and Microscopy (CUE)", category: "Urine, stool and body-fluid investigations", description: "Urine, stool and body-fluid investigations investigation at Predlabs Bhubaneswar.", price: 60 },
+    { id: "afb-stain", name: "AFB Stain", shortName: "AFB Stain", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 300 },
+    { id: "blood-culture-and-sensitivity", name: "Blood Culture and Sensitivity", shortName: "Blood Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "cbnaat", name: "CBNAAT", shortName: "CBNAAT", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 4000 },
+    { id: "endotracheal-et-culture-and-sensitivity", name: "Endotracheal (ET) Culture and Sensitivity", shortName: "Endotracheal (ET) Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "fluid-culture-and-sensitivity", name: "Fluid Culture and Sensitivity", shortName: "Fluid Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "gram-stain", name: "Gram Stain", shortName: "Gram Stain", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 250 },
+    { id: "igra-interferon-gamma-release-assay", name: "IGRA (Interferon-Gamma Release Assay)", shortName: "IGRA (Interferon-Gamma Release Assay)", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 2500 },
+    { id: "mantoux-test", name: "Mantoux Test", shortName: "Mantoux Test", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 200 },
+    { id: "pus-culture-and-sensitivity", name: "Pus Culture and Sensitivity", shortName: "Pus Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "sputum-afb", name: "SPUTUM AFB", shortName: "SPUTUM AFB", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 350 },
+    { id: "sputum-culture-and-sensitivity", name: "Sputum Culture and Sensitivity", shortName: "Sputum Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "steam", name: "STEAM", shortName: "STEAM", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "stool-culture-and-sensitivity", name: "Stool Culture and Sensitivity", shortName: "Stool Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "swab-stick-culture-and-sensitivity", name: "Swab Stick Culture and Sensitivity", shortName: "Swab Stick Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "synovial-fluid-culture-and-sencitivity", name: "SYNOVIAL FLUID CULTURE AND SENCITIVITY", shortName: "SYNOVIAL FLUID CULTURE AND SENCITIVITY", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "tissue-culture-and-sensitivity", name: "Tissue Culture and Sensitivity", shortName: "Tissue Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "urine-culture-and-sensitivity", name: "Urine Culture and Sensitivity", shortName: "Urine Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "vaginal-culture-and-sensitivity", name: "Vaginal Culture and Sensitivity", shortName: "Vaginal Culture and Sensitivity", category: "Microbiology, cultures and tuberculosis testing", description: "Microbiology, cultures and tuberculosis testing investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "biopsy-extra-large", name: "Biopsy Extra Large", shortName: "Biopsy Extra Large", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 2250 },
+    { id: "biopsy-large", name: "Biopsy Large", shortName: "Biopsy Large", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 2000 },
+    { id: "biopsy-medium", name: "Biopsy Medium", shortName: "Biopsy Medium", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 1200 },
+    { id: "biopsy-small", name: "Biopsy Small", shortName: "Biopsy Small", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 800 },
+    { id: "cytology-for-ascitic-fluid", name: "Cytology for Ascitic Fluid", shortName: "Cytology for Ascitic Fluid", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "pap-smear", name: "Pap Smear", shortName: "Pap Smear", category: "Histopathology and cytology", description: "Histopathology and cytology investigation at Predlabs Bhubaneswar.", price: 600 },
+    { id: "b-2-microglobulin", name: "B-2-Microglobulin", shortName: "B-2-Microglobulin", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 1300 },
+    { id: "betahcg", name: "BetaHCG", shortName: "BetaHCG", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 500 },
+    { id: "scrub-typhos", name: "Scrub Typhos", shortName: "Scrub Typhos", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 650 },
+    { id: "sono-mammography-bilateral", name: "Sono-mammography (Bilateral)", shortName: "Sono-mammography (Bilateral)", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 1400 },
+    { id: "sono-mammography-unilateral", name: "Sono-mammography (Unilateral)", shortName: "Sono-mammography (Unilateral)", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 900 },
+    { id: "tlc-total-leukocyte-count", name: "TLC (Total Leukocyte Count)", shortName: "TLC (Total Leukocyte Count)", category: "Other / specialized investigations", description: "Other / specialized investigations investigation at Predlabs Bhubaneswar.", price: 60 }
 
 ];
 
@@ -7023,27 +6839,15 @@ function renderTests() {
                         </div>
 
 
-                        <div class="test-meta">
-
-                            <span class="test-meta-item">
-                                Report: ${escapeHTML(test.reportTime)}
-                            </span>
-
-                            <span class="test-meta-item">
-                                Sample: ${escapeHTML(test.sample)}
-                            </span>
-
-                            ${
-                                test.homeCollection
-                                    ? `
-                                        <span class="test-meta-item">
-                                            Home collection
-                                        </span>
-                                      `
-                                    : ""
-                            }
-
-                        </div>
+                        ${
+                            test.reportTime || test.sample
+                                ? `<div class="test-meta">
+                                    ${test.reportTime ? `<span class="test-meta-item">Report: ${escapeHTML(test.reportTime)}</span>` : ""}
+                                    ${test.sample ? `<span class="test-meta-item">Sample: ${escapeHTML(test.sample)}</span>` : ""}
+                                    ${test.homeCollection ? `<span class="test-meta-item">Home collection</span>` : ""}
+                                  </div>`
+                                : ""
+                        }
 
 
                         <div class="test-price">
@@ -7051,7 +6855,7 @@ function renderTests() {
                             ₹${formatNumber(test.price)}
 
                             <span>
-                                estimated cost
+                                MRP
                             </span>
 
                         </div>
