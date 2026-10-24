@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local Batch Image Watermarker</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #5f6b7a;
+    --accent: #2563eb;
+    --border: #dbe2ea;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  header {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+  }
+
+  p.sub {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+  }
+
+  h2 {
+    margin: 0 0 14px;
+    font-size: 17px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 12px 0 6px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 4px 0 0;
+  }
+
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  button {
+    width: 100%;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 14px;
+  }
+
+  .primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .secondary {
+    background: #eef2ff;
+    color: #1d4ed8;
+    border: 1px solid #c7d2fe;
+  }
+
+  .danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+  }
+
+  .preview {
+    min-height: 360px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    padding: 14px;
+    background: #fafbfc;
+  }
+
+  .preview img {
+    max-width: 100%;
+    max-height: 480px;
+    border-radius: 8px;
+    box-shadow: 0 3px 14px rgba(0,0,0,.12);
+  }
+
+  .file-list {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    max-height: 130px;
+    overflow: auto;
+  }
+
+  .file-list div {
+    padding: 3px 0;
+    border-bottom: 1px solid #edf1f5;
+  }
+
+  .status {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 850px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Batch Image Watermarker</h1>
+    <p class="sub">Add text and/or logo watermarks to multiple images. Everything is processed locally in your browser.</p>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Images</h2>
+      <input id="imageInput" type="file" accept="image/*" multiple />
+      <div id="fileList" class="file-list"></div>
+
+      <h2 style="margin-top:20px;">Text watermark</h2>
+      <label for="watermarkText">Text</label>
+      <input id="watermarkText" type="text" placeholder="© Your Name" />
+
+      <div class="row">
+        <div>
+          <label for="fontSize">Font size</label>
+          <input id="fontSize" type="number" value="36" min="8" max="300" />
+        </div>
+        <div>
+          <label for="textColor">Color</label>
+          <input id="textColor" type="color" value="#ffffff" />
+        </div>
+      </div>
+
+      <label for="textOpacity">Text transparency: <span id="textOpacityValue">50%</span></label>
+      <input id="textOpacity" type="range" min="0" max="100" value="50" />
+
+      <h2 style="margin-top:20px;">Logo watermark</h2>
+      <input id="logoInput" type="file" accept="image/*" />
+      <p class="hint">Use a PNG with transparent background for best results.</p>
+
+      <label for="logoWidth">Logo width: <span id="logoWidthValue">20%</span> of image width</label>
+      <input id="logoWidth" type="range" min="2" max="80" value="20" />
+
+      <label for="logoOpacity">Logo transparency: <span id="logoOpacityValue">60%</span></label>
+      <input id="logoOpacity" type="range" min="0" max="100" value="60" />
+
+      <h2 style="margin-top:20px;">Placement</h2>
+      <label for="position">Position</label>
+      <select id="position">
+        <option value="top-left">Top left</option>
+        <option value="top-right">Top right</option>
+        <option value="bottom-left">Bottom left</option>
+        <option value="bottom-right" selected>Bottom right</option>
+        <option value="center">Center</option>
+      </select>
+
+      <label for="margin">Margin</label>
+      <input id="margin" type="number" value="30" min="0" max="500" />
+
+      <div class="switch">
+        <input id="tileText" type="checkbox" />
+        <span>Repeat text watermark across image</span>
+      </div>
+
+      <label for="outputFormat">Output format</label>
+      <select id="outputFormat">
+        <option value="image/png">PNG</option>
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+
+      <button id="processBtn" class="primary">Add Watermark & Download All</button>
+      <button id="previewBtn" class="secondary">Preview First Image</button>
+      <button id="clearBtn" class="danger">Clear</button>
+      <div id="status" class="status"></div>
+    </section>
+
+    <section class="card">
+      <h2>Preview</h2>
+      <div id="preview" class="preview">
+        <span style="color:#7b8794;">Select images, then click “Preview First Image”.</span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const imageInput = document.getElementById("imageInput");
+const logoInput = document.getElementById("logoInput");
+const fileList = document.getElementById("fileList");
+const preview = document.getElementById("preview");
+const status = document.getElementById("status");
+
+const textInput = document.getElementById("watermarkText");
+const fontSizeInput = document.getElementById("fontSize");
+const textColorInput = document.getElementById("textColor");
+const textOpacityInput = document.getElementById("textOpacity");
+const textOpacityValue = document.getElementById("textOpacityValue");
+
+const logoWidthInput = document.getElementById("logoWidth");
+const logoWidthValue = document.getElementById("logoWidthValue");
+const logoOpacityInput = document.getElementById("logoOpacity");
+const logoOpacityValue = document.getElementById("logoOpacityValue");
+
+const positionInput = document.getElementById("position");
+const marginInput = document.getElementById("margin");
+const tileTextInput = document.getElementById("tileText");
+const outputFormatInput = document.getElementById("outputFormat");
+
+let selectedFiles = [];
+let logoImage = null;
+
+function loadImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function updateFileList() {
+  fileList.innerHTML = "";
+  selectedFiles.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.textContent = `${index + 1}. ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    fileList.appendChild(item);
+  });
+}
+
+imageInput.addEventListener("change", () => {
+  selectedFiles = Array.from(imageInput.files || []);
+  updateFileList();
+  status.textContent = `${selectedFiles.length} image(s) selected.`;
+});
+
+logoInput.addEventListener("change", async () => {
+  const file = logoInput.files[0];
+  if (!file) {
+    logoImage = null;
+    return;
+  }
+  try {
+    logoImage = await loadImageFile(file);
+    status.textContent = "Logo loaded.";
+  } catch {
+    logoImage = null;
+    status.textContent = "Could not load logo.";
+  }
+});
+
+textOpacityInput.addEventListener("input", () => {
+  textOpacityValue.textContent = `${textOpacityInput.value}%`;
+});
+
+logoWidthInput.addEventListener("input", () => {
+  logoWidthValue.textContent = `${logoWidthInput.value}%`;
+});
+
+logoOpacityInput.addEventListener("input", () => {
+  logoOpacityValue.textContent = `${logoOpacityInput.value}%`;
+});
+
+function getCoordinates(canvasWidth, canvasHeight, itemWidth, itemHeight) {
+  const margin = Number(marginInput.value || 0);
+  const position = positionInput.value;
+
+  let x = margin;
+  let y = margin;
+
+  if (position.includes("right")) {
+    x = canvasWidth - itemWidth - margin;
+  }
+
+  if (position.includes("bottom")) {
+    y = canvasHeight - itemHeight - margin;
+  }
+
+  if (position === "center") {
+    x = (canvasWidth - itemWidth) / 2;
+    y = (canvasHeight - itemHeight) / 2;
+  }
+
+  return { x: Math.max(0, x), y: Math.max(0, y) };
+}
+
+function drawTextWatermark(ctx, canvas) {
+  const text = textInput.value.trim();
+  if (!text) return;
+
+  const fontSize = Number(fontSizeInput.value || 36);
+  const opacity = Number(textOpacityInput.value) / 100;
+  const color = textColorInput.value;
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+  ctx.textBaseline = "middle";
+
+  const textWidth = ctx.measureText(text).width;
+  const textHeight = fontSize;
+
+  if (tileTextInput.checked) {
+    const gapX = textWidth + fontSize * 2;
+    const gapY = textHeight + fontSize * 2;
+
+    for (let y = -textHeight; y < canvas.height + gapY; y += gapY) {
+      for (let x = -textWidth; x < canvas.width + gapX; x += gapX) {
+        ctx.fillText(text, x, y);
+      }
+    }
+  } else {
+    const { x, y } = getCoordinates(
+      canvas.width,
+      canvas.height,
+      textWidth,
+      textHeight
+    );
+    ctx.fillText(text, x, y + textHeight / 2);
+  }
+
+  ctx.restore();
+}
+
+function drawLogoWatermark(ctx, canvas) {
+  if (!logoImage) return;
+
+  const widthPercent = Number(logoWidthInput.value) / 100;
+  const opacity = Number(logoOpacityInput.value) / 100;
+  const logoWidth = canvas.width * widthPercent;
+  const logoHeight = (logoImage.height / logoImage.width) * logoWidth;
+  const { x, y } = getCoordinates(canvas.width, canvas.height, logoWidth, logoHeight);
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.drawImage(logoImage, x, y, logoWidth, logoHeight);
+  ctx.restore();
+}
+
+async function processImage(file) {
+  const image = await loadImageFile(file);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+  drawTextWatermark(ctx, canvas);
+  drawLogoWatermark(ctx, canvas);
+
+  const format = outputFormatInput.value;
+  const dataUrl = canvas.toDataURL(format, 0.92);
+
+  const extension =
+    format === "image/png" ? "png" :
+    format === "image/webp" ? "webp" : "jpg";
+
+  return {
+    name: file.name.replace(/.[^./]+$/, "") + `-watermarked.${extension}`,
+    dataUrl
+  };
+}
+
+function downloadResult(result) {
+  const link = document.createElement("a");
+  link.href = result.dataUrl;
+  link.download = result.name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+document.getElementById("previewBtn").addEventListener("click", async () => {
+  if (!selectedFiles.length) {
+    status.textContent = "Please select at least one image.";
+    return;
+  }
+
+  status.textContent = "Creating preview...";
+  try {
+    const result = await processImage(selectedFiles[0]);
+    preview.innerHTML = "";
+    const img = document.createElement("img");
+    img.src = result.dataUrl;
+    preview.appendChild(img);
+    status.textContent = `Preview ready: ${result.name}`;
+  } catch (error) {
+    status.textContent = "Preview failed: " + error.message;
+  }
+});
+
+document.getElementById("processBtn").addEventListener("click", async () => {
+  if (!selectedFiles.length) {
+    status.textContent = "Please select at least one image.";
+    return;
+  }
+
+  status.textContent = "Processing images...";
+  let completed = 0;
+
+  for (const file of selectedFiles) {
+    try {
+      const result = await processImage(file);
+      downloadResult(result);
+      completed++;
+      status.textContent = `Processed ${completed} of ${selectedFiles.length} images...`;
+      await new Promise(resolve => setTimeout(resolve, 250));
+    } catch (error) {
+      console.error(error);
+      status.textContent = `Failed on ${file.name}: ${error.message}`;
+    }
+  }
+
+  status.textContent = `Done. ${completed} image(s) downloaded.`;
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  selectedFiles = [];
+  logoImage = null;
+  imageInput.value = "";
+  logoInput.value = "";
+  fileList.innerHTML = "";
+  preview.innerHTML = `<span style="color:#7b8794;">Select images, then click “Preview First Image”.</span>`;
+  status.textContent = "Cleared.";
+});
+</script>
+</body>
+</html>
