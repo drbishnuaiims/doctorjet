@@ -179,8 +179,8 @@ details p{margin:0 0 16px;color:var(--text2);font-size:13px}
 <div>
 <div class="step"><h3>Visit type</h3><div class="types" id="types"></div></div>
 <div class="step"><h3>Duration</h3><div class="seg" id="durs"></div></div>
-<div class="step"><h3>Location</h3><div class="seg" id="locSeg"></div></div>
 <div class="step"><h3>Mode</h3><div class="seg" id="modes"></div></div>
+<div class="step" id="locStep"><h3>Clinic location</h3><div class="seg" id="locSeg"></div></div>
 <div class="step"><h3>Date <span id="dateHint"></span></h3><div class="dates" id="dates"></div></div>
 <div class="step"><h3>Time <span id="slotHint"></span></h3><div class="slots" id="slots"></div></div>
 <div class="step"><h3>Priority</h3>
@@ -234,9 +234,9 @@ details p{margin:0 0 16px;color:var(--text2);font-size:13px}
 <section class="card">
 <h2>Frequently asked questions</h2><p class="sub">Common appointment questions</p>
 <details><summary>How does the fee change?</summary><p>The fee depends on visit type, duration, mode, same-day booking and priority. You see the full breakdown before you book. The clinic confirms the final amount.</p></details>
-<details><summary>What is a priority slot?</summary><p>It marks your request as urgent so the clinic can handle it first. It adds a surcharge to the fee.</p></details>
+<details><summary>What is a priority slot?</summary><p>It marks your request as urgent so the clinic can handle it first. It adds 30% to the fee.</p></details>
 <details><summary>What is a report review?</summary><p>A short visit to go through lab results, scans or earlier prescriptions. Please send the reports on WhatsApp once the clinic confirms.</p></details>
-<details><summary>Is online consultation available?</summary><p>Yes, at Saheed Nagar and Puri. Online visits cost 10% less.</p></details>
+<details><summary>Is online consultation available?</summary><p>Yes. Online visits run on the Saheed Nagar and Puri schedules, so no clinic needs to be chosen. In-person visits are priced slightly lower.</p></details>
 <details><summary>How is my appointment confirmed?</summary><p>Your details open in WhatsApp addressed to Thomson Clinic. The clinic confirms the appointment there.</p></details>
 </section>
 
@@ -246,14 +246,14 @@ details p{margin:0 0 16px;color:var(--text2);font-size:13px}
 
 <script>
 const D={name:"Dr. Bishnu Prasad Sahoo",wa:"919438450966",
-types:{new:{label:"New consultation",sub:"First visit with full assessment",base:500,durs:[30,45,60]},
-follow:{label:"Follow-up",sub:"Review progress and adjust treatment",base:300,durs:[15,30]},
-report:{label:"Report review",sub:"Go through lab results or scans",base:250,durs:[15,30]}},
+types:{new:{label:"New consultation",sub:"First visit with full assessment",prices:{"Online":{60:1000,75:1200,90:1400},"In-person":{60:900,75:1100,90:1300}}},
+follow:{label:"Follow-up",sub:"Review progress and adjust treatment",prices:{"Online":{60:1000,75:1200,90:1400},"In-person":{60:900,75:1100,90:1300}}},
+report:{label:"Report review",sub:"Go through lab results or scans",prices:{"Online":{30:500,45:700},"In-person":{30:450,45:650}}}},
 locs:[
 {city:"Saheed Nagar",area:"Bhubaneswar",address:"Saheed Nagar, Bhubaneswar, Odisha",days:[4,5,6],dayTxt:"Thu · Fri · Sat",s:1080,e:1200,modes:["In-person","Online"]},
 {city:"Ganga Nagar",area:"Bhubaneswar",address:"8th lane, Ganga Nagar, Bhubaneswar, Odisha",days:[1,2,3,4,5,6],dayTxt:"Mon – Sat",s:960,e:1080,modes:["In-person"]},
 {city:"Puri",area:"Near Puri Bus Stand",address:"Near Puri Bus Stand, Puri, Odisha",days:[0],dayTxt:"Sunday",s:600,e:960,modes:["In-person","Online"]}]};
-const S={type:"new",dur:30,loc:0,mode:"In-person",date:null,slot:null,prio:false};
+const S={type:"new",dur:60,loc:0,mode:"In-person",date:null,slot:null,prio:false};
 const $=id=>document.getElementById(id);
 const DAY=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const inr=n=>"₹"+n.toLocaleString("en-IN");
@@ -264,22 +264,25 @@ const isToday=()=>S.date===key(new Date());
 
 function price(){
  const t=D.types[S.type],lines=[];
- const base=t.base*S.dur/30;
+ const base=t.prices[S.mode][S.dur];
  lines.push([t.label+" · "+S.dur+" min",base]);
  let tot=base;
- if(S.mode==="Online"){const d=Math.round(base*.1);lines.push(["Online discount (10%)",-d,1]);tot-=d}
- if(isToday()){lines.push(["Same-day booking",100]);tot+=100}
- if(S.prio){const p=Math.round(base*.4);lines.push(["Priority slot",p]);tot+=p}
+ if(isToday()){lines.push(["Same-day booking",200]);tot+=200}
+ if(S.prio){const p=Math.round(base*.3);lines.push(["Priority slot (30%)",p]);tot+=p}
  return{lines,total:Math.round(tot/10)*10};
 }
+const pool=()=>S.mode==="Online"?D.locs.filter(x=>x.modes.includes("Online")):[L()];
+const sched=day=>pool().find(x=>x.days.includes(day));
+const dayOf=k=>new Date(k+"T00:00:00").getDay();
 function dateList(){
  const out=[],d=new Date();d.setHours(0,0,0,0);
  for(let i=0;i<30&&out.length<14;i++){const x=new Date(d);x.setDate(d.getDate()+i);
-  if(L().days.includes(x.getDay())&&(i>0||slotsFor(key(x)).length))out.push(x)}
+  if(sched(x.getDay())&&(i>0||slotsFor(key(x)).length))out.push(x)}
  return out;
 }
 function slotsFor(k){
- const l=L(),out=[],now=new Date(),today=k===key(now),nm=now.getHours()*60+now.getMinutes()+30;
+ const l=sched(dayOf(k)),out=[],now=new Date(),today=k===key(now),nm=now.getHours()*60+now.getMinutes()+30;
+ if(!l)return out;
  for(let m=l.s;m+S.dur<=l.e;m+=30)if(!today||m>=nm)out.push(m);
  return out;
 }
@@ -290,29 +293,30 @@ function seg(el,items,on,fn){
 }
 function render(){
  const l=L(),t=D.types[S.type];
- if(!t.durs.includes(S.dur))S.dur=t.durs[0];
- if(!l.modes.includes(S.mode))S.mode=l.modes[0];
+ const durs=Object.keys(t.prices.Online).map(Number);if(!durs.includes(S.dur))S.dur=durs[0];
  const dl=dateList();
  if(!S.date||!dl.some(x=>key(x)===S.date))S.date=dl.length?key(dl[0]):null;
  const sl=S.date?slotsFor(S.date):[];
+ const sc=S.date?sched(dayOf(S.date)):null;
+ $("locStep").hidden=S.mode==="Online";
  if(!sl.includes(S.slot))S.slot=null;
 
  const ty=$("types");ty.innerHTML="";
  Object.entries(D.types).forEach(([k,v])=>{const b=document.createElement("button");b.type="button";b.className="opt"+(k===S.type?" on":"");
-  b.innerHTML=`<b>${v.label}</b><small>${v.sub}</small><em>from ${inr(v.base*v.durs[0]/30)}</em>`;
+  b.innerHTML=`<b>${v.label}</b><small>${v.sub}</small><em>from ${inr(Math.min(...Object.values(v.prices["In-person"])))}</em>`;
   b.onclick=()=>{S.type=k;render()};ty.appendChild(b)});
 
- seg($("durs"),t.durs.map(d=>({d,html:`${d} min<small>${inr(Math.round(t.base*d/30))}</small>`})),i=>i.d===S.dur,i=>{S.dur=i.d;render()});
+ seg($("durs"),durs.map(d=>({d,html:`${d} min<small>${inr(t.prices[S.mode][d])}</small>`})),i=>i.d===S.dur,i=>{S.dur=i.d;render()});
  seg($("locSeg"),D.locs.map((x,i)=>({i,html:`${x.city}<small>${x.area==="Bhubaneswar"?"Bhubaneswar":"Puri"}</small>`})),i=>i.i===S.loc,i=>{S.loc=i.i;S.date=null;render()});
- seg($("modes"),l.modes.map(m=>({m,html:m})),i=>i.m===S.mode,i=>{S.mode=i.m;render()});
+ seg($("modes"),["In-person","Online"].map(m=>({m,html:m})),i=>i.m===S.mode,i=>{S.mode=i.m;render()});
 
- $("dateHint").textContent=l.dayTxt;
+ $("dateHint").textContent=[...new Set(pool().flatMap(x=>x.days))].sort((a,b)=>(a+6)%7-(b+6)%7).map(n=>DAY[n]).join(" · ");
  const dw=$("dates");dw.innerHTML="";
  dl.forEach((x,i)=>{const b=document.createElement("button");b.type="button";b.className="date"+(key(x)===S.date?" on":"");
   b.innerHTML=`<small>${DAY[x.getDay()]}</small><b>${x.getDate()}</b><i>${x.toLocaleDateString("en-IN",{month:"short"})}</i>`;
   b.onclick=()=>{S.date=key(x);S.slot=null;render()};dw.appendChild(b)});
 
- $("slotHint").textContent=fmt(l.s)+" – "+fmt(l.e);
+ $("slotHint").textContent=sc?fmt(sc.s)+" – "+fmt(sc.e):"";
  const sw=$("slots");sw.innerHTML="";
  if(!sl.length)sw.innerHTML='<div class="empty">No slots left for this duration. Try another date or a shorter visit.</div>';
  sl.forEach(m=>{const b=document.createElement("button");b.type="button";b.className="slot"+(m===S.slot?" on":"");
@@ -326,7 +330,7 @@ function render(){
  $("lines").innerHTML=p.lines.map(x=>`<div class="line"><span>${x[0]}</span><span class="${x[2]?"neg":""}">${x[1]<0?"−":""}${inr(Math.abs(x[1]))}</span></div>`).join("")+
   `<div class="line"><span>Rounded total</span><span>${inr(p.total)}</span></div>`;
  const dObj=S.date?new Date(S.date+"T00:00:00"):null;
- $("when").innerHTML=(dObj&&S.slot!=null)?`${dObj.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long"})}<small>${fmt(S.slot)} – ${fmt(S.slot+S.dur)} · ${l.city}</small>`:`<small>Pick a date and time to continue.</small>`;
+ $("when").innerHTML=(dObj&&S.slot!=null)?`${dObj.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long"})}<small>${fmt(S.slot)} – ${fmt(S.slot+S.dur)} · ${S.mode==="Online"?"Online":sc.city}</small>`:`<small>Pick a date and time to continue.</small>`;
 }
 $("prio").onclick=()=>{S.prio=!S.prio;render()};
 
@@ -339,7 +343,7 @@ $("submit").onclick=()=>{
  const l=L(),t=D.types[S.type],p=price(),r=$("reason").value.trim();
  const d=new Date(S.date+"T00:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
  const msg=["THOMSON CLINIC — APPOINTMENT REQUEST","","Doctor: "+D.name,"Patient: "+n,"Mobile: "+ph,"",
-  "Visit type: "+t.label+(S.prio?" (PRIORITY)":""),"Duration: "+S.dur+" min","Location: "+l.city+", "+l.area,"Mode: "+S.mode+" consultation",
+  "Visit type: "+t.label+(S.prio?" (PRIORITY)":""),"Duration: "+S.dur+" min",S.mode==="Online"?"Location: Online (video call)":"Location: "+l.city+", "+l.area,"Mode: "+S.mode+" consultation",
   "Preferred date: "+d,"Preferred time: "+fmt(S.slot)+" – "+fmt(S.slot+S.dur),"Estimated fee: "+inr(p.total),
   r?"Reason: "+r:"","","Please confirm the appointment."].filter(x=>x!==""||true).join("\n").replace(/\n{3,}/g,"\n\n");
  window.location.href="https://wa.me/"+D.wa+"?text="+encodeURIComponent(msg);
