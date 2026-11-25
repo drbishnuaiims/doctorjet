@@ -60,8 +60,9 @@ h2{margin:0;font-size:24px;letter-spacing:-.5px;font-weight:650}
 .book{margin-top:16px;padding:30px}
 .book-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:30px;align-items:start}
 .step{margin-top:26px}.step:first-child{margin-top:0}
-.step h3{margin:0 0 10px;font-size:15px;font-weight:650;display:flex;justify-content:space-between;align-items:baseline}
-.step h3 span{font-weight:400;color:var(--text3);font-size:12px}
+.step h3{margin:0 0 10px;font-size:15px;font-weight:650;display:flex;align-items:center;gap:8px}
+.book-grid>div:first-child{counter-reset:s}.step h3::before{counter-increment:s;content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;background:var(--soft);color:var(--text2);display:grid;place-items:center;font-size:12px;font-weight:650}
+.step h3 span{margin-left:auto;font-weight:400;color:var(--text3);font-size:12px}
 .types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .opt{text-align:left;border:1.5px solid transparent;background:var(--soft);border-radius:16px;padding:14px;transition:.15s}
 .opt b{display:block;font-size:14px;font-weight:650}.opt small{display:block;margin-top:3px;color:var(--text2);font-size:12px;line-height:1.35}
@@ -177,11 +178,11 @@ details p{margin:0 0 16px;color:var(--text2);font-size:13px}
 <p class="sub">Choose what you need. The fee updates as you go.</p>
 <div class="book-grid">
 <div>
+<div class="step"><h3>How would you like to consult?</h3><div class="seg" id="modes"></div></div>
+<div class="step" id="locStep"><h3>Clinic</h3><div class="seg" id="locSeg"></div></div>
 <div class="step"><h3>Visit type</h3><div class="types" id="types"></div></div>
 <div class="step"><h3>Duration</h3><div class="seg" id="durs"></div></div>
-<div class="step"><h3>Mode</h3><div class="seg" id="modes"></div></div>
-<div class="step" id="locStep"><h3>Clinic location</h3><div class="seg" id="locSeg"></div></div>
-<div class="step"><h3>Date <span id="dateHint"></span></h3><div class="dates" id="dates"></div></div>
+<div class="step"><h3>Day <span id="dateHint"></span></h3><div class="dates" id="dates"></div></div>
 <div class="step"><h3>Time <span id="slotHint"></span></h3><div class="slots" id="slots"></div></div>
 <div class="step"><h3>Priority</h3>
 <button type="button" class="prio" id="prio" aria-pressed="false"><span><b>Priority slot</b><small>Flag your request as urgent so the clinic handles it first.</small></span><span class="sw"></span></button></div>
@@ -308,7 +309,7 @@ function render(){
 
  seg($("durs"),durs.map(d=>({d,html:`${d} min<small>${inr(t.prices[S.mode][d])}</small>`})),i=>i.d===S.dur,i=>{S.dur=i.d;render()});
  seg($("locSeg"),D.locs.map((x,i)=>({i,html:`${x.city}<small>${x.area==="Bhubaneswar"?"Bhubaneswar":"Puri"}</small>`})),i=>i.i===S.loc,i=>{S.loc=i.i;S.date=null;render()});
- seg($("modes"),["In-person","Online"].map(m=>({m,html:m})),i=>i.m===S.mode,i=>{S.mode=i.m;render()});
+ seg($("modes"),["In-person","Online"].map(m=>({m,html:m+"<small>"+(m==="Online"?"Video call":"At the clinic")+"</small>"})),i=>i.m===S.mode,i=>{S.mode=i.m;render()});
 
  $("dateHint").textContent=[...new Set(pool().flatMap(x=>x.days))].sort((a,b)=>(a+6)%7-(b+6)%7).map(n=>DAY[n]).join(" · ");
  const dw=$("dates");dw.innerHTML="";
