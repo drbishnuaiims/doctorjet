@@ -11,11 +11,11 @@ Upload BOTH files into the same /rx/ directory on the DoctorJet website. The fin
   /rx/index.html
   /rx/CDCI_Medicine_Master.csv
 
-Then open https://doctorjet.in/rx/index.html
+Then open https://doctorjet.in/rx/index.html. The catalogue is fetched using a relative URL, so the app does not depend on a particular domain.
 
 DATA STORAGE AND PRIVACY
 - Patient and consultation data are stored in IndexedDB in the browser profile on the device using the app.
-- The application does not send patient data to DoctorJet hosting. The only network request is the optional medicine catalogue download from the same /rx/ folder.
+- The application does not send patient data to DoctorJet hosting. On first use it downloads the medicine catalogue from the same /rx/ folder and caches it in this browser's IndexedDB.
 - This means records do not synchronise between devices or browsers. Use the same Mac and same browser profile.
 - Export complete backup regularly. Store the JSON backup in an encrypted, access-controlled location. Restore it through Settings & Data.
 - Clearing website data, deleting browser profile data, or using private browsing can remove or hide records.
