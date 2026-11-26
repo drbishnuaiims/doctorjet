@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BFG6XJ5J4V"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-BFG6XJ5J4V');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f7">
+<title>Prescription Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root{--bg:#f2f2f7;--card:#fff;--fill:#f2f2f7;--sep:rgba(60,60,67,.18);--text:#1c1c1e;--muted:#6e6e73;--blue:#007aff;--red:#ff3b30;--green:#34c759;--bar:rgba(249,249,249,.82)}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--fill:#2c2c2e;--sep:rgba(84,84,88,.6);--text:#f5f5f7;--muted:#98989f;--blue:#0a84ff;--red:#ff453a;--bar:rgba(28,28,30,.82)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:20;background:var(--bar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;justify-content:space-between}
+h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.4px}.sub{font-size:12px;color:var(--muted)}
+.hbtns{display:flex;gap:6px}
+.wrap{max-width:760px;margin:0 auto;padding:12px 16px calc(110px + env(safe-area-inset-bottom))}
+.group-title{font-size:13px;text-transform:uppercase;color:var(--muted);margin:22px 16px 7px;letter-spacing:.3px}
+.card{background:var(--card);border-radius:14px;padding:16px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.span2{grid-column:span 2}
+label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px 2px;font-weight:500}
+input,textarea,select{width:100%;border:0;border-radius:10px;background:var(--fill);color:var(--text);padding:12px;font:inherit;font-size:16px;outline:none;appearance:none;-webkit-appearance:none}
+input:focus,textarea:focus,select:focus{box-shadow:0 0 0 2px var(--blue)}
+textarea{min-height:86px;resize:vertical}
+.btn{border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;background:var(--fill);color:var(--blue);transition:.15s}
+.btn:active{opacity:.55;transform:scale(.98)}.btn.p{background:var(--blue);color:#fff}.btn.d{color:var(--red)}.btn.s{padding:7px 12px;font-size:13px;border-radius:9px}
+.seg{display:flex;background:var(--fill);border-radius:10px;padding:2px;gap:2px}
+.seg button{flex:1;border:0;background:none;color:var(--text);padding:8px 4px;border-radius:8px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.seg button.on{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.18);font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.chip{border:0;background:var(--fill);color:var(--blue);border-radius:16px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:500;cursor:pointer}.chip:active{opacity:.5}
+.med{background:var(--fill);border-radius:12px;padding:14px;margin-top:12px}.med .grid{margin-top:10px}.med input,.med select,.med textarea{background:var(--card)}
+.medhead{display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.warn{background:rgba(255,149,0,.13);color:#b25e00;border-radius:12px;padding:11px 13px;font-size:12.5px;margin-bottom:12px}
+@media(prefers-color-scheme:dark){.warn{color:#ffb340}}
+.tpl{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.tpl button{flex:0 0 auto;scroll-snap-align:start;background:var(--fill);border:0;border-radius:12px;padding:10px 13px;text-align:left;font:inherit;cursor:pointer;color:var(--text);max-width:210px}
+.tpl b{display:block;font-size:13px;color:var(--blue)}.tpl span{font-size:11px;color:var(--muted)}
+.imgbox{display:flex;align-items:center;gap:12px;background:var(--fill);border-radius:12px;padding:12px}
+.prev{width:84px;height:62px;border-radius:9px;background:var(--card);display:grid;place-items:center;overflow:hidden;font-size:11px;color:var(--muted);text-align:center;flex:none}.prev img{max-width:100%;max-height:100%;object-fit:contain}
+.imgbox input[type=file]{font-size:12px;padding:6px;background:var(--card)}
+.status{font-size:12px;color:var(--muted);margin-top:8px}.ok{color:var(--green)}.err{color:var(--red)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.bar div{max-width:760px;margin:auto;display:flex;gap:8px}.bar .btn{flex:1;padding:13px 6px}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.4);display:none;align-items:flex-end;justify-content:center}.sheet.show{display:flex}
+.sheet .in{background:var(--bg);width:100%;max-width:760px;max-height:82vh;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));overflow:auto}
+.hrow{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer}.hrow small{color:var(--muted)}
+.toast{position:fixed;top:calc(70px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:rgba(40,40,42,.92);color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;z-index:99;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1}
+@media(max-width:600px){.grid,.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}.span2{grid-column:span 2}.bar .btn{font-size:13px}}
+@media(max-width:380px){.grid,.g3,.g4{grid-template-columns:1fr}.span2{grid-column:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>New Prescription</h1><div class="sub" id="rxCount">Digital prescription generator</div></div>
+  <div class="hbtns"><button class="btn s" onclick="openHistory()">History</button><button class="btn s d" onclick="clearForm()">Clear</button></div>
+</header>
+<div class="toast" id="toast"></div>
+
+<main class="wrap">
+<div class="group-title">Clinic & Doctor</div>
+<section class="card">
+  <div class="grid">
+    <div class="span2"><label>Clinic / Hospital *</label><input id="clinicName" placeholder="e.g. Thomson Clinic"></div>
+    <div><label>Doctor *</label><input id="doctorName" placeholder="Dr. Name"></div>
+    <div><label>Qualification</label><input id="qualification" placeholder="MD Psychiatry"></div>
+    <div><label>Registration No.</label><input id="regNo"></div>
+    <div><label>Specialty / Tagline</label><input id="tagline" placeholder="e.g. Psychiatry & De-addiction"></div>
+    <div class="span2"><label>Address</label><input id="clinicAddress"></div>
+    <div class="span2"><label>Contact</label><input id="clinicContact" placeholder="Phone / email / website"></div>
+  </div>
+  <div class="grid" style="margin-top:14px">
+    <div class="span2"><label>Accent colour for PDF</label>
+      <div class="seg" id="accentSeg"></div></div>
+  </div>
+  <div class="chips"><button class="chip" onclick="saveDoctorSettings()">Save details</button><button class="chip" onclick="loadDoctorSettings()">Load saved</button></div>
+</section>
+
+<div class="group-title">Logo, Signature & Stamp</div>
+<section class="card">
+  <div style="display:grid;gap:10px">
+    <div class="imgbox"><div class="prev" id="logoPreview"></div><div style="flex:1"><b style="font-size:14px">Clinic logo</b><input type="file" id="logoFile" accept="image/*" onchange="handleImage('logo',this)"><button class="chip d" style="color:var(--red)" onclick="removeImg('logo')">Remove</button></div></div>
+    <div class="imgbox"><div class="prev" id="signaturePreview"></div><div style="flex:1"><b style="font-size:14px">Doctor signature</b><input type="file" id="signatureFile" accept="image/*" onchange="handleImage('signature',this)"><button class="chip" style="color:var(--red)" onclick="removeImg('signature')">Remove</button></div></div>
+    <div class="imgbox"><div class="prev" id="stampPreview"></div><div style="flex:1"><b style="font-size:14px">Doctor stamp</b><input type="file" id="stampFile" accept="image/*" onchange="handleImage('stamp',this)"><button class="chip" style="color:var(--red)" onclick="removeImg('stamp')">Remove</button></div></div>
+  </div>
+  <div class="status">Images are resized and stored only in this browser. Transparent PNG works best.</div>
+</section>
+
+<div class="group-title">Patient</div>
+<section class="card">
+  <div class="grid">
+    <div class="span2"><label>Patient Name *</label><input id="patientName" list="patientList" autocomplete="off" onchange="autofillPatient()"><datalist id="patientList"></datalist></div>
+    <div><label>Age</label><input id="patientAge" type="number" inputmode="numeric" min="0"></div>
+    <div><label>Gender</label><select id="patientGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+    <div><label>Phone</label><input id="patientPhone" type="tel" inputmode="tel" placeholder="10-digit mobile"></div>
+    <div><label>Patient ID / UHID</label><input id="patientId"></div>
+    <div class="span2"><label>Consultation mode</label><div class="seg" id="modeSeg"><button class="on" data-v="In-person">In-person</button><button data-v="Video Consultation">Video</button><button data-v="Telephone">Phone</button></div></div>
+    <div class="span2"><label>Consultation time</label><input id="consultationTime" type="datetime-local"></div>
+    <div class="span2"><label>Chief complaint</label><input id="complaint" placeholder="e.g. Fever, cough and cold"></div>
+    <div class="span2"><label>Known allergies</label><input id="allergies" placeholder="e.g. Penicillin, sulfa — or NKDA"></div>
+    <div class="span2"><label>Past / medical history</label><input id="history" placeholder="e.g. Hypertension, T2DM"></div>
+  </div>
+</section>
+
+<div class="group-title">Visit Type</div>
+<section class="card">
+  <div class="seg" id="visitSeg"><button class="on" data-v="New Consultation">New</button><button data-v="Follow-up Visit">Follow-up</button><button data-v="Report Review">Report review</button><button data-v="Urgent Visit">Urgent</button></div>
+  <div id="visitExtra" style="display:none;margin-top:14px">
+    <div class="grid">
+      <div><label>Previous visit date</label><input id="prevVisit" type="date" onchange="calcSince()"></div>
+      <div><label>Days since last visit</label><input id="sinceDays" readonly placeholder="Auto"></div>
+      <div class="span2"><label>Progress since last visit</label><div class="seg" id="progSeg"><button data-v="Improved">Improved</button><button data-v="Same">Same</button><button data-v="Worse">Worse</button><button data-v="Resolved">Resolved</button></div></div>
+      <div class="span2"><label>Medication adherence</label><div class="seg" id="adhSeg"><button data-v="Regular">Regular</button><button data-v="Irregular">Irregular</button><button data-v="Stopped">Stopped</button></div></div>
+      <div class="span2"><label>Side effects / new complaints</label><input id="sideEffects" placeholder="e.g. Mild drowsiness, none"></div>
+      <div class="span2"><label>Interval history / notes</label><textarea id="visitNotes" placeholder="Course since last visit"></textarea></div>
+      <div class="span2"><label>Treatment plan</label><div class="seg" id="planSeg"><button data-v="Continue same medicines">Continue</button><button data-v="Dose / medicine modified">Modify</button><button data-v="Medicines stopped">Stop</button><button data-v="New regimen started">New</button></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="group-title">Reports Reviewed</div>
+<section class="card">
+  <div id="reportList"></div>
+  <div class="chips" id="repChips"></div>
+  <button class="btn" style="margin-top:12px" onclick="addReport()">+ Add report</button>
+</section>
+
+<div class="group-title">Vitals</div>
+<section class="card">
+  <div class="grid g3">
+    <div><label>BP (mmHg)</label><input id="vBP" placeholder="120/80"></div>
+    <div><label>Pulse (/min)</label><input id="vPulse" inputmode="numeric"></div>
+    <div><label>Temp (°F)</label><input id="vTemp" inputmode="decimal"></div>
+    <div><label>SpO₂ (%)</label><input id="vSpO2" inputmode="numeric"></div>
+    <div><label>Weight (kg)</label><input id="vWt" inputmode="decimal" oninput="calcBMI()"></div>
+    <div><label>Height (cm)</label><input id="vHt" inputmode="decimal" oninput="calcBMI()"></div>
+  </div>
+  <div class="status" id="bmiNote"></div>
+</section>
+
+<div class="group-title">Diagnosis</div>
+<section class="card">
+  <textarea id="diagnosis" placeholder="Diagnosis / clinical impression"></textarea>
+  <div class="warn" style="margin-top:12px"><b>Quick templates (adult).</b> Starter templates for common uncomplicated cases. Review diagnosis, contraindications, doses and patient factors before signing.</div>
+  <div class="tpl" id="tplRow"></div>
+</section>
+
+<div class="group-title">Medicines</div>
+<section class="card">
+  <div id="medicineList"></div>
+  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn" onclick="addMedicine()">+ Add medicine</button><button class="btn" onclick="loadMedicines()">↻ Sync Google Sheet</button></div>
+  <div id="medicineStatus" class="status">Sheet not loaded. Manual entry works.</div>
+</section>
+
+<div class="group-title">Investigations</div>
+<section class="card">
+  <textarea id="investigations" placeholder="e.g. CBC, LFT, X-ray LS spine AP/L"></textarea>
+  <div class="chips" id="invChips"></div>
+</section>
+
+<div class="group-title">Advice</div>
+<section class="card">
+  <div class="chips" id="adviceChips" style="margin:0 0 10px"></div>
+  <textarea id="generalAdvice" placeholder="One instruction per line"></textarea>
+  <div class="chips"><button class="chip" onclick="$('generalAdvice').value=''">Clear advice</button></div>
+</section>
+
+<div class="group-title">Follow-up</div>
+<section class="card">
+  <div class="seg" id="fuSeg"><button data-v="No Follow-Up">None</button><button data-v="3 Days">3 d</button><button data-v="1 Week">1 wk</button><button data-v="2 Weeks">2 wk</button><button data-v="1 Month">1 mo</button></div>
+  <div class="grid" style="margin-top:12px"><div><label>Follow-up text *</label><input id="followupText" placeholder="e.g. After 7 days"></div><div><label>Or pick a date</label><input id="followupDate" type="date" onchange="pickFuDate()"></div><div class="span2"><label>Purpose / bring along</label><input id="followupNote" placeholder="e.g. Review CBC report; bring all medicines"></div></div>
+</section>
+
+<div class="group-title">Disclaimer</div>
+<section class="card"><textarea id="prescriptionDisclaimer"></textarea></section>
+</main>
+
+<div class="bar"><div>
+  <button class="btn" onclick="sharePDF()">Share</button>
+  <button class="btn p" onclick="generatePrescription()">Generate PDF</button>
+  <button class="btn p" onclick="generateAndLog()">Save &amp; PDF</button>
+</div></div>
+
+<div class="sheet" id="histSheet" onclick="if(event.target===this)closeHistory()"><div class="in">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h1>History</h1><button class="btn s" onclick="closeHistory()">Done</button></div>
+  <input id="histSearch" placeholder="Search patient or Rx ID" oninput="renderHistory()" style="margin-bottom:12px">
+  <div id="histList"></div>
+</div></div>
+
+<script>
+const CONFIG={GOOGLE_SCRIPT_URL:"PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE",DEFAULT_CLINIC:"",DEFAULT_DOCTOR:"",DEFAULT_QUALIFICATION:"",DEFAULT_REG_NO:""};
+const DISC="This prescription is generated electronically based on the information available during the consultation and is intended only for the named patient. Medicines should be taken only as directed by the prescribing doctor. This prescription does not replace emergency medical evaluation. Seek immediate in-person medical care for any emergency or rapidly worsening symptoms.";
+const ACCENTS={Blue:[0,98,175],Teal:[0,121,125],Green:[40,110,60],Maroon:[130,35,55],Slate:[55,65,81]};
+const IMG_KEYS={logo:"rxLogo",signature:"rxDoctorSignature",stamp:"rxDoctorStamp"};
+let medicinesFromSheet=[],medCounter=0,accent="Blue",mode="In-person",visitType="New Consultation",progress="",adherence="",plan="";
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2200)}
+
+/* ---------- segmented controls ---------- */
+function seg(id,cb){$(id).addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$(id).children].forEach(x=>x.classList.toggle("on",x===b));cb(b.dataset.v||b.textContent);autosave()})}
+function setSeg(id,v){[...$(id).children].forEach(b=>b.classList.toggle("on",(b.dataset.v||b.textContent)===v))}
+function buildAccent(){$("accentSeg").innerHTML=Object.keys(ACCENTS).map(k=>`<button class="${k===accent?"on":""}" style="color:rgb(${ACCENTS[k]})">${k}</button>`).join("")}
+
+/* ---------- medicines ---------- */
+const LISTS={dose:["1 tablet","2 tablets","1 capsule","5 ml","10 ml","1 drop","1 sachet"],freq:["1-0-0-0","0-0-1-0","1-0-1-0","1-1-1-0","1-1-1-1","0-0-0-1","SOS"],dur:["3 days","5 days","1 week","2 weeks","1 month"],ins:["Before Meal","After Meal","Empty Stomach","At Bedtime","With Water"]};
+function chipRow(cls,arr){return `<div class="chips">${arr.map(x=>`<button type="button" class="chip" onclick="setSib(this,'.${cls}','${x}')">${x}</button>`).join("")}</div>`}
+function addMedicine(d={}){
+  const el=document.createElement("div");el.className="med";
+  el.innerHTML=`<div class="medhead"><span class="mt">Medicine</span><span><button class="chip" onclick="dupMed(this)">Duplicate</button> <button class="chip" style="color:var(--red)" onclick="this.closest('.med').remove();renumber()">Delete</button></span></div>
+  <div class="grid"><div class="span2"><label>Name *</label><input class="m-name" list="medDL" placeholder="Type or pick medicine" value="${esc(d.name)}"></div>
+  <div><label>Dosage *</label><input class="m-dose" value="${esc(d.dose)}">${chipRow("m-dose",LISTS.dose)}</div>
+  <div><label>Frequency * (M-A-E-N)</label><input class="m-freq" value="${esc(d.freq)}">${chipRow("m-freq",LISTS.freq)}</div>
+  <div><label>Duration *</label><input class="m-dur" value="${esc(d.duration)}">${chipRow("m-dur",LISTS.dur)}</div>
+  <div><label>Instructions</label><input class="m-ins" value="${esc(d.instructions)}">${chipRow("m-ins",LISTS.ins)}</div></div>`;
+  $("medicineList").appendChild(el);renumber();
+  el.querySelector(".m-name").addEventListener("change",e=>{const m=medicinesFromSheet.find(x=>x.name.toLowerCase()===e.target.value.trim().toLowerCase());if(!m)return;
+    [["dosage",".m-dose"],["frequency",".m-freq"],["duration",".m-dur"],["instructions",".m-ins"]].forEach(([k,s])=>{if(m[k])el.querySelector(s).value=m[k]})});
+}
+function dupMed(b){const c=b.closest(".med");addMedicine({name:c.querySelector(".m-name").value,dose:c.querySelector(".m-dose").value,freq:c.querySelector(".m-freq").value,duration:c.querySelector(".m-dur").value,instructions:c.querySelector(".m-ins").value})}
+function renumber(){document.querySelectorAll(".med .mt").forEach((e,i)=>e.textContent="Medicine "+(i+1))}
+function setSib(b,s,v){b.closest(".med").querySelector(s).value=v}
+
+/* ---------- visit & reports ---------- */
+const REPS=["CBC","LFT","KFT","Lipid Profile","HbA1c","TSH","Urine R/M","X-ray","USG","ECG","MRI","CT Scan"];
+function visitUI(){$("visitExtra").style.display=visitType==="New Consultation"?"none":"block"}
+function calcSince(){const v=$("prevVisit").value;if(!v){$("sinceDays").value="";return}const n=Math.round((new Date().setHours(0,0,0,0)-new Date(v+"T00:00"))/864e5);$("sinceDays").value=n>=0?n+" days":""}
+function addReport(d={}){
+  const el=document.createElement("div");el.className="med rep";
+  el.innerHTML=`<div class="medhead"><span class="rt">Report</span><button class="chip" style="color:var(--red)" onclick="this.closest('.rep').remove();renumRep()">Delete</button></div>
+  <div class="grid"><div class="span2"><label>Report / test</label><input class="r-name" placeholder="e.g. CBC, X-ray chest" value="${esc(d.name)}"></div>
+  <div><label>Report date</label><input class="r-date" type="date" value="${esc(d.date)}"></div>
+  <div><label>Result</label><select class="r-res">${["Normal","Abnormal","Borderline","Critical","Pending"].map(o=>`<option${o===(d.result||"Normal")?" selected":""}>${o}</option>`).join("")}</select></div>
+  <div class="span2"><label>Key findings / remarks</label><input class="r-find" placeholder="e.g. Hb 10.2 g/dL, mild anaemia" value="${esc(d.findings)}"></div></div>`;
+  $("reportList").appendChild(el);renumRep();autosave()}
+function renumRep(){document.querySelectorAll(".rep .rt").forEach((e,i)=>e.textContent="Report "+(i+1))}
+
+/* ---------- templates ---------- */
+const P="Tab Paracetamol 650 mg",T=(n,p,dx,m,a)=>({name:n,preview:p,diagnosis:dx,medicines:m.map(x=>({name:x[0],dose:x[1],freq:x[2],duration:x[3],instructions:x[4]})),advice:a});
+const TEMPLATES=[
+T("Viral URTI","Symptomatic; no antibiotic","Acute viral upper respiratory tract infection",[[P,"1 tablet","SOS","3 days","After Meal"],["Tab Cetirizine 10 mg","1 tablet","0-0-0-1","5 days","At Bedtime"]],"Adequate fluids and rest.\nSaline nasal care; avoid smoke and irritants.\nNo routine antibiotic for uncomplicated viral URTI.\nReview if breathless or fever persists."),
+T("Acute Cough","Supportive care","Acute cough / bronchitis — uncomplicated",[[P,"1 tablet","SOS","3 days","After Meal"]],"Fluids and rest; honey may help.\nAvoid smoking and irritants.\nReassess if worsening or cough persists beyond 3–4 weeks."),
+T("Acute Diarrhea","ORS-focused","Acute gastroenteritis without dehydration",[["ORS sachet","1 sachet in 1 L water","After each loose stool","3 days","Oral rehydration"]],"Low-osmolarity ORS; continue light food.\nHand hygiene.\nReview urgently for dehydration, blood in stool or persistent vomiting."),
+T("GERD / Dyspepsia","PPI starter","Dyspepsia / GERD symptoms",[["Tab Pantoprazole 40 mg","1 tablet","1-0-0-0","4 weeks","Empty Stomach"]],"Take before breakfast.\nAvoid late meals and trigger foods; limit tobacco/alcohol.\nReview if persistent or alarm symptoms."),
+T("Allergic Rhinitis","Antihistamine + nasal steroid","Allergic rhinitis",[["Tab Cetirizine 10 mg","1 tablet","0-0-0-1","2 weeks","At Bedtime"],["Fluticasone nasal spray 50 mcg","1 spray each nostril","1-0-0-0","2 weeks","Intranasal"]],"Avoid allergens and smoke.\nSaline nasal care; correct spray technique."),
+T("Tension Headache","Simple analgesic","Tension-type headache — uncomplicated",[[P,"1 tablet","SOS","3 days","After Meal"]],"Regular sleep, meals, hydration.\nAvoid frequent analgesic use.\nReview red-flag or progressive headache."),
+T("Nausea / Vomiting","Short antiemetic","Acute nausea / vomiting — uncomplicated",[["Tab Ondansetron 4 mg","1 tablet","SOS","3 days","As needed"]],"Small frequent sips of ORS.\nCheck QT-prolonging drugs before ondansetron.\nReview if persistent vomiting or dehydration."),
+T("Constipation","Osmotic laxative","Functional constipation — uncomplicated",[["PEG powder","17 g","1-0-0-0","5 days","Dissolve in water"]],"Fluids, fibre, activity; regular toilet routine.\nReview for bleeding, weight loss or change in bowel habit."),
+T("Low Back Pain","NSAID — screen first","Acute mechanical low back pain without red flags",[["Tab Naproxen 250 mg","1 tablet","1-0-1-0","5 days","After Meal"],["Tab Omeprazole 20 mg","1 tablet","1-0-0-0","5 days","Empty Stomach"]],"Stay active; avoid prolonged bed rest.\nScreen renal, GI bleed, CV risk, pregnancy and interactions before NSAID.\nLowest dose, shortest duration."),
+T("Dysmenorrhea","NSAID option","Primary dysmenorrhea — uncomplicated",[["Tab Ibuprofen 400 mg","1 tablet","1-1-1-0","3 days","After Meal"]],"Start early in the period.\nScreen NSAID contraindications.\nReassess severe or atypical pain."),
+T("Musculoskeletal Pain","Simple analgesic","Acute uncomplicated musculoskeletal pain",[[P,"1 tablet","1-1-1-0","3 days","After Meal"]],"Relative rest with gentle mobility.\nLocal heat/ice as appropriate.\nReassess persistent or neurological symptoms."),
+T("Fever","Antipyretic","Acute febrile illness — pending evaluation",[[P,"1 tablet","SOS","3 days","After Meal"]],"Hydration and rest; monitor temperature.\nReview urgently for altered sensorium, breathlessness, bleeding or persistent high fever."),
+T("Urticaria","Antihistamine","Acute urticaria — uncomplicated",[["Tab Cetirizine 10 mg","1 tablet","0-0-0-1","5 days","At Bedtime"]],"Avoid suspected trigger.\nUrgent review for lip/tongue swelling, wheeze or dizziness.")];
+function renderTpl(){$("tplRow").innerHTML=TEMPLATES.map((t,i)=>`<button onclick="applyTpl(${i})"><b>${esc(t.name)}</b><span>${esc(t.preview)}</span></button>`).join("")}
+function applyTpl(i){const t=TEMPLATES[i];if(!confirm(`Apply "${t.name}"?\nThis replaces the diagnosis, medicines and advice. Review before signing.`))return;
+  $("diagnosis").value=t.diagnosis;$("generalAdvice").value=t.advice;$("medicineList").innerHTML="";t.medicines.forEach(m=>addMedicine(m));toast("Template applied")}
+
+const ADVICE=["Adequate oral fluids and rest","Return if symptoms worsen or persist","Avoid smoking and alcohol","Light, easily digestible diet","Take medicines regularly as directed","Maintain good sleep hygiene","Hand hygiene and mask if coughing","Regular physiotherapy / exercises","Low salt, balanced diet; monitor BP/glucose","Seek emergency care for chest pain or breathlessness"];
+const INVS=["CBC","LFT","KFT","RBS / HbA1c","Lipid profile","TSH","Urine R/M","ECG","Chest X-ray","Dengue NS1","Malaria antigen","Vitamin D / B12"];
+function addTo(id,text,sep){const t=$(id),v=t.value.trim();if(v.split(sep==="\n"?/\n/:/,\s*/).includes(text))return;t.value=v?v+sep+text:text}
+
+/* ---------- images ---------- */
+function handleImage(type,input){
+  const f=input.files&&input.files[0];if(!f)return;if(!f.type.startsWith("image/")){toast("Select an image");return}
+  const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+    const max=type==="logo"?500:700,s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);const png=f.type==="image/png"||f.type==="image/webp"||f.type==="image/svg+xml";
+    const url=png?c.toDataURL("image/png"):c.toDataURL("image/jpeg",.9);
+    if(ls.set(IMG_KEYS[type],url)){showImg(type,url);toast(type+" saved")}else toast("Storage full — use a smaller image")};im.src=r.result};r.readAsDataURL(f)}
+function showImg(t,u){$(t+"Preview").innerHTML=u?`<img src="${u}" alt="">`:"None"}
+function removeImg(t){ls.del(IMG_KEYS[t]);$(t+"File").value="";showImg(t,"")}
+const getImg=t=>ls.get(IMG_KEYS[t])||"";
+const dims=u=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res({w:i.width,h:i.height});i.onerror=rej;i.src=u});
+async function addContain(doc,u,x,y,mw,mh,align="center"){if(!u)return 0;try{const d=await dims(u),s=Math.min(mw/d.w,mh/d.h),w=d.w*s,h=d.h*s;const ox=align==="left"?0:(mw-w)/2;doc.addImage(u,"AUTO",x+ox,y+(mh-h)/2,w,h);return w}catch(e){return 0}}
+
+/* ---------- vitals / patient helpers ---------- */
+function calcBMI(){const w=+$("vWt").value,h=+$("vHt").value/100;$("bmiNote").textContent=(w&&h)?`BMI ${(w/(h*h)).toFixed(1)} kg/m²`:""}
+const bmi=()=>{const w=+$("vWt").value,h=+$("vHt").value/100;return(w&&h)?(w/(h*h)).toFixed(1):""};
+function setFu(v){$("followupText").value=v;setSeg("fuSeg",v);if(v==="No Follow-Up")$("followupDate").value=""}
+function pickFuDate(){const v=$("followupDate").value;if(!v)return;const d=new Date(v+"T00:00");$("followupText").value="On "+d.toLocaleDateString("en-IN",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});setSeg("fuSeg","")}
+const fmtDT=i=>new Date(i).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"})+" IST";
+const fmtD=i=>new Date(i).toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"});
+const localDT=d=>{const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`};
+
+/* ---------- data ---------- */
+function collectData(){
+  const v=$("consultationTime").value;
+  return{prescriptionDate:new Date().toISOString(),consultationTime:v?new Date(v).toISOString():new Date().toISOString(),accent,
+  clinic:{name:$("clinicName").value.trim(),doctor:$("doctorName").value.trim(),qualification:$("qualification").value.trim(),regNo:$("regNo").value.trim(),tagline:$("tagline").value.trim(),address:$("clinicAddress").value.trim(),contact:$("clinicContact").value.trim()},
+  patient:{name:$("patientName").value.trim(),age:$("patientAge").value.trim(),gender:$("patientGender").value,phone:$("patientPhone").value.trim(),id:$("patientId").value.trim(),consultationMode:mode,complaint:$("complaint").value.trim(),allergies:$("allergies").value.trim(),history:$("history").value.trim()},
+  vitals:{bp:$("vBP").value.trim(),pulse:$("vPulse").value.trim(),temp:$("vTemp").value.trim(),spo2:$("vSpO2").value.trim(),wt:$("vWt").value.trim(),ht:$("vHt").value.trim(),bmi:bmi()},
+  visit:{type:visitType,prevDate:$("prevVisit").value,progress,adherence,sideEffects:$("sideEffects").value.trim(),notes:$("visitNotes").value.trim(),plan},
+  reports:[...document.querySelectorAll(".rep")].map(c=>({name:c.querySelector(".r-name").value.trim(),date:c.querySelector(".r-date").value,result:c.querySelector(".r-res").value,findings:c.querySelector(".r-find").value.trim()})).filter(r=>r.name),
+  diagnosis:$("diagnosis").value.trim(),investigations:$("investigations").value.trim(),
+  medicines:[...document.querySelectorAll(".med")].map(c=>({name:c.querySelector(".m-name").value.trim(),dose:c.querySelector(".m-dose").value.trim(),freq:c.querySelector(".m-freq").value.trim(),duration:c.querySelector(".m-dur").value.trim(),instructions:c.querySelector(".m-ins").value.trim()})),
+  generalAdvice:$("generalAdvice").value.trim(),followup:$("followupText").value.trim(),followupNote:$("followupNote").value.trim(),disclaimer:$("prescriptionDisclaimer").value.trim()}}
+function fillForm(d){
+  const c=d.clinic||{},p=d.patient||{},v=d.vitals||{};
+  const S=(id,x)=>$(id).value=x||"";
+  S("clinicName",c.name);S("doctorName",c.doctor);S("qualification",c.qualification);S("regNo",c.regNo);S("tagline",c.tagline);S("clinicAddress",c.address);S("clinicContact",c.contact);
+  S("patientName",p.name);S("patientAge",p.age);S("patientGender",p.gender);S("patientPhone",p.phone);S("patientId",p.id);S("complaint",p.complaint);S("allergies",p.allergies);S("history",p.history);
+  mode=p.consultationMode||"In-person";setSeg("modeSeg",mode);
+  S("vBP",v.bp);S("vPulse",v.pulse);S("vTemp",v.temp);S("vSpO2",v.spo2);S("vWt",v.wt);S("vHt",v.ht);calcBMI();
+  S("diagnosis",d.diagnosis);S("investigations",d.investigations);S("generalAdvice",d.generalAdvice);S("followupText",d.followup);setSeg("fuSeg",d.followup);S("prescriptionDisclaimer",d.disclaimer||DISC);
+  if(d.accent&&ACCENTS[d.accent]){accent=d.accent;buildAccent()}
+  const vs=d.visit||{};visitType=vs.type||"New Consultation";progress=vs.progress||"";adherence=vs.adherence||"";plan=vs.plan||"";
+  setSeg("visitSeg",visitType);setSeg("progSeg",progress);setSeg("adhSeg",adherence);setSeg("planSeg",plan);
+  S("prevVisit",vs.prevDate);S("sideEffects",vs.sideEffects);S("visitNotes",vs.notes);S("followupNote",d.followupNote);calcSince();visitUI();
+  $("reportList").innerHTML="";(d.reports||[]).forEach(r=>addReport(r));
+  $("medicineList").innerHTML="";(d.medicines&&d.medicines.length?d.medicines:[{}]).forEach(m=>addMedicine(m))}
+function validate(d){
+  const a=m=>{alert(m);return false};
+  if(!d.clinic.name||!d.clinic.doctor)return a("Enter Clinic and Doctor name.");
+  if(!d.patient.name)return a("Enter patient name.");
+  if(d.patient.phone&&!/^[+\d][\d\s-]{6,}$/.test(d.patient.phone))return a("Check the patient phone number.");
+  if(!d.diagnosis)return a("Enter diagnosis.");
+  if(!d.medicines.length)return a("Add at least one medicine.");
+  for(let i=0;i<d.medicines.length;i++){const m=d.medicines[i];if(!m.name||!m.dose||!m.freq||!m.duration)return a(`Complete Medicine ${i+1}: name, dosage, frequency and duration.`)}
+  const al=d.patient.allergies.toLowerCase().split(/[,;/]+/).map(s=>s.trim()).filter(s=>s.length>3&&!/nkda|none|nil/.test(s));
+  const hit=d.medicines.filter(m=>al.some(x=>m.name.toLowerCase().includes(x)));
+  if(hit.length&&!confirm(`ALLERGY WARNING: ${hit.map(m=>m.name).join(", ")} may match the patient's recorded allergy (${d.patient.allergies}).\n\nContinue anyway?`))return false;
+  if(!d.generalAdvice)return a("Enter advice / instructions.");
+  if(!d.followup)return a("Select or enter follow-up.");return true}
+
+/* ---------- PDF ---------- */
+const mkId=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return"RX-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+"-"+Math.random().toString(36).slice(2,7).toUpperCase()};
+async function buildPDF(d,rxId){
+  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"a4"}),W=210,M=15,AC=ACCENTS[d.accent]||ACCENTS.Blue,LIM=258,INK=[30,35,40],GR=[100,105,110];
+  let y=14;const F=(f,s,st="normal",c=INK)=>{doc.setFont(f,st);doc.setFontSize(s);doc.setTextColor(...c)};
+  const ensure=h=>{if(y+h>LIM){doc.addPage();y=18}};
+  const sec=t=>{ensure(12);F("helvetica",8,"bold",AC);doc.text(t.toUpperCase(),M,y);doc.setDrawColor(...AC);doc.setLineWidth(.25);doc.line(M,y+1.6,W-M,y+1.6);y+=6.5};
+  const para=(txt,x,w,sz=10.5,bullet=false)=>{F("times",sz);txt.split(/\n+/).filter(Boolean).forEach(line=>{const ls=doc.splitTextToSize(line,w-(bullet?4:0));ls.forEach((l,i)=>{ensure(5);if(bullet&&i===0){doc.text("•",x,y)}doc.text(l,x+(bullet?4:0),y);y+=4.7});if(bullet)y+=.8})};
+  // Letterhead
+  const logo=getImg("logo");let tx=M;
+  if(logo){const w=await addContain(doc,logo,M,y,24,24,"left");tx=M+(w||24)+5}
+  F("times",20,"bold",AC);doc.text(d.clinic.name,tx,y+7);
+  F("times",12.5,"bold",INK);doc.text(d.clinic.doctor,tx,y+13.5);
+  F("times",10,"normal",GR);const q=[d.clinic.qualification,d.clinic.regNo?"Regd. No. "+d.clinic.regNo:""].filter(Boolean).join("   |   ");if(q)doc.text(q,tx,y+19);
+  if(d.clinic.tagline){F("times",9.5,"italic",GR);doc.text(d.clinic.tagline,tx,y+24)}
+  F("helvetica",8,"normal",GR);let ry=y+6;
+  if(d.clinic.address)doc.splitTextToSize(d.clinic.address,62).forEach(l=>{doc.text(l,W-M,ry,{align:"right"});ry+=4});
+  if(d.clinic.contact)doc.splitTextToSize(d.clinic.contact,62).forEach(l=>{doc.text(l,W-M,ry,{align:"right"});ry+=4});
+  y+=29;doc.setDrawColor(...AC);doc.setLineWidth(.9);doc.line(M,y,W-M,y);doc.setLineWidth(.2);doc.line(M,y+1.3,W-M,y+1.3);y+=7;
+  // Patient block
+  const p=d.patient,bh=p.allergies||p.history?30:24;
+  doc.setFillColor(246,248,250);doc.setDrawColor(222,227,231);doc.setLineWidth(.2);doc.roundedRect(M,y,W-2*M,bh,2,2,"FD");
+  const cell=(l,v,x,yy)=>{F("helvetica",6.5,"bold",GR);doc.text(l.toUpperCase(),x,yy);F("times",11,"bold",INK);doc.text(String(v||"—"),x,yy+4.8)};
+  cell("Patient",p.name,M+4,y+5.5);cell("Age / Sex",[p.age?p.age+" yrs":"",p.gender].filter(Boolean).join(" / "),M+82,y+5.5);cell("Date",fmtD(d.prescriptionDate),M+128,y+5.5);
+  cell("Phone",p.phone,M+4,y+14.5);cell("Patient ID",p.id,M+82,y+14.5);cell("Mode",p.consultationMode,M+128,y+14.5);
+  let by=y+22.5;F("times",9,"normal",INK);
+  if(p.allergies){F("helvetica",7,"bold",[190,40,40]);doc.text("ALLERGIES:",M+4,by);F("times",9.5,"bold",[190,40,40]);doc.text(p.allergies,M+22,by);by+=4.5}
+  if(p.history){F("helvetica",7,"bold",GR);doc.text("HISTORY:",M+4,by);F("times",9.5,"normal",INK);doc.text(doc.splitTextToSize(p.history,W-2*M-30)[0],M+22,by)}
+  y+=bh+6;
+  // Vitals
+  const v=d.vitals,vi=[["BP",v.bp&&v.bp+" mmHg"],["Pulse",v.pulse&&v.pulse+" /min"],["Temp",v.temp&&v.temp+" °F"],["SpO₂",v.spo2&&v.spo2+" %"],["Weight",v.wt&&v.wt+" kg"],["BMI",v.bmi]].filter(x=>x[1]);
+  if(vi.length){sec("Vitals");const cw=(W-2*M)/vi.length;vi.forEach((x,i)=>{F("helvetica",6.5,"bold",GR);doc.text(x[0].toUpperCase(),M+i*cw,y);F("times",10.5,"bold",INK);doc.text(String(x[1]),M+i*cw,y+4.6)});y+=11}
+  const vs=d.visit||{};
+  if(vs.type&&vs.type!=="New Consultation"){sec("Visit Summary");
+    [["Visit type",vs.type],["Previous visit",vs.prevDate?fmtD(vs.prevDate+"T00:00"):""],["Progress",vs.progress],["Medication adherence",vs.adherence],["Side effects / new complaints",vs.sideEffects],["Treatment plan",vs.plan]].filter(r=>r[1]).forEach(r=>{ensure(5);F("helvetica",6.8,"bold",GR);doc.text(r[0].toUpperCase(),M,y);F("times",10.5,"bold",INK);doc.text(String(r[1]),M+50,y);y+=5});
+    if(vs.notes){y+=1;para(vs.notes,M,W-2*M,10.5)}y+=3}
+  if(d.reports&&d.reports.length){sec("Reports Reviewed");
+    doc.autoTable({startY:y,margin:{left:M,right:M,bottom:34},theme:"grid",head:[["Report","Date","Result","Findings / Remarks"]],body:d.reports.map(r=>[r.name,r.date?fmtD(r.date+"T00:00"):"—",r.result,r.findings||"—"]),
+      styles:{font:"times",fontSize:10,cellPadding:2.2,textColor:INK,lineColor:[215,222,227],lineWidth:.2},headStyles:{fillColor:[236,240,244],textColor:AC,font:"helvetica",fontStyle:"bold",fontSize:7.5},
+      columnStyles:{0:{cellWidth:48,fontStyle:"bold"},1:{cellWidth:30},2:{cellWidth:24}},
+      didParseCell:h=>{if(h.section==="body"&&h.column.index===2&&/abnormal|critical/i.test(String(h.cell.raw))){h.cell.styles.textColor=[190,40,40];h.cell.styles.fontStyle="bold"}}});
+    y=doc.lastAutoTable.finalY+6}
+  if(p.complaint){sec("Chief Complaint");para(p.complaint,M,W-2*M);y+=2}
+  sec("Diagnosis");para(d.diagnosis,M,W-2*M,11);y+=2;
+  // Rx
+  ensure(30);F("times",28,"bolditalic",AC);doc.text("Rx",M,y+7);y+=11;
+  doc.autoTable({startY:y,margin:{left:M,right:M,bottom:34},theme:"grid",
+    head:[["#","Medicine","Dosage","Frequency","Duration","Instructions"]],
+    body:d.medicines.map((m,i)=>[i+1,m.name,m.dose,m.freq,m.duration,m.instructions||"—"]),
+    styles:{font:"times",fontSize:10.5,cellPadding:2.6,textColor:INK,lineColor:[215,222,227],lineWidth:.2,valign:"middle"},
+    headStyles:{fillColor:AC,textColor:255,font:"helvetica",fontStyle:"bold",fontSize:7.5,halign:"left"},
+    alternateRowStyles:{fillColor:[248,250,252]},
+    columnStyles:{0:{cellWidth:8,halign:"center"},1:{cellWidth:50,fontStyle:"bold"},2:{cellWidth:27},3:{cellWidth:26},4:{cellWidth:24}}});
+  y=doc.lastAutoTable.finalY+8;
+  if(d.investigations){sec("Investigations Advised");para(d.investigations,M,W-2*M);y+=3}
+  sec("Advice & Instructions");para(d.generalAdvice,M+1,W-2*M-2,10.5,true);y+=3;
+  // follow-up
+  ensure(40);doc.setFillColor(...AC.map(c=>Math.round(c+(255-c)*.9)));doc.setDrawColor(...AC);doc.setLineWidth(.2);doc.roundedRect(M,y,70,d.followupNote?22:15,2,2,"FD");
+  F("helvetica",6.5,"bold",AC);doc.text("NEXT FOLLOW-UP",M+4,y+5);F("times",11.5,"bold",INK);doc.text(doc.splitTextToSize(d.followup,62)[0],M+4,y+11.5);
+  if(d.followupNote){F("times",8.5,"italic",GR);doc.text(doc.splitTextToSize(d.followupNote,62).slice(0,2),M+4,y+16)}
+  // signature
+  const sig=getImg("signature"),st=getImg("stamp"),sx=W-M-92,sw=44,stx=W-M-40,stw=40;
+  if(sig)await addContain(doc,sig,sx,y-2,sw,17);if(st)await addContain(doc,st,stx,y-2,stw,17);
+  doc.setDrawColor(150,158,165);doc.setLineWidth(.25);doc.line(sx,y+16,sx+sw,y+16);F("helvetica",7,"normal",GR);doc.text("Doctor's Signature",sx+sw/2,y+20,{align:"center"});
+  if(st){doc.line(stx,y+16,stx+stw,y+16);doc.text("Doctor's Stamp",stx+stw/2,y+20,{align:"center"})}
+  F("times",9,"bold",INK);doc.text(d.clinic.doctor,sx+sw/2,y+25,{align:"center"});
+  // footer on every page
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){doc.setPage(i);
+    doc.setFillColor(249,250,251);doc.setDrawColor(225,229,232);doc.setLineWidth(.2);doc.roundedRect(M,266,W-2*M,15,2,2,"FD");
+    F("helvetica",6,"bold",GR);doc.text("DISCLAIMER",M+3,270);F("times",7,"italic",GR);doc.text(doc.splitTextToSize(d.disclaimer||DISC,W-2*M-6).slice(0,3),M+3,273.2);
+    F("helvetica",7,"normal",GR);doc.text(`Digitally generated prescription  |  Issued ${fmtDT(d.prescriptionDate)}`,M,288);
+    doc.text(`${rxId}   |   Page ${i} of ${n}`,W-M,288,{align:"right"})}
+  return doc}
+const fname=(d,id)=>`${d.patient.name.replace(/[^a-z0-9]+/gi,"_")}_${id}.pdf`;
+async function generatePrescription(over=null){
+  const d=over||collectData();if(!validate(d))return;const id=mkId();
+  try{const doc=await buildPDF(d,id);doc.save(fname(d,id));saveHistory(d,id);toast("PDF generated");return id}catch(e){console.error(e);alert("PDF could not be generated: "+e.message)}}
+async function sharePDF(){
+  const d=collectData();if(!validate(d))return;const id=mkId();
+  try{const doc=await buildPDF(d,id),blob=doc.output("blob"),file=new File([blob],fname(d,id),{type:"application/pdf"});saveHistory(d,id);
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Prescription",text:`Prescription for ${d.patient.name} from ${d.clinic.name}`})}
+    else{doc.save(fname(d,id));if(d.patient.phone){const ph=d.patient.phone.replace(/\D/g,"");window.open(`https://wa.me/${ph.length===10?"91"+ph:ph}?text=${encodeURIComponent("Your prescription from "+d.clinic.name+" is attached.")}`,"_blank")}}}
+  catch(e){if(e.name!=="AbortError"){console.error(e);alert("Could not share: "+e.message)}}}
+async function generateAndLog(){const d=collectData();if(!validate(d))return;const id=await generatePrescription(d);if(id)await logPrescription({...d,rxId:id})}
+async function logPrescription(d){
+  if(!CONFIG.GOOGLE_SCRIPT_URL||CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")){alert("PDF generated. Google Script URL is not configured, so the record was not logged.");return}
+  const payload={action:"savePrescription",rxId:d.rxId,timestamp:new Date().toISOString(),consultationTime:d.consultationTime,consultationMode:d.patient.consultationMode,patientPhone:d.patient.phone,clinic:JSON.stringify(d.clinic),patient:JSON.stringify(d.patient),vitals:JSON.stringify(d.vitals),visit:JSON.stringify(d.visit),reports:JSON.stringify(d.reports),followupNote:d.followupNote,diagnosis:d.diagnosis,medicines:JSON.stringify(d.medicines),investigations:d.investigations,generalAdvice:d.generalAdvice,followup:d.followup,disclaimer:d.disclaimer};
+  try{await fetch(CONFIG.GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(payload)});toast("Logged to Google Sheets")}
+  catch(e){console.error(e);alert("PDF generated, but the Google Sheet submission failed. Check the Web App URL.")}}
+
+/* ---------- history & drafts ---------- */
+const getHist=()=>{try{return JSON.parse(ls.get("rxHistory")||"[]")}catch(e){return[]}};
+function saveHistory(d,id){const h=getHist().filter(x=>x.id!==id);h.unshift({id,at:new Date().toISOString(),d});ls.set("rxHistory",JSON.stringify(h.slice(0,60)));refreshPatients()}
+function refreshPatients(){const names=[...new Set(getHist().map(x=>x.d.patient.name))];$("patientList").innerHTML=names.map(n=>`<option value="${esc(n)}">`).join("");$("rxCount").textContent=getHist().length?`${getHist().length} prescriptions saved on this device`:"Digital prescription generator"}
+function autofillPatient(){const n=$("patientName").value.trim().toLowerCase(),h=getHist().find(x=>x.d.patient.name.toLowerCase()===n);if(!h||$("patientAge").value)return;const p=h.d.patient;
+  $("patientAge").value=p.age||"";$("patientGender").value=p.gender||"";$("patientPhone").value=p.phone||"";$("patientId").value=p.id||"";$("allergies").value=p.allergies||"";$("history").value=p.history||"";toast("Patient details filled from history")}
+function openHistory(){$("histSheet").classList.add("show");renderHistory()}
+function closeHistory(){$("histSheet").classList.remove("show")}
+function renderHistory(){const q=$("histSearch").value.toLowerCase(),h=getHist().filter(x=>!q||x.d.patient.name.toLowerCase().includes(q)||x.id.toLowerCase().includes(q));
+  $("histList").innerHTML=h.length?h.map(x=>`<div class="hrow"><div onclick="loadRx('${x.id}')"><b>${esc(x.d.patient.name)}</b><br><small>${esc(x.d.diagnosis).slice(0,60)} · ${new Date(x.at).toLocaleDateString("en-IN")}</small></div><button class="chip" style="color:var(--red)" onclick="delRx('${x.id}')">Delete</button></div>`).join(""):'<div class="status">No saved prescriptions yet.</div>'}
+function loadRx(id){const x=getHist().find(h=>h.id===id);if(!x)return;fillForm({...x.d,clinic:collectData().clinic.name?collectData().clinic:x.d.clinic});closeHistory();window.scrollTo({top:0,behavior:"smooth"});toast("Loaded — edit and regenerate")}
+function delRx(id){if(!confirm("Delete this saved prescription?"))return;ls.set("rxHistory",JSON.stringify(getHist().filter(x=>x.id!==id)));renderHistory();refreshPatients()}
+let dt;function autosave(){clearTimeout(dt);dt=setTimeout(()=>ls.set("rxDraft",JSON.stringify(collectData())),600)}
+
+/* ---------- Google Sheet medicines ---------- */
+function loadMedicines(){
+  const s=$("medicineStatus");if(!CONFIG.GOOGLE_SCRIPT_URL||CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")){s.textContent="Google Script URL not configured. Manual entry works.";s.className="status err";return}
+  s.textContent="Loading…";s.className="status";const cb="rxMed_"+Date.now(),sc=document.createElement("script");
+  window[cb]=data=>{try{if(!Array.isArray(data))throw 0;medicinesFromSheet=data.map(x=>({name:x.name||x.medicine||x["Medicine Name"]||"",dosage:x.dosage||x["Default Dosage"]||"",frequency:x.frequency||x["Default Frequency"]||"",duration:x.duration||x["Default Duration"]||"",instructions:x.instructions||x["Default Instructions"]||""})).filter(x=>x.name);rebuildDL();s.textContent=`Loaded ${medicinesFromSheet.length} medicines.`;s.className="status ok"}catch(e){s.textContent="Invalid response. Manual entry works.";s.className="status err"}finally{delete window[cb];sc.remove()}};
+  sc.src=CONFIG.GOOGLE_SCRIPT_URL+"?action=medicines&callback="+encodeURIComponent(cb);sc.onerror=()=>{s.textContent="Could not load Sheet medicines.";s.className="status err";delete window[cb];sc.remove()};document.body.appendChild(sc)}
+function rebuildDL(){let dl=$("medDL");if(!dl){dl=document.createElement("datalist");dl.id="medDL";document.body.appendChild(dl)}dl.innerHTML=medicinesFromSheet.map(m=>`<option value="${esc(m.name)}">`).join("")}
+
+/* ---------- settings ---------- */
+function saveDoctorSettings(){const ids=["clinicName","doctorName","qualification","regNo","tagline","clinicAddress","clinicContact"],s={accent};ids.forEach(i=>s[i]=$(i).value);ls.set("rxDoctorSettings",JSON.stringify(s));toast("Clinic details saved")}
+function loadDoctorSettings(){let s=null;try{s=JSON.parse(ls.get("rxDoctorSettings")||"null")}catch(e){}
+  if(!s){$("clinicName").value=CONFIG.DEFAULT_CLINIC;$("doctorName").value=CONFIG.DEFAULT_DOCTOR;$("qualification").value=CONFIG.DEFAULT_QUALIFICATION;$("regNo").value=CONFIG.DEFAULT_REG_NO;return}
+  Object.keys(s).forEach(k=>{if(k==="accent"){if(ACCENTS[s[k]]){accent=s[k];buildAccent()}}else if($(k))$(k).value=s[k]||""})}
+function clearForm(){if(!confirm("Clear the current prescription?"))return;
+  ["patientName","patientAge","patientPhone","patientId","complaint","allergies","history","diagnosis","investigations","generalAdvice","followupText","followupDate","vBP","vPulse","vTemp","vSpO2","vWt","vHt"].forEach(i=>$(i).value="");
+  $("patientGender").value="";mode="In-person";setSeg("modeSeg",mode);setSeg("fuSeg","");$("prescriptionDisclaimer").value=DISC;$("consultationTime").value=localDT(new Date());$("medicineList").innerHTML="";addMedicine();calcBMI();ls.del("rxDraft");
+  visitType="New Consultation";progress=adherence=plan="";["visitSeg"].forEach(i=>setSeg(i,visitType));["progSeg","adhSeg","planSeg"].forEach(i=>setSeg(i,""));
+  ["prevVisit","sinceDays","sideEffects","visitNotes","followupNote"].forEach(i=>$(i).value="");$("reportList").innerHTML="";visitUI()}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  buildAccent();seg("accentSeg",v=>accent=v);seg("modeSeg",v=>mode=v);seg("fuSeg",v=>setFu(v));
+  seg("visitSeg",v=>{visitType=v;visitUI()});seg("progSeg",v=>progress=v);seg("adhSeg",v=>adherence=v);seg("planSeg",v=>plan=v);
+  $("repChips").innerHTML=REPS.map(r=>`<button class="chip">+ ${r}</button>`).join("");
+  $("repChips").onclick=e=>{const b=e.target.closest("button");if(b)addReport({name:b.textContent.slice(2)})};
+  $("prescriptionDisclaimer").value=DISC;$("consultationTime").value=localDT(new Date());
+  ["logo","signature","stamp"].forEach(t=>showImg(t,getImg(t)));
+  $("adviceChips").innerHTML=ADVICE.map(a=>`<button class="chip" data-a="${esc(a)}">+ ${esc(a)}</button>`).join("");
+  $("adviceChips").onclick=e=>{const b=e.target.closest("button");if(b)addTo("generalAdvice",b.dataset.a,"\n")};
+  $("invChips").innerHTML=INVS.map(a=>`<button class="chip">+ ${a}</button>`).join("");
+  $("invChips").onclick=e=>{const b=e.target.closest("button");if(b)addTo("investigations",b.textContent.slice(2),", ")};
+  renderTpl();loadDoctorSettings();refreshPatients();rebuildDL();
+  let draft=null;try{draft=JSON.parse(ls.get("rxDraft")||"null")}catch(e){}
+  if(draft&&draft.patient&&(draft.patient.name||draft.diagnosis)){const keepClinic=draft.clinic;fillForm(draft);if(!keepClinic.name)loadDoctorSettings();$("consultationTime").value=localDT(new Date());toast("Draft restored")}else addMedicine();
+  document.addEventListener("input",autosave);
+  if(CONFIG.GOOGLE_SCRIPT_URL&&!CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR"))loadMedicines()});
+</script>
+</body>
+</html>
